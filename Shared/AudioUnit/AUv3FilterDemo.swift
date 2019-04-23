@@ -55,7 +55,7 @@ public class AUv3FilterDemo: AUAudioUnit {
     public override var currentPreset: AUAudioUnitPreset? {
         get { return presets.currentPreset }
         set {
-            if let preset = newValue, factoryPresets.contains(preset) {
+            if let preset = newValue {
                 presets.currentPreset = preset
             } else {
                 presets.currentPreset = factoryPresets[0]

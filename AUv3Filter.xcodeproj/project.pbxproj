@@ -150,8 +150,8 @@
 
 /* Begin PBXFileReference section */
 		7E56CF207E56CEE000000001 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		B7555F80B75513F000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
-		BA806480BA80671000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE.txt; sourceTree = "<group>"; };
+		B5552BC0B550F50000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
+		B55D3210B55D31D000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE.txt; sourceTree = "<group>"; };
 		C4201A2822403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewControllerExtension.swift; sourceTree = "<group>"; };
 		C433F56022404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewControllerExtension.swift; sourceTree = "<group>"; };
 		C437FE3A222367A6008D6C09 /* AUv3Filter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AUv3Filter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -259,18 +259,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B7558F10B7558ED000000001 /* Configuration */ = {
+		B5503A50B555527000000001 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				B7555F80B75513F000000001 /* SampleCode.xcconfig */,
+				B5552BC0B550F50000000001 /* SampleCode.xcconfig */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
 		};
-		BA8063F0B5DCE94000000001 /* LICENSE */ = {
+		B55D8300B55D87F000000001 /* LICENSE */ = {
 			isa = PBXGroup;
 			children = (
-				BA806480BA80671000000001 /* LICENSE.txt */,
+				B55D3210B55D31D000000001 /* LICENSE.txt */,
 			);
 			name = LICENSE;
 			path = LICENSE;
@@ -285,8 +285,8 @@
 				C4BEE7D522236E99001E6B6D /* Shared */,
 				C437FE3B222367A6008D6C09 /* Products */,
 				C4BEE81822237394001E6B6D /* Frameworks */,
-				B7558F10B7558ED000000001 /* Configuration */,
-				BA8063F0B5DCE94000000001 /* LICENSE */,
+				B5503A50B555527000000001 /* Configuration */,
+				B55D8300B55D87F000000001 /* LICENSE */,
 			);
 			sourceTree = "<group>";
 		};
@@ -882,7 +882,7 @@
 /* Begin XCBuildConfiguration section */
 		C437FE342223672C008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7555F80B75513F000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -918,7 +918,7 @@
 		};
 		C437FE352223672C008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7555F80B75513F000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -952,7 +952,7 @@
 		};
 		C437FE4B222367A8008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7555F80B75513F000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1028,7 +1028,7 @@
 		};
 		C437FE4C222367A8008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7555F80B75513F000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1098,7 +1098,7 @@
 		};
 		C437FE5C222367CD008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7555F80B75513F000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1181,7 +1181,7 @@
 		};
 		C437FE5D222367CD008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7555F80B75513F000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1258,7 +1258,7 @@
 		};
 		C437FE732223686D008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7555F80B75513F000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = NO;
@@ -1334,7 +1334,7 @@
 		};
 		C437FE742223686D008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7555F80B75513F000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = NO;
@@ -1404,7 +1404,7 @@
 		};
 		C437FE882223688E008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7555F80B75513F000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1479,7 +1479,7 @@
 		};
 		C437FE892223688E008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7555F80B75513F000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1547,7 +1547,7 @@
 		};
 		C437FE99222368A1008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7555F80B75513F000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -1632,7 +1632,7 @@
 		};
 		C437FE9A222368A1008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7555F80B75513F000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -1710,7 +1710,7 @@
 		};
 		C437FEB1222368B7008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7555F80B75513F000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -1786,7 +1786,7 @@
 		};
 		C437FEB2222368B7008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B7555F80B75513F000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;

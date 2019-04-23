@@ -174,7 +174,8 @@ public class AUv3FilterDemoViewController: AUViewController {
 
         self.viewConfig = viewConfig
 
-        let isDefault = viewConfig == expanded
+        let isDefault = viewConfig.width >= expanded.width &&
+                        viewConfig.height >= expanded.height
         let fromView = isDefault ? smallView : largeView
         let toView = isDefault ? largeView : smallView
 
