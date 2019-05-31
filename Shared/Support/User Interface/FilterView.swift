@@ -354,6 +354,13 @@ class FilterView: View {
         return Color.labelColor // Use Appearance-aware label color
         #endif
     }
+    
+    #if os(macOS)
+    override func setFrameSize(_ newSize: NSSize) {
+        super.setFrameSize(newSize)
+        layoutSublayers(of: rootLayer)
+    }
+    #endif
 
     /*
      Creates the decibel label layers for the vertical axis of the graph and adds

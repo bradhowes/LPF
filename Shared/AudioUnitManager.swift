@@ -193,6 +193,7 @@ public class AudioUnitManager {
         delegate?.resonanceValueDidChange(param.value)
     }
 
+    @discardableResult
     public func togglePlayback() -> Bool {
         return playEngine.togglePlay()
     }

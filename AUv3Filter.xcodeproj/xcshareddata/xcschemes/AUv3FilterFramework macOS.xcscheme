@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<Scheme version="1.3" LastUpgradeVersion="1020">
+<Scheme LastUpgradeVersion="1100" version="1.3">
 	<AnalyzeAction buildConfiguration="Debug" />
-	<ArchiveAction revealArchiveInOrganizer="YES" buildConfiguration="Release" />
-	<TestAction codeCoverageEnabled="NO" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" buildConfiguration="Debug" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES">
+	<ArchiveAction buildConfiguration="Release" revealArchiveInOrganizer="YES" />
+	<TestAction selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES" buildConfiguration="Debug" codeCoverageEnabled="NO" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB">
 		<Testables />
 	</TestAction>
-	<ProfileAction debugDocumentVersioning="YES" useCustomWorkingDirectory="NO" buildConfiguration="Release" shouldUseLaunchSchemeArgsEnv="YES" savedToolIdentifier="" />
+	<ProfileAction shouldUseLaunchSchemeArgsEnv="YES" savedToolIdentifier="" debugDocumentVersioning="YES" useCustomWorkingDirectory="NO" buildConfiguration="Release" />
 	<BuildAction parallelizeBuildables="YES" buildImplicitDependencies="YES">
 		<BuildActionEntries>
-			<BuildActionEntry buildForRunning="YES" buildForProfiling="YES" buildForArchiving="YES" buildForAnalyzing="YES" buildForTesting="YES">
-				<BuildableReference BuildableName="AUv3FilterFramework.framework" BlueprintIdentifier="C437FE8E222368A1008D6C09" BlueprintName="AUv3FilterFramework macOS" ReferencedContainer="container:AUv3Filter.xcodeproj" BuildableIdentifier="primary" />
+			<BuildActionEntry buildForAnalyzing="YES" buildForTesting="YES" buildForProfiling="YES" buildForArchiving="YES" buildForRunning="YES">
+				<BuildableReference ReferencedContainer="container:AUv3Filter.xcodeproj" BlueprintName="AUv3FilterFramework macOS" BuildableIdentifier="primary" BuildableName="AUv3FilterFramework.framework" BlueprintIdentifier="C437FE8E222368A1008D6C09" />
 			</BuildActionEntry>
 		</BuildActionEntries>
 	</BuildAction>
-	<LaunchAction buildConfiguration="Debug" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" launchStyle="0" useCustomWorkingDirectory="NO" debugDocumentVersioning="YES" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" allowLocationSimulation="YES" debugServiceExtension="internal" ignoresPersistentStateOnLaunch="NO" />
+	<LaunchAction selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" allowLocationSimulation="YES" debugServiceExtension="internal" ignoresPersistentStateOnLaunch="NO" debugDocumentVersioning="YES" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" buildConfiguration="Debug" launchStyle="0" useCustomWorkingDirectory="NO" />
 </Scheme>

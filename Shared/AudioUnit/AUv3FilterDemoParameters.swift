@@ -86,10 +86,8 @@ class AUv3FilterDemoParameters {
             }
         }
     }
-}
-
-extension AUv3FilterDemoParameters: AUv3FilterDemoPresetSelectionObserver {
-    func didSelectPreset(cutoff: AUValue, resonance: AUValue) {
+    
+    func setParameterValues(cutoff: AUValue, resonance: AUValue) {
         cutoffParam.value = cutoff
         resonanceParam.value = resonance
     }

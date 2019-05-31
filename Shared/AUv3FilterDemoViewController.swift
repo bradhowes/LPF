@@ -22,20 +22,20 @@ public class AUv3FilterDemoViewController: AUViewController {
 
     @IBOutlet weak var frequencyTextField: TextField!
     @IBOutlet weak var resonanceTextField: TextField!
-
-    var addedConstraints = [NSLayoutConstraint]()
+    
+    var observer: NSKeyValueObservation?
 
     var needsConnection = true
 
-    @IBOutlet var largeView: View! {
+    @IBOutlet var expandedView: View! {
         didSet {
-            largeView.setBorder(color: .black, width: 1)
+            expandedView.setBorder(color: .black, width: 1)
         }
     }
 
-    @IBOutlet var smallView: View! {
+    @IBOutlet var compactView: View! {
         didSet {
-            smallView.setBorder(color: .black, width: 1)
+            compactView.setBorder(color: .black, width: 1)
         }
     }
 
@@ -82,6 +82,9 @@ public class AUv3FilterDemoViewController: AUViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.addSubview(expandedView)
+        expandedView.pinToSuperviewEdges()
 
         // Set the default view configuration.
         viewConfig = expanded
@@ -112,6 +115,13 @@ public class AUv3FilterDemoViewController: AUViewController {
         // Set the instance variables.
         cutoffParameter = cutoff
         resonanceParameter = resonance
+
+        // Observe major state changes like a user selecting a user preset.
+        observer = audioUnit?.observe(\.allParameterValues) { object, change in
+            DispatchQueue.main.async {
+                self.updateUI()
+            }
+        }
 
         // Observe value changes made to the cutoff and resonance parameters.
         parameterObserverToken =
@@ -176,8 +186,8 @@ public class AUv3FilterDemoViewController: AUViewController {
 
         let isDefault = viewConfig.width >= expanded.width &&
                         viewConfig.height >= expanded.height
-        let fromView = isDefault ? smallView : largeView
-        let toView = isDefault ? largeView : smallView
+        let fromView = isDefault ? compactView : expandedView
+        let toView = isDefault ? expandedView : compactView
 
         performOnMain {
             #if os(iOS)
@@ -186,45 +196,24 @@ public class AUv3FilterDemoViewController: AUViewController {
                               duration: 0.2,
                               options: [.transitionCrossDissolve, .layoutSubviews])
 
-            if toView == self.largeView {
+            if toView == self.expandedView {
                 toView?.pinToSuperviewEdges()
             }
 
             #elseif os(macOS)
-
-            if !self.addedConstraints.isEmpty {
-                NSLayoutConstraint.deactivate(self.addedConstraints)
-            }
-
             self.view.addSubview(toView!)
             fromView!.removeFromSuperview()
-            fromView?.removeConstraints(fromView!.constraints)
-
             toView!.pinToSuperviewEdges()
-
-            if let superview = self.view.superview {
-
-                let widthConstraint = superview.widthAnchor.constraint(greaterThanOrEqualToConstant: self.viewConfig.width)
-                let heightConstraint = superview.heightAnchor.constraint(greaterThanOrEqualToConstant: self.viewConfig.height)
-                widthConstraint.priority = NSLayoutConstraint.Priority(rawValue: 999)
-                heightConstraint.priority = NSLayoutConstraint.Priority(rawValue: 999)
-
-                NSLayoutConstraint.activate([widthConstraint, heightConstraint])
-
-                self.addedConstraints.removeAll()
-                self.addedConstraints.append(contentsOf: [widthConstraint, heightConstraint])
-            }
-
             #endif
         }
     }
 
-    func performOnMain(_ executable: @escaping () -> Void) {
+    func performOnMain(_ operation: @escaping () -> Void) {
         if Thread.isMainThread {
-            executable()
+            operation()
         } else {
             DispatchQueue.main.async {
-                executable()
+                operation()
             }
         }
     }

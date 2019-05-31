@@ -10,9 +10,16 @@ import AudioToolbox
 import AVFoundation
 import CoreAudioKit
 
+fileprivate extension AUAudioUnitPreset {
+    convenience init(number: Int, name: String) {
+        self.init()
+        self.number = number
+        self.name = name
+    }
+}
+
 public class AUv3FilterDemo: AUAudioUnit {
 
-    private let presets: AUv3FilterDemoPresets
     private let parameters: AUv3FilterDemoParameters
     private let kernelAdapter: FilterDSPKernelAdapter
 
@@ -40,27 +47,66 @@ public class AUv3FilterDemo: AUAudioUnit {
     public override var outputBusses: AUAudioUnitBusArray {
         return outputBusArray
     }
-
+    
     /// The tree of parameters provided by this AU.
     public override var parameterTree: AUParameterTree? {
-        return parameters.parameterTree
+        get {
+            return parameters.parameterTree
+        }
+        set {
+            print("setting parameter tree")
+        }
     }
 
-    /// The default, immutable presets provided by this AU.
     public override var factoryPresets: [AUAudioUnitPreset] {
-        return presets.factoryPresets
+        return [
+            AUAudioUnitPreset(number: 0, name: "Prominent"),
+            AUAudioUnitPreset(number: 1, name: "Bright"),
+            AUAudioUnitPreset(number: 2, name: "Warm")
+        ]
     }
 
+    private let factoryPresetValues:[(cutoff: AUValue, resonance: AUValue)] = [
+        (2500.0, 5.0),    // "Prominent"
+        (14_000.0, 12.0), // "Bright"
+        (384.0, -3.0)     // "Warm"
+    ]
+
+    private var _currentPreset: AUAudioUnitPreset?
+    
     /// The currently selected preset.
     public override var currentPreset: AUAudioUnitPreset? {
-        get { return presets.currentPreset }
+        get { return _currentPreset }
         set {
-            if let preset = newValue {
-                presets.currentPreset = preset
-            } else {
-                presets.currentPreset = factoryPresets[0]
+            // If the newValue is nil, return.
+            guard let preset = newValue else {
+                _currentPreset = nil
+                return
+            }
+            
+            // Factory presets need to always have a number >= 0.
+            if preset.number >= 0 {
+                let values = factoryPresetValues[preset.number]
+                parameters.setParameterValues(cutoff: values.cutoff, resonance: values.resonance)
+                _currentPreset = preset
+            }
+            // User presets are always negative.
+            else {
+                // Attempt to restore the archived state for this user preset.
+                do {
+                    fullStateForDocument = try presetState(for: preset)
+                    // Set the currentPreset after we've successfully restored the state.
+                    _currentPreset = preset
+                } catch {
+                    print("Unable to restore set for preset \(preset.name)")
+                }
             }
         }
+    }
+    
+    /// Indicates that this Audio Unit supports persisting user presets.
+    public override var supportsUserPresets: Bool {
+        return true
     }
 
     public override init(componentDescription: AudioComponentDescription,
@@ -68,21 +114,18 @@ public class AUv3FilterDemo: AUAudioUnit {
 
         // Create adapter to communicate to underlying C++ DSP code
         kernelAdapter = FilterDSPKernelAdapter()
-
+        
         // Create parameters object to control cutoff frequency and resonance
         parameters = AUv3FilterDemoParameters(kernelAdapter: kernelAdapter)
-
-        // Create factory presets
-        presets = AUv3FilterDemoPresets(presetObserver: parameters)
 
         // Init super class
         try super.init(componentDescription: componentDescription, options: options)
 
-        // Activate default preset
-        presets.activateDefault()
-
         // Log component description values
         log(componentDescription)
+        
+        // Set the default preset
+        currentPreset = factoryPresets.first
     }
 
     private func log(_ acd: AudioComponentDescription) {

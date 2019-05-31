@@ -60,8 +60,6 @@
 		C4F004A42239B1E10014E248 /* FilterDSPKernelAdapter.mm in Sources */ = {isa = PBXBuildFile; fileRef = C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */; };
 		C4F004A62239B2070014E248 /* AUv3FilterDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F004A52239B2070014E248 /* AUv3FilterDemo.swift */; };
 		C4F004A72239B2070014E248 /* AUv3FilterDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F004A52239B2070014E248 /* AUv3FilterDemo.swift */; };
-		C4F0772B223AA4B6008FFF06 /* AUv3FilterDemoPresets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F0772A223AA4B6008FFF06 /* AUv3FilterDemoPresets.swift */; };
-		C4F0772C223AA4B6008FFF06 /* AUv3FilterDemoPresets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F0772A223AA4B6008FFF06 /* AUv3FilterDemoPresets.swift */; };
 		C4F0772E223AACBB008FFF06 /* AUv3FilterDemoParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F0772D223AACBB008FFF06 /* AUv3FilterDemoParameters.swift */; };
 		C4F0772F223AACBB008FFF06 /* AUv3FilterDemoParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F0772D223AACBB008FFF06 /* AUv3FilterDemoParameters.swift */; };
 		C4F07731223AC4F5008FFF06 /* AUv3FilterDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F07730223AC4F5008FFF06 /* AUv3FilterDemoViewController.swift */; };
@@ -150,8 +148,8 @@
 
 /* Begin PBXFileReference section */
 		7E56CF207E56CEE000000001 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		B5552BC0B550F50000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
-		B55D3210B55D31D000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE.txt; sourceTree = "<group>"; };
+		B2EF36D0B2EF336000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
+		B4D9D020B4D9C15000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE.txt; sourceTree = "<group>"; };
 		C4201A2822403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewControllerExtension.swift; sourceTree = "<group>"; };
 		C433F56022404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewControllerExtension.swift; sourceTree = "<group>"; };
 		C437FE3A222367A6008D6C09 /* AUv3Filter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AUv3Filter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -202,7 +200,6 @@
 		C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FilterDSPKernelAdapter.h; sourceTree = "<group>"; };
 		C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FilterDSPKernelAdapter.mm; sourceTree = "<group>"; };
 		C4F004A52239B2070014E248 /* AUv3FilterDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemo.swift; sourceTree = "<group>"; };
-		C4F0772A223AA4B6008FFF06 /* AUv3FilterDemoPresets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoPresets.swift; sourceTree = "<group>"; };
 		C4F0772D223AACBB008FFF06 /* AUv3FilterDemoParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoParameters.swift; sourceTree = "<group>"; };
 		C4F07730223AC4F5008FFF06 /* AUv3FilterDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewController.swift; sourceTree = "<group>"; };
 		C4F07734223ACB91008FFF06 /* Synth.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Synth.aif; sourceTree = "<group>"; };
@@ -259,18 +256,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B5503A50B555527000000001 /* Configuration */ = {
+		B4D0C020B2EF3A1000000001 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				B5552BC0B550F50000000001 /* SampleCode.xcconfig */,
+				B2EF36D0B2EF336000000001 /* SampleCode.xcconfig */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
 		};
-		B55D8300B55D87F000000001 /* LICENSE */ = {
+		B4DA5230B4D9C9D000000001 /* LICENSE */ = {
 			isa = PBXGroup;
 			children = (
-				B55D3210B55D31D000000001 /* LICENSE.txt */,
+				B4D9D020B4D9C15000000001 /* LICENSE.txt */,
 			);
 			name = LICENSE;
 			path = LICENSE;
@@ -285,8 +282,8 @@
 				C4BEE7D522236E99001E6B6D /* Shared */,
 				C437FE3B222367A6008D6C09 /* Products */,
 				C4BEE81822237394001E6B6D /* Frameworks */,
-				B5503A50B555527000000001 /* Configuration */,
-				B55D8300B55D87F000000001 /* LICENSE */,
+				B4D0C020B2EF3A1000000001 /* Configuration */,
+				B4DA5230B4D9C9D000000001 /* LICENSE */,
 			);
 			sourceTree = "<group>";
 		};
@@ -414,7 +411,6 @@
 			isa = PBXGroup;
 			children = (
 				C4F004A52239B2070014E248 /* AUv3FilterDemo.swift */,
-				C4F0772A223AA4B6008FFF06 /* AUv3FilterDemoPresets.swift */,
 				C4F0772D223AACBB008FFF06 /* AUv3FilterDemoParameters.swift */,
 				C4BEE7E422236E99001E6B6D /* Support */,
 			);
@@ -632,7 +628,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = Apple;
 				TargetAttributes = {
 					C437FE39222367A6008D6C09 = {
@@ -773,7 +769,6 @@
 				C4F004A62239B2070014E248 /* AUv3FilterDemo.swift in Sources */,
 				C4BEE7F822236F44001E6B6D /* AudioUnitManager.swift in Sources */,
 				C4A3D65B223FF12A002784D4 /* SimplePlayEngine.swift in Sources */,
-				C4F0772B223AA4B6008FFF06 /* AUv3FilterDemoPresets.swift in Sources */,
 				C4BEE80322236F6F001E6B6D /* FilterView.swift in Sources */,
 				C4BEE80422236F6F001E6B6D /* TypeAliases.swift in Sources */,
 				C4F0772E223AACBB008FFF06 /* AUv3FilterDemoParameters.swift in Sources */,
@@ -814,7 +809,6 @@
 				C4F004A72239B2070014E248 /* AUv3FilterDemo.swift in Sources */,
 				C4201A2922403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift in Sources */,
 				C4A3D65C223FF12A002784D4 /* SimplePlayEngine.swift in Sources */,
-				C4F0772C223AA4B6008FFF06 /* AUv3FilterDemoPresets.swift in Sources */,
 				C4F004A42239B1E10014E248 /* FilterDSPKernelAdapter.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -882,7 +876,7 @@
 /* Begin XCBuildConfiguration section */
 		C437FE342223672C008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B2EF36D0B2EF336000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -910,15 +904,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
 		C437FE352223672C008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B2EF36D0B2EF336000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -945,14 +939,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 			};
 			name = Release;
 		};
 		C437FE4B222367A8008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B2EF36D0B2EF336000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1028,7 +1022,7 @@
 		};
 		C437FE4C222367A8008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B2EF36D0B2EF336000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1098,9 +1092,10 @@
 		};
 		C437FE5C222367CD008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B2EF36D0B2EF336000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1181,9 +1176,10 @@
 		};
 		C437FE5D222367CD008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B2EF36D0B2EF336000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -1258,7 +1254,7 @@
 		};
 		C437FE732223686D008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B2EF36D0B2EF336000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = NO;
@@ -1334,7 +1330,7 @@
 		};
 		C437FE742223686D008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B2EF36D0B2EF336000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = NO;
@@ -1404,7 +1400,7 @@
 		};
 		C437FE882223688E008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B2EF36D0B2EF336000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1443,6 +1439,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1479,7 +1476,7 @@
 		};
 		C437FE892223688E008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B2EF36D0B2EF336000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1518,6 +1515,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1547,7 +1545,7 @@
 		};
 		C437FE99222368A1008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B2EF36D0B2EF336000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -1632,7 +1630,7 @@
 		};
 		C437FE9A222368A1008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B2EF36D0B2EF336000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -1710,7 +1708,7 @@
 		};
 		C437FEB1222368B7008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B2EF36D0B2EF336000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -1748,6 +1746,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1786,7 +1785,7 @@
 		};
 		C437FEB2222368B7008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B5552BC0B550F50000000001 /* SampleCode.xcconfig */;
+			baseConfigurationReference = B2EF36D0B2EF336000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -1824,6 +1823,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

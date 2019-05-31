@@ -42,7 +42,6 @@ class MainViewController: NSViewController {
 
         // Present the view controller's view.
         addChild(controller)
-        controller.view.frame = containerView.bounds
         containerView.addSubview(controller.view)
         controller.view.pinToSuperviewEdges()
     }
@@ -73,9 +72,7 @@ class MainViewController: NSViewController {
 
     /// Handles Play/Stop button touches.
     @IBAction func togglePlay(_ sender: NSButton) {
-        let isPlaying = self.audioUnitManager.togglePlayback()
-        let imageName = isPlaying ? "Pause" : "Play"
-        self.playButton.image = NSImage(named: imageName)
+        audioUnitManager.togglePlayback()
     }
 
     @IBAction func toggleView(_ sender: NSButton) {
