@@ -234,22 +234,61 @@ extension AUv3FilterDemoViewController: FilterViewDelegate {
         filterView.setMagnitudes(magnitudes)
     }
 
+    func filterViewTouchBegan(_ filterView: FilterView) {
+        resonanceParameter.setValue(filterView.resonance,
+                                    originator: parameterObserverToken,
+                                    atHostTime: 0,
+                                    eventType: .touch)
+        
+        cutoffParameter.setValue(filterView.frequency,
+                                    originator: parameterObserverToken,
+                                    atHostTime: 0,
+                                    eventType: .touch)
+    }
+    
     func filterView(_ filterView: FilterView, didChangeResonance resonance: Float) {
-        resonanceParameter.value = resonance
+        resonanceParameter.setValue(resonance,
+                                    originator: parameterObserverToken,
+                                    atHostTime: 0,
+                                    eventType: .value)
         updateFilterViewFrequencyAndMagnitudes()
     }
 
     func filterView(_ filterView: FilterView, didChangeFrequency frequency: Float) {
-        cutoffParameter.value = frequency
+        cutoffParameter.setValue(frequency,
+                                 originator: parameterObserverToken,
+                                 atHostTime: 0,
+                                 eventType: .value)
         updateFilterViewFrequencyAndMagnitudes()
     }
 
     func filterView(_ filterView: FilterView, didChangeFrequency frequency: Float, andResonance resonance: Float) {
-        cutoffParameter.value = frequency
-        resonanceParameter.value = resonance
+        
+         resonanceParameter.setValue(resonance,
+                                    originator: parameterObserverToken,
+                                    atHostTime: 0,
+                                    eventType: .value)
+        
+        cutoffParameter.setValue(frequency,
+                                 originator: parameterObserverToken,
+                                 atHostTime: 0,
+                                 eventType: .value)
+        
         updateFilterViewFrequencyAndMagnitudes()
     }
 
+    func filterViewTouchEnded(_ filterView: FilterView) {
+        resonanceParameter.setValue(filterView.resonance,
+                                    originator: nil,
+                                    atHostTime: 0,
+                                    eventType: .release)
+        
+        cutoffParameter.setValue(filterView.frequency,
+                                    originator: nil,
+                                    atHostTime: 0,
+                                    eventType: .release)
+    }
+    
     func filterViewDataDidChange(_ filterView: FilterView) {
         updateFilterViewFrequencyAndMagnitudes()
     }

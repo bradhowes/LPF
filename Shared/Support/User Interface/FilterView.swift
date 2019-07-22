@@ -10,9 +10,11 @@ public let defaultMaxHertz: Float = 20_000.0
 
 /// Delegate protocol used to communicate changes to frequency and resonance.
 protocol FilterViewDelegate: class {
+    func filterViewTouchBegan(_ filterView: FilterView)
     func filterView(_ filterView: FilterView, didChangeResonance resonance: Float)
     func filterView(_ filterView: FilterView, didChangeFrequency frequency: Float)
     func filterView(_ filterView: FilterView, didChangeFrequency frequency: Float, andResonance resonance: Float)
+    func filterViewTouchEnded(_ filterView: FilterView)
     func filterViewDataDidChange(_ filterView: FilterView)
 }
 
@@ -682,8 +684,8 @@ class FilterView: View {
         if graphLayer.contains(pointOfTouch) {
             touchDown = true
             editPoint = pointOfTouch
-
             updateFrequenciesAndResonance()
+            delegate?.filterViewTouchBegan(self)
         }
     }
 
@@ -711,6 +713,7 @@ class FilterView: View {
         touchDown = false
 
         updateFrequenciesAndResonance()
+        delegate?.filterViewTouchEnded(self)
     }
 
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -722,12 +725,14 @@ class FilterView: View {
     override func mouseDown(with event: NSEvent) {
 
         let pointOfTouch = NSPointToCGPoint(convert(event.locationInWindow, from: nil))
+        let convertedPoint = rootLayer.convert(pointOfTouch, to: graphLayer)
 
-        if graphLayer.contains(pointOfTouch) {
+        if graphLayer.contains(convertedPoint) {
             let layerPoint = rootLayer.convert(pointOfTouch, to: graphLayer)
             touchDown = true
             editPoint = layerPoint
             updateControls(refreshColor: true)
+            delegate?.filterViewTouchBegan(self)
             updateFrequenciesAndResonance()
         }
     }
@@ -747,6 +752,7 @@ class FilterView: View {
     override func mouseUp(with event: NSEvent) {
         touchDown = false
         updateControls(refreshColor: true)
+        delegate?.filterViewTouchEnded(self)
     }
     #endif
 
