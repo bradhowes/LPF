@@ -50,12 +50,8 @@ public class AUv3FilterDemo: AUAudioUnit {
     
     /// The tree of parameters provided by this AU.
     public override var parameterTree: AUParameterTree? {
-        get {
-            return parameters.parameterTree
-        }
-        set {
-            print("setting parameter tree")
-        }
+        get { return parameters.parameterTree }
+        set { /* The sample doesn't allow this property to be modified. */ }
     }
 
     public override var factoryPresets: [AUAudioUnitPreset] {
