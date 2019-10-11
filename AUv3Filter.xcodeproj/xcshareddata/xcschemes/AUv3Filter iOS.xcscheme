@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <Scheme version="1.3" LastUpgradeVersion="1100">
 	<AnalyzeAction buildConfiguration="Debug" />
-	<ArchiveAction revealArchiveInOrganizer="YES" buildConfiguration="Release" />
-	<TestAction codeCoverageEnabled="NO" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" buildConfiguration="Debug" shouldUseLaunchSchemeArgsEnv="YES">
+	<ArchiveAction buildConfiguration="Release" revealArchiveInOrganizer="YES" />
+	<TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES" codeCoverageEnabled="NO">
 		<Testables />
 		<MacroExpansion>
-			<BuildableReference BlueprintName="AUv3Filter iOS" ReferencedContainer="container:AUv3Filter.xcodeproj" BlueprintIdentifier="C437FE39222367A6008D6C09" BuildableName="AUv3Filter.app" BuildableIdentifier="primary" />
+			<BuildableReference BlueprintIdentifier="C437FE39222367A6008D6C09" BuildableName="AUv3Filter.app" ReferencedContainer="container:AUv3Filter.xcodeproj" BuildableIdentifier="primary" BlueprintName="AUv3Filter iOS" />
 		</MacroExpansion>
 	</TestAction>
-	<ProfileAction debugDocumentVersioning="YES" useCustomWorkingDirectory="NO" buildConfiguration="Release" shouldUseLaunchSchemeArgsEnv="YES" savedToolIdentifier="">
+	<ProfileAction savedToolIdentifier="" debugDocumentVersioning="YES" buildConfiguration="Release" shouldUseLaunchSchemeArgsEnv="YES" useCustomWorkingDirectory="NO">
 		<BuildableProductRunnable runnableDebuggingMode="0">
-			<BuildableReference BuildableName="AUv3Filter.app" BlueprintIdentifier="C437FE39222367A6008D6C09" BlueprintName="AUv3Filter iOS" ReferencedContainer="container:AUv3Filter.xcodeproj" BuildableIdentifier="primary" />
+			<BuildableReference BuildableName="AUv3Filter.app" BlueprintName="AUv3Filter iOS" BuildableIdentifier="primary" ReferencedContainer="container:AUv3Filter.xcodeproj" BlueprintIdentifier="C437FE39222367A6008D6C09" />
 		</BuildableProductRunnable>
 	</ProfileAction>
-	<BuildAction buildImplicitDependencies="YES" parallelizeBuildables="YES">
+	<BuildAction parallelizeBuildables="YES" buildImplicitDependencies="YES">
 		<BuildActionEntries>
-			<BuildActionEntry buildForAnalyzing="YES" buildForProfiling="YES" buildForTesting="YES" buildForArchiving="YES" buildForRunning="YES">
-				<BuildableReference BlueprintIdentifier="C437FE39222367A6008D6C09" ReferencedContainer="container:AUv3Filter.xcodeproj" BlueprintName="AUv3Filter iOS" BuildableIdentifier="primary" BuildableName="AUv3Filter.app" />
+			<BuildActionEntry buildForArchiving="YES" buildForAnalyzing="YES" buildForTesting="YES" buildForProfiling="YES" buildForRunning="YES">
+				<BuildableReference BlueprintName="AUv3Filter iOS" ReferencedContainer="container:AUv3Filter.xcodeproj" BuildableName="AUv3Filter.app" BuildableIdentifier="primary" BlueprintIdentifier="C437FE39222367A6008D6C09" />
 			</BuildActionEntry>
 		</BuildActionEntries>
 	</BuildAction>
-	<LaunchAction debugServiceExtension="internal" allowLocationSimulation="YES" ignoresPersistentStateOnLaunch="NO" useCustomWorkingDirectory="NO" buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" launchStyle="0" debugDocumentVersioning="YES" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB">
+	<LaunchAction useCustomWorkingDirectory="NO" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" ignoresPersistentStateOnLaunch="NO" debugDocumentVersioning="YES" debugServiceExtension="internal" launchStyle="0" allowLocationSimulation="YES" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" buildConfiguration="Debug">
 		<BuildableProductRunnable runnableDebuggingMode="0">
-			<BuildableReference BlueprintIdentifier="C437FE39222367A6008D6C09" BlueprintName="AUv3Filter iOS" ReferencedContainer="container:AUv3Filter.xcodeproj" BuildableIdentifier="primary" BuildableName="AUv3Filter.app" />
+			<BuildableReference BlueprintName="AUv3Filter iOS" BuildableName="AUv3Filter.app" ReferencedContainer="container:AUv3Filter.xcodeproj" BuildableIdentifier="primary" BlueprintIdentifier="C437FE39222367A6008D6C09" />
 		</BuildableProductRunnable>
 	</LaunchAction>
 </Scheme>
