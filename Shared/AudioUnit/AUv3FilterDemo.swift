@@ -1,9 +1,4 @@
-/*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-An AUAudioUnit subclass implementing a low-pass filter with resonance.
-*/
+// Copyright © 2020 Brad Howes. All rights reserved.
 
 import Foundation
 import AudioToolbox

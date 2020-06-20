@@ -139,10 +139,20 @@ public:
         bypassed = shouldBypass;
     }
 
+    float cutoffToDisplay() const
+    {
+        return round(cutoffRamper.getValue() * nyquist * 100.0) / 100.0;
+    }
+
+    void setCutoffFromDisplay(float value)
+    {
+        cutoffRamper.setValue(value * inverseNyquist);
+    }
+
     void setParameterValue(AUParameterAddress address, AUValue value) override {
         switch (address) {
             case FilterParamCutoff:
-                cutoffRamper.setValue(value);
+                cutoffRamper.setValue(value * inverseNyquist);
                 break;
 
             case FilterParamResonance:
@@ -153,7 +163,7 @@ public:
 
     AUValue getParameterValue(AUParameterAddress address) override {
         switch (address) {
-            case FilterParamCutoff: return cutoffRamper.getValue();
+            case FilterParamCutoff: return cutoffRamper.getValue() * nyquist;
             case FilterParamResonance: return resonanceRamper.getValue();
             default: return 0.0;
         }
@@ -204,7 +214,7 @@ public:
         resonanceRamper.startRamping(rampDuration_);
 
         for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex) {
-            double cutoff = double(cutoffRamper.getAndStep() * inverseNyquist);
+            double cutoff = double(cutoffRamper.getAndStep() * nyquist);
             double resonance = double(resonanceRamper.getAndStep());
             coeffs_.calculateLopassParams(cutoff, resonance);
 
