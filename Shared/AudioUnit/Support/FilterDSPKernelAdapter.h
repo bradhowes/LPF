@@ -18,13 +18,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) AUAudioUnitBus *outputBus;
 
 - (void)setParameter:(AUParameter *)parameter value:(AUValue)value;
-- (AUValue)valueForParameter:(AUParameter *)parameter;
+- (AUValue)valueOf:(AUParameter *)parameter;
 
 - (void)allocateRenderResources;
 - (void)deallocateRenderResources;
+
 - (AUInternalRenderBlock)internalRenderBlock;
 
-- (NSArray<NSNumber *> *)magnitudesForFrequencies:(NSArray<NSNumber *> *)frequencies;
+// - (NSArray<NSNumber *> *)magnitudesForFrequencies:(NSArray<NSNumber *> *)frequencies;
 
 @end
 

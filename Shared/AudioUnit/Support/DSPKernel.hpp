@@ -1,31 +1,17 @@
-/*
-See LICENSE folder for this sample’s licensing information.
+// Copyright © 2020 Brad Howes. All rights reserved.
 
-Abstract:
-Utility code to manage scheduled parameters in an audio unit implementation.
-*/
-
-#ifndef DSPKernel_h
-#define DSPKernel_h
+#pragma once
 
 #import <AudioToolbox/AudioToolbox.h>
-#import <algorithm>
 
-template <typename T>
-T clamp(T input, T low, T high) {
-    return std::min(std::max(input, low), high);
-}
-
-// Put your DSP code into a subclass of DSPKernel.
 class DSPKernel {
 public:
-    virtual void process(AUAudioFrameCount frameCount, AUAudioFrameCount bufferOffset) = 0;
-    virtual void startRamp(AUParameterAddress address, AUValue value, AUAudioFrameCount duration) = 0;
 
-    // Override to handle MIDI events.
+    virtual void setFormat(AVAudioFormat* format) {}
+
+    void render(AudioTimeStamp const* timestamp, AUAudioFrameCount frameCount, AURenderEvent const* events);
+
     virtual void handleMIDIEvent(AUMIDIEvent const& midiEvent) {}
-
-    void processWithEvents(AudioTimeStamp const* timestamp, AUAudioFrameCount frameCount, AURenderEvent const* events, AUMIDIOutputEventBlock midiOut);
 
     AUAudioFrameCount maximumFramesToRender() const {
         return maxFramesToRender;
@@ -35,11 +21,20 @@ public:
         maxFramesToRender = maxFrames;
     }
 
-private:
-    void handleOneEvent(AURenderEvent const* event);
-    void performAllSimultaneousEvents(AUEventSampleTime now, AURenderEvent const*& event, AUMIDIOutputEventBlock midiOut);
+    virtual void setBuffers(AudioBufferList* inBufferList, AudioBufferList* outBufferList) {}
 
+    virtual void setParameterValue(AUParameterAddress address, AUValue value) {}
+
+    virtual AUValue getParameterValue(AUParameterAddress address) { return 0.0; }
+
+protected:
+    virtual void renderFrames(AUAudioFrameCount frameCount, AUAudioFrameCount bufferOffset) = 0;
+
+    virtual void handleParameterEvent(const AUParameterEvent& event) = 0;
+
+private:
+    void renderEvent(AURenderEvent const& event);
+
+    AURenderEvent const* renderEventsUntil(AUEventSampleTime now, AURenderEvent const* events);
     AUAudioFrameCount maxFramesToRender = 512;
 };
-
-#endif /* DSPKernel_h */

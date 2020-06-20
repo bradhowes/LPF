@@ -1,42 +1,15 @@
-/*
-See LICENSE folder for this sample’s licensing information.
+// Copyright © 2020 Brad Howes. All rights reserved.
 
-Abstract:
-A DSPKernel subclass implementing the realtime signal processing portion of the AUv3FilterDemo audio unit.
-*/
-#ifndef FilterDSPKernel_hpp
-#define FilterDSPKernel_hpp
+#pragma once
 
 #import "DSPKernel.hpp"
 #import "ParameterRamper.hpp"
 #import <vector>
 
-static inline float convertBadValuesToZero(float x) {
-    /*
-     Eliminate denormals, not-a-numbers, and infinities.
-     Denormals will fail the first test (absx > 1e-15), infinities will fail
-     the second test (absx < 1e15), and NaNs will fail both tests. Zero will
-     also fail both tests, but since it will get set to zero that is OK.
-     */
-
-    float absx = fabs(x);
-
-    if (absx > 1e-15 && absx < 1e15) {
-        return x;
-    }
-
-    return 0.0;
-}
-
-
 enum {
     FilterParamCutoff = 0,
     FilterParamResonance = 1
 };
-
-static inline double squared(double x) {
-    return x * x;
-}
 
 /*
  FilterDSPKernel
@@ -59,13 +32,15 @@ public:
             y2 = 0.0;
         }
 
+        static float convertBadValuesToZero(float x)
+        {
+            constexpr float minValue = 1.0E-15;
+            constexpr float maxValue = 1.0E15;
+            float absx = fabs(x);
+            return (absx >= minValue && absx <= maxValue) ? x : 0.0;
+        }
+
         void convertBadStateValuesToZero() {
-            /*
-             These filters work by feedback. If an infinity or NaN should come
-             into the filter input, the feedback variables can become infinity
-             or NaN which will cause the filter to stop operating. This function
-             clears out any bad numbers in the feedback variables.
-             */
             x1 = convertBadValuesToZero(x1);
             x2 = convertBadValuesToZero(x2);
             y1 = convertBadValuesToZero(y1);
@@ -81,11 +56,7 @@ public:
         float b2 = 0.0;
 
         void calculateLopassParams(double frequency, double resonance) {
-            /*
-             The transcendental function calls here could be replaced with
-             interpolated table lookups or other approximations.
-             */
-            
+
             // Convert from decibels to linear.
             double r = pow(10.0, 0.05 * -resonance);
 
@@ -131,28 +102,31 @@ public:
 
             return response;
         }
+
+        static double squared(double x) { return x * x; }
     };
 
     // MARK: Member Functions
 
-    FilterDSPKernel() : cutoffRamper(400.0 / 44100.0), resonanceRamper(20.0)  {}
+    FilterDSPKernel()
+    : DSPKernel(), cutoffRamper(400.0 / 44100.0, 0.0005444f, 0.9070295f), resonanceRamper(20.0, -20.0f, 20.0f)
+    {}
 
-    void init(int channelCount, double inSampleRate) {
-        channelStates.resize(channelCount);
-
-        sampleRate = float(inSampleRate);
+    void setFormat(AVAudioFormat* format) override
+    {
+        channelStates_.resize(format.channelCount);
+        sampleRate = float(format.sampleRate);
         nyquist = 0.5 * sampleRate;
         inverseNyquist = 1.0 / nyquist;
-        dezipperRampDuration = (AUAudioFrameCount)floor(0.02 * sampleRate);
-        cutoffRamper.init();
-        resonanceRamper.init();
-
+        rampDuration_ = (AUAudioFrameCount)floor(0.02 * sampleRate);
+        cutoffRamper.reset();
+        resonanceRamper.reset();
     }
 
     void reset() {
         cutoffRamper.reset();
         resonanceRamper.reset();
-        for (FilterState& state : channelStates) {
+        for (FilterState& state : channelStates_) {
             state.clear();
         }
     }
@@ -165,54 +139,52 @@ public:
         bypassed = shouldBypass;
     }
 
-    void setParameter(AUParameterAddress address, AUValue value) {
+    void setParameterValue(AUParameterAddress address, AUValue value) override {
         switch (address) {
             case FilterParamCutoff:
-                //cutoffRamper.setUIValue(clamp(value * inverseNyquist, 0.0f, 0.99f));
-                cutoffRamper.setUIValue(clamp(value * inverseNyquist, 0.0005444f, 0.9070295f));
+                cutoffRamper.setValue(value * inverseNyquist);
                 break;
-                
+
             case FilterParamResonance:
-                resonanceRamper.setUIValue(clamp(value, -20.0f, 20.0f));
+                resonanceRamper.setValue(value);
                 break;
         }
     }
 
-    AUValue getParameter(AUParameterAddress address) {
+    AUValue getParameterValue(AUParameterAddress address) override {
         switch (address) {
-            case FilterParamCutoff:
+            case FilterParamCutoff: return cutoffRamper.getValue();
+            case FilterParamResonance: return resonanceRamper.getValue();
+            default: return 0.0; // 12.0f * inverseNyquist;
+
                 // Return the goal. It is not thread safe to return the ramping value.
                 //return (cutoffRamper.getUIValue() * nyquist);
-                return roundf((cutoffRamper.getUIValue() * nyquist) * 100) / 100;
-
-            case FilterParamResonance:
-                return resonanceRamper.getUIValue();
-
-            default: return 12.0f * inverseNyquist;
+                //return roundf((cutoffRamper.getUIValue() * nyquist) * 100) / 100;
         }
     }
 
-    void startRamp(AUParameterAddress address, AUValue value, AUAudioFrameCount duration) override {
-        switch (address) {
+    void handleParameterEvent(AUParameterEvent const& event) override
+    {
+        switch (event.parameterAddress) {
             case FilterParamCutoff:
-                cutoffRamper.startRamp(clamp(value * inverseNyquist, 12.0f * inverseNyquist, 0.99f), duration);
+                cutoffRamper.setValue(event.value, event.rampDurationSampleFrames);
                 break;
 
             case FilterParamResonance:
-                resonanceRamper.startRamp(clamp(value, -20.0f, 20.0f), duration);
+                resonanceRamper.setValue(event.value, event.rampDurationSampleFrames);
                 break;
         }
     }
 
-    void setBuffers(AudioBufferList* inBufferList, AudioBufferList* outBufferList) {
+    void setBuffers(AudioBufferList* inBufferList, AudioBufferList* outBufferList) override {
         inBufferListPtr = inBufferList;
         outBufferListPtr = outBufferList;
     }
 
-    void process(AUAudioFrameCount frameCount, AUAudioFrameCount bufferOffset) override {
+    void renderFrames(AUAudioFrameCount frameCount, AUAudioFrameCount bufferOffset) override {
         if (bypassed) {
             // Pass the samples through
-            int channelCount = int(channelStates.size());
+            int channelCount = int(channelStates_.size());
             for (int channel = 0; channel < channelCount; ++channel) {
                 if (inBufferListPtr->mBuffers[channel].mData ==  outBufferListPtr->mBuffers[channel].mData) {
                     continue;
@@ -227,30 +199,29 @@ public:
             return;
         }
 
-        int channelCount = int(channelStates.size());
+        // Consider using vDSP functions for vectorizing this
+        // Slight difficulting involving the ramping parameters
 
-        cutoffRamper.dezipperCheck(dezipperRampDuration);
-        resonanceRamper.dezipperCheck(dezipperRampDuration);
+        int channelCount = int(channelStates_.size());
 
-        // For each sample.
+        cutoffRamper.startRamping(rampDuration_);
+        resonanceRamper.startRamping(rampDuration_);
+
         for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex) {
-            /*
-             The filter coefficients are updated every sample! This is very
-             expensive. You probably want to do things differently.
-             */
-            double cutoff    = double(cutoffRamper.getAndStep());
+            double cutoff = double(cutoffRamper.getAndStep());
             double resonance = double(resonanceRamper.getAndStep());
-            coeffs.calculateLopassParams(cutoff, resonance);
+            coeffs_.calculateLopassParams(cutoff, resonance);
 
             int frameOffset = int(frameIndex + bufferOffset);
 
             for (int channel = 0; channel < channelCount; ++channel) {
-                FilterState& state = channelStates[channel];
-                float* in  = (float*)inBufferListPtr->mBuffers[channel].mData  + frameOffset;
-                float* out = (float*)outBufferListPtr->mBuffers[channel].mData + frameOffset;
+                FilterState& state = channelStates_[channel];
+                float* in  = static_cast<float*>(inBufferListPtr->mBuffers[channel].mData)  + frameOffset;
+                float* out = static_cast<float*>(outBufferListPtr->mBuffers[channel].mData) + frameOffset;
 
                 float x0 = *in;
-                float y0 = (coeffs.b0 * x0) + (coeffs.b1 * state.x1) + (coeffs.b2 * state.x2) - (coeffs.a1 * state.y1) - (coeffs.a2 * state.y2);
+                float y0 = (coeffs_.b0 * x0) + (coeffs_.b1 * state.x1) + (coeffs_.b2 * state.x2) -
+                (coeffs_.a1 * state.y1) - (coeffs_.a2 * state.y2);
                 *out = y0;
 
                 state.x2 = state.x1;
@@ -260,22 +231,19 @@ public:
             }
         }
 
-        // Squelch any blowups once per cycle.
         for (int channel = 0; channel < channelCount; ++channel) {
-            channelStates[channel].convertBadStateValuesToZero();
+            channelStates_[channel].convertBadStateValuesToZero();
         }
     }
 
-    // MARK: Member Variables
-
 private:
-    std::vector<FilterState> channelStates;
-    BiquadCoefficients coeffs;
+    std::vector<FilterState> channelStates_;
+    BiquadCoefficients coeffs_;
 
     float sampleRate = 44100.0;
     float nyquist = 0.5 * sampleRate;
     float inverseNyquist = 1.0 / nyquist;
-    AUAudioFrameCount dezipperRampDuration;
+    AUAudioFrameCount rampDuration_;
 
     AudioBufferList* inBufferListPtr = nullptr;
     AudioBufferList* outBufferListPtr = nullptr;
@@ -285,8 +253,6 @@ private:
 public:
 
     // Parameters.
-    ParameterRamper cutoffRamper;
-    ParameterRamper resonanceRamper;
+    ParameterRamper<float> cutoffRamper;
+    ParameterRamper<float> resonanceRamper;
 };
-
-#endif /* FilterDSPKernel_hpp */

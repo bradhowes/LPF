@@ -71,7 +71,7 @@ class AUv3FilterDemoParameters {
 
         // Closure returning state of requested parameter.
         parameterTree.implementorValueProvider = { param in
-            return kernelAdapter.value(for: param)
+            return kernelAdapter.value(of: param)
         }
 
         // Closure returning string representation of requested parameter value.

@@ -1,124 +1,156 @@
-/*
-See LICENSE folder for this sample’s licensing information.
+//
 
-Abstract:
-Utility class to manage DSP parameters which can change value smoothly (be ramped) while rendering, without introducing clicks or other distortion into the signal.
-*/
-
-#ifndef ParameterRamper_h
-#define ParameterRamper_h
-
-// N.B. This is C++.
-
-#import <AudioToolbox/AudioToolbox.h>
-#import <libkern/OSAtomic.h>
+#pragma once
 
 #import <atomic>
+#import <AudioToolbox/AudioToolbox.h>
+// #import <libkern/OSAtomic.h>
 
-class ParameterRamper {
-    float clampLow, clampHigh;
-    float _uiValue;
-    float _goal;
-    float inverseSlope;
-    AUAudioFrameCount samplesRemaining;
-    std::atomic<int32_t> changeCounter;
-    int32_t updateCounter = 0;
+#import "NonCopyable.hpp"
 
-    void setImmediate(float value) {
-        // only to be called from the render thread or when resources are not allocated.
-        _goal = _uiValue = value;
-        inverseSlope = 0.0;
-        samplesRemaining = 0;
-    }
-
+template <typename T>
+class ParameterRamper : NonCopyable {
 public:
-    ParameterRamper(float value) : changeCounter(0) {
+
+    /**
+     Construct new parameter ramp with an initial value.
+
+     @param value the initial value of the parameter
+     */
+    ParameterRamper(T value, T minValue, T maxValue)
+    : changeCounter_(0), minValue_{minValue}, maxValue_{maxValue}
+    {
         setImmediate(value);
     }
 
-    void init() {
-        /*
-         Call this from the kernel init.
-         Updates the internal value from the UI value.
-         */
-        setImmediate(_uiValue);
-    }
-
-    void reset() {
-        changeCounter = updateCounter = 0;
-    }
-
-    void setUIValue(float value) {
-        _uiValue = value;
-        std::atomic_fetch_add(&changeCounter, 1);
-    }
-
-    float getUIValue() const { return _uiValue; }
-
-    void dezipperCheck(AUAudioFrameCount rampDuration)
+    void setRange(T minValue, T maxValue)
     {
-        // check to see if the UI has changed and if so, start a ramp to dezipper it.
-        int32_t changeCounterSnapshot = changeCounter;
-        if (updateCounter != changeCounterSnapshot) {
-            updateCounter = changeCounterSnapshot;
-            startRamp(_uiValue, rampDuration);
+        minValue_ = minValue;
+        maxValue_ = maxValue;
+        setValue(pendingValue_);
+    }
+
+    /**
+     Reset the parameter to a known counter state.
+     */
+    void reset() {
+        setImmediate(pendingValue_);
+        changeCounter_ = 0;
+        lastUpdateCounter_ = 0;
+    }
+
+    /**
+     Set a new value for the parameter.
+
+     @param value the new value to use
+     */
+    void setValue(T value) {
+        pendingValue_ = clamp(value);
+        std::atomic_fetch_add(&changeCounter_, 1);
+    }
+
+    /**
+     Set a new value for the parameter, and begin ramping.
+
+     @param value the new value to use
+     @param duration number of samples over which to transition to the new value
+     */
+    void setValue(T value, AUAudioFrameCount duration) {
+        setValue(value);
+        startRamping(duration);
+    }
+
+    /**
+     Get the last value set for the parameter.
+
+     @return last value set
+     */
+    T getValue() const { return pendingValue_; }
+
+    /**
+     Begin ramping values from current value to pending one over the given duration.
+
+     NOTE: this should be run only in the audio thread
+
+     @param duration how many samples to transition to new value
+     */
+    void startRamping(AUAudioFrameCount duration)
+    {
+        int32_t changeCounterValue = changeCounter_;
+        if (lastUpdateCounter_ != changeCounterValue) {
+            lastUpdateCounter_ = changeCounterValue;
+            startRamp(duration);
         }
     }
 
-    void startRamp(float newGoal, AUAudioFrameCount duration) {
+    /**
+     Move along the ramp.
+     */
+    void step()
+    {
+        if (samplesRemaining_ != 0) --samplesRemaining_;
+    }
+
+    /**
+     Obtain the current ramped value and move along the ramp.
+
+     @return current ramped value
+     */
+    T getAndStep()
+    {
+        if (samplesRemaining_ == 0) return pendingValue_;
+        T value = getCurrent();
+        --samplesRemaining_;
+        return value;
+    }
+
+    /**
+     Move along the ramp multiple times.
+
+     @param frameCount number of times to move
+     */
+    void stepBy(AUAudioFrameCount frameCount)
+    {
+        if (frameCount >= samplesRemaining_) {
+            samplesRemaining_ = 0;
+        }
+        else {
+            samplesRemaining_ -= frameCount;
+        }
+    }
+
+    /**
+     Get the current 'ramped' value. If no more samples remaining, then this will return the last set value.
+     */
+    T getCurrent() const { return slope_ * T(samplesRemaining_) + offset_; }
+
+private:
+
+    T clamp(T value) { return std::min(maxValue_, std::max(minValue_, value)); }
+
+    void setImmediate(T value) {
+        offset_ = pendingValue_ = clamp(value);
+        slope_ = 0.0;
+        samplesRemaining_ = 0;
+    }
+
+    void startRamp(AUAudioFrameCount duration) {
         if (duration == 0) {
-            setImmediate(newGoal);
+            setImmediate(pendingValue_);
         }
         else {
-            /*
-             Set a new ramp.
-             Assigning to inverseSlope must come before assigning to goal.
-             */
-            inverseSlope = (get() - newGoal) / float(duration);
-            samplesRemaining = duration;
-            _goal = _uiValue = newGoal;
+            slope_ = (getCurrent() - pendingValue_) / T(duration);
+            samplesRemaining_ = duration;
+            offset_ = pendingValue_;
         }
     }
 
-    float get() const {
-        /*
-         For long ramps, integrating a sum loses precision and does not reach
-         the goal at the right time. So instead, a line equation is used. y = m * x + b.
-         */
-        return inverseSlope * float(samplesRemaining) + _goal;
-    }
-
-    void step() {
-        // Do this in each inner loop iteration after getting the value.
-        if (samplesRemaining != 0) {
-            --samplesRemaining;
-        }
-    }
-
-    float getAndStep() {
-        // Combines get and step. Saves a multiply-add when not ramping.
-        if (samplesRemaining != 0) {
-            float value = get();
-            --samplesRemaining;
-            return value;
-        }
-        else {
-            return _goal;
-        }
-    }
-
-    void stepBy(AUAudioFrameCount n) {
-        /*
-         When a parameter does not participate in the current inner loop, you
-         will want to advance it after the end of the loop.
-         */
-        if (n >= samplesRemaining) {
-            samplesRemaining = 0;
-        }
-        else {
-            samplesRemaining -= n;
-        }
-    }
+    T pendingValue_ = 0.0;
+    T slope_ = 0.0;
+    T offset_ = 0.0;
+    T minValue_;
+    T maxValue_;
+    AUAudioFrameCount samplesRemaining_ = 0;
+    int32_t lastUpdateCounter_ = 0;
+    std::atomic<int32_t> changeCounter_;
 };
-
-#endif /* ParameterRamper_h */

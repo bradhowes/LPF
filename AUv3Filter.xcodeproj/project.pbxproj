@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BDB7CE90249D3C00009580D5 /* NonCopyable.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */; };
+		BDB7CE91249D3C00009580D5 /* NonCopyable.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */; };
 		C4201A2922403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4201A2822403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift */; };
 		C433F56122404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433F56022404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift */; };
 		C437FE59222367CD008D6C09 /* AUv3FilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* AUv3FilterFramework.framework */; };
@@ -33,11 +35,11 @@
 		C4BEE7EE22236F24001E6B6D /* FilterDSPKernel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E322236E99001E6B6D /* FilterDSPKernel.hpp */; };
 		C4BEE7EF22236F24001E6B6D /* ParameterRamper.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E522236E99001E6B6D /* ParameterRamper.hpp */; };
 		C4BEE7F022236F24001E6B6D /* DSPKernel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E622236E99001E6B6D /* DSPKernel.hpp */; };
-		C4BEE7F122236F24001E6B6D /* BufferedAudioBus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E822236E99001E6B6D /* BufferedAudioBus.hpp */; };
+		C4BEE7F122236F24001E6B6D /* AUAudioUnitBusBufferManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E822236E99001E6B6D /* AUAudioUnitBusBufferManager.hpp */; };
 		C4BEE7F222236F27001E6B6D /* FilterDSPKernel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E322236E99001E6B6D /* FilterDSPKernel.hpp */; };
 		C4BEE7F322236F27001E6B6D /* ParameterRamper.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E522236E99001E6B6D /* ParameterRamper.hpp */; };
 		C4BEE7F422236F27001E6B6D /* DSPKernel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E622236E99001E6B6D /* DSPKernel.hpp */; };
-		C4BEE7F522236F27001E6B6D /* BufferedAudioBus.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E822236E99001E6B6D /* BufferedAudioBus.hpp */; };
+		C4BEE7F522236F27001E6B6D /* AUAudioUnitBusBufferManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E822236E99001E6B6D /* AUAudioUnitBusBufferManager.hpp */; };
 		C4BEE7F622236F2C001E6B6D /* DSPKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE7E722236E99001E6B6D /* DSPKernel.mm */; };
 		C4BEE7F722236F2D001E6B6D /* DSPKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE7E722236E99001E6B6D /* DSPKernel.mm */; };
 		C4BEE7F822236F44001E6B6D /* AudioUnitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE7E022236E99001E6B6D /* AudioUnitManager.swift */; };
@@ -148,6 +150,7 @@
 
 /* Begin PBXFileReference section */
 		7E56CF207E56CEE000000001 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NonCopyable.hpp; sourceTree = "<group>"; };
 		C4201A2822403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewControllerExtension.swift; sourceTree = "<group>"; };
 		C433F56022404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewControllerExtension.swift; sourceTree = "<group>"; };
 		C437FE3A222367A6008D6C09 /* AUv3Filter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AUv3Filter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -185,7 +188,7 @@
 		C4BEE7E522236E99001E6B6D /* ParameterRamper.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ParameterRamper.hpp; sourceTree = "<group>"; };
 		C4BEE7E622236E99001E6B6D /* DSPKernel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DSPKernel.hpp; sourceTree = "<group>"; };
 		C4BEE7E722236E99001E6B6D /* DSPKernel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DSPKernel.mm; sourceTree = "<group>"; };
-		C4BEE7E822236E99001E6B6D /* BufferedAudioBus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BufferedAudioBus.hpp; sourceTree = "<group>"; };
+		C4BEE7E822236E99001E6B6D /* AUAudioUnitBusBufferManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AUAudioUnitBusBufferManager.hpp; sourceTree = "<group>"; };
 		C4BEE80822237078001E6B6D /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		C4BEE80A222370B2001E6B6D /* AUv3Filter.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = AUv3Filter.entitlements; sourceTree = "<group>"; };
 		C4BEE80D2223713E001E6B6D /* AUv3FilterFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUv3FilterFramework.h; sourceTree = "<group>"; };
@@ -201,8 +204,8 @@
 		C4F0772D223AACBB008FFF06 /* AUv3FilterDemoParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoParameters.swift; sourceTree = "<group>"; };
 		C4F07730223AC4F5008FFF06 /* AUv3FilterDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewController.swift; sourceTree = "<group>"; };
 		C4F07734223ACB91008FFF06 /* Synth.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Synth.aif; sourceTree = "<group>"; };
-		F145FF70F145FFC000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
-		F14BFD10F14BCC1000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE.txt; sourceTree = "<group>"; };
+		F145FF70F145FFC000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
+		F14BFD10F14BCC1000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -403,7 +406,8 @@
 		C4BEE7E422236E99001E6B6D /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				C4BEE7E822236E99001E6B6D /* BufferedAudioBus.hpp */,
+				BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */,
+				C4BEE7E822236E99001E6B6D /* AUAudioUnitBusBufferManager.hpp */,
 				C4BEE7E622236E99001E6B6D /* DSPKernel.hpp */,
 				C4BEE7E722236E99001E6B6D /* DSPKernel.mm */,
 				C4BEE7E322236E99001E6B6D /* FilterDSPKernel.hpp */,
@@ -459,7 +463,6 @@
 			children = (
 				F14BFD10F14BCC1000000001 /* LICENSE.txt */,
 			);
-			name = LICENSE;
 			path = LICENSE;
 			sourceTree = "<group>";
 		};
@@ -481,7 +484,8 @@
 				C4F004A12239B1E10014E248 /* FilterDSPKernelAdapter.h in Headers */,
 				C4BEE8172223736F001E6B6D /* AUv3FilterFramework.h in Headers */,
 				C4BEE7EF22236F24001E6B6D /* ParameterRamper.hpp in Headers */,
-				C4BEE7F122236F24001E6B6D /* BufferedAudioBus.hpp in Headers */,
+				C4BEE7F122236F24001E6B6D /* AUAudioUnitBusBufferManager.hpp in Headers */,
+				BDB7CE90249D3C00009580D5 /* NonCopyable.hpp in Headers */,
 				C4BEE7EE22236F24001E6B6D /* FilterDSPKernel.hpp in Headers */,
 				C4BEE7F022236F24001E6B6D /* DSPKernel.hpp in Headers */,
 			);
@@ -494,7 +498,8 @@
 				C4F004A22239B1E10014E248 /* FilterDSPKernelAdapter.h in Headers */,
 				C496341422238CFA001D1F5B /* AUv3FilterFramework.h in Headers */,
 				C4BEE7F322236F27001E6B6D /* ParameterRamper.hpp in Headers */,
-				C4BEE7F522236F27001E6B6D /* BufferedAudioBus.hpp in Headers */,
+				C4BEE7F522236F27001E6B6D /* AUAudioUnitBusBufferManager.hpp in Headers */,
+				BDB7CE91249D3C00009580D5 /* NonCopyable.hpp in Headers */,
 				C4BEE7F222236F27001E6B6D /* FilterDSPKernel.hpp in Headers */,
 				C4BEE7F422236F27001E6B6D /* DSPKernel.hpp in Headers */,
 			);
@@ -512,7 +517,6 @@
 				C437FE38222367A6008D6C09 /* Resources */,
 				C437FE5E222367CD008D6C09 /* Embed Frameworks */,
 				C437FE752223686D008D6C09 /* Embed App Extensions */,
-				7E49D6507E49D6A000000001,
 			);
 			buildRules = (
 			);
@@ -533,7 +537,6 @@
 				C437FE4E222367CD008D6C09 /* Sources */,
 				C437FE4F222367CD008D6C09 /* Frameworks */,
 				C437FE50222367CD008D6C09 /* Resources */,
-				B8C42D40B8C41B6000000001,
 			);
 			buildRules = (
 			);
@@ -551,7 +554,6 @@
 				C437FE5F2223686D008D6C09 /* Sources */,
 				C437FE602223686D008D6C09 /* Frameworks */,
 				C437FE612223686D008D6C09 /* Resources */,
-				B8C413F0B8C3C21000000001,
 			);
 			buildRules = (
 			);
@@ -571,7 +573,6 @@
 				C437FE782223688D008D6C09 /* Resources */,
 				C4660A632225F9A0007BE3B1 /* Embed Frameworks */,
 				C4660A642225F9A0007BE3B1 /* Embed App Extensions */,
-				DF5253F0DF51ED7000000001,
 			);
 			buildRules = (
 			);
@@ -592,7 +593,6 @@
 				C437FE8B222368A1008D6C09 /* Sources */,
 				C437FE8C222368A1008D6C09 /* Frameworks */,
 				C437FE8D222368A1008D6C09 /* Resources */,
-				7E49D0807E49E1E000000001,
 			);
 			buildRules = (
 			);
@@ -610,7 +610,6 @@
 				C437FE9C222368B7008D6C09 /* Sources */,
 				C437FE9D222368B7008D6C09 /* Frameworks */,
 				C437FE9E222368B7008D6C09 /* Resources */,
-				DF51F450DF52229000000001,
 			);
 			buildRules = (
 			);
@@ -984,7 +983,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1060,7 +1059,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1290,7 +1289,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1366,7 +1365,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1438,7 +1437,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1514,7 +1513,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1745,7 +1744,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1822,7 +1821,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
