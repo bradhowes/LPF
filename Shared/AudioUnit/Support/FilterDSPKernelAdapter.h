@@ -23,6 +23,6 @@ Adapter object providing a Swift-accessible interface to the filter's underlying
 
 - (nonnull AUInternalRenderBlock)internalRenderBlock;
 
-// - (NSArray<NSNumber *> *)magnitudesForFrequencies:(NSArray<NSNumber *> *)frequencies;
+- (nonnull NSArray<NSNumber *> *)magnitudesForFrequencies:(nonnull NSArray<NSNumber *> *)frequencies;
 
 @end

@@ -55,11 +55,17 @@ public:
         float b1 = 0.0;
         float b2 = 0.0;
 
-        void calculateLopassParams(double frequency, double resonance) {
+        double lastFrequency = -1.0;
+        double lastResonance = 1E10;
+
+        bool calculateLopassParams(double frequency, double resonance)
+        {
+            if (lastFrequency == frequency && lastResonance == resonance) return false;
+            lastFrequency = frequency;
+            lastResonance = resonance;
 
             // Convert from decibels to linear.
             double r = pow(10.0, 0.05 * -resonance);
-
             double k  = 0.5 * r * sin(M_PI * frequency);
             double c1 = (1.0 - k) / (1.0 + k);
             double c2 = (1.0 + c1) * cos(M_PI * frequency);
@@ -70,11 +76,13 @@ public:
             b2 = float(c3);
             a1 = float(-c2);
             a2 = float(c1);
+
+            return true;
         }
 
         // Arguments in Hertz.
-        double magnitudeForFrequency( double inFreq) {
-            // Cast to Double.
+        double magnitudeForFrequency(double inFreq)
+        {
             double _b0 = double(b0);
             double _b1 = double(b1);
             double _b2 = double(b2);
@@ -82,13 +90,12 @@ public:
             double _a2 = double(a2);
 
             // Frequency on unit circle in z-plane.
-            double zReal      = cos(M_PI * inFreq);
+            double zReal = cos(M_PI * inFreq);
             double zImaginary = sin(M_PI * inFreq);
 
             // Zeros response.
             double numeratorReal = (_b0 * (squared(zReal) - squared(zImaginary))) + (_b1 * zReal) + _b2;
             double numeratorImaginary = (2.0 * _b0 * zReal * zImaginary) + (_b1 * zImaginary);
-
             double numeratorMagnitude = sqrt(squared(numeratorReal) + squared(numeratorImaginary));
 
             // Poles response.
@@ -96,11 +103,7 @@ public:
             double denominatorImaginary = (2.0 * zReal * zImaginary) + (_a1 * zImaginary);
 
             double denominatorMagnitude = sqrt(squared(denominatorReal) + squared(denominatorImaginary));
-
-            // Total response.
-            double response = numeratorMagnitude / denominatorMagnitude;
-
-            return response;
+            return numeratorMagnitude / denominatorMagnitude;
         }
 
         static double squared(double x) { return x * x; }
@@ -131,23 +134,8 @@ public:
         }
     }
 
-    bool isBypassed() {
-        return bypassed;
-    }
-
-    void setBypass(bool shouldBypass) {
-        bypassed = shouldBypass;
-    }
-
-    float cutoffToDisplay() const
-    {
-        return round(cutoffRamper.getValue() * nyquist * 100.0) / 100.0;
-    }
-
-    void setCutoffFromDisplay(float value)
-    {
-        cutoffRamper.setValue(value * inverseNyquist);
-    }
+    bool isBypassed() { return bypassed; }
+    void setBypass(bool shouldBypass) { bypassed = shouldBypass; }
 
     void setParameterValue(AUParameterAddress address, AUValue value) override {
         switch (address) {
@@ -209,32 +197,55 @@ public:
         // Slight difficulting involving the ramping parameters
 
         int channelCount = int(channelStates_.size());
+        auto ramping = cutoffRamper.startRamping(rampDuration_) || resonanceRamper.startRamping(rampDuration_);
 
-        cutoffRamper.startRamping(rampDuration_);
-        resonanceRamper.startRamping(rampDuration_);
+        if (ramping) {
+            for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex) {
+                auto cutoff = double(cutoffRamper.getAndStep());
+                auto resonance = double(resonanceRamper.getAndStep());
+                coeffs_.calculateLopassParams(cutoff, resonance);
 
-        for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex) {
-            double cutoff = double(cutoffRamper.getAndStep() * nyquist);
-            double resonance = double(resonanceRamper.getAndStep());
+                int frameOffset = int(frameIndex + bufferOffset);
+                for (int channel = 0; channel < channelCount; ++channel) {
+                    FilterState& state = channelStates_[channel];
+                    float* in  = static_cast<float*>(inBufferListPtr->mBuffers[channel].mData)  + frameOffset;
+                    float* out = static_cast<float*>(outBufferListPtr->mBuffers[channel].mData) + frameOffset;
+
+                    float x0 = *in;
+                    float y0 = (coeffs_.b0 * x0) + (coeffs_.b1 * state.x1) + (coeffs_.b2 * state.x2) -
+                    (coeffs_.a1 * state.y1) - (coeffs_.a2 * state.y2);
+                    *out = y0;
+
+                    state.x2 = state.x1;
+                    state.x1 = x0;
+                    state.y2 = state.y1;
+                    state.y1 = y0;
+                }
+            }
+        }
+        else {
+            auto cutoff = double(cutoffRamper.getAndStep());
+            auto resonance = double(resonanceRamper.getAndStep());
             coeffs_.calculateLopassParams(cutoff, resonance);
-
-            int frameOffset = int(frameIndex + bufferOffset);
 
             for (int channel = 0; channel < channelCount; ++channel) {
                 FilterState& state = channelStates_[channel];
-                float* in  = static_cast<float*>(inBufferListPtr->mBuffers[channel].mData)  + frameOffset;
-                float* out = static_cast<float*>(outBufferListPtr->mBuffers[channel].mData) + frameOffset;
+                float* in  = static_cast<float*>(inBufferListPtr->mBuffers[channel].mData)  + bufferOffset;
+                float* out = static_cast<float*>(outBufferListPtr->mBuffers[channel].mData) + bufferOffset;
 
-                float x0 = *in;
-                float y0 = (coeffs_.b0 * x0) + (coeffs_.b1 * state.x1) + (coeffs_.b2 * state.x2) -
-                (coeffs_.a1 * state.y1) - (coeffs_.a2 * state.y2);
-                *out = y0;
+                for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex) {
+                    float x0 = in[frameIndex];
+                    float y0 = (coeffs_.b0 * x0) + (coeffs_.b1 * state.x1) + (coeffs_.b2 * state.x2) -
+                    (coeffs_.a1 * state.y1) - (coeffs_.a2 * state.y2);
+                    out[frameIndex] = y0;
 
-                state.x2 = state.x1;
-                state.x1 = x0;
-                state.y2 = state.y1;
-                state.y1 = y0;
+                    state.x2 = state.x1;
+                    state.x1 = x0;
+                    state.y2 = state.y1;
+                    state.y1 = y0;
+                }
             }
+
         }
 
         for (int channel = 0; channel < channelCount; ++channel) {
@@ -257,8 +268,6 @@ private:
     bool bypassed = false;
 
 public:
-
-    // Parameters.
     ParameterRamper<float> cutoffRamper;
     ParameterRamper<float> resonanceRamper;
 };

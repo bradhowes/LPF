@@ -66,15 +66,19 @@ public:
      NOTE: this should be run only in the audio thread
 
      @param duration how many samples to transition to new value
+     @returns true if ramping to new value
      */
-    void startRamping(AUAudioFrameCount duration)
+    bool startRamping(AUAudioFrameCount duration)
     {
         int32_t changeCounterValue = changeCounter_;
         if (lastUpdateCounter_ != changeCounterValue) {
             lastUpdateCounter_ = changeCounterValue;
             startRamp(duration);
         }
+        return samplesRemaining_ != 0;
     }
+
+    bool isRamping() const { return samplesRemaining_ != 0; }
 
     /**
      Move along the ramp.

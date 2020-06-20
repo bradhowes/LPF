@@ -38,24 +38,21 @@ Adapter object providing a Swift-accessible interface to the filter's underlying
     return _inputBus->bus();
 }
 
-//- (NSArray<NSNumber *> *)magnitudesForFrequencies:(NSArray<NSNumber *> *)frequencies {
-//    FilterDSPKernel::BiquadCoefficients coefficients;
-//
-//    double inverseNyquist = 2.0 / self.outputBus.format.sampleRate;
-//
-//    coefficients.calculateLopassParams(_kernel->cutoffRamper.getUIValue(), _kernel->resonanceRamper.getUIValue());
-//
-//    NSMutableArray<NSNumber *> *magnitudes = [NSMutableArray arrayWithCapacity:frequencies.count];
-//
-//    for (NSNumber *number in frequencies) {
-//        double frequency = [number doubleValue];
-//        double magnitude = coefficients.magnitudeForFrequency(frequency * inverseNyquist);
-//
-//        [magnitudes addObject:@(magnitude)];
-//    }
-//
-//    return [NSArray arrayWithArray:magnitudes];
-//}
+- (NSArray<NSNumber *> *)magnitudesForFrequencies:(NSArray<NSNumber *> *)frequencies {
+    FilterDSPKernel::BiquadCoefficients coefficients;
+
+    double inverseNyquist = 2.0 / self.outputBus.format.sampleRate;
+    coefficients.calculateLopassParams(_kernel.cutoffRamper.getValue(), _kernel.resonanceRamper.getValue());
+    NSMutableArray<NSNumber *> *magnitudes = [NSMutableArray arrayWithCapacity:frequencies.count];
+
+    for (NSNumber *number in frequencies) {
+        double frequency = [number doubleValue];
+        double magnitude = coefficients.magnitudeForFrequency(frequency * inverseNyquist);
+        [magnitudes addObject:@(magnitude)];
+    }
+
+    return [NSArray arrayWithArray:magnitudes];
+}
 
 - (void)setParameter:(AUParameter *)parameter value:(AUValue)value {
     _kernel.setParameterValue(parameter.address, value);
