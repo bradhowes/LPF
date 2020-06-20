@@ -241,9 +241,9 @@ extension AUv3FilterDemoViewController: FilterViewDelegate {
                                     eventType: .touch)
         
         cutoffParameter.setValue(filterView.frequency,
-                                    originator: parameterObserverToken,
-                                    atHostTime: 0,
-                                    eventType: .touch)
+                                 originator: parameterObserverToken,
+                                 atHostTime: 0,
+                                 eventType: .touch)
     }
     
     func filterView(_ filterView: FilterView, didChangeResonance resonance: Float) {

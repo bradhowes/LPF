@@ -109,7 +109,7 @@ public:
     // MARK: Member Functions
 
     FilterDSPKernel()
-    : DSPKernel(), cutoffRamper(400.0 / 44100.0, 0.0005444f, 0.9070295f), resonanceRamper(20.0, -20.0f, 20.0f)
+    : DSPKernel(), cutoffRamper(400.0 / 44100.0), resonanceRamper(20.0)
     {}
 
     void setFormat(AVAudioFormat* format) override
@@ -142,7 +142,7 @@ public:
     void setParameterValue(AUParameterAddress address, AUValue value) override {
         switch (address) {
             case FilterParamCutoff:
-                cutoffRamper.setValue(value * inverseNyquist);
+                cutoffRamper.setValue(value);
                 break;
 
             case FilterParamResonance:
@@ -155,11 +155,7 @@ public:
         switch (address) {
             case FilterParamCutoff: return cutoffRamper.getValue();
             case FilterParamResonance: return resonanceRamper.getValue();
-            default: return 0.0; // 12.0f * inverseNyquist;
-
-                // Return the goal. It is not thread safe to return the ramping value.
-                //return (cutoffRamper.getUIValue() * nyquist);
-                //return roundf((cutoffRamper.getUIValue() * nyquist) * 100) / 100;
+            default: return 0.0;
         }
     }
 
@@ -208,7 +204,7 @@ public:
         resonanceRamper.startRamping(rampDuration_);
 
         for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex) {
-            double cutoff = double(cutoffRamper.getAndStep());
+            double cutoff = double(cutoffRamper.getAndStep() * inverseNyquist);
             double resonance = double(resonanceRamper.getAndStep());
             coeffs_.calculateLopassParams(cutoff, resonance);
 

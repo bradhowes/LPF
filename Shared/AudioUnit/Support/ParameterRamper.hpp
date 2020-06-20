@@ -17,17 +17,10 @@ public:
 
      @param value the initial value of the parameter
      */
-    ParameterRamper(T value, T minValue, T maxValue)
-    : changeCounter_(0), minValue_{minValue}, maxValue_{maxValue}
+    ParameterRamper(T value)
+    : changeCounter_(0)
     {
         setImmediate(value);
-    }
-
-    void setRange(T minValue, T maxValue)
-    {
-        minValue_ = minValue;
-        maxValue_ = maxValue;
-        setValue(pendingValue_);
     }
 
     /**
@@ -45,7 +38,7 @@ public:
      @param value the new value to use
      */
     void setValue(T value) {
-        pendingValue_ = clamp(value);
+        pendingValue_ = value;
         std::atomic_fetch_add(&changeCounter_, 1);
     }
 
@@ -126,10 +119,10 @@ public:
 
 private:
 
-    T clamp(T value) { return std::min(maxValue_, std::max(minValue_, value)); }
+    // T clamp(T value) { return std::min(maxValue_, std::max(minValue_, value)); }
 
     void setImmediate(T value) {
-        offset_ = pendingValue_ = clamp(value);
+        offset_ = pendingValue_ = value;
         slope_ = 0.0;
         samplesRemaining_ = 0;
     }
@@ -148,8 +141,6 @@ private:
     T pendingValue_ = 0.0;
     T slope_ = 0.0;
     T offset_ = 0.0;
-    T minValue_;
-    T maxValue_;
     AUAudioFrameCount samplesRemaining_ = 0;
     int32_t lastUpdateCounter_ = 0;
     std::atomic<int32_t> changeCounter_;
