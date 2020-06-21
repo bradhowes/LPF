@@ -52,7 +52,6 @@ public class AudioUnitManager {
     private var cutoffParameter: AUParameter!
     private var resonanceParameter: AUParameter!
     private var parameterObserverToken: AUParameterObserverToken!
-
     private let componentDescription = AudioComponentDescription(
         componentType: kAudioUnitType_Effect,
         componentSubType: 0x666c7472,

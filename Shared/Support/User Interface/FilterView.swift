@@ -323,7 +323,8 @@ class FilterView: View {
 
             let labelLayer = makeLabelLayer()
             var string = stringForValue(value)
-            if value >= 1000 { string += "K" }
+            if index == 0 { string += " Hz" }
+            else if value >= 1000 { string += "k" }
 
             labelLayer.string = string
             frequencyLabels.append(labelLayer)

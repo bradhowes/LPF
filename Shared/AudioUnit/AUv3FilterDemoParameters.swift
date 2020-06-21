@@ -42,7 +42,7 @@ class AUv3FilterDemoParameters {
                                                     .flag_CanRamp],
                                             valueStrings: nil,
                                             dependentParameters: nil)
-        parameter.value = 20_000.0
+        parameter.value = 5.0
         return parameter
     }()
 

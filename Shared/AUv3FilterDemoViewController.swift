@@ -72,19 +72,19 @@ public class AUv3FilterDemoViewController: AUViewController {
 
         cutoffParameter = cutoff
         resonanceParameter = resonance
-        observer = audioUnit?.observe(\.allParameterValues) { _, _ in self.performOnMain { self.updateUI() } }
+        observer = audioUnit?.observe(\.allParameterValues) { _, _ in self.performOnMain { self.updateDisplay() } }
 
         parameterObserverToken = paramTree.token(byAddingParameterObserver: { [weak self] address, value in
             guard let self = self else { return }
             if address == cutoff.address || address == resonance.address {
-                self.performOnMain{ self.updateUI() }
+                self.performOnMain{ self.updateDisplay() }
             }
         })
 
-        updateUI()
+        updateDisplay()
     }
 
-    private func updateUI() {
+    private func updateDisplay() {
         filterView.frequency = cutoffParameter.value
         filterView.resonance = resonanceParameter.value
         frequencyTextField.text = cutoffParameter.string(fromValue: nil)

@@ -30,20 +30,11 @@ public class AUv3FilterDemo: AUAudioUnit {
                             busses: [kernelAdapter.outputBus])
     }()
 
-    // The owning view controller
     weak var viewController: AUv3FilterDemoViewController?
 
-    /// The filter's input busses
-    public override var inputBusses: AUAudioUnitBusArray {
-        return inputBusArray
-    }
-
-    /// The filter's output busses
-    public override var outputBusses: AUAudioUnitBusArray {
-        return outputBusArray
-    }
+    public override var inputBusses: AUAudioUnitBusArray { inputBusArray }
+    public override var outputBusses: AUAudioUnitBusArray { outputBusArray }
     
-    /// The tree of parameters provided by this AU.
     public override var parameterTree: AUParameterTree? {
         get { return parameters.parameterTree }
         set { /* The sample doesn't allow this property to be modified. */ }
@@ -65,28 +56,22 @@ public class AUv3FilterDemo: AUAudioUnit {
 
     private var _currentPreset: AUAudioUnitPreset?
     
-    /// The currently selected preset.
     public override var currentPreset: AUAudioUnitPreset? {
         get { return _currentPreset }
         set {
-            // If the newValue is nil, return.
             guard let preset = newValue else {
                 _currentPreset = nil
                 return
             }
             
-            // Factory presets need to always have a number >= 0.
             if preset.number >= 0 {
                 let values = factoryPresetValues[preset.number]
                 parameters.setParameterValues(cutoff: values.cutoff, resonance: values.resonance)
                 _currentPreset = preset
             }
-            // User presets are always negative.
             else {
-                // Attempt to restore the archived state for this user preset.
                 do {
                     fullStateForDocument = try presetState(for: preset)
-                    // Set the currentPreset after we've successfully restored the state.
                     _currentPreset = preset
                 } catch {
                     print("Unable to restore set for preset \(preset.name)")
@@ -95,27 +80,14 @@ public class AUv3FilterDemo: AUAudioUnit {
         }
     }
     
-    /// Indicates that this Audio Unit supports persisting user presets.
-    public override var supportsUserPresets: Bool {
-        return true
-    }
+    public override var supportsUserPresets: Bool { true }
 
     public override init(componentDescription: AudioComponentDescription,
                          options: AudioComponentInstantiationOptions = []) throws {
-
-        // Create adapter to communicate to underlying C++ DSP code
         kernelAdapter = FilterDSPKernelAdapter()
-        
-        // Create parameters object to control cutoff frequency and resonance
         parameters = AUv3FilterDemoParameters(kernelAdapter: kernelAdapter)
-
-        // Init super class
         try super.init(componentDescription: componentDescription, options: options)
-
-        // Log component description values
         log(componentDescription)
-        
-        // Set the default preset
         currentPreset = factoryPresets.first
     }
 
@@ -135,29 +107,20 @@ public class AUv3FilterDemo: AUAudioUnit {
         print(message)
     }
 
-    // Gets the magnitudes corresponding to the specified frequencies.
     func magnitudes(forFrequencies frequencies: [Float]) -> [Float] {
-        return kernelAdapter.magnitudes(forFrequencies: frequencies as [NSNumber]).map { $0.floatValue }
+        kernelAdapter.magnitudes(forFrequencies: frequencies as [NSNumber]).map { $0.floatValue }
     }
 
     public override var maximumFramesToRender: AUAudioFrameCount {
-        get {
-            return kernelAdapter.maximumFramesToRender
-        }
-        set {
-            if !renderResourcesAllocated {
-                kernelAdapter.maximumFramesToRender = newValue
-            }
-        }
+        get { kernelAdapter.maximumFramesToRender }
+        set { if !renderResourcesAllocated { kernelAdapter.maximumFramesToRender = newValue } }
     }
 
     public override func allocateRenderResources() throws {
         try super.allocateRenderResources()
-
         if kernelAdapter.outputBus.format.channelCount != kernelAdapter.inputBus.format.channelCount {
             throw NSError(domain: NSOSStatusErrorDomain, code: Int(kAudioUnitErr_FailedInitialization), userInfo: nil)
         }
-
         kernelAdapter.allocateRenderResources()
     }
 
@@ -166,33 +129,20 @@ public class AUv3FilterDemo: AUAudioUnit {
         kernelAdapter.deallocateRenderResources()
     }
 
-    public override var internalRenderBlock: AUInternalRenderBlock {
-        return kernelAdapter.internalRenderBlock()
-    }
+    public override var internalRenderBlock: AUInternalRenderBlock { kernelAdapter.internalRenderBlock() }
+    public override var canProcessInPlace: Bool { true }
 
-    // Boolean indicating that this AU can process the input audio in-place
-    // in the input buffer, without requiring a separate output buffer.
-    public override var canProcessInPlace: Bool {
-        return true
-    }
-
-    // MARK: View Configurations
-    public override func supportedViewConfigurations(_ availableViewConfigurations: [AUAudioUnitViewConfiguration]) -> IndexSet {
+    public override func supportedViewConfigurations(_ availableViewConfigurations: [AUAudioUnitViewConfiguration])
+        -> IndexSet {
         var indexSet = IndexSet()
-
         let min = CGSize(width: 400, height: 100)
         let max = CGSize(width: 800, height: 500)
-
         for (index, config) in availableViewConfigurations.enumerated() {
-
-            let size = CGSize(width: config.width, height: config.height)
-
-            if size.width <= min.width && size.height <= min.height ||
-                size.width >= max.width && size.height >= max.height ||
-                size == .zero {
-
-                indexSet.insert(index)
+            if config.width < min.width || config.height < min.height ||
+               config.width > max.width || config.height > max.height {
+                continue
             }
+            indexSet.insert(index)
         }
         return indexSet
     }
