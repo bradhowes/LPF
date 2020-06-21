@@ -88,7 +88,7 @@ extension MainViewController: NSWindowDelegate {
     func windowWillClose(_ notification: Notification) { audioUnitManager.cleanup() }
 }
 
-extension MainViewController: AUManagerDelegate {
+extension MainViewController: AudioUnitManagerDelegate {
 
     func cutoffValueDidChange(_ value: Float) {
         let normalizedValue = ((value - defaultMinHertz) / (defaultMaxHertz - defaultMinHertz)) * 511.0 + 1.0

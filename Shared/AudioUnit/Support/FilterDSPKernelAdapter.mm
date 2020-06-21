@@ -1,13 +1,13 @@
 // Copyright © 2020 Brad Howes. All rights reserved.
 
-#import "AUAudioUnitBusBufferManager.hpp"
+#import "AudioUnitBusBufferManager.hpp"
 #import "BiquadFilter.hpp"
 #import "FilterDSPKernel.hpp"
-#import "FilterDSPKernelAdapter.h"
+#import "FilterDSPKernelAdapter.hpp"
 
 @implementation FilterDSPKernelAdapter {
     FilterDSPKernel _kernel;
-    AUAudioUnitBusInputBufferManager* _inputBus;
+    AudioUnitBusInputBufferManager* _inputBus;
 }
 
 - (instancetype)init {
@@ -16,7 +16,7 @@
         _kernel.setFormat(format);
 
         AUAudioUnitBus* bus = [[AUAudioUnitBus alloc] initWithFormat:format error:nil];
-        _inputBus = new AUAudioUnitBusInputBufferManager(bus, 8);
+        _inputBus = new AudioUnitBusInputBufferManager(bus, 8);
         _outputBus = [[AUAudioUnitBus alloc] initWithFormat:format error:nil];
     }
 
@@ -69,7 +69,7 @@
 
     // References to capture for use within the block.
     FilterDSPKernel& kernel = _kernel;
-    AUAudioUnitBusInputBufferManager& inputBus = *_inputBus;
+    AudioUnitBusInputBufferManager& inputBus = *_inputBus;
 
     return ^AUAudioUnitStatus(AudioUnitRenderActionFlags* actionFlags, const AudioTimeStamp* timestamp,
                               AVAudioFrameCount frameCount, NSInteger outputBusNumber, AudioBufferList* outputData,

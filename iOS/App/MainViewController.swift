@@ -66,7 +66,7 @@ private extension MainViewController {
     }
 }
 
-extension MainViewController: AUManagerDelegate {
+extension MainViewController: AudioUnitManagerDelegate {
 
     func cutoffValueDidChange(_ value: Float) {
         let normalizedValue = ((value - defaultMinHertz) / (defaultMaxHertz - defaultMinHertz)) * 511 + 1

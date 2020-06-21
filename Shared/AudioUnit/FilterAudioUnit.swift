@@ -81,6 +81,8 @@ public class FilterAudioUnit: AUAudioUnit {
     }
     
     public override var supportsUserPresets: Bool { true }
+    public override var internalRenderBlock: AUInternalRenderBlock { kernelAdapter.internalRenderBlock() }
+    public override var canProcessInPlace: Bool { true }
 
     public override init(componentDescription: AudioComponentDescription,
                          options: AudioComponentInstantiationOptions = []) throws {
@@ -91,23 +93,7 @@ public class FilterAudioUnit: AUAudioUnit {
         currentPreset = factoryPresets.first
     }
 
-    private func log(_ acd: AudioComponentDescription) {
-
-        let info = ProcessInfo.processInfo
-        print("\nProcess Name: \(info.processName) PID: \(info.processIdentifier)\n")
-
-        let message = """
-        AUv3FilterDemo (
-                  type: \(acd.componentType.stringValue)
-               subtype: \(acd.componentSubType.stringValue)
-          manufacturer: \(acd.componentManufacturer.stringValue)
-                 flags: \(String(format: "%#010x", acd.componentFlags))
-        )
-        """
-        print(message)
-    }
-
-    func magnitudes(forFrequencies frequencies: [Float]) -> [Float] {
+    public func magnitudes(forFrequencies frequencies: [Float]) -> [Float] {
         var output: [Float] = Array(repeating: 0.0, count: frequencies.count)
         kernelAdapter.magnitudes(frequencies, count: frequencies.count, output: &output)
         return output
@@ -131,9 +117,6 @@ public class FilterAudioUnit: AUAudioUnit {
         kernelAdapter.deallocateRenderResources()
     }
 
-    public override var internalRenderBlock: AUInternalRenderBlock { kernelAdapter.internalRenderBlock() }
-    public override var canProcessInPlace: Bool { true }
-
     public override func supportedViewConfigurations(_ availableViewConfigurations: [AUAudioUnitViewConfiguration])
         -> IndexSet {
         var indexSet = IndexSet()
@@ -151,6 +134,22 @@ public class FilterAudioUnit: AUAudioUnit {
 
     public override func select(_ viewConfiguration: AUAudioUnitViewConfiguration) {
         viewController?.selectViewConfiguration(viewConfiguration)
+    }
+
+    private func log(_ acd: AudioComponentDescription) {
+
+        let info = ProcessInfo.processInfo
+        print("\nProcess Name: \(info.processName) PID: \(info.processIdentifier)\n")
+
+        let message = """
+        AUv3FilterDemo (
+        type: \(acd.componentType.stringValue)
+        subtype: \(acd.componentSubType.stringValue)
+        manufacturer: \(acd.componentManufacturer.stringValue)
+        flags: \(String(format: "%#010x", acd.componentFlags))
+        )
+        """
+        print(message)
     }
 }
 

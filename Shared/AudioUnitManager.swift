@@ -2,7 +2,7 @@
 
 import AVFoundation
 
-public protocol AUManagerDelegate: AnyObject {
+public protocol AudioUnitManagerDelegate: AnyObject {
     func cutoffValueDidChange(_ value: Float)
     func resonanceValueDidChange(_ value: Float)
 }
@@ -10,7 +10,7 @@ public protocol AUManagerDelegate: AnyObject {
 public class AudioUnitManager {
     private var audioUnit: FilterAudioUnit?
 
-    public weak var delegate: AUManagerDelegate? {
+    public weak var delegate: AudioUnitManagerDelegate? {
         didSet {
             updateCutoff()
             updateResonance()
@@ -66,8 +66,6 @@ public class AudioUnitManager {
     }
 }
 
-// MARK: - API
-
 public extension AudioUnitManager {
 
     @discardableResult
@@ -81,8 +79,6 @@ public extension AudioUnitManager {
         parameterTree.removeParameterObserver(parameterObserverToken)
     }
 }
-
-// MARK: - Private
 
 private extension AudioUnitManager {
 
