@@ -21,7 +21,8 @@ public:
     /**
      Reset the parameter to a known counter state.
      */
-    void reset() {
+    void reset()
+    {
         changeCounter_ = 0;
         lastUpdateCounter_ = 0;
     }
@@ -31,7 +32,8 @@ public:
 
      @param value the new value to use
      */
-    ParameterMonitor<T>& operator =(T value) {
+    ParameterMonitor<T>& operator =(T value)
+    {
         value_ = value;
         std::atomic_fetch_add(&changeCounter_, 1);
         return *this;

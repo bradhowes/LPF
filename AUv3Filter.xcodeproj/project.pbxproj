@@ -437,6 +437,8 @@
 			children = (
 				C4BEE7E822236E99001E6B6D /* AudioUnitBusBufferManager.hpp */,
 				BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */,
+				BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */,
+				BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */,
 				C4BEE7E622236E99001E6B6D /* DSPKernel.hpp */,
 				C4BEE7E722236E99001E6B6D /* DSPKernel.mm */,
 				C4BEE7E322236E99001E6B6D /* FilterDSPKernel.hpp */,
@@ -445,8 +447,6 @@
 				BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */,
 				C4BEE7E522236E99001E6B6D /* ParameterRamper.hpp */,
 				BDB7CE96249F7209009580D5 /* ParameterMonitor.hpp */,
-				BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */,
-				BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */,
 			);
 			path = Support;
 			sourceTree = "<group>";
