@@ -2,7 +2,7 @@
 
 import Foundation
 
-class AUv3FilterDemoParameters {
+class FilterParameters {
 
     private enum AUv3FilterParam: AUParameterAddress {
         case cutoff, resonance

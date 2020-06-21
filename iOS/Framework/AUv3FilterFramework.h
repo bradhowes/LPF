@@ -6,5 +6,6 @@ FOUNDATION_EXPORT double AUv3FilterFramework_iOSVersionNumber;
 FOUNDATION_EXPORT const unsigned char AUv3FilterFramework_iOSVersionString[];
 
 #import <AUv3FilterFramework/FilterDSPKernelAdapter.h>
-@class AUv3FilterDemo;
-@class AUv3FilterDemoViewController;
+
+@class FilterAudioUnit;
+@class FilterViewController;

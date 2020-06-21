@@ -8,7 +8,7 @@ public protocol AUManagerDelegate: AnyObject {
 }
 
 public class AudioUnitManager {
-    private var audioUnit: AUv3FilterDemo?
+    private var audioUnit: FilterAudioUnit?
 
     public weak var delegate: AUManagerDelegate? {
         didSet {
@@ -52,14 +52,14 @@ public class AudioUnitManager {
 
     public init() {
         viewController = loadViewController()
-        AUAudioUnit.registerSubclass(AUv3FilterDemo.self, as: componentDescription, name: componentName,
+        AUAudioUnit.registerSubclass(FilterAudioUnit.self, as: componentDescription, name: componentName,
                                      version: UInt32.max)
 
         AVAudioUnit.instantiate(with: componentDescription) { audioUnit, error in
             guard error == nil, let audioUnit = audioUnit else {
                 fatalError("Could not instantiate audio unit: \(String(describing: error))")
             }
-            self.audioUnit = audioUnit.auAudioUnit as? AUv3FilterDemo
+            self.audioUnit = audioUnit.auAudioUnit as? FilterAudioUnit
             self.connectParametersToControls()
             self.playEngine.connect(avAudioUnit: audioUnit)
         }
@@ -94,7 +94,7 @@ private extension AudioUnitManager {
 
         #if os(iOS)
         let storyboard = Storyboard(name: "MainInterface", bundle: appexBundle)
-        guard let controller = storyboard.instantiateInitialViewController() as? AUv3FilterDemoViewController else {
+        guard let controller = storyboard.instantiateInitialViewController() as? FilterViewController else {
             fatalError("Unable to instantiate AUv3FilterDemoViewController")
         }
         return controller

@@ -25,7 +25,7 @@ public class FilterViewController: AUViewController {
     @IBOutlet var compactView: View! { didSet { compactView.setBorder(color: .black, width: 1) } }
     @IBOutlet var expandedView: View! { didSet { expandedView.setBorder(color: .black, width: 1) } }
 
-    public var audioUnit: AUv3FilterDemo? {
+    public var audioUnit: FilterAudioUnit? {
         didSet {
             audioUnit?.viewController = self
             performOnMain { if self.isViewLoaded { self.connectViewToAU() } }
@@ -182,7 +182,7 @@ private extension FilterViewController {
 }
 
 #if os(iOS)
-extension AUv3FilterDemoViewController: UITextFieldDelegate {
+extension FilterViewController: UITextFieldDelegate {
     // MARK: UITextFieldDelegate
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)

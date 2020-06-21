@@ -13,9 +13,9 @@ fileprivate extension AUAudioUnitPreset {
     }
 }
 
-public class AUv3FilterDemo: AUAudioUnit {
+public class FilterAudioUnit: AUAudioUnit {
 
-    private let parameters: AUv3FilterDemoParameters
+    private let parameters: FilterParameters
     private let kernelAdapter: FilterDSPKernelAdapter
 
     lazy private var inputBusArray: AUAudioUnitBusArray = {
@@ -85,7 +85,7 @@ public class AUv3FilterDemo: AUAudioUnit {
     public override init(componentDescription: AudioComponentDescription,
                          options: AudioComponentInstantiationOptions = []) throws {
         kernelAdapter = FilterDSPKernelAdapter()
-        parameters = AUv3FilterDemoParameters(kernelAdapter: kernelAdapter)
+        parameters = FilterParameters(kernelAdapter: kernelAdapter)
         try super.init(componentDescription: componentDescription, options: options)
         log(componentDescription)
         currentPreset = factoryPresets.first
