@@ -1,9 +1,4 @@
-/*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-NSStoryboard extension to normalize interface for cross-platform usage.
-*/
+// Copyright © 2020 Brad Howes. All rights reserved.
 
 import AppKit
 

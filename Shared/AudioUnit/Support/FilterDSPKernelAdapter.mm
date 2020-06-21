@@ -1,14 +1,7 @@
-/*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-Adapter object providing a Swift-accessible interface to the filter's underlying DSP code.
-*/
-#import <Accelerate/Accelerate.h>
-#import <AVFoundation/AVFoundation.h>
-#import <CoreAudioKit/AUViewController.h>
+// Copyright © 2020 Brad Howes. All rights reserved.
 
 #import "AUAudioUnitBusBufferManager.hpp"
+#import "BiquadFilter.hpp"
 #import "FilterDSPKernel.hpp"
 #import "FilterDSPKernelAdapter.h"
 
@@ -38,20 +31,11 @@ Adapter object providing a Swift-accessible interface to the filter's underlying
     return _inputBus->bus();
 }
 
-- (NSArray<NSNumber *> *)magnitudesForFrequencies:(NSArray<NSNumber *> *)frequencies {
-    FilterDSPKernel::BiquadCoefficients coefficients;
-    coefficients.calculateLopassParams(_kernel.cutoffFilterSetting(), _kernel.resonanceFilterSetting(),
-                                       _kernel.channelCount());
-
-    double inverseNyquist = 2.0 / self.outputBus.format.sampleRate;
-    NSMutableArray<NSNumber *> *magnitudes = [NSMutableArray arrayWithCapacity:frequencies.count];
-    for (NSNumber *number in frequencies) {
-        double frequency = [number doubleValue];
-        double magnitude = coefficients.magnitudeForFrequency(frequency * inverseNyquist);
-        [magnitudes addObject:@(magnitude)];
-    }
-
-    return [NSArray arrayWithArray:magnitudes];
+- (void)magnitudes:(nonnull const float*)frequencies count:(NSInteger)count
+            output:(nonnull float*)output {
+    BiquadFilter coeffs;
+    coeffs.calculateParams(_kernel.cutoffFilterSetting(), _kernel.resonanceFilterSetting(), _kernel.channelCount());
+    coeffs.magnitudes(frequencies, count, _kernel.nyquistPeriod(), output);
 }
 
 - (void)setParameter:(AUParameter *)parameter value:(AUValue)value {
@@ -82,19 +66,22 @@ Adapter object providing a Swift-accessible interface to the filter's underlying
 #pragma mark - AUAudioUnit (AUAudioUnitImplementation)
 
 - (AUInternalRenderBlock)internalRenderBlock {
+
+    // References to capture for use within the block.
     FilterDSPKernel& kernel = _kernel;
     AUAudioUnitBusInputBufferManager& inputBus = *_inputBus;
 
     return ^AUAudioUnitStatus(AudioUnitRenderActionFlags* actionFlags, const AudioTimeStamp* timestamp,
                               AVAudioFrameCount frameCount, NSInteger outputBusNumber, AudioBufferList* outputData,
                               const AURenderEvent* realtimeEventListHead, AURenderPullInputBlock pullInputBlock) {
-
         if (frameCount > kernel.maximumFramesToRender()) return kAudioUnitErr_TooManyFramesToProcess;
 
+        // Fetch samples from upstream
         AudioUnitRenderActionFlags pullFlags = 0;
         AUAudioUnitStatus err = inputBus.pullInput(&pullFlags, timestamp, frameCount, 0, pullInputBlock);
         if (err != 0) return err;
 
+        // Obtain the sample buffers to use for rendering
         AudioBufferList* inAudioBufferList = inputBus.mutableAudioBufferList();
         AudioBufferList* outAudioBufferList = outputData;
         if (outAudioBufferList->mBuffers[0].mData == nullptr) {
@@ -106,6 +93,8 @@ Adapter object providing a Swift-accessible interface to the filter's underlying
         }
 
         kernel.setBuffers(inAudioBufferList, outAudioBufferList);
+
+        // Do the rendering
         kernel.render(timestamp, frameCount, realtimeEventListHead);
 
         return noErr;

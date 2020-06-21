@@ -1,9 +1,4 @@
-/*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-AUv3FilterDemoViewController is the app extension's principal class, responsible for creating both the audio unit and its view.
-*/
+// Copyright © 2020 Brad Howes. All rights reserved.
 
 import CoreAudioKit
 import AUv3FilterFramework

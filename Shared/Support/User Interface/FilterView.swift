@@ -40,17 +40,19 @@ extension Color {
 
 class FilterView: View {
     let logBase = 2
+
     let leftMargin: CGFloat = 54.0
     let rightMargin: CGFloat = 10.0
     let bottomMargin: CGFloat = 40.0
 
     let numDBLines = 8
     lazy var dbSpacing = Int((defaultMaxGain - defaultMinGain) / Float(numDBLines))
+
     let numFreqLines = 11
 
     let labelWidth: CGFloat = 40.0
-    let maxNumberOfResponseFrequencies = 1024
 
+    let maxNumberOfResponseFrequencies = 1024
     var frequencies: [Float]?
 
     var dbLines = [CALayer]()
@@ -106,8 +108,19 @@ class FilterView: View {
         }
     }
 
-    func valueAtFreqIndex(_ index: Float) -> Float { defaultMinHertz * powf(Float(logBase), index) }
+    #if os(macOS)
+    override var isFlipped: Bool { return true }
+    #endif
 
+    private var graphLabelColor: Color {
+        #if os(iOS)
+        return Color(white: 0.1, alpha: 1.0)
+        #elseif os(macOS)
+        return Color.labelColor // Use Appearance-aware label color
+        #endif
+    }
+
+    func valueAtFreqIndex(_ index: Float) -> Float { defaultMinHertz * powf(Float(logBase), index) }
     func logValueForNumber(_ number: Float, base: Float) -> Float { logf(number) / logf(base) }
 
     func frequencyDataForDrawing() -> [Float] {
@@ -126,7 +139,7 @@ class FilterView: View {
         }
 
         frequencies = (0..<locationsCount).map { _ in
-            guard location <= rightEdge else { return defaultMaxHertz }
+            guard location < rightEdge else { return defaultMaxHertz }
             let frequency = frequencyValueForLocation(location).clamp(to: defaultMinHertz...defaultMaxHertz)
             location += CGFloat(pixelRatio)
             return frequency
@@ -189,23 +202,20 @@ class FilterView: View {
         return valueAtFreqIndex(Float(index))
     }
 
-    private func dbValueForLocation(_ location: CGFloat) -> Float {
-        let step = graphLayer.frame.height / CGFloat(defaultMaxGain - defaultMinGain)
-        return Float(-(((location - bottomMargin) / step) - CGFloat(defaultMaxGain)))
-    }
-
     private func locationForDBValue(_ value: Float) -> CGFloat {
         let step = graphLayer.frame.height / CGFloat(defaultMaxGain - defaultMinGain)
         let location = (CGFloat(value) + CGFloat(defaultMaxGain)) * step
         return graphLayer.frame.height - location + bottomMargin
     }
 
+    private func dbValueForLocation(_ location: CGFloat) -> Float {
+        let step = graphLayer.frame.height / CGFloat(defaultMaxGain - defaultMinGain)
+        return Float(-(((location - bottomMargin) / step) - CGFloat(defaultMaxGain)))
+    }
+
     private func stringForValue(_ value: Float) -> String {
         var temp = value
-
-        if value >= 1000 {
-            temp /= 1000
-        }
+        if value >= 1000 { temp /= 1000 }
 
         temp = floor((temp * 100.0) / 100.0)
 
@@ -216,22 +226,8 @@ class FilterView: View {
         }
     }
 
-    #if os(macOS)
-    override var isFlipped: Bool { return true }
-    #endif
-
-    private func newLayer(of size: CGSize) -> CALayer {
-        let layer = CALayer()
-        layer.anchorPoint = .zero
-        layer.frame = CGRect(origin: .zero, size: size)
-        layer.contentsScale = screenScale
-        return layer
-    }
-
     override func awakeFromNib() {
         super.awakeFromNib()
-
-        // Create all of the CALayers for the graph, lines, and labels.
 
         containerLayer.name = "container"
         containerLayer.anchorPoint = .zero
@@ -267,14 +263,6 @@ class FilterView: View {
         #endif
     }
 
-    var graphLabelColor: Color {
-        #if os(iOS)
-        return Color(white: 0.1, alpha: 1.0)
-        #elseif os(macOS)
-        return Color.labelColor // Use Appearance-aware label color
-        #endif
-    }
-    
     #if os(macOS)
     override func setFrameSize(_ newSize: NSSize) {
         super.setFrameSize(newSize)
@@ -282,7 +270,24 @@ class FilterView: View {
     }
     #endif
 
-    func createDBLabelsAndLines() {
+    private class ColorLayer: CALayer {
+
+        init(white: CGFloat) {
+            super.init()
+            backgroundColor = Color(white: white, alpha: 1.0).cgColor
+        }
+
+        init(color: Color) {
+            super.init()
+            backgroundColor = color.cgColor
+        }
+
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+    }
+
+    private func createDBLabelsAndLines() {
         for index in 0...numDBLines {
             let value = index * dbSpacing + Int(defaultMinGain)
             let labelLayer = makeLabelLayer(alignment: .right)
@@ -297,23 +302,6 @@ class FilterView: View {
             if index > 0 && index < numDBLines {
                 graphLayer.addSublayer(lineLayer)
             }
-        }
-    }
-
-    class ColorLayer: CALayer {
-
-        init(white: CGFloat) {
-            super.init()
-            backgroundColor = Color(white: white, alpha: 1.0).cgColor
-        }
-
-        init(color: Color) {
-            super.init()
-            backgroundColor = color.cgColor
-        }
-
-        required init?(coder aDecoder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
         }
     }
 
@@ -374,7 +362,7 @@ class FilterView: View {
         graphLayer.addSublayer(circleLayer)
     }
 
-    func updateControls(refreshColor: Bool) {
+    private func updateControls(refreshColor: Bool) {
         let color = touchDown ? tintColor.darker.cgColor: Color.darkGray.cgColor
         CATransaction.noAnimation {
             let posX = graphLayer.frame.origin.x
@@ -435,7 +423,7 @@ class FilterView: View {
     }
     #endif
 
-    func performLayout(of layer: CALayer) {
+    private func performLayout(of layer: CALayer) {
         if layer === rootLayer {
             CATransaction.noAnimation {
                 containerLayer.bounds = rootLayer.bounds
@@ -458,7 +446,7 @@ class FilterView: View {
         delegate?.filterViewDataDidChange(self)
     }
 
-    func updateFrequenciesAndResonance() {
+    private func updateFrequenciesAndResonance() {
         let pickedFrequency = frequencyValueForLocation(editPoint.x)
         let pickedResonance = dbValueForLocation(editPoint.y)
 
@@ -475,6 +463,12 @@ class FilterView: View {
             resonance = pickedResonance
             delegate?.filterView(self, didChangeResonance: resonance)
         }
+    }
+
+
+    private func handleDrag(_ dragPoint: CGPoint) {
+        editPoint.x = dragPoint.x.clamp(to: 0...(graphLayer.frame.width + leftMargin))
+        editPoint.y = dragPoint.y.clamp(to: 0...(graphLayer.frame.height + bottomMargin))
     }
 
     #if os(iOS)
@@ -541,9 +535,4 @@ class FilterView: View {
     }
 
     #endif
-
-    func handleDrag(_ dragPoint: CGPoint) {
-        editPoint.x = dragPoint.x.clamp(to: 0...(graphLayer.frame.width + leftMargin))
-        editPoint.y = dragPoint.y.clamp(to: 0...(graphLayer.frame.height + bottomMargin))
-    }
 }

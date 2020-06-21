@@ -8,42 +8,24 @@ class AUv3FilterDemoParameters {
         case cutoff, resonance
     }
 
-    /// Parameter to control the cutoff frequency (12Hz - 20kHz).
-    var cutoffParam: AUParameter = {
-        let parameter =
-            AUParameterTree.createParameter(withIdentifier: "cutoff",
-                                            name: "Cutoff",
-                                            address: AUv3FilterParam.cutoff.rawValue,
-                                            min: 12.0,
-                                            max: 20_000.0,
-                                            unit: .hertz,
-                                            unitName: nil,
-                                            flags: [.flag_IsReadable,
-                                                    .flag_IsWritable,
-                                                    .flag_CanRamp],
-                                            valueStrings: nil,
-                                            dependentParameters: nil)
-        parameter.value = 440.0
-        return parameter
+    let cutoffParam: AUParameter = {
+        let param = AUParameterTree.createParameter(withIdentifier: "cutoff", name: "Cutoff",
+                                                    address: AUv3FilterParam.cutoff.rawValue,
+                                                    min: 12.0, max: 20_000.0, unit: .hertz, unitName: nil,
+                                                    flags: [.flag_IsReadable, .flag_IsWritable, .flag_CanRamp],
+                                                    valueStrings: nil, dependentParameters: nil)
+        param.value = 440.0
+        return param
     }()
 
-    /// Parameter to control the cutoff frequency's resonance (+/-20dB).
-    var resonanceParam: AUParameter = {
-        let parameter =
-            AUParameterTree.createParameter(withIdentifier: "resonance",
-                                            name: "Resonance",
-                                            address: AUv3FilterParam.resonance.rawValue,
-                                            min: -20.0,
-                                            max: 20.0,
-                                            unit: .decibels,
-                                            unitName: nil,
-                                            flags: [.flag_IsReadable,
-                                                    .flag_IsWritable,
-                                                    .flag_CanRamp],
-                                            valueStrings: nil,
-                                            dependentParameters: nil)
-        parameter.value = 5.0
-        return parameter
+    let resonanceParam: AUParameter = {
+        let param = AUParameterTree.createParameter(withIdentifier: "resonance", name: "Resonance",
+                                                    address: AUv3FilterParam.resonance.rawValue,
+                                                    min: -20.0, max: 20.0, unit: .decibels, unitName: nil,
+                                                    flags: [.flag_IsReadable, .flag_IsWritable, .flag_CanRamp],
+                                                    valueStrings: nil, dependentParameters: nil)
+        param.value = 5.0
+        return param
     }()
 
     let parameterTree: AUParameterTree

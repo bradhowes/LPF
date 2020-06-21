@@ -1,0 +1,20 @@
+// Copyright © 2020 Brad Howes. All rights reserved.
+
+import AVFoundation
+
+/**
+ Wrapper around AUAudioUnitPreset that just exposes the preset's index and name.
+ */
+public struct Preset {
+
+    /// The index of the preset
+    public var number: Int { return audioUnitPreset.number }
+    /// The name of the preset
+    public var name: String { return audioUnitPreset.name }
+
+    internal init(preset: AUAudioUnitPreset) {
+        audioUnitPreset = preset
+    }
+
+    internal let audioUnitPreset: AUAudioUnitPreset
+}

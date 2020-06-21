@@ -5,10 +5,6 @@
 #import <algorithm>
 #import <AVFoundation/AVFoundation.h>
 
-/**
- Utility classes to manage audio formats and buffers for an audio unit implementation's input and output audio busses.
- Reusable non-ObjC class, accessible from render thread.
- */
 class AUAudioUnitBusBufferManager
 {
 public:
@@ -42,10 +38,6 @@ protected:
     AudioBufferList* mutableAudioBufferList_ = nullptr;
 };
 
-/**
- This class provides a prepareOutputBufferList method to copy the internal buffer pointers
- to the output buffer list in case the client passed in null buffer pointers.
- */
 class AUAudioUnitBusOutputBufferManager: public AUAudioUnitBusBufferManager
 {
 public:
@@ -66,20 +58,12 @@ public:
     }
 };
 
-/**
- This class manages a buffer into which an audio unit with input busses can
- pull its input data.
- */
 class AUAudioUnitBusInputBufferManager : public AUAudioUnitBusBufferManager
 {
 public:
     AUAudioUnitBusInputBufferManager(AUAudioUnitBus* bus, AVAudioChannelCount maxChannels)
     : AUAudioUnitBusBufferManager(bus, maxChannels) {}
 
-    /*
-     Gets input data for this input by preparing the input buffer list and pulling
-     the pullInputBlock.
-     */
     AUAudioUnitStatus pullInput(AudioUnitRenderActionFlags *actionFlags,
                                 AudioTimeStamp const* timestamp,
                                 AVAudioFrameCount frameCount,
@@ -93,11 +77,6 @@ public:
 
 private:
 
-    /**
-     Populate the mutableAudioBufferList with the data pointers from the originalAudioBufferList. The upstream
-     audio unit may overwrite these with its own pointers, so each render cycle this function must be called to
-     reset them.
-     */
     void prepareInputBufferList(UInt32 frameCount)
     {
         auto originalAudioBufferList = buffer_.audioBufferList;

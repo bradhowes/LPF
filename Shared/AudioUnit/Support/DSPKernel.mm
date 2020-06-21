@@ -24,10 +24,10 @@ DSPKernel::renderEvent(AURenderEvent const& event) {
 AURenderEvent const*
 DSPKernel::renderEventsUntil(AUEventSampleTime now, AURenderEvent const *event)
 {
-    do {
+    while (event != nullptr && event->head.eventSampleTime <= now) {
         renderEvent(*event);
         event = event->head.next;
-    } while (event != nullptr && event->head.eventSampleTime <= now);
+    }
 
     return event;
 }
@@ -39,7 +39,7 @@ DSPKernel::render(AudioTimeStamp const* timestamp, AUAudioFrameCount frameCount,
     auto framesRemaining = frameCount;
 
     // Process events and samples together. First process samples up to an event time and then do the event to update
-    // render parameters. Continue until all frames are rendered.
+    // render parameters. Continue until all frames (samples) are rendered.
     while (framesRemaining > 0) {
         if (events == nullptr) {
             renderFrames(framesRemaining, frameCount - framesRemaining);

@@ -1,9 +1,4 @@
-/*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-The view controller for the main view of the app.
-*/
+// Copyright © 2020 Brad Howes. All rights reserved.
 
 import UIKit
 import AUv3FilterFramework
@@ -34,7 +29,6 @@ class MainViewController: UIViewController {
             fatalError("Could not load audio unit's view controller.")
         }
 
-        // Present the view controller's view.
         if let view = controller.view {
             addChild(controller)
             view.frame = containerView.bounds
@@ -44,9 +38,6 @@ class MainViewController: UIViewController {
         }
     }
 
-    // MARK: Action Methods
-
-    /// Handles Play/Stop button touches.
     @IBAction func togglePlay(_ sender: UIButton) {
         let isPlaying = audioUnitManager.togglePlayback()
         let titleText = isPlaying ? "Stop" : "Play"
@@ -57,23 +48,22 @@ class MainViewController: UIViewController {
         audioUnitManager.toggleView()
     }
 
-    /// Cutoff frequency value changed handler
     @IBAction func cutoffSliderValueChanged(_ sender: UISlider) {
         audioUnitManager.cutoffValue = frequencyValueForSliderLocation(sender.value)
     }
 
-    /// Resonance value changed handler
     @IBAction func resonanceSliderValueChanged(_ sender: UISlider) {
         audioUnitManager.resonanceValue = sender.value
     }
+}
 
-    // MARK: Private
+private extension MainViewController {
 
-    private func logValueForNumber(_ number: Float) -> Float {
+    func logValueForNumber(_ number: Float) -> Float {
         return log(number) / log(2)
     }
     
-    private func frequencyValueForSliderLocation(_ location: Float) -> Float {
+    func frequencyValueForSliderLocation(_ location: Float) -> Float {
         var value = pow(2, location)
         value = (value - 1) / 511
 
@@ -85,13 +75,7 @@ class MainViewController: UIViewController {
 
 extension MainViewController: AUManagerDelegate {
     func cutoffValueDidChange(_ value: Float) {
-
-        // Normalize the vaue from 0-1
-        var normalizedValue = (value - defaultMinHertz) / (defaultMaxHertz - defaultMinHertz)
-
-        // Map to 2^0 - 2^9 (slider range)
-        normalizedValue = (normalizedValue * 511) + 1
-
+        let normalizedValue = ((value - defaultMinHertz) / (defaultMaxHertz - defaultMinHertz)) * 511 + 1
         cutoffSlider.value = Float(logValueForNumber(normalizedValue))
         cutoffTextField.text = String(format: "%.f", value)
     }

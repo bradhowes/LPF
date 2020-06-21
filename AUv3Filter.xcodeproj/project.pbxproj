@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BD1F7BAC249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */; };
+		BD1F7BAD249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */; };
+		BD1F7BAE249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */; };
+		BD1F7BAF249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */; };
 		BDB7CE90249D3C00009580D5 /* NonCopyable.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */; };
 		BDB7CE91249D3C00009580D5 /* NonCopyable.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */; };
 		BDB7CE93249EC556009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
@@ -14,6 +18,12 @@
 		BDB7CE95249EC570009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
 		BDB7CE97249F7694009580D5 /* ParameterMonitor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE96249F7209009580D5 /* ParameterMonitor.hpp */; };
 		BDB7CE98249F7694009580D5 /* ParameterMonitor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE96249F7209009580D5 /* ParameterMonitor.hpp */; };
+		BDB7CE9A249FC026009580D5 /* Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB7CE99249FC026009580D5 /* Preset.swift */; };
+		BDB7CE9B249FC0AB009580D5 /* Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB7CE99249FC026009580D5 /* Preset.swift */; };
+		BDB7CE9C249FC0AC009580D5 /* Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB7CE99249FC026009580D5 /* Preset.swift */; };
+		BDB7CE9E249FC152009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE9D249FC152009580D5 /* Accelerate.framework */; };
+		BDB7CE9F249FC157009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE9D249FC152009580D5 /* Accelerate.framework */; };
+		BDB7CEA0249FC162009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
 		C4201A2922403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4201A2822403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift */; };
 		C433F56122404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433F56022404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift */; };
 		C437FE59222367CD008D6C09 /* AUv3FilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* AUv3FilterFramework.framework */; };
@@ -155,9 +165,13 @@
 
 /* Begin PBXFileReference section */
 		7E56CF207E56CEE000000001 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BiquadFilter.cpp; sourceTree = "<group>"; };
+		BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BiquadFilter.hpp; sourceTree = "<group>"; };
 		BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NonCopyable.hpp; sourceTree = "<group>"; };
 		BDB7CE92249EC556009580D5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		BDB7CE96249F7209009580D5 /* ParameterMonitor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ParameterMonitor.hpp; sourceTree = "<group>"; };
+		BDB7CE99249FC026009580D5 /* Preset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preset.swift; sourceTree = "<group>"; };
+		BDB7CE9D249FC152009580D5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.5.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 		C4201A2822403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewControllerExtension.swift; sourceTree = "<group>"; };
 		C433F56022404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewControllerExtension.swift; sourceTree = "<group>"; };
 		C437FE3A222367A6008D6C09 /* AUv3Filter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AUv3Filter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -220,6 +234,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDB7CE9E249FC152009580D5 /* Accelerate.framework in Frameworks */,
 				C437FE59222367CD008D6C09 /* AUv3FilterFramework.framework in Frameworks */,
 				C4737B0B2231D930002CAD0B /* AudioToolbox.framework in Frameworks */,
 			);
@@ -229,6 +244,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDB7CEA0249FC162009580D5 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,6 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4BEE81922237394001E6B6D /* AUv3FilterFramework.framework in Frameworks */,
+				BDB7CE9F249FC157009580D5 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,6 +414,7 @@
 			children = (
 				C4BEE7E022236E99001E6B6D /* AudioUnitManager.swift */,
 				C4F07730223AC4F5008FFF06 /* AUv3FilterDemoViewController.swift */,
+				BDB7CE99249FC026009580D5 /* Preset.swift */,
 				C4BEE7E122236E99001E6B6D /* AudioUnit */,
 				C4F07733223AC506008FFF06 /* Support */,
 			);
@@ -425,6 +443,8 @@
 				C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */,
 				C4BEE7E522236E99001E6B6D /* ParameterRamper.hpp */,
 				BDB7CE96249F7209009580D5 /* ParameterMonitor.hpp */,
+				BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */,
+				BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -433,6 +453,7 @@
 			isa = PBXGroup;
 			children = (
 				BDB7CE92249EC556009580D5 /* Accelerate.framework */,
+				BDB7CE9D249FC152009580D5 /* Accelerate.framework */,
 				C4737B0A2231D930002CAD0B /* AudioToolbox.framework */,
 				C44F544622260E2C00484B67 /* CoreAudioKit.framework */,
 				C44F544422260E2500484B67 /* AudioToolbox.framework */,
@@ -495,6 +516,7 @@
 			files = (
 				C4F004A12239B1E10014E248 /* FilterDSPKernelAdapter.h in Headers */,
 				C4BEE8172223736F001E6B6D /* AUv3FilterFramework.h in Headers */,
+				BD1F7BAE249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */,
 				BDB7CE97249F7694009580D5 /* ParameterMonitor.hpp in Headers */,
 				C4BEE7EF22236F24001E6B6D /* ParameterRamper.hpp in Headers */,
 				C4BEE7F122236F24001E6B6D /* AUAudioUnitBusBufferManager.hpp in Headers */,
@@ -510,6 +532,7 @@
 			files = (
 				C4F004A22239B1E10014E248 /* FilterDSPKernelAdapter.h in Headers */,
 				C496341422238CFA001D1F5B /* AUv3FilterFramework.h in Headers */,
+				BD1F7BAF249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */,
 				BDB7CE98249F7694009580D5 /* ParameterMonitor.hpp in Headers */,
 				C4BEE7F322236F27001E6B6D /* ParameterRamper.hpp in Headers */,
 				C4BEE7F522236F27001E6B6D /* AUAudioUnitBusBufferManager.hpp in Headers */,
@@ -768,6 +791,7 @@
 			files = (
 				C4BEE7B422236A29001E6B6D /* AppDelegate.swift in Sources */,
 				C4BEE81022237302001E6B6D /* MainViewController.swift in Sources */,
+				BDB7CE9A249FC026009580D5 /* Preset.swift in Sources */,
 				C44F544922260E4200484B67 /* AUv3FilterExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -777,6 +801,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4BEE7F722236F2D001E6B6D /* DSPKernel.mm in Sources */,
+				BD1F7BAC249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */,
 				C4BEE80522236F6F001E6B6D /* ViewExtensions.swift in Sources */,
 				C4F07731223AC4F5008FFF06 /* AUv3FilterDemoViewController.swift in Sources */,
 				C4F004A62239B2070014E248 /* AUv3FilterDemo.swift in Sources */,
@@ -784,6 +809,7 @@
 				C4A3D65B223FF12A002784D4 /* SimplePlayEngine.swift in Sources */,
 				C4BEE80322236F6F001E6B6D /* FilterView.swift in Sources */,
 				C4BEE80422236F6F001E6B6D /* TypeAliases.swift in Sources */,
+				BDB7CE9B249FC0AB009580D5 /* Preset.swift in Sources */,
 				C4F0772E223AACBB008FFF06 /* AUv3FilterDemoParameters.swift in Sources */,
 				C4F004A32239B1E10014E248 /* FilterDSPKernelAdapter.mm in Sources */,
 			);
@@ -816,9 +842,11 @@
 				C4BEE80122236F6E001E6B6D /* ViewExtensions.swift in Sources */,
 				C496341322238CDD001D1F5B /* NSStoryboardExtensions.swift in Sources */,
 				C4BEE7FB22236F46001E6B6D /* AudioUnitManager.swift in Sources */,
+				BDB7CE9C249FC0AC009580D5 /* Preset.swift in Sources */,
 				C496341222238CDD001D1F5B /* NSTextFieldExtensions.swift in Sources */,
 				C4BEE7FF22236F6E001E6B6D /* FilterView.swift in Sources */,
 				C4BEE80022236F6E001E6B6D /* TypeAliases.swift in Sources */,
+				BD1F7BAD249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */,
 				C4F004A72239B2070014E248 /* AUv3FilterDemo.swift in Sources */,
 				C4201A2922403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift in Sources */,
 				C4A3D65C223FF12A002784D4 /* SimplePlayEngine.swift in Sources */,
@@ -1029,7 +1057,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1098,7 +1126,7 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1337,7 +1365,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1406,7 +1434,7 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

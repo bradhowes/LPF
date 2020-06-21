@@ -291,7 +291,6 @@ public class SimplePlayEngine {
             isPlaying = true
 
             let cbytes = UnsafeMutablePointer<UInt8>.allocate(capacity: 3)
-
             DispatchQueue.global(qos: .default).async {
 
                 var step = 0

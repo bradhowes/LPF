@@ -108,7 +108,9 @@ public class AUv3FilterDemo: AUAudioUnit {
     }
 
     func magnitudes(forFrequencies frequencies: [Float]) -> [Float] {
-        kernelAdapter.magnitudes(forFrequencies: frequencies as [NSNumber]).map { $0.floatValue }
+        var output: [Float] = Array(repeating: 0.0, count: frequencies.count)
+        kernelAdapter.magnitudes(frequencies, count: frequencies.count, output: &output)
+        return output
     }
 
     public override var maximumFramesToRender: AUAudioFrameCount {

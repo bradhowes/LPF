@@ -1,9 +1,4 @@
-/*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-Adapter object providing a Swift-accessible interface to the filter's underlying DSP code.
-*/
+// Copyright © 2020 Brad Howes. All rights reserved.
 
 #import <AudioToolbox/AudioToolbox.h>
 
@@ -23,6 +18,6 @@ Adapter object providing a Swift-accessible interface to the filter's underlying
 
 - (nonnull AUInternalRenderBlock)internalRenderBlock;
 
-- (nonnull NSArray<NSNumber *> *)magnitudesForFrequencies:(nonnull NSArray<NSNumber *> *)frequencies;
+- (void)magnitudes:(nonnull const float*)frequencies count:(NSInteger) count output:(nonnull float*)output;
 
 @end

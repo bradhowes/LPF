@@ -1,4 +1,4 @@
-//
+// Copyright © 2020 Brad Howes. All rights reserved.
 
 #pragma once
 
@@ -44,6 +44,10 @@ public:
      */
     operator T() const { return value_; }
 
+    /**
+     Determine if the parameter was changed since the last time we checked.
+     @returns true if so
+     */
     bool wasChanged()
     {
         int32_t changeCounterValue = changeCounter_;

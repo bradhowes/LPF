@@ -2,18 +2,6 @@
 
 import AVFoundation
 
-public struct Preset {
-
-    fileprivate init(preset: AUAudioUnitPreset) {
-        audioUnitPreset = preset
-    }
-
-    fileprivate let audioUnitPreset: AUAudioUnitPreset
-
-    public var number: Int { return audioUnitPreset.number }
-    public var name: String { return audioUnitPreset.name }
-}
-
 public protocol AUManagerDelegate: AnyObject {
     func cutoffValueDidChange(_ value: Float)
     func resonanceValueDidChange(_ value: Float)
@@ -76,6 +64,27 @@ public class AudioUnitManager {
             self.playEngine.connect(avAudioUnit: audioUnit)
         }
     }
+}
+
+// MARK: - API
+
+public extension AudioUnitManager {
+
+    @discardableResult
+    func togglePlayback() -> Bool { playEngine.togglePlay() }
+
+    func toggleView() { viewController.toggleViewConfiguration() }
+
+    func cleanup() {
+        playEngine.stopPlaying()
+        guard let parameterTree = audioUnit?.parameterTree else { return }
+        parameterTree.removeParameterObserver(parameterObserverToken)
+    }
+}
+
+// MARK: - Private
+
+private extension AudioUnitManager {
 
     private func loadViewController() -> AUv3FilterDemoViewController {
         guard let url = Bundle.main.builtInPlugInsURL?.appendingPathComponent("AUv3FilterExtension.appex"),
@@ -128,16 +137,5 @@ public class AudioUnitManager {
     private func updateResonance() {
         guard let param = resonanceParameter else { return }
         delegate?.resonanceValueDidChange(param.value)
-    }
-
-    @discardableResult
-    public func togglePlayback() -> Bool { playEngine.togglePlay() }
-
-    public func toggleView() { viewController.toggleViewConfiguration() }
-
-    public func cleanup() {
-        playEngine.stopPlaying()
-        guard let parameterTree = audioUnit?.parameterTree else { return }
-        parameterTree.removeParameterObserver(parameterObserverToken)
     }
 }
