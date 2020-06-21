@@ -30,7 +30,7 @@ public class AUv3FilterDemo: AUAudioUnit {
                             busses: [kernelAdapter.outputBus])
     }()
 
-    weak var viewController: AUv3FilterDemoViewController?
+    weak var viewController: FilterViewController?
 
     public override var inputBusses: AUAudioUnitBusArray { inputBusArray }
     public override var outputBusses: AUAudioUnitBusArray { outputBusArray }

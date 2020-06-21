@@ -29,15 +29,14 @@
 		C437FE59222367CD008D6C09 /* AUv3FilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* AUv3FilterFramework.framework */; };
 		C437FE5A222367CD008D6C09 /* AUv3FilterFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* AUv3FilterFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C437FE712223686D008D6C09 /* AUv3FilterExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C437FE632223686D008D6C09 /* AUv3FilterExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C44F544922260E4200484B67 /* AUv3FilterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44F544822260E4200484B67 /* AUv3FilterExtension.swift */; };
-		C44F544A22260E4A00484B67 /* AUv3FilterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44F544822260E4200484B67 /* AUv3FilterExtension.swift */; };
+		C44F544922260E4200484B67 /* FilterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44F544822260E4200484B67 /* FilterExtension.swift */; };
+		C44F544A22260E4A00484B67 /* FilterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44F544822260E4200484B67 /* FilterExtension.swift */; };
 		C4660A5C2225F9A0007BE3B1 /* AUv3FilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* AUv3FilterFramework.framework */; };
 		C4660A5D2225F9A0007BE3B1 /* AUv3FilterFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* AUv3FilterFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C4660A602225F9A0007BE3B1 /* AUv3FilterExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C437FEA0222368B7008D6C09 /* AUv3FilterExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C46B8B8122418B6000E00B1E /* AUv3FilterDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4C9EAAB2227D79D003FEE1C /* AUv3FilterDemoViewController.xib */; };
 		C4737B0B2231D930002CAD0B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4737B0A2231D930002CAD0B /* AudioToolbox.framework */; };
 		C496341222238CDD001D1F5B /* NSTextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C496341022238CDD001D1F5B /* NSTextFieldExtensions.swift */; };
-		C496341322238CDD001D1F5B /* NSStoryboardExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C496341122238CDD001D1F5B /* NSStoryboardExtensions.swift */; };
 		C496341422238CFA001D1F5B /* AUv3FilterFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE80D2223713E001E6B6D /* AUv3FilterFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C4A3D65B223FF12A002784D4 /* SimplePlayEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A3D65A223FF12A002784D4 /* SimplePlayEngine.swift */; };
 		C4A3D65C223FF12A002784D4 /* SimplePlayEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A3D65A223FF12A002784D4 /* SimplePlayEngine.swift */; };
@@ -79,8 +78,8 @@
 		C4F004A72239B2070014E248 /* AUv3FilterDemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F004A52239B2070014E248 /* AUv3FilterDemo.swift */; };
 		C4F0772E223AACBB008FFF06 /* AUv3FilterDemoParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F0772D223AACBB008FFF06 /* AUv3FilterDemoParameters.swift */; };
 		C4F0772F223AACBB008FFF06 /* AUv3FilterDemoParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F0772D223AACBB008FFF06 /* AUv3FilterDemoParameters.swift */; };
-		C4F07731223AC4F5008FFF06 /* AUv3FilterDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F07730223AC4F5008FFF06 /* AUv3FilterDemoViewController.swift */; };
-		C4F07732223AC4F5008FFF06 /* AUv3FilterDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F07730223AC4F5008FFF06 /* AUv3FilterDemoViewController.swift */; };
+		C4F07731223AC4F5008FFF06 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F07730223AC4F5008FFF06 /* FilterViewController.swift */; };
+		C4F07732223AC4F5008FFF06 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F07730223AC4F5008FFF06 /* FilterViewController.swift */; };
 		C4F07735223ACB91008FFF06 /* Synth.aif in Resources */ = {isa = PBXBuildFile; fileRef = C4F07734223ACB91008FFF06 /* Synth.aif */; };
 		C4F07736223ACB91008FFF06 /* Synth.aif in Resources */ = {isa = PBXBuildFile; fileRef = C4F07734223ACB91008FFF06 /* Synth.aif */; };
 /* End PBXBuildFile section */
@@ -182,11 +181,10 @@
 		C437FEA0222368B7008D6C09 /* AUv3FilterExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AUv3FilterExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C44F544422260E2500484B67 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		C44F544622260E2C00484B67 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
-		C44F544822260E4200484B67 /* AUv3FilterExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterExtension.swift; sourceTree = "<group>"; };
+		C44F544822260E4200484B67 /* FilterExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterExtension.swift; sourceTree = "<group>"; };
 		C4737B092231D918002CAD0B /* AUv3Filter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AUv3Filter.entitlements; sourceTree = "<group>"; };
 		C4737B0A2231D930002CAD0B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		C496341022238CDD001D1F5B /* NSTextFieldExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSTextFieldExtensions.swift; sourceTree = "<group>"; };
-		C496341122238CDD001D1F5B /* NSStoryboardExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSStoryboardExtensions.swift; sourceTree = "<group>"; };
 		C4A3D65A223FF12A002784D4 /* SimplePlayEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplePlayEngine.swift; sourceTree = "<group>"; };
 		C4BEE79C22236A29001E6B6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4BEE7A122236A29001E6B6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -223,7 +221,7 @@
 		C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FilterDSPKernelAdapter.mm; sourceTree = "<group>"; };
 		C4F004A52239B2070014E248 /* AUv3FilterDemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemo.swift; sourceTree = "<group>"; };
 		C4F0772D223AACBB008FFF06 /* AUv3FilterDemoParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoParameters.swift; sourceTree = "<group>"; };
-		C4F07730223AC4F5008FFF06 /* AUv3FilterDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewController.swift; sourceTree = "<group>"; };
+		C4F07730223AC4F5008FFF06 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		C4F07734223ACB91008FFF06 /* Synth.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Synth.aif; sourceTree = "<group>"; };
 		F145FF70F145FFC000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		F14BFD10F14BCC1000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -316,7 +314,6 @@
 		C496340F22238947001D1F5B /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				C496341122238CDD001D1F5B /* NSStoryboardExtensions.swift */,
 				C496341022238CDD001D1F5B /* NSTextFieldExtensions.swift */,
 			);
 			path = Support;
@@ -325,33 +322,33 @@
 		C4BEE79622236A29001E6B6D /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				C4BEE7A222236A29001E6B6D /* AUv3Filter */,
-				C4BEE79722236A29001E6B6D /* AUv3FilterExtension */,
-				C4BEE79F22236A29001E6B6D /* AUv3FilterFramework */,
+				C4BEE7A222236A29001E6B6D /* App */,
+				C4BEE79722236A29001E6B6D /* Extension */,
+				C4BEE79F22236A29001E6B6D /* Framework */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
 		};
-		C4BEE79722236A29001E6B6D /* AUv3FilterExtension */ = {
+		C4BEE79722236A29001E6B6D /* Extension */ = {
 			isa = PBXGroup;
 			children = (
 				C433F56022404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift */,
 				C4BEE8112223734E001E6B6D /* MainInterface.storyboard */,
 				C4BEE79C22236A29001E6B6D /* Info.plist */,
 			);
-			path = AUv3FilterExtension;
+			path = Extension;
 			sourceTree = "<group>";
 		};
-		C4BEE79F22236A29001E6B6D /* AUv3FilterFramework */ = {
+		C4BEE79F22236A29001E6B6D /* Framework */ = {
 			isa = PBXGroup;
 			children = (
 				C4BEE8162223736F001E6B6D /* AUv3FilterFramework.h */,
 				C4BEE7A122236A29001E6B6D /* Info.plist */,
 			);
-			path = AUv3FilterFramework;
+			path = Framework;
 			sourceTree = "<group>";
 		};
-		C4BEE7A222236A29001E6B6D /* AUv3Filter */ = {
+		C4BEE7A222236A29001E6B6D /* App */ = {
 			isa = PBXGroup;
 			children = (
 				C4BEE7A922236A29001E6B6D /* AppDelegate.swift */,
@@ -361,42 +358,42 @@
 				C4BEE7AA22236A29001E6B6D /* Info.plist */,
 				C4737B092231D918002CAD0B /* AUv3Filter.entitlements */,
 			);
-			path = AUv3Filter;
+			path = App;
 			sourceTree = "<group>";
 		};
 		C4BEE7B622236A58001E6B6D /* macOS */ = {
 			isa = PBXGroup;
 			children = (
-				C4BEE7C322236A58001E6B6D /* AUv3Filter */,
-				C4BEE7B722236A58001E6B6D /* AUv3FilterExtension */,
-				C4BEE7C022236A58001E6B6D /* AUv3FilterFramework */,
+				C4BEE7C322236A58001E6B6D /* App */,
+				C4BEE7B722236A58001E6B6D /* Extension */,
+				C4BEE7C022236A58001E6B6D /* Framework */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
 		};
-		C4BEE7B722236A58001E6B6D /* AUv3FilterExtension */ = {
+		C4BEE7B722236A58001E6B6D /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				C44F544822260E4200484B67 /* AUv3FilterExtension.swift */,
+				C44F544822260E4200484B67 /* FilterExtension.swift */,
 				C4BEE7BE22236A58001E6B6D /* Info.plist */,
 				C4BEE7BD22236A58001E6B6D /* AUv3FilterExtension.entitlements */,
 			);
-			path = AUv3FilterExtension;
+			path = Extension;
 			sourceTree = "<group>";
 		};
-		C4BEE7C022236A58001E6B6D /* AUv3FilterFramework */ = {
+		C4BEE7C022236A58001E6B6D /* Framework */ = {
 			isa = PBXGroup;
 			children = (
 				C4201A2822403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift */,
 				C4C9EAAB2227D79D003FEE1C /* AUv3FilterDemoViewController.xib */,
-				C496340F22238947001D1F5B /* Support */,
 				C4BEE80D2223713E001E6B6D /* AUv3FilterFramework.h */,
 				C4BEE7C222236A58001E6B6D /* Info.plist */,
+				C496340F22238947001D1F5B /* Support */,
 			);
-			path = AUv3FilterFramework;
+			path = Framework;
 			sourceTree = "<group>";
 		};
-		C4BEE7C322236A58001E6B6D /* AUv3Filter */ = {
+		C4BEE7C322236A58001E6B6D /* App */ = {
 			isa = PBXGroup;
 			children = (
 				C4BEE7C922236A58001E6B6D /* AppDelegate.swift */,
@@ -406,14 +403,14 @@
 				C4BEE7CA22236A58001E6B6D /* Info.plist */,
 				C4BEE80A222370B2001E6B6D /* AUv3Filter.entitlements */,
 			);
-			path = AUv3Filter;
+			path = App;
 			sourceTree = "<group>";
 		};
 		C4BEE7D522236E99001E6B6D /* Shared */ = {
 			isa = PBXGroup;
 			children = (
 				C4BEE7E022236E99001E6B6D /* AudioUnitManager.swift */,
-				C4F07730223AC4F5008FFF06 /* AUv3FilterDemoViewController.swift */,
+				C4F07730223AC4F5008FFF06 /* FilterViewController.swift */,
 				BDB7CE99249FC026009580D5 /* Preset.swift */,
 				C4BEE7E122236E99001E6B6D /* AudioUnit */,
 				C4F07733223AC506008FFF06 /* Support */,
@@ -792,7 +789,7 @@
 				C4BEE7B422236A29001E6B6D /* AppDelegate.swift in Sources */,
 				C4BEE81022237302001E6B6D /* MainViewController.swift in Sources */,
 				BDB7CE9A249FC026009580D5 /* Preset.swift in Sources */,
-				C44F544922260E4200484B67 /* AUv3FilterExtension.swift in Sources */,
+				C44F544922260E4200484B67 /* FilterExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -803,7 +800,7 @@
 				C4BEE7F722236F2D001E6B6D /* DSPKernel.mm in Sources */,
 				BD1F7BAC249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */,
 				C4BEE80522236F6F001E6B6D /* ViewExtensions.swift in Sources */,
-				C4F07731223AC4F5008FFF06 /* AUv3FilterDemoViewController.swift in Sources */,
+				C4F07731223AC4F5008FFF06 /* FilterViewController.swift in Sources */,
 				C4F004A62239B2070014E248 /* AUv3FilterDemo.swift in Sources */,
 				C4BEE7F822236F44001E6B6D /* AudioUnitManager.swift in Sources */,
 				C4A3D65B223FF12A002784D4 /* SimplePlayEngine.swift in Sources */,
@@ -838,9 +835,8 @@
 			files = (
 				C4BEE7F622236F2C001E6B6D /* DSPKernel.mm in Sources */,
 				C4F0772F223AACBB008FFF06 /* AUv3FilterDemoParameters.swift in Sources */,
-				C4F07732223AC4F5008FFF06 /* AUv3FilterDemoViewController.swift in Sources */,
+				C4F07732223AC4F5008FFF06 /* FilterViewController.swift in Sources */,
 				C4BEE80122236F6E001E6B6D /* ViewExtensions.swift in Sources */,
-				C496341322238CDD001D1F5B /* NSStoryboardExtensions.swift in Sources */,
 				C4BEE7FB22236F46001E6B6D /* AudioUnitManager.swift in Sources */,
 				BDB7CE9C249FC0AC009580D5 /* Preset.swift in Sources */,
 				C496341222238CDD001D1F5B /* NSTextFieldExtensions.swift in Sources */,
@@ -858,7 +854,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C44F544A22260E4A00484B67 /* AUv3FilterExtension.swift in Sources */,
+				C44F544A22260E4A00484B67 /* FilterExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

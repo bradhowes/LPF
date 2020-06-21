@@ -30,6 +30,21 @@ class MainViewController: NSViewController {
         view.window?.delegate = self
     }
 
+    @IBAction private func togglePlay(_ sender: NSButton) { audioUnitManager.togglePlayback() }
+
+    @IBAction private func toggleView(_ sender: NSButton) { audioUnitManager.toggleView() }
+
+    @IBAction private func cutoffSliderValueChanged(_ sender: NSSlider) {
+        audioUnitManager.cutoffValue = frequencyValueForSliderLocation(sender.floatValue)
+    }
+
+    @IBAction private func resonanceSliderValueChanged(_ sender: NSSlider) {
+        audioUnitManager.resonanceValue = sender.floatValue
+    }
+}
+
+private extension MainViewController {
+
     private func embedPlugInView() {
         guard let controller = audioUnitManager.viewController else {
             fatalError("Could not load audio unit's view controller.")
@@ -62,18 +77,6 @@ class MainViewController: NSViewController {
         audioUnitManager.currentPreset = audioUnitManager.presets[sender.tag]
     }
 
-    @IBAction func togglePlay(_ sender: NSButton) { audioUnitManager.togglePlayback() }
-
-    @IBAction func toggleView(_ sender: NSButton) { audioUnitManager.toggleView() }
-
-    @IBAction func cutoffSliderValueChanged(_ sender: NSSlider) {
-        audioUnitManager.cutoffValue = frequencyValueForSliderLocation(sender.floatValue)
-    }
-
-    @IBAction func resonanceSliderValueChanged(_ sender: NSSlider) {
-        audioUnitManager.resonanceValue = sender.floatValue
-    }
-
     private func logValueForNumber(_ number: Float) -> Float { log(number) / log(2) }
 
     private func frequencyValueForSliderLocation(_ location: Float) -> Float {
@@ -98,4 +101,3 @@ extension MainViewController: AUManagerDelegate {
         resonanceTextField.text = String(format: "%.2f", value)
     }
 }
-

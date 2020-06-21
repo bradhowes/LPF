@@ -2,7 +2,7 @@
 
 import CoreAudioKit
 
-public class AUv3FilterDemoViewController: AUViewController {
+public class FilterViewController: AUViewController {
 
     let compact = AUAudioUnitViewConfiguration(width: 400, height: 100, hostHasController: false)
     let expanded = AUAudioUnitViewConfiguration(width: 800, height: 500, hostHasController: false)
@@ -61,6 +61,62 @@ public class AUv3FilterDemoViewController: AUViewController {
         connectViewToAU()
     }
 
+    public func toggleViewConfiguration() { audioUnit?.select(viewConfig == expanded ? compact : expanded) }
+
+    public func selectViewConfiguration(_ viewConfig: AUAudioUnitViewConfiguration) {
+        guard self.viewConfig != viewConfig else { return }
+        self.viewConfig = viewConfig
+        if viewConfig.width >= expanded.width && viewConfig.height >= expanded.height {
+            performOnMain { self.transitionViews(from: self.compactView, to: self.expandedView) }
+        }
+        else {
+            performOnMain { self.transitionViews(from: self.expandedView, to: self.compactView) }
+        }
+    }
+}
+
+extension FilterViewController: FilterViewDelegate {
+
+    func updateFilterViewFrequencyAndMagnitudes() {
+        guard let audioUnit = audioUnit else { return }
+        let frequencies = filterView.frequencyDataForDrawing()
+        let magnitudes = audioUnit.magnitudes(forFrequencies: frequencies)
+        filterView.setMagnitudes(magnitudes)
+    }
+
+    func filterViewTouchBegan(_ view: FilterView) {
+        cutoffParam.setValue(view.frequency, originator: paramObserverToken, atHostTime: 0, eventType: .touch)
+        resonanceParam.setValue(view.resonance, originator: paramObserverToken, atHostTime: 0, eventType: .touch)
+    }
+    
+    func filterView(_ view: FilterView, didChangeResonance resonance: Float) {
+        resonanceParam.setValue(resonance, originator: paramObserverToken, atHostTime: 0, eventType: .value)
+        updateFilterViewFrequencyAndMagnitudes()
+    }
+
+    func filterView(_ view: FilterView, didChangeFrequency frequency: Float) {
+        cutoffParam.setValue(frequency, originator: paramObserverToken, atHostTime: 0, eventType: .value)
+        updateFilterViewFrequencyAndMagnitudes()
+    }
+
+    func filterView(_ view: FilterView, didChangeFrequency frequency: Float, andResonance resonance: Float) {
+        cutoffParam.setValue(frequency, originator: paramObserverToken, atHostTime: 0, eventType: .value)
+        resonanceParam.setValue(resonance, originator: paramObserverToken, atHostTime: 0, eventType: .value)
+        updateFilterViewFrequencyAndMagnitudes()
+    }
+
+    func filterViewTouchEnded(_ view: FilterView) {
+        cutoffParam.setValue(filterView.frequency, originator: nil, atHostTime: 0, eventType: .release)
+        resonanceParam.setValue(filterView.resonance, originator: nil, atHostTime: 0, eventType: .release)
+    }
+    
+    func filterViewDataDidChange(_ view: FilterView) {
+        updateFilterViewFrequencyAndMagnitudes()
+    }
+}
+
+private extension FilterViewController {
+
     private func connectViewToAU() {
         guard needsConnection, let paramTree = audioUnit?.parameterTree else { return }
         needsConnection = false
@@ -101,19 +157,6 @@ public class AUv3FilterDemoViewController: AUViewController {
         textField.text = parameter.string(fromValue: nil)
     }
 
-    public func toggleViewConfiguration() { audioUnit?.select(viewConfig == expanded ? compact : expanded) }
-
-    public func selectViewConfiguration(_ viewConfig: AUAudioUnitViewConfiguration) {
-        guard self.viewConfig != viewConfig else { return }
-        self.viewConfig = viewConfig
-        if viewConfig.width >= expanded.width && viewConfig.height >= expanded.height {
-            performOnMain { self.transitionViews(from: self.compactView, to: self.expandedView) }
-        }
-        else {
-            performOnMain { self.transitionViews(from: self.expandedView, to: self.compactView) }
-        }
-    }
-
     #if os(iOS)
     private func transitionViews(from: UIView, to: UIView) {
         UIView.transition(from: from, to: to, duration: 0.2, options: [.transitionCrossDissolve, .layoutSubviews])
@@ -135,46 +178,6 @@ public class AUv3FilterDemoViewController: AUViewController {
             return
         }
         operation()
-    }
-}
-
-extension AUv3FilterDemoViewController: FilterViewDelegate {
-
-    func updateFilterViewFrequencyAndMagnitudes() {
-        guard let audioUnit = audioUnit else { return }
-        let frequencies = filterView.frequencyDataForDrawing()
-        let magnitudes = audioUnit.magnitudes(forFrequencies: frequencies)
-        filterView.setMagnitudes(magnitudes)
-    }
-
-    func filterViewTouchBegan(_ view: FilterView) {
-        cutoffParam.setValue(view.frequency, originator: paramObserverToken, atHostTime: 0, eventType: .touch)
-        resonanceParam.setValue(view.resonance, originator: paramObserverToken, atHostTime: 0, eventType: .touch)
-    }
-    
-    func filterView(_ view: FilterView, didChangeResonance resonance: Float) {
-        resonanceParam.setValue(resonance, originator: paramObserverToken, atHostTime: 0, eventType: .value)
-        updateFilterViewFrequencyAndMagnitudes()
-    }
-
-    func filterView(_ view: FilterView, didChangeFrequency frequency: Float) {
-        cutoffParam.setValue(frequency, originator: paramObserverToken, atHostTime: 0, eventType: .value)
-        updateFilterViewFrequencyAndMagnitudes()
-    }
-
-    func filterView(_ view: FilterView, didChangeFrequency frequency: Float, andResonance resonance: Float) {
-        cutoffParam.setValue(frequency, originator: paramObserverToken, atHostTime: 0, eventType: .value)
-        resonanceParam.setValue(resonance, originator: paramObserverToken, atHostTime: 0, eventType: .value)
-        updateFilterViewFrequencyAndMagnitudes()
-    }
-
-    func filterViewTouchEnded(_ view: FilterView) {
-        cutoffParam.setValue(filterView.frequency, originator: nil, atHostTime: 0, eventType: .release)
-        resonanceParam.setValue(filterView.resonance, originator: nil, atHostTime: 0, eventType: .release)
-    }
-    
-    func filterViewDataDidChange(_ view: FilterView) {
-        updateFilterViewFrequencyAndMagnitudes()
     }
 }
 

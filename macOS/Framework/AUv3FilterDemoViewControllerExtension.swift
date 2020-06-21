@@ -2,7 +2,7 @@
 
 import CoreAudioKit
 
-extension AUv3FilterDemoViewController: AUAudioUnitFactory {
+extension FilterViewController: AUAudioUnitFactory {
     public func createAudioUnit(with componentDescription: AudioComponentDescription) throws -> AUAudioUnit {
         audioUnit = try AUv3FilterDemo(componentDescription: componentDescription, options: [])
         return audioUnit!

@@ -24,7 +24,28 @@ class MainViewController: UIViewController {
         audioUnitManager.delegate = self
     }
 
-    private func embedPlugInView() {
+    @IBAction private func togglePlay(_ sender: UIButton) {
+        let isPlaying = audioUnitManager.togglePlayback()
+        let titleText = isPlaying ? "Stop" : "Play"
+        playButton.setTitle(titleText, for: .normal)
+    }
+
+    @IBAction private func toggleView(_ sender: UIButton) {
+        audioUnitManager.toggleView()
+    }
+
+    @IBAction private func cutoffSliderValueChanged(_ sender: UISlider) {
+        audioUnitManager.cutoffValue = frequencyValueForSliderLocation(sender.value)
+    }
+
+    @IBAction private func resonanceSliderValueChanged(_ sender: UISlider) {
+        audioUnitManager.resonanceValue = sender.value
+    }
+}
+
+private extension MainViewController {
+
+    func embedPlugInView() {
         guard let controller = audioUnitManager.viewController else {
             fatalError("Could not load audio unit's view controller.")
         }
@@ -38,42 +59,15 @@ class MainViewController: UIViewController {
         }
     }
 
-    @IBAction func togglePlay(_ sender: UIButton) {
-        let isPlaying = audioUnitManager.togglePlayback()
-        let titleText = isPlaying ? "Stop" : "Play"
-        playButton.setTitle(titleText, for: .normal)
-    }
-
-    @IBAction func toggleView(_ sender: UIButton) {
-        audioUnitManager.toggleView()
-    }
-
-    @IBAction func cutoffSliderValueChanged(_ sender: UISlider) {
-        audioUnitManager.cutoffValue = frequencyValueForSliderLocation(sender.value)
-    }
-
-    @IBAction func resonanceSliderValueChanged(_ sender: UISlider) {
-        audioUnitManager.resonanceValue = sender.value
-    }
-}
-
-private extension MainViewController {
-
-    func logValueForNumber(_ number: Float) -> Float {
-        return log(number) / log(2)
-    }
+    func logValueForNumber(_ number: Float) -> Float { log(number) / log(2) }
     
     func frequencyValueForSliderLocation(_ location: Float) -> Float {
-        var value = pow(2, location)
-        value = (value - 1) / 511
-
-        value *= (defaultMaxHertz - defaultMinHertz)
-
-        return value + defaultMinHertz
+        ((pow(2, location) - 1) / 511) * (defaultMaxHertz - defaultMinHertz) + defaultMinHertz
     }
 }
 
 extension MainViewController: AUManagerDelegate {
+
     func cutoffValueDidChange(_ value: Float) {
         let normalizedValue = ((value - defaultMinHertz) / (defaultMaxHertz - defaultMinHertz)) * 511 + 1
         cutoffSlider.value = Float(logValueForNumber(normalizedValue))
@@ -85,4 +79,3 @@ extension MainViewController: AUManagerDelegate {
         resonanceTextField.text = String(format: "%.2f", value)
     }
 }
-

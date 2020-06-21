@@ -17,7 +17,7 @@ public class AudioUnitManager {
         }
     }
 
-    public private(set) var viewController: AUv3FilterDemoViewController!
+    public private(set) var viewController: FilterViewController!
     public var cutoffValue: Float = 0.0 { didSet { cutoffParameter.value = cutoffValue } }
     public var resonanceValue: Float = 0.0 { didSet { resonanceParameter.value = resonanceValue } }
 
@@ -86,7 +86,7 @@ public extension AudioUnitManager {
 
 private extension AudioUnitManager {
 
-    private func loadViewController() -> AUv3FilterDemoViewController {
+    private func loadViewController() -> FilterViewController {
         guard let url = Bundle.main.builtInPlugInsURL?.appendingPathComponent("AUv3FilterExtension.appex"),
             let appexBundle = Bundle(url: url) else {
                 fatalError("Could not find app extension bundle URL.")
@@ -100,7 +100,7 @@ private extension AudioUnitManager {
         return controller
 
         #elseif os(macOS)
-        return AUv3FilterDemoViewController(nibName: "AUv3FilterDemoViewController", bundle: appexBundle)
+        return FilterViewController(nibName: "AUv3FilterDemoViewController", bundle: appexBundle)
         #endif
     }
 
