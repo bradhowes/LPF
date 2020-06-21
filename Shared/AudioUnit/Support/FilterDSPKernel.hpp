@@ -2,9 +2,11 @@
 
 #pragma once
 
-#import "DSPKernel.hpp"
-#import "ParameterRamper.hpp"
+#import <Accelerate/Accelerate.h>
 #import <vector>
+
+#import "DSPKernel.hpp"
+#import "ParameterMonitor.hpp"
 
 enum {
     FilterParamCutoff = 0,
@@ -18,6 +20,7 @@ enum {
  */
 class FilterDSPKernel : public DSPKernel {
 public:
+
     // MARK: Types
     struct FilterState {
         float x1 = 0.0;
@@ -49,58 +52,71 @@ public:
     };
 
     struct BiquadCoefficients {
-        float a1 = 0.0;
-        float a2 = 0.0;
-        float b0 = 0.0;
-        float b1 = 0.0;
-        float b2 = 0.0;
+        enum Index { B0 = 0, B1, B2, A1, A2 };
 
-        double lastFrequency = -1.0;
-        double lastResonance = 1E10;
+        std::vector<double> coeffs_;
+        vDSP_biquadm_Setup setup_ = nullptr;
 
-        bool calculateLopassParams(double frequency, double resonance)
+        double lastFrequency_ = -1.0;
+        double lastResonance_ = 1E10;
+        size_t lastNumChannels_ = 0;
+
+        float threshold_ = 0.05;
+        float updateRate_ = 0.4;
+
+        void calculateLopassParams(double frequency, double resonance, size_t numChannels)
         {
-            if (lastFrequency == frequency && lastResonance == resonance) return false;
-            lastFrequency = frequency;
-            lastResonance = resonance;
+            if (lastFrequency_ == frequency && lastResonance_ == resonance && numChannels == lastNumChannels_) return;
 
-            // Convert from decibels to linear.
             double r = pow(10.0, 0.05 * -resonance);
             double k  = 0.5 * r * sin(M_PI * frequency);
             double c1 = (1.0 - k) / (1.0 + k);
             double c2 = (1.0 + c1) * cos(M_PI * frequency);
             double c3 = (1.0 + c1 - c2) * 0.25;
 
-            b0 = float(c3);
-            b1 = float(2.0 * c3);
-            b2 = float(c3);
-            a1 = float(-c2);
-            a2 = float(c1);
+            coeffs_.clear();
+            for (auto channel = 0; channel < numChannels; ++channel) {
+                coeffs_.push_back(c3);
+                coeffs_.push_back(2.0 * c3);
+                coeffs_.push_back(c3);
+                coeffs_.push_back(-c2);
+                coeffs_.push_back(c1);
+            }
 
-            return true;
+            if (setup_ != nullptr && numChannels == lastNumChannels_) {
+                vDSP_biquadm_SetTargetsDouble(setup_, coeffs_.data(), updateRate_, threshold_, 0, 0, 1,
+                                              numChannels);
+            }
+            else {
+                if (setup_ != nullptr) vDSP_biquadm_DestroySetup(setup_);
+                setup_ = vDSP_biquadm_CreateSetup(coeffs_.data(), 1, numChannels);
+            }
+
+            lastFrequency_ = frequency;
+            lastResonance_ = resonance;
+            lastNumChannels_ = numChannels;
         }
 
         // Arguments in Hertz.
         double magnitudeForFrequency(double inFreq)
         {
-            double _b0 = double(b0);
-            double _b1 = double(b1);
-            double _b2 = double(b2);
-            double _a1 = double(a1);
-            double _a2 = double(a2);
+            double theta = M_PI * inFreq;
 
             // Frequency on unit circle in z-plane.
-            double zReal = cos(M_PI * inFreq);
-            double zImaginary = sin(M_PI * inFreq);
+            double zReal = cos(theta);
+            double zImaginary = sin(theta);
 
             // Zeros response.
-            double numeratorReal = (_b0 * (squared(zReal) - squared(zImaginary))) + (_b1 * zReal) + _b2;
-            double numeratorImaginary = (2.0 * _b0 * zReal * zImaginary) + (_b1 * zImaginary);
+            double numeratorReal = (coeffs_[B0] * (squared(zReal) - squared(zImaginary))) +
+            (coeffs_[B1] * zReal) + coeffs_[B2];
+            double numeratorImaginary = (2.0 * coeffs_[B0] * zReal * zImaginary) +
+            (coeffs_[B1] * zImaginary);
             double numeratorMagnitude = sqrt(squared(numeratorReal) + squared(numeratorImaginary));
 
             // Poles response.
-            double denominatorReal = squared(zReal) - squared(zImaginary) + (_a1 * zReal) + _a2;
-            double denominatorImaginary = (2.0 * zReal * zImaginary) + (_a1 * zImaginary);
+            double denominatorReal = squared(zReal) - squared(zImaginary) + (coeffs_[A1] * zReal) +
+            coeffs_[A2];
+            double denominatorImaginary = (2.0 * zReal * zImaginary) + (coeffs_[A1] * zImaginary);
 
             double denominatorMagnitude = sqrt(squared(denominatorReal) + squared(denominatorImaginary));
             return numeratorMagnitude / denominatorMagnitude;
@@ -111,27 +127,20 @@ public:
 
     // MARK: Member Functions
 
-    FilterDSPKernel()
-    : DSPKernel(), cutoffRamper(400.0 / 44100.0), resonanceRamper(20.0)
-    {}
+    FilterDSPKernel() : DSPKernel(), cutoff_{float(400.0)}, resonance_{20.0} {}
 
     void setFormat(AVAudioFormat* format) override
     {
-        channelStates_.resize(format.channelCount);
-        sampleRate = float(format.sampleRate);
-        nyquist = 0.5 * sampleRate;
-        inverseNyquist = 1.0 / nyquist;
-        rampDuration_ = (AUAudioFrameCount)floor(0.02 * sampleRate);
-        cutoffRamper.reset();
-        resonanceRamper.reset();
+        sampleRate_ = format.sampleRate;
+        nyquistFrequency_ = 0.5 * sampleRate_;
+        nyquistPeriod_ = 1.0 / nyquistFrequency_;
+        channelCount_ = format.channelCount;
+        reset();
     }
 
     void reset() {
-        cutoffRamper.reset();
-        resonanceRamper.reset();
-        for (FilterState& state : channelStates_) {
-            state.clear();
-        }
+        cutoff_.reset();
+        resonance_.reset();
     }
 
     bool isBypassed() { return bypassed; }
@@ -140,134 +149,88 @@ public:
     void setParameterValue(AUParameterAddress address, AUValue value) override {
         switch (address) {
             case FilterParamCutoff:
-                cutoffRamper.setValue(value * inverseNyquist);
+                cutoff_ = value;
                 break;
 
             case FilterParamResonance:
-                resonanceRamper.setValue(value);
+                resonance_ = value;
                 break;
         }
     }
 
     AUValue getParameterValue(AUParameterAddress address) override {
         switch (address) {
-            case FilterParamCutoff: return cutoffRamper.getValue() * nyquist;
-            case FilterParamResonance: return resonanceRamper.getValue();
+            case FilterParamCutoff: return cutoff_;
+            case FilterParamResonance: return resonance_;
             default: return 0.0;
         }
     }
 
     void handleParameterEvent(AUParameterEvent const& event) override
     {
-        switch (event.parameterAddress) {
-            case FilterParamCutoff:
-                cutoffRamper.setValue(event.value, event.rampDurationSampleFrames);
-                break;
-
-            case FilterParamResonance:
-                resonanceRamper.setValue(event.value, event.rampDurationSampleFrames);
-                break;
-        }
+        setParameterValue(event.parameterAddress, event.value);
     }
 
-    void setBuffers(AudioBufferList* inBufferList, AudioBufferList* outBufferList) override {
-        inBufferListPtr = inBufferList;
-        outBufferListPtr = outBufferList;
+    void setBuffers(AudioBufferList* inputs, AudioBufferList* outputs) override {
+        inputs_ = inputs;
+        outputs_ = outputs;
+        ins_.clear();
+        outs_.clear();
+        for (size_t channel = 0; channel < channelCount(); ++channel) {
+            ins_.emplace_back(static_cast<float*>(inputs_->mBuffers[channel].mData));
+            outs_.emplace_back(static_cast<float*>(outputs_->mBuffers[channel].mData));
+        }
     }
 
     void renderFrames(AUAudioFrameCount frameCount, AUAudioFrameCount bufferOffset) override {
         if (bypassed) {
-            // Pass the samples through
-            int channelCount = int(channelStates_.size());
-            for (int channel = 0; channel < channelCount; ++channel) {
-                if (inBufferListPtr->mBuffers[channel].mData ==  outBufferListPtr->mBuffers[channel].mData) {
+            for (size_t channel = 0; channel < channelCount(); ++channel) {
+                if (inputs_->mBuffers[channel].mData == outputs_->mBuffers[channel].mData) {
                     continue;
                 }
                 for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex) {
                     int frameOffset = int(frameIndex + bufferOffset);
-                    float* in  = (float*)inBufferListPtr->mBuffers[channel].mData  + frameOffset;
-                    float* out = (float*)outBufferListPtr->mBuffers[channel].mData + frameOffset;
+                    auto in = (float*)inputs_->mBuffers[channel].mData  + frameOffset;
+                    auto out = (float*)outputs_->mBuffers[channel].mData + frameOffset;
                     *out = *in;
                 }
             }
             return;
         }
 
-        // Consider using vDSP functions for vectorizing this
-        // Slight difficulting involving the ramping parameters
-
-        int channelCount = int(channelStates_.size());
-        auto ramping = cutoffRamper.startRamping(rampDuration_) || resonanceRamper.startRamping(rampDuration_);
-
-        if (ramping) {
-            for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex) {
-                auto cutoff = double(cutoffRamper.getAndStep());
-                auto resonance = double(resonanceRamper.getAndStep());
-                coeffs_.calculateLopassParams(cutoff, resonance);
-
-                int frameOffset = int(frameIndex + bufferOffset);
-                for (int channel = 0; channel < channelCount; ++channel) {
-                    FilterState& state = channelStates_[channel];
-                    float* in  = static_cast<float*>(inBufferListPtr->mBuffers[channel].mData)  + frameOffset;
-                    float* out = static_cast<float*>(outBufferListPtr->mBuffers[channel].mData) + frameOffset;
-
-                    float x0 = *in;
-                    float y0 = (coeffs_.b0 * x0) + (coeffs_.b1 * state.x1) + (coeffs_.b2 * state.x2) -
-                    (coeffs_.a1 * state.y1) - (coeffs_.a2 * state.y2);
-                    *out = y0;
-
-                    state.x2 = state.x1;
-                    state.x1 = x0;
-                    state.y2 = state.y1;
-                    state.y1 = y0;
-                }
-            }
-        }
-        else {
-            auto cutoff = double(cutoffRamper.getAndStep());
-            auto resonance = double(resonanceRamper.getAndStep());
-            coeffs_.calculateLopassParams(cutoff, resonance);
-
-            for (int channel = 0; channel < channelCount; ++channel) {
-                FilterState& state = channelStates_[channel];
-                float* in  = static_cast<float*>(inBufferListPtr->mBuffers[channel].mData)  + bufferOffset;
-                float* out = static_cast<float*>(outBufferListPtr->mBuffers[channel].mData) + bufferOffset;
-
-                for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex) {
-                    float x0 = in[frameIndex];
-                    float y0 = (coeffs_.b0 * x0) + (coeffs_.b1 * state.x1) + (coeffs_.b2 * state.x2) -
-                    (coeffs_.a1 * state.y1) - (coeffs_.a2 * state.y2);
-                    out[frameIndex] = y0;
-
-                    state.x2 = state.x1;
-                    state.x1 = x0;
-                    state.y2 = state.y1;
-                    state.y1 = y0;
-                }
-            }
-
+        for (size_t channel = 0; channel < channelCount(); ++channel) {
+            ins_[channel] = static_cast<float*>(inputs_->mBuffers[channel].mData) + bufferOffset;
+            outs_[channel] = static_cast<float*>(outputs_->mBuffers[channel].mData) + bufferOffset;
         }
 
-        for (int channel = 0; channel < channelCount; ++channel) {
-            channelStates_[channel].convertBadStateValuesToZero();
-        }
+        coeffs_.calculateLopassParams(cutoffFilterSetting(), resonanceFilterSetting(), channelCount());
+
+        vDSP_biquadm(coeffs_.setup_,
+                     (const float * __nonnull * __nonnull)ins_.data(), vDSP_Stride(1),
+                     (float * __nonnull * __nonnull)outs_.data(), vDSP_Stride(1),
+                     vDSP_Length(frameCount));
     }
 
+    size_t channelCount() const { return channelCount_; }
+    float cutoffFilterSetting() const { return cutoff_ * nyquistPeriod_; }
+    float resonanceFilterSetting() const { return resonance_; }
+
 private:
-    std::vector<FilterState> channelStates_;
     BiquadCoefficients coeffs_;
 
-    float sampleRate = 44100.0;
-    float nyquist = 0.5 * sampleRate;
-    float inverseNyquist = 1.0 / nyquist;
-    AUAudioFrameCount rampDuration_;
+    float sampleRate_ = 44100.0;
+    float nyquistFrequency_ = 0.5 * sampleRate_;
+    float nyquistPeriod_ = 1.0 / nyquistFrequency_;
+    size_t channelCount_ = 1;
 
-    AudioBufferList* inBufferListPtr = nullptr;
-    AudioBufferList* outBufferListPtr = nullptr;
+    ParameterMonitor<float> cutoff_;
+    ParameterMonitor<float> resonance_;
+
+    AudioBufferList* inputs_ = nullptr;
+    AudioBufferList* outputs_ = nullptr;
+
+    std::vector<float*> ins_;
+    std::vector<float*> outs_;
 
     bool bypassed = false;
-
-public:
-    ParameterRamper<float> cutoffRamper;
-    ParameterRamper<float> resonanceRamper;
 };

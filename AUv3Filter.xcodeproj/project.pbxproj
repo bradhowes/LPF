@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		BDB7CE90249D3C00009580D5 /* NonCopyable.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */; };
 		BDB7CE91249D3C00009580D5 /* NonCopyable.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */; };
+		BDB7CE93249EC556009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
+		BDB7CE94249EC565009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
+		BDB7CE95249EC570009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
+		BDB7CE97249F7694009580D5 /* ParameterMonitor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE96249F7209009580D5 /* ParameterMonitor.hpp */; };
+		BDB7CE98249F7694009580D5 /* ParameterMonitor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE96249F7209009580D5 /* ParameterMonitor.hpp */; };
 		C4201A2922403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4201A2822403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift */; };
 		C433F56122404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433F56022404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift */; };
 		C437FE59222367CD008D6C09 /* AUv3FilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* AUv3FilterFramework.framework */; };
@@ -151,6 +156,8 @@
 /* Begin PBXFileReference section */
 		7E56CF207E56CEE000000001 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NonCopyable.hpp; sourceTree = "<group>"; };
+		BDB7CE92249EC556009580D5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		BDB7CE96249F7209009580D5 /* ParameterMonitor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ParameterMonitor.hpp; sourceTree = "<group>"; };
 		C4201A2822403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewControllerExtension.swift; sourceTree = "<group>"; };
 		C433F56022404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewControllerExtension.swift; sourceTree = "<group>"; };
 		C437FE3A222367A6008D6C09 /* AUv3Filter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AUv3Filter.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -238,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4660A5C2225F9A0007BE3B1 /* AUv3FilterFramework.framework in Frameworks */,
+				BDB7CE93249EC556009580D5 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,6 +253,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDB7CE95249EC570009580D5 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4BEE81A222373A6001E6B6D /* AUv3FilterFramework.framework in Frameworks */,
+				BDB7CE94249EC565009580D5 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,6 +424,7 @@
 				C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.h */,
 				C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */,
 				C4BEE7E522236E99001E6B6D /* ParameterRamper.hpp */,
+				BDB7CE96249F7209009580D5 /* ParameterMonitor.hpp */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -421,6 +432,7 @@
 		C4BEE81822237394001E6B6D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BDB7CE92249EC556009580D5 /* Accelerate.framework */,
 				C4737B0A2231D930002CAD0B /* AudioToolbox.framework */,
 				C44F544622260E2C00484B67 /* CoreAudioKit.framework */,
 				C44F544422260E2500484B67 /* AudioToolbox.framework */,
@@ -483,6 +495,7 @@
 			files = (
 				C4F004A12239B1E10014E248 /* FilterDSPKernelAdapter.h in Headers */,
 				C4BEE8172223736F001E6B6D /* AUv3FilterFramework.h in Headers */,
+				BDB7CE97249F7694009580D5 /* ParameterMonitor.hpp in Headers */,
 				C4BEE7EF22236F24001E6B6D /* ParameterRamper.hpp in Headers */,
 				C4BEE7F122236F24001E6B6D /* AUAudioUnitBusBufferManager.hpp in Headers */,
 				BDB7CE90249D3C00009580D5 /* NonCopyable.hpp in Headers */,
@@ -497,6 +510,7 @@
 			files = (
 				C4F004A22239B1E10014E248 /* FilterDSPKernelAdapter.h in Headers */,
 				C496341422238CFA001D1F5B /* AUv3FilterFramework.h in Headers */,
+				BDB7CE98249F7694009580D5 /* ParameterMonitor.hpp in Headers */,
 				C4BEE7F322236F27001E6B6D /* ParameterRamper.hpp in Headers */,
 				C4BEE7F522236F27001E6B6D /* AUAudioUnitBusBufferManager.hpp in Headers */,
 				BDB7CE91249D3C00009580D5 /* NonCopyable.hpp in Headers */,

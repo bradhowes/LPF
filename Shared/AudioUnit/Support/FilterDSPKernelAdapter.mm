@@ -4,7 +4,7 @@ See LICENSE folder for this sample’s licensing information.
 Abstract:
 Adapter object providing a Swift-accessible interface to the filter's underlying DSP code.
 */
-
+#import <Accelerate/Accelerate.h>
 #import <AVFoundation/AVFoundation.h>
 #import <CoreAudioKit/AUViewController.h>
 
@@ -40,11 +40,11 @@ Adapter object providing a Swift-accessible interface to the filter's underlying
 
 - (NSArray<NSNumber *> *)magnitudesForFrequencies:(NSArray<NSNumber *> *)frequencies {
     FilterDSPKernel::BiquadCoefficients coefficients;
+    coefficients.calculateLopassParams(_kernel.cutoffFilterSetting(), _kernel.resonanceFilterSetting(),
+                                       _kernel.channelCount());
 
     double inverseNyquist = 2.0 / self.outputBus.format.sampleRate;
-    coefficients.calculateLopassParams(_kernel.cutoffRamper.getValue(), _kernel.resonanceRamper.getValue());
     NSMutableArray<NSNumber *> *magnitudes = [NSMutableArray arrayWithCapacity:frequencies.count];
-
     for (NSNumber *number in frequencies) {
         double frequency = [number doubleValue];
         double magnitude = coefficients.magnitudeForFrequency(frequency * inverseNyquist);

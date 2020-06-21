@@ -1,14 +1,10 @@
-/*
-See LICENSE folder for this sample’s licensing information.
+// Copyright © 2020 Brad Howes. All rights reserved.
 
-Abstract:
-Main AU interface that enables user to visually configure the frequency and resonance parameters.
-*/
+public let defaultMinHertz = Float(12.0)
+public let defaultMaxHertz = Float(20_000.0)
+public let defaultMinGain = Float(-20)
+public let defaultMaxGain = Float(20)
 
-public let defaultMinHertz: Float = 12.0
-public let defaultMaxHertz: Float = 20_000.0
-
-/// Delegate protocol used to communicate changes to frequency and resonance.
 protocol FilterViewDelegate: class {
     func filterViewTouchBegan(_ filterView: FilterView)
     func filterView(_ filterView: FilterView, didChangeResonance resonance: Float)
@@ -19,9 +15,7 @@ protocol FilterViewDelegate: class {
 }
 
 extension Comparable {
-    func clamp(to range: ClosedRange<Self>) -> Self {
-        return min(max(self, range.lowerBound), range.upperBound)
-    }
+    func clamp(to range: ClosedRange<Self>) -> Self { min(max(self, range.lowerBound), range.upperBound) }
 }
 
 extension CATransaction {
@@ -45,23 +39,19 @@ extension Color {
 }
 
 class FilterView: View {
-
-    // MARK: Properties
-
     let logBase = 2
     let leftMargin: CGFloat = 54.0
     let rightMargin: CGFloat = 10.0
     let bottomMargin: CGFloat = 40.0
 
-    let numDBLines = 4
-    let defaultGain = 20
-
-    let gridLineCount = 11
+    let numDBLines = 8
+    lazy var dbSpacing = Int((defaultMaxGain - defaultMinGain) / Float(numDBLines))
+    let numFreqLines = 11
 
     let labelWidth: CGFloat = 40.0
     let maxNumberOfResponseFrequencies = 1024
 
-    var frequencies: [Double]?
+    var frequencies: [Float]?
 
     var dbLines = [CALayer]()
     var dbLabels = [CATextLayer]()
@@ -76,21 +66,11 @@ class FilterView: View {
 
     var curveLayer: CAShapeLayer = {
         let shapeLayer = CAShapeLayer()
-
-        #if os(iOS)
-        // Red
-        let fillColor = Color(red: 0.848, green: 0.129, blue: 0.167, alpha: 1.000)
-        #elseif os(macOS)
-        // Blue
         let fillColor = Color(red: 0.067, green: 0.535, blue: 0.842, alpha: 1.000)
-        #endif
-
         shapeLayer.fillColor = fillColor.cgColor
-
         return shapeLayer
     }()
 
-    // The delegate to notify of paramater and size changes.
     weak var delegate: FilterViewDelegate?
 
     var editPoint = CGPoint.zero
@@ -112,48 +92,25 @@ class FilterView: View {
         #endif
     }
 
-    // The cutoff frequency.
     var frequency: Float = defaultMinHertz {
         didSet {
             frequency = frequency.clamp(to: defaultMinHertz...defaultMaxHertz)
-
             editPoint.x = floor(locationForFrequencyValue(frequency))
-
-            // Do not notify delegate that the frequency changed; that would create a feedback loop.
         }
     }
 
-    // The narrow band of the cutoff frequency to boost or attenuate.
     var resonance: Float = 0.0 {
         didSet {
-            // Clamp the resonance to min/max values.
-            let gain = Float(defaultGain)
-            resonance = resonance.clamp(to: -gain...gain)
-
-            // Set the edit point y position
+            resonance = resonance.clamp(to: defaultMinGain...defaultMaxGain)
             editPoint.y = floor(locationForDBValue(resonance))
-
-            // Do not notify delegate that the resonance changed; that would create a feedback loop.
         }
     }
 
-    /*
-     The frequencies are plotted on a logorithmic scale. This method returns a
-     frequency value based on a fractional grid position.
-     */
-    func valueAtGridIndex(_ index: Float) -> Float {
-        return defaultMinHertz * powf(Float(logBase), index)
-    }
+    func valueAtFreqIndex(_ index: Float) -> Float { defaultMinHertz * powf(Float(logBase), index) }
 
-    func logValueForNumber(_ number: Float, base: Float) -> Float {
-        return logf(number) / logf(base)
-    }
+    func logValueForNumber(_ number: Float, base: Float) -> Float { logf(number) / logf(base) }
 
-    /*
-     Prepares an array of frequencies that the AU needs to supply magnitudes for.
-     This array is cached until the view size changes (on device rotation, etc).
-     */
-    func frequencyDataForDrawing() -> [Double] {
+    func frequencyDataForDrawing() -> [Float] {
         guard frequencies == nil else { return frequencies! }
 
         let width = graphLayer.bounds.width
@@ -169,40 +126,23 @@ class FilterView: View {
         }
 
         frequencies = (0..<locationsCount).map { _ in
-            if location > rightEdge {
-                return Double(defaultMaxHertz)
-            } else {
-                var frequency = frequencyValueForLocation(location)
-
-                if frequency > defaultMaxHertz {
-                    frequency = defaultMaxHertz
-                }
-
-                location += CGFloat(pixelRatio)
-
-                return Double(frequency)
-            }
+            guard location <= rightEdge else { return defaultMaxHertz }
+            let frequency = frequencyValueForLocation(location).clamp(to: defaultMinHertz...defaultMaxHertz)
+            location += CGFloat(pixelRatio)
+            return frequency
         }
         return frequencies!
     }
 
-    /*
-     Generates a bezier path from the frequency response curve data provided by
-     the view controller. Also responsible for keeping the control point in sync.
-     */
-    func setMagnitudes(_ magnitudeData: [Double]) {
-
+    func setMagnitudes(_ magnitudeData: [Float]) {
         let bezierPath = CGMutablePath()
         let width = graphLayer.bounds.width
 
         bezierPath.move(to: CGPoint(x: leftMargin, y: graphLayer.frame.height + bottomMargin))
 
         var lastDBPosition: CGFloat = 0.0
-
         var location: CGFloat = leftMargin
-
         let frequencyCount = frequencies?.count ?? 0
-
         let pixelRatio = Int(ceil(width / CGFloat(frequencyCount)))
 
         for i in 0 ..< frequencyCount {
@@ -210,14 +150,9 @@ class FilterView: View {
             var dbPosition: CGFloat = 0.0
 
             switch dbValue {
-            case let x where x < Double(-defaultGain):
-                dbPosition = locationForDBValue(Float(-defaultGain))
-
-            case let x where x > Double(defaultGain):
-                dbPosition = locationForDBValue(Float(defaultGain))
-
-            default:
-                dbPosition = locationForDBValue(Float(dbValue))
+            case let x where x < defaultMinGain: dbPosition = locationForDBValue(defaultMinGain)
+            case let x where x > defaultMaxGain: dbPosition = locationForDBValue(defaultMaxGain)
+            default: dbPosition = locationForDBValue(dbValue)
             }
 
             if abs(lastDBPosition - dbPosition) >= 0.1 {
@@ -235,50 +170,37 @@ class FilterView: View {
 
         bezierPath.addLine(to: CGPoint(x: location,
                                        y: graphLayer.frame.origin.y + graphLayer.frame.height + bottomMargin))
-
         bezierPath.closeSubpath()
 
-        // Turn off implict animation on the curve layer.
-        CATransaction.noAnimation {
-            curveLayer.path = bezierPath
-        }
-
+        CATransaction.noAnimation { curveLayer.path = bezierPath }
         updateControls(refreshColor: true)
     }
 
-    // Calculates the pixel position on the x axis of the graph corresponding to the frequency value.
-    func locationForFrequencyValue(_ value: Float) -> CGFloat {
-        let pixelIncrement = graphLayer.frame.width / CGFloat(gridLineCount)
+    private func locationForFrequencyValue(_ value: Float) -> CGFloat {
+        let pixelIncrement = graphLayer.frame.width / CGFloat(numFreqLines)
         let number = value / defaultMinHertz
         let location = logValueForNumber(number, base: Float(logBase)) * Float(pixelIncrement)
         return floor(CGFloat(location) + graphLayer.frame.origin.x) + 0.5
     }
 
-    // Calculates the frequency value corresponding to a position value on the x axis of the graph.
-    func frequencyValueForLocation(_ location: CGFloat) -> Float {
-        let pixelIncrement = graphLayer.frame.width / CGFloat(gridLineCount)
+    private func frequencyValueForLocation(_ location: CGFloat) -> Float {
+        let pixelIncrement = graphLayer.frame.width / CGFloat(numFreqLines)
         let index = (location - graphLayer.frame.origin.x) / CGFloat(pixelIncrement)
-        return valueAtGridIndex(Float(index))
+        return valueAtFreqIndex(Float(index))
     }
 
-    // Calculates the dB value corresponding to a position value on the y axis of the graph.
-    func dbValueForLocation(_ location: CGFloat) -> Float {
-        let step = graphLayer.frame.height / CGFloat(defaultGain * 2)
-        return Float(-(((location - bottomMargin) / step) - CGFloat(defaultGain)))
+    private func dbValueForLocation(_ location: CGFloat) -> Float {
+        let step = graphLayer.frame.height / CGFloat(defaultMaxGain - defaultMinGain)
+        return Float(-(((location - bottomMargin) / step) - CGFloat(defaultMaxGain)))
     }
 
-    // Calculates the pixel position on the y axis of the graph corresponding to the dB value.
-    func locationForDBValue(_ value: Float) -> CGFloat {
-        let step = graphLayer.frame.height / CGFloat(defaultGain * 2)
-        let location = (CGFloat(value) + CGFloat(defaultGain)) * step
+    private func locationForDBValue(_ value: Float) -> CGFloat {
+        let step = graphLayer.frame.height / CGFloat(defaultMaxGain - defaultMinGain)
+        let location = (CGFloat(value) + CGFloat(defaultMaxGain)) * step
         return graphLayer.frame.height - location + bottomMargin
     }
 
-    /*
-     Provides a properly formatted string with an appropriate precision for the
-     input value.
-     */
-    func stringForValue(_ value: Float) -> String {
+    private func stringForValue(_ value: Float) -> String {
         var temp = value
 
         if value >= 1000 {
@@ -337,14 +259,10 @@ class FilterView: View {
         createDBLabelsAndLines()
         createFrequencyLabelsAndLines()
 
-        // Add curve layer before creating control point so layers are
-        // stacked as needed
         graphLayer.addSublayer(curveLayer)
-
         createControlPoint()
 
         #if os(macOS)
-        // Manually perform initial layout pass on macOS
         layoutSublayers(of: rootLayer)
         #endif
     }
@@ -364,27 +282,21 @@ class FilterView: View {
     }
     #endif
 
-    /*
-     Creates the decibel label layers for the vertical axis of the graph and adds
-     them as sublayers of the graph layer. Also creates the db Lines.
-     */
     func createDBLabelsAndLines() {
-        let range = -numDBLines...numDBLines
-        for index in range where range.contains(index) {
-            // Calculate value
-            let value = index * (defaultGain / numDBLines)
-
-            // Create Label
+        for index in 0...numDBLines {
+            let value = index * dbSpacing + Int(defaultMinGain)
             let labelLayer = makeLabelLayer(alignment: .right)
             labelLayer.string = "\(value) db"
 
             dbLabels.append(labelLayer)
             containerLayer.addSublayer(labelLayer)
 
-            // Create Line Labels
             let lineLayer = ColorLayer(white: index == 0 ? 0.65 : 0.8)
             dbLines.append(lineLayer)
-            graphLayer.addSublayer(lineLayer)
+
+            if index > 0 && index < numDBLines {
+                graphLayer.addSublayer(lineLayer)
+            }
         }
     }
 
@@ -405,52 +317,28 @@ class FilterView: View {
         }
     }
 
-    /*
-     Creates the frequency label layers for the horizontal axis of the graph and
-     adds them as sublayers of the graph layer. Also creates the frequency line
-     layers.
-     */
-    func createFrequencyLabelsAndLines() {
+    private func createFrequencyLabelsAndLines() {
+        for index in 0...numFreqLines {
+            let value = valueAtFreqIndex(Float(index))
 
-        var firstK = true
-
-        for index in 0 ... gridLineCount {
-
-            let value = valueAtGridIndex(Float(index))
-
-            // Create the label layers and set their properties.
             let labelLayer = makeLabelLayer()
+            var string = stringForValue(value)
+            if value >= 1000 { string += "K" }
+
+            labelLayer.string = string
             frequencyLabels.append(labelLayer)
-
-            // Create the line layers.
-            switch index {
-            case 0:
-                labelLayer.string = "\(stringForValue(value)) Hz"
-
-            case let i where i > 0 && i < gridLineCount:
-                let lineLayer = ColorLayer(white: 0.8)
-                freqLines.append(lineLayer)
-                graphLayer.addSublayer(lineLayer)
-
-                var string = stringForValue(value)
-
-                if value >= 1000 && firstK {
-                    string += "K"
-                    firstK = false
-                }
-
-                labelLayer.string = string
-
-            default:
-                labelLayer.string = "\(stringForValue(defaultMaxHertz)) K"
-
-            }
-
             containerLayer.addSublayer(labelLayer)
+
+            let lineLayer = ColorLayer(white: 0.8)
+            freqLines.append(lineLayer)
+
+            if index > 0 && index < numFreqLines {
+                graphLayer.addSublayer(lineLayer)
+            }
         }
     }
 
-    func makeLabelLayer(alignment: CATextLayerAlignmentMode = .center) -> CATextLayer {
+    private func makeLabelLayer(alignment: CATextLayerAlignmentMode = .center) -> CATextLayer {
         let labelLayer = CATextLayer()
         labelLayer.font = Font.systemFont(ofSize: 14).fontName as CFTypeRef
         labelLayer.fontSize = 14
@@ -461,14 +349,8 @@ class FilterView: View {
         return labelLayer
     }
 
-    /*
-     Creates the control point layers comprising of a horizontal and vertical
-     line (crosshairs) and a circle at the intersection.
-     */
-    func createControlPoint() {
-
+    private func createControlPoint() {
         guard let color = touchDown ? tintColor : Color.darkGray else {
-            // This should never happen.
             fatalError("Unable to get color value.")
         }
 
@@ -491,111 +373,57 @@ class FilterView: View {
         graphLayer.addSublayer(circleLayer)
     }
 
-    /*
-     Updates the position of the control layers and the color if the refreshColor
-     parameter is true. The controls are drawn in a blue color if the user's finger
-     is touching the graph and still down.
-     */
     func updateControls(refreshColor: Bool) {
         let color = touchDown ? tintColor.darker.cgColor: Color.darkGray.cgColor
-
-        // Turn off implicit animations for the control layers to avoid any control lag.
         CATransaction.noAnimation {
-
+            let posX = graphLayer.frame.origin.x
+            let width = graphLayer.frame.width
+            let height = graphLayer.frame.height
             for layer in controls {
                 switch layer.name! {
                 case "point":
                     layer.frame = CGRect(x: editPoint.x - 3, y: editPoint.y - 3, width: 7, height: 7).integral
                     layer.position = editPoint
 
-                    if refreshColor {
-                        layer.borderColor = color
-                    }
-
                 case "x":
-                    layer.frame = CGRect(x: graphLayer.frame.origin.x,
-                                         y: floor(editPoint.y + 0.5),
-                                         width: graphLayer.frame.width,
-                                         height: 1.0)
-
-                    if refreshColor {
-                        layer.backgroundColor = color
-                    }
+                    layer.frame = CGRect(x: posX, y: floor(editPoint.y + 0.5), width: width, height: 1.0)
 
                 case "y":
-                    layer.frame = CGRect(x: floor(editPoint.x) + 0.5,
-                                         y: bottomMargin,
-                                         width: 1.0,
-                                         height: graphLayer.frame.height)
-
-                    if refreshColor {
-                        layer.backgroundColor = color
-                    }
+                    layer.frame = CGRect(x: floor(editPoint.x) + 0.5, y: bottomMargin, width: 1.0,  height: height)
 
                 default:
                     layer.frame = .zero
+                    continue
                 }
+                if refreshColor { layer.backgroundColor = color }
             }
         }
     }
 
-    func updateDBLayers() {
-        // Update the positions of the dBLine and label layers.
-
-        let range = -numDBLines...numDBLines
-        for index in range where range.contains(index) {
-            let value = Float(index * (defaultGain / numDBLines))
+    private func updateDBLayers() {
+        let lineX = graphLayer.frame.origin.x
+        let lineWidth = graphLayer.frame.width
+        let labelYOffset = bottomMargin + 8
+        let labelWidth = leftMargin - 7.0
+        for index in 0...numDBLines {
+            let value = Float(index * dbSpacing) + defaultMinGain
             let location = floor(locationForDBValue(value))
-
-            dbLines[index + 4].frame = CGRect(x: graphLayer.frame.origin.x,
-                                              y: location,
-                                              width: graphLayer.frame.width,
-                                              height: 1.0)
-
-            dbLabels[index + 4].frame = CGRect(x: 0.0,
-                                               y: location - bottomMargin - 8,
-                                               width: leftMargin - 7.0,
-                                               height: 16.0)
+            dbLines[index].frame = CGRect(x: lineX, y: location, width: lineWidth, height: 1.0)
+            dbLabels[index].frame = CGRect(x: 0.0, y: location - labelYOffset, width: labelWidth, height: 16.0)
         }
     }
 
-    func updateFrequencyLayers() {
-
+    private func updateFrequencyLayers() {
         let graphHeight = graphLayer.frame.height
-
-        // Update the positions of the frequency line and label layers.
-        for index in 0...gridLineCount {
-            let value = valueAtGridIndex(Float(index))
-            let location = floor(locationForFrequencyValue(value))
-
-            if index > 0 && index < gridLineCount {
-                freqLines[index - 1].frame = CGRect(x: location,
-                                                    y: bottomMargin,
-                                                    width: 1.0,
-                                                    height: graphHeight)
-
-                frequencyLabels[index].frame = CGRect(x: location - labelWidth / 2.0,
-                                                      y: graphHeight,
-                                                      width: labelWidth,
-                                                      height: 16.0)
-            }
-
-            frequencyLabels[index].frame = CGRect(x: location - (labelWidth / 2.0) - rightMargin,
-                                                  y: graphHeight + 16,
-                                                  width: labelWidth + rightMargin,
-                                                  height: 16.0)
+        let halfWidth = labelWidth / 2.0
+        for index in 0...numFreqLines {
+            let value = valueAtFreqIndex(Float(index))
+            let pos = floor(locationForFrequencyValue(value))
+            freqLines[index].frame = CGRect(x: pos, y: bottomMargin, width: 1.0, height: graphHeight)
+            frequencyLabels[index].frame = CGRect(x: pos - halfWidth, y: graphHeight + 16, width: labelWidth + rightMargin, height: 16.0)
         }
     }
 
-    /*
-     This function positions all of the layers of the view starting with
-     the horizontal dbLines and lables on the y axis. Next, it positions
-     the vertical frequency lines and labels on the x axis. Finally, it
-     positions the controls and the curve layer.
-
-     This method is also called when the orientation of the device changes
-     and the view needs to re-layout for the new view size.
-     */
     #if os(iOS)
     override func layoutSublayers(of layer: CALayer) {
         performLayout(of: layer)
@@ -608,22 +436,15 @@ class FilterView: View {
 
     func performLayout(of layer: CALayer) {
         if layer === rootLayer {
-            // Disable implicit layer animations.
             CATransaction.noAnimation {
                 containerLayer.bounds = rootLayer.bounds
-
                 graphLayer.bounds = CGRect(x: leftMargin, y: bottomMargin,
                                            width: layer.bounds.width - leftMargin - rightMargin,
                                            height: layer.bounds.height - bottomMargin - 10.0)
-
                 updateDBLayers()
-
                 updateFrequencyLayers()
-
                 editPoint = CGPoint(x: locationForFrequencyValue(frequency), y: locationForDBValue(resonance))
-
                 curveLayer.bounds = graphLayer.bounds
-
                 curveLayer.frame = CGRect(x: graphLayer.frame.origin.x,
                                           y: graphLayer.frame.origin.y + bottomMargin,
                                           width: graphLayer.frame.width,
@@ -632,55 +453,34 @@ class FilterView: View {
         }
 
         updateControls(refreshColor: false)
-
         frequencies = nil
-
-        /*
-         Notify view controller that our bounds has changed -- meaning that new
-         frequency data is available.
-         */
         delegate?.filterViewDataDidChange(self)
     }
 
-    /*
-     If either the frequency or resonance (or both) change, notify the delegate
-     as appropriate.
-     */
     func updateFrequenciesAndResonance() {
-        let lastFrequency = frequencyValueForLocation(editPoint.x)
-        let lastResonance = dbValueForLocation(editPoint.y)
+        let pickedFrequency = frequencyValueForLocation(editPoint.x)
+        let pickedResonance = dbValueForLocation(editPoint.y)
 
-        if lastFrequency != frequency && lastResonance != resonance {
-            frequency = lastFrequency
-            resonance = lastResonance
-
-            // Notify delegate that frequency changed.
+        if pickedFrequency != frequency && pickedResonance != resonance {
+            frequency = pickedFrequency
+            resonance = pickedResonance
             delegate?.filterView(self, didChangeFrequency: frequency, andResonance: resonance)
         }
-
-        if lastFrequency != frequency {
-            frequency = lastFrequency
-
-            // Notify delegate that frequency changed.
+        else if pickedFrequency != frequency {
+            frequency = pickedFrequency
             delegate?.filterView(self, didChangeFrequency: frequency)
         }
-
-        if lastResonance != resonance {
-            resonance = lastResonance
-
-            // Notify delegate that resonance changed.
+        else if pickedResonance != resonance {
+            resonance = pickedResonance
             delegate?.filterView(self, didChangeResonance: resonance)
         }
     }
 
     #if os(iOS)
 
-    // MARK: Touch Event Handling
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard var pointOfTouch = touches.first?.location(in: self) else { return }
-
         pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y + bottomMargin)
-
         if graphLayer.contains(pointOfTouch) {
             touchDown = true
             editPoint = pointOfTouch
@@ -691,42 +491,29 @@ class FilterView: View {
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard var pointOfTouch = touches.first?.location(in: self) else { return }
-
         pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y + bottomMargin)
-
         if graphLayer.contains(pointOfTouch) {
             handleDrag(pointOfTouch)
-
             updateFrequenciesAndResonance()
         }
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard var pointOfTouch = touches.first?.location(in: self) else { return }
-
         pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y + bottomMargin)
-
-        if graphLayer.contains(pointOfTouch) {
-            handleDrag(pointOfTouch)
-        }
-
+        if graphLayer.contains(pointOfTouch) { handleDrag(pointOfTouch) }
         touchDown = false
-
         updateFrequenciesAndResonance()
         delegate?.filterViewTouchEnded(self)
     }
 
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        touchDown = false
-    }
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) { touchDown = false }
 
     #elseif os(macOS)
-    // MARK: Mouse Event Handling
-    override func mouseDown(with event: NSEvent) {
 
+    override func mouseDown(with event: NSEvent) {
         let pointOfTouch = NSPointToCGPoint(convert(event.locationInWindow, from: nil))
         let convertedPoint = rootLayer.convert(pointOfTouch, to: graphLayer)
-
         if graphLayer.contains(convertedPoint) {
             let layerPoint = rootLayer.convert(pointOfTouch, to: graphLayer)
             touchDown = true
@@ -738,13 +525,10 @@ class FilterView: View {
     }
 
     override func mouseDragged(with event: NSEvent) {
-
         let pointOfClick = NSPointToCGPoint(convert(event.locationInWindow, from: nil))
         let convertedPoint = rootLayer.convert(pointOfClick, to: graphLayer)
-
         if graphLayer.contains(convertedPoint) {
             handleDrag(convertedPoint)
-            //updateControls(false)
             updateFrequenciesAndResonance()
         }
     }
@@ -754,23 +538,11 @@ class FilterView: View {
         updateControls(refreshColor: true)
         delegate?.filterViewTouchEnded(self)
     }
+
     #endif
 
     func handleDrag(_ dragPoint: CGPoint) {
-        if dragPoint.x < 0 {
-            editPoint.x = 0
-        } else if dragPoint.x > graphLayer.frame.width + leftMargin {
-            editPoint.x = graphLayer.frame.width + leftMargin
-        } else {
-            editPoint.x = dragPoint.x
-        }
-
-        if dragPoint.y < 0 {
-            editPoint.y = 0
-        } else if dragPoint.y > graphLayer.frame.height + bottomMargin {
-            editPoint.y = graphLayer.frame.height + bottomMargin
-        } else {
-            editPoint.y = dragPoint.y
-        }
+        editPoint.x = dragPoint.x.clamp(to: 0...(graphLayer.frame.width + leftMargin))
+        editPoint.y = dragPoint.y.clamp(to: 0...(graphLayer.frame.height + bottomMargin))
     }
 }

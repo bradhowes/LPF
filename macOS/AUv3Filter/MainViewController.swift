@@ -1,9 +1,4 @@
-/*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-The view controller for the main view of the app.
-*/
+// Copyright © 2020 Brad Howes. All rights reserved.
 
 import Cocoa
 import AUv3FilterFramework
@@ -40,7 +35,6 @@ class MainViewController: NSViewController {
             fatalError("Could not load audio unit's view controller.")
         }
 
-        // Present the view controller's view.
         addChild(controller)
         containerView.addSubview(controller.view)
         controller.view.pinToSuperviewEdges()
@@ -68,60 +62,33 @@ class MainViewController: NSViewController {
         audioUnitManager.currentPreset = audioUnitManager.presets[sender.tag]
     }
 
-    // MARK: Action Methods
+    @IBAction func togglePlay(_ sender: NSButton) { audioUnitManager.togglePlayback() }
 
-    /// Handles Play/Stop button touches.
-    @IBAction func togglePlay(_ sender: NSButton) {
-        audioUnitManager.togglePlayback()
-    }
+    @IBAction func toggleView(_ sender: NSButton) { audioUnitManager.toggleView() }
 
-    @IBAction func toggleView(_ sender: NSButton) {
-        audioUnitManager.toggleView()
-    }
-
-    /// Cutoff frequency value changed handler
     @IBAction func cutoffSliderValueChanged(_ sender: NSSlider) {
         audioUnitManager.cutoffValue = frequencyValueForSliderLocation(sender.floatValue)
     }
 
-    /// Resonance value changed handler
     @IBAction func resonanceSliderValueChanged(_ sender: NSSlider) {
         audioUnitManager.resonanceValue = sender.floatValue
     }
 
-    // MARK: Private
-
-    private func logValueForNumber(_ number: Float) -> Float {
-        return log(number) / log(2)
-    }
+    private func logValueForNumber(_ number: Float) -> Float { log(number) / log(2) }
 
     private func frequencyValueForSliderLocation(_ location: Float) -> Float {
-        var value = pow(2, location)
-        value = (value - 1) / 511
-
-        value *= (defaultMaxHertz - defaultMinHertz)
-
-        return value + defaultMinHertz
+        ((pow(2, location) - 1) / 511) * (defaultMaxHertz - defaultMinHertz) + defaultMinHertz
     }
 }
 
 extension MainViewController: NSWindowDelegate {
-
-    func windowWillClose(_ notification: Notification) {
-        audioUnitManager.cleanup()
-    }
+    func windowWillClose(_ notification: Notification) { audioUnitManager.cleanup() }
 }
 
 extension MainViewController: AUManagerDelegate {
 
     func cutoffValueDidChange(_ value: Float) {
-
-        // Normalize the vaue from 0-1
-        var normalizedValue = (value - defaultMinHertz) / (defaultMaxHertz - defaultMinHertz)
-
-        // Map to 2^0 - 2^9 (slider range)
-        normalizedValue = (normalizedValue * 511.0) + 1
-
+        let normalizedValue = ((value - defaultMinHertz) / (defaultMaxHertz - defaultMinHertz)) * 511.0 + 1.0
         cutoffSlider.floatValue = Float(logValueForNumber(normalizedValue))
         cutoffTextField.text = String(format: "%.f", value)
     }
