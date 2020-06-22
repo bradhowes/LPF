@@ -19,8 +19,8 @@
 		BDB7CE93249EC556009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
 		BDB7CE94249EC565009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
 		BDB7CE95249EC570009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
-		BDB7CE97249F7694009580D5 /* ParameterMonitor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE96249F7209009580D5 /* ParameterMonitor.hpp */; };
-		BDB7CE98249F7694009580D5 /* ParameterMonitor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE96249F7209009580D5 /* ParameterMonitor.hpp */; };
+		BDB7CE97249F7694009580D5 /* ValueChangeDetector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE96249F7209009580D5 /* ValueChangeDetector.hpp */; };
+		BDB7CE98249F7694009580D5 /* ValueChangeDetector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE96249F7209009580D5 /* ValueChangeDetector.hpp */; };
 		BDB7CE9A249FC026009580D5 /* Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB7CE99249FC026009580D5 /* Preset.swift */; };
 		BDB7CE9B249FC0AB009580D5 /* Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB7CE99249FC026009580D5 /* Preset.swift */; };
 		BDB7CE9C249FC0AC009580D5 /* Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB7CE99249FC026009580D5 /* Preset.swift */; };
@@ -172,7 +172,7 @@
 		BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioUnitBusBufferManager.mm; sourceTree = "<group>"; };
 		BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NonCopyable.hpp; sourceTree = "<group>"; };
 		BDB7CE92249EC556009580D5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		BDB7CE96249F7209009580D5 /* ParameterMonitor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ParameterMonitor.hpp; sourceTree = "<group>"; };
+		BDB7CE96249F7209009580D5 /* ValueChangeDetector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ValueChangeDetector.hpp; sourceTree = "<group>"; };
 		BDB7CE99249FC026009580D5 /* Preset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preset.swift; sourceTree = "<group>"; };
 		BDB7CE9D249FC152009580D5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.5.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 		C4201A2822403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewControllerExtension.swift; sourceTree = "<group>"; };
@@ -446,7 +446,7 @@
 				C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */,
 				BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */,
 				C4BEE7E522236E99001E6B6D /* ParameterRamper.hpp */,
-				BDB7CE96249F7209009580D5 /* ParameterMonitor.hpp */,
+				BDB7CE96249F7209009580D5 /* ValueChangeDetector.hpp */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -519,7 +519,7 @@
 				C4F004A12239B1E10014E248 /* FilterDSPKernelAdapter.hpp in Headers */,
 				C4BEE8172223736F001E6B6D /* AUv3FilterFramework.h in Headers */,
 				BD1F7BAE249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */,
-				BDB7CE97249F7694009580D5 /* ParameterMonitor.hpp in Headers */,
+				BDB7CE97249F7694009580D5 /* ValueChangeDetector.hpp in Headers */,
 				C4BEE7EF22236F24001E6B6D /* ParameterRamper.hpp in Headers */,
 				C4BEE7F122236F24001E6B6D /* AudioUnitBusBufferManager.hpp in Headers */,
 				BDB7CE90249D3C00009580D5 /* NonCopyable.hpp in Headers */,
@@ -535,7 +535,7 @@
 				C4F004A22239B1E10014E248 /* FilterDSPKernelAdapter.hpp in Headers */,
 				C496341422238CFA001D1F5B /* AUv3FilterFramework.h in Headers */,
 				BD1F7BAF249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */,
-				BDB7CE98249F7694009580D5 /* ParameterMonitor.hpp in Headers */,
+				BDB7CE98249F7694009580D5 /* ValueChangeDetector.hpp in Headers */,
 				C4BEE7F322236F27001E6B6D /* ParameterRamper.hpp in Headers */,
 				C4BEE7F522236F27001E6B6D /* AudioUnitBusBufferManager.hpp in Headers */,
 				BDB7CE91249D3C00009580D5 /* NonCopyable.hpp in Headers */,

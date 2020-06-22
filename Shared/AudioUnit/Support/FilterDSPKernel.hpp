@@ -7,7 +7,7 @@
 
 #import "BiquadFilter.hpp"
 #import "DSPKernel.hpp"
-#import "ParameterMonitor.hpp"
+#import "ValueChangeDetector.hpp"
 
 enum {
     FilterParamCutoff = 0,
@@ -120,8 +120,8 @@ private:
     float nyquistFrequency_ = 0.5 * sampleRate_;
     float nyquistPeriod_ = 1.0 / nyquistFrequency_;
 
-    ParameterMonitor<float> cutoff_;
-    ParameterMonitor<float> resonance_;
+    ValueChangeDetector<float> cutoff_;
+    ValueChangeDetector<float> resonance_;
 
     AudioBufferList* inputs_ = nullptr;
     AudioBufferList* outputs_ = nullptr;

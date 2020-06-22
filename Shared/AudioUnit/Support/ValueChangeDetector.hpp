@@ -13,7 +13,8 @@
  change happened.
 
  Note that theoretically this is only safe for types that are small enough to be changed atomically when set without
- any assistance from locking.
+ any assistance from locking, since one thread could be updating the value at the same time as another thread is
+ reading it.
  */
 template <typename T>
 class ValueChangeDetector : NonCopyable {
@@ -59,7 +60,7 @@ public:
     operator T() const { return value_; }
 
     /**
-     Determine if the parameter was changed since the last time we checked.
+     Determine if the parameter was changed since the last time it was checked.
      @returns true if so
      */
     bool wasChanged()
@@ -72,6 +73,6 @@ public:
 
 private:
     T value_;
-    int32_t lastUpdateCounter_ = 0;
     counter_type changeCounter_;
+    int32_t lastUpdateCounter_ = 0;
 };
