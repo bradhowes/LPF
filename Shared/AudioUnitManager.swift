@@ -2,14 +2,33 @@
 
 import AVFoundation
 
+/**
+ Delegation protocol for AudioUnitManager class. Communicates to delegate when a runtime parameter changes.
+ */
 public protocol AudioUnitManagerDelegate: AnyObject {
+
+    /**
+     Notification that cutoff value changed.
+
+     - parameter value: new value
+     */
     func cutoffValueDidChange(_ value: Float)
+
+    /**
+     Notification that resonance value changed.
+
+     - parameter value: new value
+     */
     func resonanceValueDidChange(_ value: Float)
 }
 
-public class AudioUnitManager {
-    private var audioUnit: FilterAudioUnit?
+/**
+ Simple hosting container for the FilterAudioUnit when loaded in an application. Sets up a
+ Manages the state of a FilterAudioUnit.
+ */
+public final class AudioUnitManager {
 
+    /// Delegate interested in runtime parameter changes
     public weak var delegate: AudioUnitManagerDelegate? {
         didSet {
             updateCutoff()
@@ -17,15 +36,22 @@ public class AudioUnitManager {
         }
     }
 
+    /// View controller associated with the AudioUnit
     public private(set) var viewController: FilterViewController!
+
+    /// Runtime parameter for the filter's cutoff
     public var cutoffValue: Float = 0.0 { didSet { cutoffParameter.value = cutoffValue } }
+
+    /// Runtime parameter for the filter's resonance
     public var resonanceValue: Float = 0.0 { didSet { resonanceParameter.value = resonanceValue } }
 
+    /// Collection of current presets for the AudioUnit
     public var presets: [Preset] {
         guard let audioUnitPresets = audioUnit?.factoryPresets else { return [] }
         return audioUnitPresets.map { preset -> Preset in Preset(preset: preset) }
     }
 
+    /// The currently-active preset
     public var currentPreset: Preset? {
         get {
             guard let preset = audioUnit?.currentPreset else { return nil }
@@ -36,10 +62,14 @@ public class AudioUnitManager {
         }
     }
 
-    private let playEngine = SimplePlayEngine()
+    private var audioUnit: FilterAudioUnit!
+
     private var cutoffParameter: AUParameter!
+
     private var resonanceParameter: AUParameter!
+
     private var parameterObserverToken: AUParameterObserverToken!
+
     private let componentDescription = AudioComponentDescription(
         componentType: kAudioUnitType_Effect,
         componentSubType: 0x666c7472,
@@ -50,8 +80,14 @@ public class AudioUnitManager {
 
     private let componentName = "Demo: AUv3FilterDemo"
 
+    private let playEngine = SimplePlayEngine()
+
+    /**
+     Create a new instance. Instantiates new FilterAudioUnit and its view controller.
+     */
     public init() {
         viewController = loadViewController()
+
         AUAudioUnit.registerSubclass(FilterAudioUnit.self, as: componentDescription, name: componentName,
                                      version: UInt32.max)
 
@@ -68,11 +104,22 @@ public class AudioUnitManager {
 
 public extension AudioUnitManager {
 
+    /**
+     Start/stop audio engine
+
+     - returns: true if playing
+     */
     @discardableResult
     func togglePlayback() -> Bool { playEngine.togglePlay() }
 
+    /**
+     Toggle between the views supported by the AudioUnit view controller.
+     */
     func toggleView() { viewController.toggleViewConfiguration() }
 
+    /**
+     The world is being torn apart. Stop any asynchronous eventing from happening in the future.
+     */
     func cleanup() {
         playEngine.stopPlaying()
         guard let parameterTree = audioUnit?.parameterTree else { return }

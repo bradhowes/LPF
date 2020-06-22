@@ -44,6 +44,7 @@ public:
      Set a new value for the parameter.
 
      @param value the new value to use
+     @returns reference to self
      */
     ValueChangeDetector<T>& operator =(T value)
     {
@@ -55,12 +56,20 @@ public:
     /**
      Get the last value set for the parameter.
 
-     @return last value set
+     @returns last value set
+     */
+    T value() const { return value_; }
+
+    /**
+     Get the last value set for the parameter.
+
+     @returns last value set
      */
     operator T() const { return value_; }
 
     /**
      Determine if the parameter was changed since the last time it was checked.
+
      @returns true if so
      */
     bool wasChanged()

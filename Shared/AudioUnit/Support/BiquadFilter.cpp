@@ -55,4 +55,3 @@ BiquadFilter::magnitudes(float const* frequencies, size_t count, float inverseNy
         *magnitudes++ = numeratorMagnitude / denominatorMagnitude;
     }
 }
-

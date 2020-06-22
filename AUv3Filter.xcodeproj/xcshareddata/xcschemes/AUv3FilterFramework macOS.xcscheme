@@ -1,17 +1,77 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<Scheme LastUpgradeVersion="1100" version="1.3">
-	<AnalyzeAction buildConfiguration="Debug" />
-	<ArchiveAction revealArchiveInOrganizer="YES" buildConfiguration="Release" />
-	<TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES" codeCoverageEnabled="NO">
-		<Testables />
-	</TestAction>
-	<ProfileAction debugDocumentVersioning="YES" useCustomWorkingDirectory="NO" buildConfiguration="Release" shouldUseLaunchSchemeArgsEnv="YES" savedToolIdentifier="" />
-	<BuildAction buildImplicitDependencies="YES" parallelizeBuildables="YES">
-		<BuildActionEntries>
-			<BuildActionEntry buildForArchiving="YES" buildForTesting="YES" buildForRunning="YES" buildForProfiling="YES" buildForAnalyzing="YES">
-				<BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="C437FE8E222368A1008D6C09" BlueprintName="AUv3FilterFramework macOS" ReferencedContainer="container:AUv3Filter.xcodeproj" BuildableName="AUv3FilterFramework.framework" />
-			</BuildActionEntry>
-		</BuildActionEntries>
-	</BuildAction>
-	<LaunchAction allowLocationSimulation="YES" launchStyle="0" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" ignoresPersistentStateOnLaunch="NO" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" debugServiceExtension="internal" debugDocumentVersioning="YES" useCustomWorkingDirectory="NO" buildConfiguration="Debug" />
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   LastUpgradeVersion = "1100"
+   version = "1.3">
+   <BuildAction
+      parallelizeBuildables = "YES"
+      buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "C437FE8E222368A1008D6C09"
+               BuildableName = "AUv3FilterFramework.framework"
+               BlueprintName = "AUv3FilterFramework macOS"
+               ReferencedContainer = "container:AUv3Filter.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BD95147424A08BB600D8024C"
+               BuildableName = "macOSFrameworkTests.xctest"
+               BlueprintName = "macOSFrameworkTests"
+               ReferencedContainer = "container:AUv3Filter.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
+   </TestAction>
+   <LaunchAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      launchStyle = "0"
+      useCustomWorkingDirectory = "NO"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
+      allowLocationSimulation = "YES">
+   </LaunchAction>
+   <ProfileAction
+      buildConfiguration = "Release"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "C437FE8E222368A1008D6C09"
+            BuildableName = "AUv3FilterFramework.framework"
+            BlueprintName = "AUv3FilterFramework macOS"
+            ReferencedContainer = "container:AUv3Filter.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+   </ProfileAction>
+   <AnalyzeAction
+      buildConfiguration = "Debug">
+   </AnalyzeAction>
+   <ArchiveAction
+      buildConfiguration = "Release"
+      revealArchiveInOrganizer = "YES">
+   </ArchiveAction>
 </Scheme>

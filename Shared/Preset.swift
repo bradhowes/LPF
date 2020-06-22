@@ -18,3 +18,11 @@ public struct Preset {
 
     internal let audioUnitPreset: AUAudioUnitPreset
 }
+
+internal extension AUAudioUnitPreset {
+    convenience init(number: Int, name: String) {
+        self.init()
+        self.number = number
+        self.name = name
+    }
+}

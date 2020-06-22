@@ -2,6 +2,10 @@
 
 import CoreAudioKit
 
+/**
+ <#Describe FilterViewController#>
+ - SeeAlso: `AUViewController`
+ */
 public class FilterViewController: AUViewController {
 
     let compact = AUAudioUnitViewConfiguration(width: 400, height: 100, hostHasController: false)

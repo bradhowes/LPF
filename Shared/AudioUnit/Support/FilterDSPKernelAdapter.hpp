@@ -4,6 +4,17 @@
 
 @class AUv3FilterDemoViewController;
 
+/**
+ Address definitions for AUParameter settings. Available in Swift as `FilterParameterAddress.*`
+ */
+typedef NS_ENUM(AUParameterAddress, FilterParameterAddress) {
+    FilterParameterAddressCutoff = 1,
+    FilterParameterAddressResonance = 2
+};
+
+/**
+ Small Obj-C wrapper around the FilterDSPKernel C++ class.
+ */
 @interface FilterDSPKernelAdapter : NSObject
 
 @property (nonatomic) AUAudioFrameCount maximumFramesToRender;

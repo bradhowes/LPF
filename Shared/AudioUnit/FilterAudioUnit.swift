@@ -5,14 +5,6 @@ import AudioToolbox
 import AVFoundation
 import CoreAudioKit
 
-fileprivate extension AUAudioUnitPreset {
-    convenience init(number: Int, name: String) {
-        self.init()
-        self.number = number
-        self.name = name
-    }
-}
-
 public class FilterAudioUnit: AUAudioUnit {
 
     private let parameters: FilterParameters
