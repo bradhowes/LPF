@@ -2,7 +2,7 @@
 
 #import <AudioToolbox/AudioToolbox.h>
 
-@class AUv3FilterDemoViewController;
+@class FilterViewController;
 
 /**
  Address definitions for AUParameter settings. Available in Swift as `FilterParameterAddress.*`

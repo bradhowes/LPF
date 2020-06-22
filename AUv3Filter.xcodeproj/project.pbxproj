@@ -20,8 +20,8 @@
 		BD95148524A092E800D8024C /* RampingValueChangeDetectorTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95148424A092E800D8024C /* RampingValueChangeDetectorTests.mm */; };
 		BD95149124A0A63300D8024C /* FilterDSPKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95149024A0A63300D8024C /* FilterDSPKernel.mm */; };
 		BD95149224A0A63300D8024C /* FilterDSPKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95149024A0A63300D8024C /* FilterDSPKernel.mm */; };
-		BD95149624A0C57E00D8024C /* AUv3FilterDemoViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4201A2822403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift */; };
-		BD95149724A0C57E00D8024C /* AUv3FilterDemoViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4201A2822403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift */; };
+		BD95149624A0C57E00D8024C /* FilterViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4201A2822403120006E4333 /* FilterViewControllerExtension.swift */; };
+		BD95149724A0C57E00D8024C /* FilterViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4201A2822403120006E4333 /* FilterViewControllerExtension.swift */; };
 		BDB7CE90249D3C00009580D5 /* NonCopyable.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */; };
 		BDB7CE91249D3C00009580D5 /* NonCopyable.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */; };
 		BDB7CE93249EC556009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
@@ -29,20 +29,19 @@
 		BDB7CE95249EC570009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
 		BDB7CE97249F7694009580D5 /* ValueChangeDetector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE96249F7209009580D5 /* ValueChangeDetector.hpp */; };
 		BDB7CE98249F7694009580D5 /* ValueChangeDetector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE96249F7209009580D5 /* ValueChangeDetector.hpp */; };
-		BDB7CE9A249FC026009580D5 /* Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB7CE99249FC026009580D5 /* Preset.swift */; };
 		BDB7CE9B249FC0AB009580D5 /* Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB7CE99249FC026009580D5 /* Preset.swift */; };
 		BDB7CE9C249FC0AC009580D5 /* Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB7CE99249FC026009580D5 /* Preset.swift */; };
 		BDB7CE9E249FC152009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE9D249FC152009580D5 /* Accelerate.framework */; };
 		BDB7CE9F249FC157009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE9D249FC152009580D5 /* Accelerate.framework */; };
 		BDB7CEA0249FC162009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
-		C433F56122404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433F56022404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift */; };
+		C433F56122404C7C00F1B750 /* FilterViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433F56022404C7C00F1B750 /* FilterViewControllerExtension.swift */; };
 		C437FE59222367CD008D6C09 /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */; };
 		C437FE5A222367CD008D6C09 /* LowPassFilterFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C437FE712223686D008D6C09 /* LowPassFilter.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C437FE632223686D008D6C09 /* LowPassFilter.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C4660A5C2225F9A0007BE3B1 /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */; };
 		C4660A5D2225F9A0007BE3B1 /* LowPassFilterFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C4660A602225F9A0007BE3B1 /* LowPassFilter.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C437FEA0222368B7008D6C09 /* LowPassFilter.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C46B8B8122418B6000E00B1E /* AUv3FilterDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4C9EAAB2227D79D003FEE1C /* AUv3FilterDemoViewController.xib */; };
+		C46B8B8122418B6000E00B1E /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4C9EAAB2227D79D003FEE1C /* FilterViewController.xib */; };
 		C4737B0B2231D930002CAD0B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4737B0A2231D930002CAD0B /* AudioToolbox.framework */; };
 		C496341222238CDD001D1F5B /* NSTextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C496341022238CDD001D1F5B /* NSTextFieldExtensions.swift */; };
 		C496341422238CFA001D1F5B /* LowPassFilterFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE80D2223713E001E6B6D /* LowPassFilterFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -193,8 +192,8 @@
 		BDB7CE96249F7209009580D5 /* ValueChangeDetector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ValueChangeDetector.hpp; sourceTree = "<group>"; };
 		BDB7CE99249FC026009580D5 /* Preset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preset.swift; sourceTree = "<group>"; };
 		BDB7CE9D249FC152009580D5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.5.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
-		C4201A2822403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewControllerExtension.swift; sourceTree = "<group>"; };
-		C433F56022404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewControllerExtension.swift; sourceTree = "<group>"; };
+		C4201A2822403120006E4333 /* FilterViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewControllerExtension.swift; sourceTree = "<group>"; };
+		C433F56022404C7C00F1B750 /* FilterViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewControllerExtension.swift; sourceTree = "<group>"; };
 		C437FE3A222367A6008D6C09 /* LowPassFilterDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LowPassFilterDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LowPassFilterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C437FE632223686D008D6C09 /* LowPassFilter.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LowPassFilter.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -236,7 +235,7 @@
 		C4BEE8122223734E001E6B6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		C4BEE8162223736F001E6B6D /* LowPassFilterFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LowPassFilterFramework.h; sourceTree = "<group>"; };
 		C4BEE81B22237772001E6B6D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
-		C4C9EAAB2227D79D003FEE1C /* AUv3FilterDemoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AUv3FilterDemoViewController.xib; sourceTree = "<group>"; };
+		C4C9EAAB2227D79D003FEE1C /* FilterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
 		C4CE62D8222601070055FE6B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FilterDSPKernelAdapter.hpp; sourceTree = "<group>"; };
 		C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FilterDSPKernelAdapter.mm; sourceTree = "<group>"; };
@@ -374,7 +373,7 @@
 		C4BEE79722236A29001E6B6D /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				C433F56022404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift */,
+				C433F56022404C7C00F1B750 /* FilterViewControllerExtension.swift */,
 				C4BEE8112223734E001E6B6D /* MainInterface.storyboard */,
 				C4BEE79C22236A29001E6B6D /* Info.plist */,
 			);
@@ -416,7 +415,7 @@
 		C4BEE7B722236A58001E6B6D /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				C4201A2822403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift */,
+				C4201A2822403120006E4333 /* FilterViewControllerExtension.swift */,
 				C4BEE7BE22236A58001E6B6D /* Info.plist */,
 				C4BEE7BD22236A58001E6B6D /* Extension.entitlements */,
 			);
@@ -426,7 +425,7 @@
 		C4BEE7C022236A58001E6B6D /* Framework */ = {
 			isa = PBXGroup;
 			children = (
-				C4C9EAAB2227D79D003FEE1C /* AUv3FilterDemoViewController.xib */,
+				C4C9EAAB2227D79D003FEE1C /* FilterViewController.xib */,
 				C4BEE80D2223713E001E6B6D /* LowPassFilterFramework.h */,
 				C4BEE7C222236A58001E6B6D /* Info.plist */,
 				C496340F22238947001D1F5B /* Support */,
@@ -450,9 +449,7 @@
 		C4BEE7D522236E99001E6B6D /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				C4BEE7E022236E99001E6B6D /* AudioUnitManager.swift */,
 				C4F07730223AC4F5008FFF06 /* FilterViewController.swift */,
-				BDB7CE99249FC026009580D5 /* Preset.swift */,
 				C4BEE7E122236E99001E6B6D /* AudioUnit */,
 				C4F07733223AC506008FFF06 /* Support */,
 			);
@@ -462,8 +459,10 @@
 		C4BEE7E122236E99001E6B6D /* AudioUnit */ = {
 			isa = PBXGroup;
 			children = (
+				C4BEE7E022236E99001E6B6D /* AudioUnitManager.swift */,
 				C4F004A52239B2070014E248 /* FilterAudioUnit.swift */,
 				C4F0772D223AACBB008FFF06 /* FilterParameters.swift */,
+				BDB7CE99249FC026009580D5 /* Preset.swift */,
 				C4BEE7E422236E99001E6B6D /* Support */,
 			);
 			path = AudioUnit;
@@ -841,7 +840,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C46B8B8122418B6000E00B1E /* AUv3FilterDemoViewController.xib in Resources */,
+				C46B8B8122418B6000E00B1E /* FilterViewController.xib in Resources */,
 				C4F07736223ACB91008FFF06 /* Synth.aif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -870,11 +869,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD95149724A0C57E00D8024C /* AUv3FilterDemoViewControllerExtension.swift in Sources */,
+				BD95149724A0C57E00D8024C /* FilterViewControllerExtension.swift in Sources */,
 				C4BEE7B422236A29001E6B6D /* AppDelegate.swift in Sources */,
 				BD95146A24A0288100D8024C /* AudioUnitBusBufferManager.mm in Sources */,
 				C4BEE81022237302001E6B6D /* MainViewController.swift in Sources */,
-				BDB7CE9A249FC026009580D5 /* Preset.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -903,7 +901,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C433F56122404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift in Sources */,
+				C433F56122404C7C00F1B750 /* FilterViewControllerExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -942,7 +940,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD95149624A0C57E00D8024C /* AUv3FilterDemoViewControllerExtension.swift in Sources */,
+				BD95149624A0C57E00D8024C /* FilterViewControllerExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

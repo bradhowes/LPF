@@ -134,7 +134,7 @@ public class FilterAudioUnit: AUAudioUnit {
         print("\nProcess Name: \(info.processName) PID: \(info.processIdentifier)\n")
 
         let message = """
-        AUv3FilterDemo (
+        FilterAudioUnit (
         type: \(acd.componentType.stringValue)
         subtype: \(acd.componentSubType.stringValue)
         manufacturer: \(acd.componentManufacturer.stringValue)

@@ -5,7 +5,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="AUv3FilterDemoViewController" customModule="AUv3FilterFramework" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner">
             <connections>
                 <outlet property="compactView" destination="usM-Ct-ETz" id="6tA-ZU-CPN"/>
                 <outlet property="expandedView" destination="R36-UR-7aV" id="2Ns-GU-3Ee"/>
@@ -32,7 +32,7 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oPI-wC-N8q" customClass="FilterView" customModule="AUv3FilterFramework">
+                <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oPI-wC-N8q" customClass="FilterView" customModule="LowPassFilterFramework">
                     <rect key="frame" x="8" y="8" width="784" height="455"/>
                 </customView>
             </subviews>
@@ -67,8 +67,8 @@
                     </columns>
                     <gridCells>
                         <gridCell row="wNw-Rk-kNh" column="f23-Im-FOH" id="zHE-1x-fkg">
-                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vM1-UF-NEu">
-                                <rect key="frame" x="-2" y="37" width="114" height="23"/>
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vM1-UF-NEu">
+                                <rect key="frame" x="-2" y="39" width="114" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Cutoff Frequency:" id="JIC-Ub-2XD">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -77,8 +77,8 @@
                             </textField>
                         </gridCell>
                         <gridCell row="wNw-Rk-kNh" column="99R-ul-yvS" id="ul6-DD-UJ5">
-                            <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gNr-9C-Jcl">
-                                <rect key="frame" x="126" y="37" width="100" height="23"/>
+                            <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gNr-9C-Jcl">
+                                <rect key="frame" x="126" y="39" width="100" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="dKN-GS-fOS">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -90,8 +90,8 @@
                             </textField>
                         </gridCell>
                         <gridCell row="wNw-Rk-kNh" column="Hru-wE-T25" id="gkm-lV-TaS">
-                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8xF-Zd-Vtr">
-                                <rect key="frame" x="240" y="37" width="21" height="23"/>
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8xF-Zd-Vtr">
+                                <rect key="frame" x="240" y="39" width="21" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Hz" id="Vxd-VN-jk7">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -100,8 +100,8 @@
                             </textField>
                         </gridCell>
                         <gridCell row="ieJ-oZ-bA2" column="f23-Im-FOH" id="KYS-iE-d7Q">
-                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zzZ-08-gfZ">
-                                <rect key="frame" x="-2" y="0.0" width="75" height="21"/>
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zzZ-08-gfZ">
+                                <rect key="frame" x="-2" y="0.0" width="75" height="23"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Resonance:" id="MDe-7U-QdX">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -110,8 +110,8 @@
                             </textField>
                         </gridCell>
                         <gridCell row="ieJ-oZ-bA2" column="99R-ul-yvS" id="lUa-Fn-iWV">
-                            <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mNt-J3-k64">
-                                <rect key="frame" x="126" y="0.0" width="100" height="21"/>
+                            <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mNt-J3-k64">
+                                <rect key="frame" x="126" y="0.0" width="100" height="23"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="Wuy-nj-ksB">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -123,8 +123,8 @@
                             </textField>
                         </gridCell>
                         <gridCell row="ieJ-oZ-bA2" column="Hru-wE-T25" id="JMX-lh-wBy">
-                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1nB-gu-4UV">
-                                <rect key="frame" x="240" y="0.0" width="21" height="21"/>
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="1nB-gu-4UV">
+                                <rect key="frame" x="240" y="0.0" width="21" height="23"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="dB" id="PP9-vI-jV7">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>

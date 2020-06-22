@@ -11,7 +11,7 @@
         <!--AUv3 Filter Demo View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" userLabel="AUv3 Filter Demo View Controller" customClass="FilterViewController" customModule="AUv3FilterFramework" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" userLabel="AUv3 Filter Demo View Controller" customClass="FilterViewController" customModule="LowPassFilterFramework" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

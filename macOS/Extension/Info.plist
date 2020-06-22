@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>AUv3FilterExtension</string>
+	<string>LowPassFilterExtension</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>LowPassFilterExtension</string>
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
@@ -32,11 +32,11 @@
 			<array>
 				<dict>
 					<key>description</key>
-					<string>AUv3FilterDemo</string>
+					<string>LowPassFilter</string>
 					<key>manufacturer</key>
-					<string>Demo</string>
+					<string>BRAY</string>
 					<key>name</key>
-					<string>Demo: AUv3FilterDemo</string>
+					<string>Demo: LowPassFilter</string>
 					<key>sandboxSafe</key>
 					<true/>
 					<key>subtype</key>
@@ -55,7 +55,7 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.AudioUnit-UI</string>
 		<key>NSExtensionPrincipalClass</key>
-		<string>AUv3FilterFramework.AUv3FilterDemoViewController</string>
+		<string>LowPassFilterFramework.FilterViewController</string>
 	</dict>
 </dict>
 </plist>

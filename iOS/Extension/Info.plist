@@ -28,9 +28,9 @@
 			<array>
 				<dict>
 					<key>description</key>
-					<string>LowPassFilterExtension</string>
+					<string>LowPassFilter</string>
 					<key>factoryFunction</key>
-					<string>$(PRODUCT_MODULE_NAME).AUv3FilterDemoViewController</string>
+					<string>$(PRODUCT_MODULE_NAME).FilterViewController</string>
 					<key>manufacturer</key>
 					<string>Demo</string>
 					<key>name</key>

@@ -2,10 +2,6 @@
 
 import CoreAudioKit
 
-/**
- <#Describe FilterViewController#>
- - SeeAlso: `AUViewController`
- */
 public class FilterViewController: AUViewController {
 
     let compact = AUAudioUnitViewConfiguration(width: 400, height: 100, hostHasController: false)
@@ -13,7 +9,6 @@ public class FilterViewController: AUViewController {
     public var viewConfigurations: [AUAudioUnitViewConfiguration] { [expanded, compact] }
 
     private var viewConfig: AUAudioUnitViewConfiguration!
-
     private var cutoffParam: AUParameter!
     private var resonanceParam: AUParameter!
     private var paramObserverToken: AUParameterObserverToken?
