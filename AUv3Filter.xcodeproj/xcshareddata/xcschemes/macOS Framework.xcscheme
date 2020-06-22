@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C437FE8E222368A1008D6C09"
                BuildableName = "AUv3FilterFramework.framework"
-               BlueprintName = "AUv3FilterFramework macOS"
+               BlueprintName = "macOS Framework"
                ReferencedContainer = "container:AUv3Filter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -62,7 +62,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE8E222368A1008D6C09"
             BuildableName = "AUv3FilterFramework.framework"
-            BlueprintName = "AUv3FilterFramework macOS"
+            BlueprintName = "macOS Framework"
             ReferencedContainer = "container:AUv3Filter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

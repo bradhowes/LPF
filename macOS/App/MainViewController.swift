@@ -1,7 +1,7 @@
 // Copyright © 2020 Brad Howes. All rights reserved.
 
 import Cocoa
-import AUv3FilterFramework
+import LowPassFilterFramework
 
 class MainViewController: NSViewController {
 

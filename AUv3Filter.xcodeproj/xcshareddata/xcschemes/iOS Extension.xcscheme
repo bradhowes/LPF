@@ -14,9 +14,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C437FE792223688D008D6C09"
+               BlueprintIdentifier = "C437FE622223686D008D6C09"
+               BuildableName = "AUv3FilterExtension.appex"
+               BlueprintName = "iOS Extension"
+               ReferencedContainer = "container:AUv3Filter.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "C437FE39222367A6008D6C09"
                BuildableName = "AUv3Filter.app"
-               BlueprintName = "AUv3Filter macOS"
+               BlueprintName = "iOS App"
                ReferencedContainer = "container:AUv3Filter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -30,9 +44,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C437FE792223688D008D6C09"
-            BuildableName = "AUv3Filter.app"
-            BlueprintName = "AUv3Filter macOS"
+            BlueprintIdentifier = "C437FE622223686D008D6C09"
+            BuildableName = "AUv3FilterExtension.appex"
+            BlueprintName = "iOS Extension"
             ReferencedContainer = "container:AUv3Filter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -41,8 +55,8 @@
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      selectedDebuggerIdentifier = ""
+      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -53,9 +67,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C437FE792223688D008D6C09"
+            BlueprintIdentifier = "C437FE39222367A6008D6C09"
             BuildableName = "AUv3Filter.app"
-            BlueprintName = "AUv3Filter macOS"
+            BlueprintName = "iOS App"
             ReferencedContainer = "container:AUv3Filter.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -70,9 +84,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C437FE792223688D008D6C09"
+            BlueprintIdentifier = "C437FE39222367A6008D6C09"
             BuildableName = "AUv3Filter.app"
-            BlueprintName = "AUv3Filter macOS"
+            BlueprintName = "iOS App"
             ReferencedContainer = "container:AUv3Filter.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

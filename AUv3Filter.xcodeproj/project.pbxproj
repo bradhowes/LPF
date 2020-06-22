@@ -15,7 +15,7 @@
 		BD95146B24A028E700D8024C /* AudioUnitBusBufferManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */; };
 		BD95146C24A028E800D8024C /* AudioUnitBusBufferManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */; };
 		BD95147824A08BB600D8024C /* macOSFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD95147724A08BB600D8024C /* macOSFrameworkTests.swift */; };
-		BD95147A24A08BB600D8024C /* AUv3FilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* AUv3FilterFramework.framework */; };
+		BD95147A24A08BB600D8024C /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */; };
 		BD95148324A090E400D8024C /* ValueChangeDetectorTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95148224A090E400D8024C /* ValueChangeDetectorTests.mm */; };
 		BD95148524A092E800D8024C /* RampingValueChangeDetectorTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95148424A092E800D8024C /* RampingValueChangeDetectorTests.mm */; };
 		BD95149124A0A63300D8024C /* FilterDSPKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95149024A0A63300D8024C /* FilterDSPKernel.mm */; };
@@ -36,16 +36,16 @@
 		BDB7CE9F249FC157009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE9D249FC152009580D5 /* Accelerate.framework */; };
 		BDB7CEA0249FC162009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
 		C433F56122404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433F56022404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift */; };
-		C437FE59222367CD008D6C09 /* AUv3FilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* AUv3FilterFramework.framework */; };
-		C437FE5A222367CD008D6C09 /* AUv3FilterFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* AUv3FilterFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C437FE712223686D008D6C09 /* AUv3FilterExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C437FE632223686D008D6C09 /* AUv3FilterExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		C4660A5C2225F9A0007BE3B1 /* AUv3FilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* AUv3FilterFramework.framework */; };
-		C4660A5D2225F9A0007BE3B1 /* AUv3FilterFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* AUv3FilterFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C4660A602225F9A0007BE3B1 /* AUv3FilterExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C437FEA0222368B7008D6C09 /* AUv3FilterExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C437FE59222367CD008D6C09 /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */; };
+		C437FE5A222367CD008D6C09 /* LowPassFilterFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C437FE712223686D008D6C09 /* LowPassFilter.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C437FE632223686D008D6C09 /* LowPassFilter.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C4660A5C2225F9A0007BE3B1 /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */; };
+		C4660A5D2225F9A0007BE3B1 /* LowPassFilterFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C4660A602225F9A0007BE3B1 /* LowPassFilter.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C437FEA0222368B7008D6C09 /* LowPassFilter.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C46B8B8122418B6000E00B1E /* AUv3FilterDemoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4C9EAAB2227D79D003FEE1C /* AUv3FilterDemoViewController.xib */; };
 		C4737B0B2231D930002CAD0B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4737B0A2231D930002CAD0B /* AudioToolbox.framework */; };
 		C496341222238CDD001D1F5B /* NSTextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C496341022238CDD001D1F5B /* NSTextFieldExtensions.swift */; };
-		C496341422238CFA001D1F5B /* AUv3FilterFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE80D2223713E001E6B6D /* AUv3FilterFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C496341422238CFA001D1F5B /* LowPassFilterFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE80D2223713E001E6B6D /* LowPassFilterFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C4A3D65B223FF12A002784D4 /* SimplePlayEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A3D65A223FF12A002784D4 /* SimplePlayEngine.swift */; };
 		C4A3D65C223FF12A002784D4 /* SimplePlayEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A3D65A223FF12A002784D4 /* SimplePlayEngine.swift */; };
 		C4BEE7B122236A29001E6B6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4BEE7A422236A29001E6B6D /* Assets.xcassets */; };
@@ -75,9 +75,9 @@
 		C4BEE80922237078001E6B6D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE80822237078001E6B6D /* MainViewController.swift */; };
 		C4BEE81022237302001E6B6D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE80F22237302001E6B6D /* MainViewController.swift */; };
 		C4BEE8132223734E001E6B6D /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4BEE8112223734E001E6B6D /* MainInterface.storyboard */; };
-		C4BEE8172223736F001E6B6D /* AUv3FilterFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE8162223736F001E6B6D /* AUv3FilterFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C4BEE81922237394001E6B6D /* AUv3FilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* AUv3FilterFramework.framework */; };
-		C4BEE81A222373A6001E6B6D /* AUv3FilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* AUv3FilterFramework.framework */; };
+		C4BEE8172223736F001E6B6D /* LowPassFilterFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE8162223736F001E6B6D /* LowPassFilterFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C4BEE81922237394001E6B6D /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */; };
+		C4BEE81A222373A6001E6B6D /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */; };
 		C4F004A12239B1E10014E248 /* FilterDSPKernelAdapter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		C4F004A22239B1E10014E248 /* FilterDSPKernelAdapter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		C4F004A32239B1E10014E248 /* FilterDSPKernelAdapter.mm in Sources */ = {isa = PBXBuildFile; fileRef = C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */; };
@@ -137,7 +137,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C437FE5A222367CD008D6C09 /* AUv3FilterFramework.framework in Embed Frameworks */,
+				C437FE5A222367CD008D6C09 /* LowPassFilterFramework.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -148,7 +148,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				C437FE712223686D008D6C09 /* AUv3FilterExtension.appex in Embed App Extensions */,
+				C437FE712223686D008D6C09 /* LowPassFilter.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -159,7 +159,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C4660A5D2225F9A0007BE3B1 /* AUv3FilterFramework.framework in Embed Frameworks */,
+				C4660A5D2225F9A0007BE3B1 /* LowPassFilterFramework.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -170,7 +170,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				C4660A602225F9A0007BE3B1 /* AUv3FilterExtension.appex in Embed App Extensions */,
+				C4660A602225F9A0007BE3B1 /* LowPassFilter.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -195,12 +195,12 @@
 		BDB7CE9D249FC152009580D5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.5.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 		C4201A2822403120006E4333 /* AUv3FilterDemoViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewControllerExtension.swift; sourceTree = "<group>"; };
 		C433F56022404C7C00F1B750 /* AUv3FilterDemoViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUv3FilterDemoViewControllerExtension.swift; sourceTree = "<group>"; };
-		C437FE3A222367A6008D6C09 /* AUv3Filter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AUv3Filter.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C437FE52222367CD008D6C09 /* AUv3FilterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AUv3FilterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C437FE632223686D008D6C09 /* AUv3FilterExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AUv3FilterExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		C437FE7A2223688D008D6C09 /* AUv3Filter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AUv3Filter.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C437FE8F222368A1008D6C09 /* AUv3FilterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AUv3FilterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C437FEA0222368B7008D6C09 /* AUv3FilterExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AUv3FilterExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C437FE3A222367A6008D6C09 /* LowPassFilterDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LowPassFilterDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LowPassFilterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C437FE632223686D008D6C09 /* LowPassFilter.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LowPassFilter.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C437FE7A2223688D008D6C09 /* LowPassFilterDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LowPassFilterDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LowPassFilterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C437FEA0222368B7008D6C09 /* LowPassFilter.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LowPassFilter.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C44F544422260E2500484B67 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		C44F544622260E2C00484B67 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
 		C4737B092231D918002CAD0B /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
@@ -231,10 +231,10 @@
 		C4BEE7E822236E99001E6B6D /* AudioUnitBusBufferManager.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AudioUnitBusBufferManager.hpp; sourceTree = "<group>"; };
 		C4BEE80822237078001E6B6D /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		C4BEE80A222370B2001E6B6D /* App.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
-		C4BEE80D2223713E001E6B6D /* AUv3FilterFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUv3FilterFramework.h; sourceTree = "<group>"; };
+		C4BEE80D2223713E001E6B6D /* LowPassFilterFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LowPassFilterFramework.h; sourceTree = "<group>"; };
 		C4BEE80F22237302001E6B6D /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		C4BEE8122223734E001E6B6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		C4BEE8162223736F001E6B6D /* AUv3FilterFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AUv3FilterFramework.h; sourceTree = "<group>"; };
+		C4BEE8162223736F001E6B6D /* LowPassFilterFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LowPassFilterFramework.h; sourceTree = "<group>"; };
 		C4BEE81B22237772001E6B6D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
 		C4C9EAAB2227D79D003FEE1C /* AUv3FilterDemoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AUv3FilterDemoViewController.xib; sourceTree = "<group>"; };
 		C4CE62D8222601070055FE6B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -253,7 +253,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD95147A24A08BB600D8024C /* AUv3FilterFramework.framework in Frameworks */,
+				BD95147A24A08BB600D8024C /* LowPassFilterFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,7 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDB7CE9E249FC152009580D5 /* Accelerate.framework in Frameworks */,
-				C437FE59222367CD008D6C09 /* AUv3FilterFramework.framework in Frameworks */,
+				C437FE59222367CD008D6C09 /* LowPassFilterFramework.framework in Frameworks */,
 				C4737B0B2231D930002CAD0B /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -279,7 +279,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4BEE81922237394001E6B6D /* AUv3FilterFramework.framework in Frameworks */,
+				C4BEE81922237394001E6B6D /* LowPassFilterFramework.framework in Frameworks */,
 				BDB7CE9F249FC157009580D5 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -288,7 +288,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4660A5C2225F9A0007BE3B1 /* AUv3FilterFramework.framework in Frameworks */,
+				C4660A5C2225F9A0007BE3B1 /* LowPassFilterFramework.framework in Frameworks */,
 				BDB7CE93249EC556009580D5 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,7 +305,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4BEE81A222373A6001E6B6D /* AUv3FilterFramework.framework in Frameworks */,
+				C4BEE81A222373A6001E6B6D /* LowPassFilterFramework.framework in Frameworks */,
 				BDB7CE94249EC565009580D5 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -342,12 +342,12 @@
 		C437FE3B222367A6008D6C09 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C437FE3A222367A6008D6C09 /* AUv3Filter.app */,
-				C437FE52222367CD008D6C09 /* AUv3FilterFramework.framework */,
-				C437FE632223686D008D6C09 /* AUv3FilterExtension.appex */,
-				C437FE7A2223688D008D6C09 /* AUv3Filter.app */,
-				C437FE8F222368A1008D6C09 /* AUv3FilterFramework.framework */,
-				C437FEA0222368B7008D6C09 /* AUv3FilterExtension.appex */,
+				C437FE3A222367A6008D6C09 /* LowPassFilterDemo.app */,
+				C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */,
+				C437FE632223686D008D6C09 /* LowPassFilter.appex */,
+				C437FE7A2223688D008D6C09 /* LowPassFilterDemo.app */,
+				C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */,
+				C437FEA0222368B7008D6C09 /* LowPassFilter.appex */,
 				BD95147524A08BB600D8024C /* macOSFrameworkTests.xctest */,
 			);
 			name = Products;
@@ -384,7 +384,7 @@
 		C4BEE79F22236A29001E6B6D /* Framework */ = {
 			isa = PBXGroup;
 			children = (
-				C4BEE8162223736F001E6B6D /* AUv3FilterFramework.h */,
+				C4BEE8162223736F001E6B6D /* LowPassFilterFramework.h */,
 				C4BEE7A122236A29001E6B6D /* Info.plist */,
 			);
 			path = Framework;
@@ -427,7 +427,7 @@
 			isa = PBXGroup;
 			children = (
 				C4C9EAAB2227D79D003FEE1C /* AUv3FilterDemoViewController.xib */,
-				C4BEE80D2223713E001E6B6D /* AUv3FilterFramework.h */,
+				C4BEE80D2223713E001E6B6D /* LowPassFilterFramework.h */,
 				C4BEE7C222236A58001E6B6D /* Info.plist */,
 				C496340F22238947001D1F5B /* Support */,
 			);
@@ -555,7 +555,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4F004A12239B1E10014E248 /* FilterDSPKernelAdapter.hpp in Headers */,
-				C4BEE8172223736F001E6B6D /* AUv3FilterFramework.h in Headers */,
+				C4BEE8172223736F001E6B6D /* LowPassFilterFramework.h in Headers */,
 				BD1F7BAE249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */,
 				BDB7CE97249F7694009580D5 /* ValueChangeDetector.hpp in Headers */,
 				C4BEE7EF22236F24001E6B6D /* RampingValueChangeDetector.hpp in Headers */,
@@ -571,7 +571,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4F004A22239B1E10014E248 /* FilterDSPKernelAdapter.hpp in Headers */,
-				C496341422238CFA001D1F5B /* AUv3FilterFramework.h in Headers */,
+				C496341422238CFA001D1F5B /* LowPassFilterFramework.h in Headers */,
 				BD1F7BAF249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */,
 				BDB7CE98249F7694009580D5 /* ValueChangeDetector.hpp in Headers */,
 				C4BEE7F322236F27001E6B6D /* RampingValueChangeDetector.hpp in Headers */,
@@ -603,9 +603,9 @@
 			productReference = BD95147524A08BB600D8024C /* macOSFrameworkTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		C437FE39222367A6008D6C09 /* AUv3Filter iOS */ = {
+		C437FE39222367A6008D6C09 /* iOS App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C437FE4A222367A8008D6C09 /* Build configuration list for PBXNativeTarget "AUv3Filter iOS" */;
+			buildConfigurationList = C437FE4A222367A8008D6C09 /* Build configuration list for PBXNativeTarget "iOS App" */;
 			buildPhases = (
 				C437FE36222367A6008D6C09 /* Sources */,
 				C437FE37222367A6008D6C09 /* Frameworks */,
@@ -619,14 +619,14 @@
 				C437FE58222367CD008D6C09 /* PBXTargetDependency */,
 				C437FE702223686D008D6C09 /* PBXTargetDependency */,
 			);
-			name = "AUv3Filter iOS";
+			name = "iOS App";
 			productName = "AUv3Filter iOS";
-			productReference = C437FE3A222367A6008D6C09 /* AUv3Filter.app */;
+			productReference = C437FE3A222367A6008D6C09 /* LowPassFilterDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C437FE51222367CD008D6C09 /* AUv3FilterFramework iOS */ = {
+		C437FE51222367CD008D6C09 /* iOS Framework */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C437FE5B222367CD008D6C09 /* Build configuration list for PBXNativeTarget "AUv3FilterFramework iOS" */;
+			buildConfigurationList = C437FE5B222367CD008D6C09 /* Build configuration list for PBXNativeTarget "iOS Framework" */;
 			buildPhases = (
 				C437FE4D222367CD008D6C09 /* Headers */,
 				C437FE4E222367CD008D6C09 /* Sources */,
@@ -637,14 +637,14 @@
 			);
 			dependencies = (
 			);
-			name = "AUv3FilterFramework iOS";
+			name = "iOS Framework";
 			productName = "AUv3FilterFramework iOS";
-			productReference = C437FE52222367CD008D6C09 /* AUv3FilterFramework.framework */;
+			productReference = C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		C437FE622223686D008D6C09 /* AUv3FilterExtension iOS */ = {
+		C437FE622223686D008D6C09 /* iOS Extension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C437FE722223686D008D6C09 /* Build configuration list for PBXNativeTarget "AUv3FilterExtension iOS" */;
+			buildConfigurationList = C437FE722223686D008D6C09 /* Build configuration list for PBXNativeTarget "iOS Extension" */;
 			buildPhases = (
 				C437FE5F2223686D008D6C09 /* Sources */,
 				C437FE602223686D008D6C09 /* Frameworks */,
@@ -654,14 +654,14 @@
 			);
 			dependencies = (
 			);
-			name = "AUv3FilterExtension iOS";
+			name = "iOS Extension";
 			productName = "AUv3FilterExtension iOS";
-			productReference = C437FE632223686D008D6C09 /* AUv3FilterExtension.appex */;
+			productReference = C437FE632223686D008D6C09 /* LowPassFilter.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		C437FE792223688D008D6C09 /* AUv3Filter macOS */ = {
+		C437FE792223688D008D6C09 /* macOS App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C437FE872223688E008D6C09 /* Build configuration list for PBXNativeTarget "AUv3Filter macOS" */;
+			buildConfigurationList = C437FE872223688E008D6C09 /* Build configuration list for PBXNativeTarget "macOS App" */;
 			buildPhases = (
 				C437FE762223688D008D6C09 /* Sources */,
 				C437FE772223688D008D6C09 /* Frameworks */,
@@ -675,14 +675,14 @@
 				C4660A5F2225F9A0007BE3B1 /* PBXTargetDependency */,
 				C4660A622225F9A0007BE3B1 /* PBXTargetDependency */,
 			);
-			name = "AUv3Filter macOS";
+			name = "macOS App";
 			productName = "AUv3Filter macOS";
-			productReference = C437FE7A2223688D008D6C09 /* AUv3Filter.app */;
+			productReference = C437FE7A2223688D008D6C09 /* LowPassFilterDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
-		C437FE8E222368A1008D6C09 /* AUv3FilterFramework macOS */ = {
+		C437FE8E222368A1008D6C09 /* macOS Framework */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C437FE98222368A1008D6C09 /* Build configuration list for PBXNativeTarget "AUv3FilterFramework macOS" */;
+			buildConfigurationList = C437FE98222368A1008D6C09 /* Build configuration list for PBXNativeTarget "macOS Framework" */;
 			buildPhases = (
 				C437FE8A222368A1008D6C09 /* Headers */,
 				C437FE8B222368A1008D6C09 /* Sources */,
@@ -693,14 +693,14 @@
 			);
 			dependencies = (
 			);
-			name = "AUv3FilterFramework macOS";
+			name = "macOS Framework";
 			productName = "AUv3FilterFramework macOS";
-			productReference = C437FE8F222368A1008D6C09 /* AUv3FilterFramework.framework */;
+			productReference = C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		C437FE9F222368B7008D6C09 /* AUv3FilterExtension macOS */ = {
+		C437FE9F222368B7008D6C09 /* macOS Extension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C437FEB0222368B7008D6C09 /* Build configuration list for PBXNativeTarget "AUv3FilterExtension macOS" */;
+			buildConfigurationList = C437FEB0222368B7008D6C09 /* Build configuration list for PBXNativeTarget "macOS Extension" */;
 			buildPhases = (
 				C437FE9C222368B7008D6C09 /* Sources */,
 				C437FE9D222368B7008D6C09 /* Frameworks */,
@@ -710,9 +710,9 @@
 			);
 			dependencies = (
 			);
-			name = "AUv3FilterExtension macOS";
+			name = "macOS Extension";
 			productName = "AUv3FilterExtension macOS";
-			productReference = C437FEA0222368B7008D6C09 /* AUv3FilterExtension.appex */;
+			productReference = C437FEA0222368B7008D6C09 /* LowPassFilter.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -784,12 +784,12 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C437FE39222367A6008D6C09 /* AUv3Filter iOS */,
-				C437FE622223686D008D6C09 /* AUv3FilterExtension iOS */,
-				C437FE51222367CD008D6C09 /* AUv3FilterFramework iOS */,
-				C437FE792223688D008D6C09 /* AUv3Filter macOS */,
-				C437FE9F222368B7008D6C09 /* AUv3FilterExtension macOS */,
-				C437FE8E222368A1008D6C09 /* AUv3FilterFramework macOS */,
+				C437FE39222367A6008D6C09 /* iOS App */,
+				C437FE622223686D008D6C09 /* iOS Extension */,
+				C437FE51222367CD008D6C09 /* iOS Framework */,
+				C437FE792223688D008D6C09 /* macOS App */,
+				C437FE9F222368B7008D6C09 /* macOS Extension */,
+				C437FE8E222368A1008D6C09 /* macOS Framework */,
 				BD95147424A08BB600D8024C /* macOSFrameworkTests */,
 			);
 		};
@@ -951,27 +951,27 @@
 /* Begin PBXTargetDependency section */
 		BD95147C24A08BB600D8024C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C437FE8E222368A1008D6C09 /* AUv3FilterFramework macOS */;
+			target = C437FE8E222368A1008D6C09 /* macOS Framework */;
 			targetProxy = BD95147B24A08BB600D8024C /* PBXContainerItemProxy */;
 		};
 		C437FE58222367CD008D6C09 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C437FE51222367CD008D6C09 /* AUv3FilterFramework iOS */;
+			target = C437FE51222367CD008D6C09 /* iOS Framework */;
 			targetProxy = C437FE57222367CD008D6C09 /* PBXContainerItemProxy */;
 		};
 		C437FE702223686D008D6C09 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C437FE622223686D008D6C09 /* AUv3FilterExtension iOS */;
+			target = C437FE622223686D008D6C09 /* iOS Extension */;
 			targetProxy = C437FE6F2223686D008D6C09 /* PBXContainerItemProxy */;
 		};
 		C4660A5F2225F9A0007BE3B1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C437FE8E222368A1008D6C09 /* AUv3FilterFramework macOS */;
+			target = C437FE8E222368A1008D6C09 /* macOS Framework */;
 			targetProxy = C4660A5E2225F9A0007BE3B1 /* PBXContainerItemProxy */;
 		};
 		C4660A622225F9A0007BE3B1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = C437FE9F222368B7008D6C09 /* AUv3FilterExtension macOS */;
+			target = C437FE9F222368B7008D6C09 /* macOS Extension */;
 			targetProxy = C4660A612225F9A0007BE3B1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1093,7 +1093,6 @@
 		};
 		C437FE342223672C008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F145FF70F145FFC000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1129,7 +1128,6 @@
 		};
 		C437FE352223672C008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F145FF70F145FFC000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1163,7 +1161,6 @@
 		};
 		C437FE4B222367A8008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F145FF70F145FFC000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1226,8 +1223,8 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AUv3Filter${SAMPLE_CODE_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(PROJECT_NAME:c99extidentifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilter;
+				PRODUCT_NAME = LowPassFilterDemo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1239,7 +1236,6 @@
 		};
 		C437FE4C222367A8008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F145FF70F145FFC000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1295,8 +1291,8 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AUv3Filter${SAMPLE_CODE_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(PROJECT_NAME:c99extidentifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilter;
+				PRODUCT_NAME = LowPassFilterDemo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1309,7 +1305,6 @@
 		};
 		C437FE5C222367CD008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F145FF70F145FFC000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -1377,8 +1372,8 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AUv3FilterFramework${SAMPLE_CODE_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(PROJECT_NAME:c99extidentifier)Framework";
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilterFramework;
+				PRODUCT_NAME = LowPassFilterFramework;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1393,7 +1388,6 @@
 		};
 		C437FE5D222367CD008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F145FF70F145FFC000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -1454,8 +1448,8 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AUv3FilterFramework${SAMPLE_CODE_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(PROJECT_NAME:c99extidentifier)Framework";
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilterFramework;
+				PRODUCT_NAME = LowPassFilterFramework;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1471,7 +1465,6 @@
 		};
 		C437FE732223686D008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F145FF70F145FFC000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = NO;
@@ -1533,8 +1526,8 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AUv3Filter${SAMPLE_CODE_DISAMBIGUATOR}.AUv3FilterExtension";
-				PRODUCT_NAME = "$(PROJECT_NAME:c99extidentifier)Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilter.Extension;
+				PRODUCT_NAME = LowPassFilter;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1547,7 +1540,6 @@
 		};
 		C437FE742223686D008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F145FF70F145FFC000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = NO;
@@ -1602,8 +1594,8 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AUv3Filter${SAMPLE_CODE_DISAMBIGUATOR}.AUv3FilterExtension";
-				PRODUCT_NAME = "$(PROJECT_NAME:c99extidentifier)Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilter.Extension;
+				PRODUCT_NAME = LowPassFilter;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1617,7 +1609,6 @@
 		};
 		C437FE882223688E008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F145FF70F145FFC000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1681,8 +1672,8 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AUv3Filter${SAMPLE_CODE_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(PROJECT_NAME:c99extidentifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilter;
+				PRODUCT_NAME = LowPassFilterDemo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1693,7 +1684,6 @@
 		};
 		C437FE892223688E008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F145FF70F145FFC000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1750,8 +1740,8 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AUv3Filter${SAMPLE_CODE_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(PROJECT_NAME:c99extidentifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilter;
+				PRODUCT_NAME = LowPassFilterDemo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1762,7 +1752,6 @@
 		};
 		C437FE99222368A1008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F145FF70F145FFC000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -1832,8 +1821,9 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AUv3FilterFramework${SAMPLE_CODE_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(PROJECT_NAME:c99extidentifier)Framework";
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilterFramework;
+				PRODUCT_MODULE_NAME = LowPassFilterFramework;
+				PRODUCT_NAME = LowPassFilterFramework;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1847,7 +1837,6 @@
 		};
 		C437FE9A222368A1008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F145FF70F145FFC000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -1910,8 +1899,9 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AUv3FilterFramework${SAMPLE_CODE_DISAMBIGUATOR}";
-				PRODUCT_NAME = "$(PROJECT_NAME:c99extidentifier)Framework";
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilterFramework;
+				PRODUCT_MODULE_NAME = LowPassFilterFramework;
+				PRODUCT_NAME = LowPassFilterFramework;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -1925,7 +1915,6 @@
 		};
 		C437FEB1222368B7008D6C09 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F145FF70F145FFC000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -1989,8 +1978,8 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AUv3Filter${SAMPLE_CODE_DISAMBIGUATOR}.AUv3FilterExtension";
-				PRODUCT_NAME = "$(PROJECT_NAME:c99extidentifier)Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilter.Extension;
+				PRODUCT_NAME = LowPassFilter;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -2002,7 +1991,6 @@
 		};
 		C437FEB2222368B7008D6C09 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F145FF70F145FFC000000001 /* SampleCode.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -2059,8 +2047,8 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.apple-samplecode.AUv3Filter${SAMPLE_CODE_DISAMBIGUATOR}.AUv3FilterExtension";
-				PRODUCT_NAME = "$(PROJECT_NAME:c99extidentifier)Extension";
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilter.Extension;
+				PRODUCT_NAME = LowPassFilter;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
@@ -2091,7 +2079,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C437FE4A222367A8008D6C09 /* Build configuration list for PBXNativeTarget "AUv3Filter iOS" */ = {
+		C437FE4A222367A8008D6C09 /* Build configuration list for PBXNativeTarget "iOS App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C437FE4B222367A8008D6C09 /* Debug */,
@@ -2100,7 +2088,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C437FE5B222367CD008D6C09 /* Build configuration list for PBXNativeTarget "AUv3FilterFramework iOS" */ = {
+		C437FE5B222367CD008D6C09 /* Build configuration list for PBXNativeTarget "iOS Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C437FE5C222367CD008D6C09 /* Debug */,
@@ -2109,7 +2097,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C437FE722223686D008D6C09 /* Build configuration list for PBXNativeTarget "AUv3FilterExtension iOS" */ = {
+		C437FE722223686D008D6C09 /* Build configuration list for PBXNativeTarget "iOS Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C437FE732223686D008D6C09 /* Debug */,
@@ -2118,7 +2106,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C437FE872223688E008D6C09 /* Build configuration list for PBXNativeTarget "AUv3Filter macOS" */ = {
+		C437FE872223688E008D6C09 /* Build configuration list for PBXNativeTarget "macOS App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C437FE882223688E008D6C09 /* Debug */,
@@ -2127,7 +2115,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C437FE98222368A1008D6C09 /* Build configuration list for PBXNativeTarget "AUv3FilterFramework macOS" */ = {
+		C437FE98222368A1008D6C09 /* Build configuration list for PBXNativeTarget "macOS Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C437FE99222368A1008D6C09 /* Debug */,
@@ -2136,7 +2124,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C437FEB0222368B7008D6C09 /* Build configuration list for PBXNativeTarget "AUv3FilterExtension macOS" */ = {
+		C437FEB0222368B7008D6C09 /* Build configuration list for PBXNativeTarget "macOS Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C437FEB1222368B7008D6C09 /* Debug */,

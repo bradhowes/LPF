@@ -24,8 +24,6 @@
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSExtension</key>
 	<dict>
-		<key>NSExtensionPrincipalClass</key>
-		<string>AUv3FilterFramework.AUv3FilterDemoViewController</string>
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>AudioComponentBundle</key>
@@ -56,6 +54,8 @@
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.AudioUnit-UI</string>
+		<key>NSExtensionPrincipalClass</key>
+		<string>AUv3FilterFramework.AUv3FilterDemoViewController</string>
 	</dict>
 </dict>
 </plist>
