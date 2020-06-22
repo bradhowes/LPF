@@ -78,7 +78,7 @@ public final class AudioUnitManager {
         componentFlagsMask: 0
     )
 
-    private let componentName = "Demo: AUv3FilterDemo"
+    private let componentName = "Demo: LowPassFilter"
 
     private let playEngine = SimplePlayEngine()
 
@@ -130,7 +130,7 @@ public extension AudioUnitManager {
 private extension AudioUnitManager {
 
     private func loadViewController() -> FilterViewController {
-        guard let url = Bundle.main.builtInPlugInsURL?.appendingPathComponent("AUv3FilterExtension.appex"),
+        guard let url = Bundle.main.builtInPlugInsURL?.appendingPathComponent("LowPassFilter.appex"),
             let appexBundle = Bundle(url: url) else {
                 fatalError("Could not find app extension bundle URL.")
         }
@@ -138,23 +138,23 @@ private extension AudioUnitManager {
         #if os(iOS)
         let storyboard = Storyboard(name: "MainInterface", bundle: appexBundle)
         guard let controller = storyboard.instantiateInitialViewController() as? FilterViewController else {
-            fatalError("Unable to instantiate AUv3FilterDemoViewController")
+            fatalError("Unable to instantiate FilterViewController")
         }
         return controller
 
         #elseif os(macOS)
-        return FilterViewController(nibName: "AUv3FilterDemoViewController", bundle: appexBundle)
+        return FilterViewController(nibName: "FilterViewController", bundle: appexBundle)
         #endif
     }
 
     private func connectParametersToControls() {
         guard let audioUnit = audioUnit else {
-            fatalError("Couldn't locate AUv3FilterDemo")
+            fatalError("Couldn't locate FilterAudioUnit")
         }
 
         viewController.audioUnit = audioUnit
         guard let parameterTree = audioUnit.parameterTree else {
-            fatalError("AUv3FilterDemo does not define any parameters.")
+            fatalError("FilterAudioUnit does not define any parameters.")
         }
 
         cutoffParameter = parameterTree.value(forKey: "cutoff") as? AUParameter
