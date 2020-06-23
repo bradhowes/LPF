@@ -1,10 +1,5 @@
 // Copyright © 2020 Brad Howes. All rights reserved.
 
-public let defaultMinHertz = Float(12.0)
-public let defaultMaxHertz = Float(20_000.0)
-public let defaultMinGain = Float(-20)
-public let defaultMaxGain = Float(20)
-
 protocol FilterViewDelegate: class {
     func filterViewTouchBegan(_ filterView: FilterView)
     func filterView(_ filterView: FilterView, didChangeResonance resonance: Float)
@@ -14,31 +9,17 @@ protocol FilterViewDelegate: class {
     func filterViewDataDidChange(_ filterView: FilterView)
 }
 
-extension Comparable {
-    func clamp(to range: ClosedRange<Self>) -> Self { min(max(self, range.lowerBound), range.upperBound) }
-}
+private let defaultMinHertz = Float(12.0)
+private let defaultMaxHertz = Float(20_000.0)
+private let defaultMinGain = Float(-20)
+private let defaultMaxGain = Float(20)
 
-extension CATransaction {
-    class func noAnimation(_ completion: () -> Void) {
-        CATransaction.begin()
-        CATransaction.setDisableActions(true)
-        completion()
-        CATransaction.commit()
-    }
-}
+public final class FilterView: View {
+    public static let minHertz = Float(12.0)
+    public static let maxHertz = Float(20_000.0)
+    public static let minGain = Float(-20)
+    public static let maxGain = Float(20)
 
-extension Color {
-    var darker: Color {
-        var hue: CGFloat = 0
-        var saturation: CGFloat = 0
-        var brightness: CGFloat = 0
-        var alpha: CGFloat = 0
-        getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
-        return Color(hue: hue, saturation: saturation, brightness: brightness * 0.8, alpha: alpha)
-    }
-}
-
-class FilterView: View {
     let logBase = 2
 
     let leftMargin: CGFloat = 54.0
@@ -109,7 +90,7 @@ class FilterView: View {
     }
 
     #if os(macOS)
-    override var isFlipped: Bool { return true }
+    override public var isFlipped: Bool { return true }
     #endif
 
     private var graphLabelColor: Color {
@@ -226,7 +207,7 @@ class FilterView: View {
         }
     }
 
-    override func awakeFromNib() {
+    override public func awakeFromNib() {
         super.awakeFromNib()
 
         containerLayer.name = "container"
@@ -264,28 +245,11 @@ class FilterView: View {
     }
 
     #if os(macOS)
-    override func setFrameSize(_ newSize: NSSize) {
+    override public func setFrameSize(_ newSize: NSSize) {
         super.setFrameSize(newSize)
         layoutSublayers(of: rootLayer)
     }
     #endif
-
-    private class ColorLayer: CALayer {
-
-        init(white: CGFloat) {
-            super.init()
-            backgroundColor = Color(white: white, alpha: 1.0).cgColor
-        }
-
-        init(color: Color) {
-            super.init()
-            backgroundColor = color.cgColor
-        }
-
-        required init?(coder aDecoder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-    }
 
     private func createDBLabelsAndLines() {
         for index in 0...numDBLines {
@@ -296,7 +260,7 @@ class FilterView: View {
             dbLabels.append(labelLayer)
             containerLayer.addSublayer(labelLayer)
 
-            let lineLayer = ColorLayer(white: index == 0 ? 0.65 : 0.8)
+            let lineLayer = CALayer(white: index == 0 ? 0.65 : 0.8)
             dbLines.append(lineLayer)
 
             if index > 0 && index < numDBLines {
@@ -318,7 +282,7 @@ class FilterView: View {
             frequencyLabels.append(labelLayer)
             containerLayer.addSublayer(labelLayer)
 
-            let lineLayer = ColorLayer(white: 0.8)
+            let lineLayer = CALayer(white: 0.8)
             freqLines.append(lineLayer)
 
             if index > 0 && index < numFreqLines {
@@ -343,17 +307,17 @@ class FilterView: View {
             fatalError("Unable to get color value.")
         }
 
-        var lineLayer = ColorLayer(color: color)
+        var lineLayer = CALayer(color: color)
         lineLayer.name = "x"
         controls.append(lineLayer)
         graphLayer.addSublayer(lineLayer)
 
-        lineLayer = ColorLayer(color: color)
+        lineLayer = CALayer(color: color)
         lineLayer.name = "y"
         controls.append(lineLayer)
         graphLayer.addSublayer(lineLayer)
 
-        let circleLayer = ColorLayer(color: color)
+        let circleLayer = CALayer(color: color)
         circleLayer.borderWidth = 2.0
         circleLayer.cornerRadius = 3.0
         circleLayer.name = "point"
@@ -506,7 +470,7 @@ class FilterView: View {
 
     #elseif os(macOS)
 
-    override func mouseDown(with event: NSEvent) {
+    override public func mouseDown(with event: NSEvent) {
         let pointOfTouch = NSPointToCGPoint(convert(event.locationInWindow, from: nil))
         let convertedPoint = rootLayer.convert(pointOfTouch, to: graphLayer)
         if graphLayer.contains(convertedPoint) {
@@ -519,7 +483,7 @@ class FilterView: View {
         }
     }
 
-    override func mouseDragged(with event: NSEvent) {
+    override public func mouseDragged(with event: NSEvent) {
         let pointOfClick = NSPointToCGPoint(convert(event.locationInWindow, from: nil))
         let convertedPoint = rootLayer.convert(pointOfClick, to: graphLayer)
         if graphLayer.contains(convertedPoint) {
@@ -528,7 +492,7 @@ class FilterView: View {
         }
     }
 
-    override func mouseUp(with event: NSEvent) {
+    override public func mouseUp(with event: NSEvent) {
         touchDown = false
         updateControls(refreshColor: true)
         delegate?.filterViewTouchEnded(self)

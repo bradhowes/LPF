@@ -24,25 +24,15 @@
         <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R36-UR-7aV" userLabel="Expanded View">
             <rect key="frame" x="0.0" y="0.0" width="800" height="500"/>
             <subviews>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Y7U-2h-5jH">
-                    <rect key="frame" x="348" y="471" width="104" height="21"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Filter Demo" id="a7d-X2-dOB">
-                        <font key="font" metaFont="systemBold" size="18"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
                 <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oPI-wC-N8q" customClass="FilterView" customModule="LowPassFilterFramework">
-                    <rect key="frame" x="8" y="8" width="784" height="455"/>
+                    <rect key="frame" x="8" y="8" width="784" height="484"/>
                 </customView>
             </subviews>
             <constraints>
-                <constraint firstItem="Y7U-2h-5jH" firstAttribute="top" secondItem="R36-UR-7aV" secondAttribute="top" constant="8" id="0n0-Zy-5Il"/>
-                <constraint firstItem="oPI-wC-N8q" firstAttribute="top" secondItem="Y7U-2h-5jH" secondAttribute="bottom" constant="8" id="Nqz-1C-y1O"/>
-                <constraint firstItem="Y7U-2h-5jH" firstAttribute="centerX" secondItem="R36-UR-7aV" secondAttribute="centerX" id="ONo-fd-S3h"/>
                 <constraint firstAttribute="bottom" secondItem="oPI-wC-N8q" secondAttribute="bottom" constant="8" id="bOT-6Z-Sfb"/>
                 <constraint firstAttribute="trailing" secondItem="oPI-wC-N8q" secondAttribute="trailing" constant="8" id="f78-xv-Qnp"/>
                 <constraint firstItem="oPI-wC-N8q" firstAttribute="leading" secondItem="R36-UR-7aV" secondAttribute="leading" constant="8" id="ncK-hk-5iB"/>
+                <constraint firstItem="oPI-wC-N8q" firstAttribute="top" secondItem="R36-UR-7aV" secondAttribute="top" constant="8" id="u8L-ct-iRf"/>
             </constraints>
             <point key="canvasLocation" x="139" y="-297"/>
         </customView>

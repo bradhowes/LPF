@@ -1,3 +1,5 @@
 // Copyright © 2020 Apple. All rights reserved.
 
-import Foundation
+public extension Comparable {
+    func clamp(to range: ClosedRange<Self>) -> Self { min(max(self, range.lowerBound), range.upperBound) }
+}

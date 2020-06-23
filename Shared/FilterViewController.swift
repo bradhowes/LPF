@@ -78,9 +78,7 @@ extension FilterViewController: FilterViewDelegate {
 
     func updateFilterViewFrequencyAndMagnitudes() {
         guard let audioUnit = audioUnit else { return }
-        let frequencies = filterView.frequencyDataForDrawing()
-        let magnitudes = audioUnit.magnitudes(forFrequencies: frequencies)
-        filterView.setMagnitudes(magnitudes)
+        filterView.setMagnitudes(audioUnit.magnitudes(forFrequencies: filterView.frequencyDataForDrawing()))
     }
 
     func filterViewTouchBegan(_ view: FilterView) {

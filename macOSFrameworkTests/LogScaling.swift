@@ -2,8 +2,12 @@
 
 import XCTest
 
-class macOSFrameworkTests: XCTestCase {
+class LogScalingTests: XCTestCase {
 
+    let minHertz = Float(12)
+    let maxHertz = Float(20000)
+    lazy var hertzScale = log2f(maxHertz / minHertz)
+    
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -12,16 +16,33 @@ class macOSFrameworkTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testPositionToFrequency() throws {
+        let p0 = CGFloat(0)
+        let width = CGFloat(200)
+
+        let v0 = minHertz * pow(2, Float(p0 / width) * hertzScale)
+        XCTAssertEqual(minHertz, v0, accuracy: 0.00001)
+
+        let v1 = minHertz * pow(2, Float(width / width) * hertzScale)
+        XCTAssertEqual(maxHertz, v1, accuracy: 0.1)
+
+        let v2 = minHertz * pow(2, 0.5 * hertzScale)
+        XCTAssertEqual(v2, 489.898, accuracy: 0.1)
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
+    func testFrequencyToPosition() throws {
+        let width = CGFloat(200)
 
+        // let v0 = minHertz * pow(2, Float(p0 / width) * hertzScale)
+        // log2(v0 / minHertz) = Float(p0 / width) * hertzScale
+        // log2(v0 / minHertz) * width / hertzScale = p0
+
+        let v0 = minHertz
+        let p0 = CGFloat(log2(Float(v0) / minHertz) * Float(width) / hertzScale)
+        XCTAssertEqual(p0, 0, accuracy: 0.00001)
+
+        let v1 = maxHertz
+        let p1 = CGFloat(log2(Float(v1) / minHertz) * Float(width) / hertzScale)
+        XCTAssertEqual(p1, width, accuracy: 0.00001)
+    }
 }

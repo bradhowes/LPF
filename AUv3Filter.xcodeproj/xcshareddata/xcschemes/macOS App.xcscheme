@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C437FE792223688D008D6C09"
-               BuildableName = "AUv3Filter.app"
+               BuildableName = "LowPassFilterDemo.app"
                BlueprintName = "macOS App"
                ReferencedContainer = "container:AUv3Filter.xcodeproj">
             </BuildableReference>
@@ -31,7 +31,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE792223688D008D6C09"
-            BuildableName = "AUv3Filter.app"
+            BuildableName = "LowPassFilterDemo.app"
             BlueprintName = "macOS App"
             ReferencedContainer = "container:AUv3Filter.xcodeproj">
          </BuildableReference>
@@ -54,7 +54,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE792223688D008D6C09"
-            BuildableName = "AUv3Filter.app"
+            BuildableName = "LowPassFilterDemo.app"
             BlueprintName = "macOS App"
             ReferencedContainer = "container:AUv3Filter.xcodeproj">
          </BuildableReference>
@@ -71,7 +71,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE792223688D008D6C09"
-            BuildableName = "AUv3Filter.app"
+            BuildableName = "LowPassFilterDemo.app"
             BlueprintName = "macOS App"
             ReferencedContainer = "container:AUv3Filter.xcodeproj">
          </BuildableReference>

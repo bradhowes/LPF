@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C437FE9F222368B7008D6C09"
-               BuildableName = "AUv3FilterExtension.appex"
+               BuildableName = "LowPassFilter.appex"
                BlueprintName = "macOS Extension"
                ReferencedContainer = "container:AUv3Filter.xcodeproj">
             </BuildableReference>
@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C437FE792223688D008D6C09"
-               BuildableName = "AUv3Filter.app"
+               BuildableName = "LowPassFilterDemo.app"
                BlueprintName = "macOS App"
                ReferencedContainer = "container:AUv3Filter.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE9F222368B7008D6C09"
-            BuildableName = "AUv3FilterExtension.appex"
+            BuildableName = "LowPassFilter.appex"
             BlueprintName = "macOS Extension"
             ReferencedContainer = "container:AUv3Filter.xcodeproj">
          </BuildableReference>
@@ -68,7 +68,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE792223688D008D6C09"
-            BuildableName = "AUv3Filter.app"
+            BuildableName = "LowPassFilterDemo.app"
             BlueprintName = "macOS App"
             ReferencedContainer = "container:AUv3Filter.xcodeproj">
          </BuildableReference>
@@ -85,7 +85,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE792223688D008D6C09"
-            BuildableName = "AUv3Filter.app"
+            BuildableName = "LowPassFilterDemo.app"
             BlueprintName = "macOS App"
             ReferencedContainer = "container:AUv3Filter.xcodeproj">
          </BuildableReference>

@@ -1,9 +1,11 @@
-//
-//  CATransaction+Extensions.swift
-//  iOS App
-//
-//  Created by Brad Howes on 6/22/20.
-//  Copyright © 2020 Apple. All rights reserved.
-//
+// Copyright © 2020 Brad Howes. All rights reserved.
 
-import Foundation
+public extension CATransaction {
+
+    class func noAnimation(_ completion: () -> Void) {
+        defer { CATransaction.commit() }
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        completion()
+    }
+}
