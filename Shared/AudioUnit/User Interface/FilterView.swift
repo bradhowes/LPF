@@ -9,16 +9,17 @@ protocol FilterViewDelegate: class {
     func filterViewDataDidChange(_ filterView: FilterView)
 }
 
-private let defaultMinHertz = Float(12.0)
-private let defaultMaxHertz = Float(20_000.0)
-private let defaultMinGain = Float(-20)
-private let defaultMaxGain = Float(20)
-
 public final class FilterView: View {
+
     public static let minHertz = Float(12.0)
     public static let maxHertz = Float(20_000.0)
+    public static let hertzRange = minHertz...maxHertz
+    public static let hertzSpan = maxHertz - minHertz
+
     public static let minGain = Float(-20)
     public static let maxGain = Float(20)
+    public static let gainRange = minGain...maxGain
+    public static let gainSpan = maxGain - minGain
 
     let logBase = 2
 
@@ -27,7 +28,7 @@ public final class FilterView: View {
     let bottomMargin: CGFloat = 40.0
 
     let numDBLines = 8
-    lazy var dbSpacing = Int((defaultMaxGain - defaultMinGain) / Float(numDBLines))
+    lazy var dbSpacing = Int(Self.gainSpan / Float(numDBLines))
 
     let numFreqLines = 11
 
@@ -75,16 +76,16 @@ public final class FilterView: View {
         #endif
     }
 
-    var frequency: Float = defaultMinHertz {
+    var frequency: Float = minHertz {
         didSet {
-            frequency = frequency.clamp(to: defaultMinHertz...defaultMaxHertz)
+            frequency = frequency.clamp(to: Self.hertzRange)
             editPoint.x = floor(locationForFrequencyValue(frequency))
         }
     }
 
     var resonance: Float = 0.0 {
         didSet {
-            resonance = resonance.clamp(to: defaultMinGain...defaultMaxGain)
+            resonance = resonance.clamp(to: Self.gainRange)
             editPoint.y = floor(locationForDBValue(resonance))
         }
     }
@@ -101,7 +102,7 @@ public final class FilterView: View {
         #endif
     }
 
-    func valueAtFreqIndex(_ index: Float) -> Float { defaultMinHertz * powf(Float(logBase), index) }
+    func valueAtFreqIndex(_ index: Float) -> Float { Self.minHertz * powf(Float(logBase), index) }
     func logValueForNumber(_ number: Float, base: Float) -> Float { logf(number) / logf(base) }
 
     func frequencyDataForDrawing() -> [Float] {
@@ -120,8 +121,8 @@ public final class FilterView: View {
         }
 
         frequencies = (0..<locationsCount).map { _ in
-            guard location < rightEdge else { return defaultMaxHertz }
-            let frequency = frequencyValueForLocation(location).clamp(to: defaultMinHertz...defaultMaxHertz)
+            guard location < rightEdge else { return Self.maxHertz }
+            let frequency = frequencyValueForLocation(location).clamp(to: Self.hertzRange)
             location += CGFloat(pixelRatio)
             return frequency
         }
@@ -144,8 +145,8 @@ public final class FilterView: View {
             var dbPosition: CGFloat = 0.0
 
             switch dbValue {
-            case let x where x < defaultMinGain: dbPosition = locationForDBValue(defaultMinGain)
-            case let x where x > defaultMaxGain: dbPosition = locationForDBValue(defaultMaxGain)
+            case let x where x < Self.minGain: dbPosition = locationForDBValue(Self.minGain)
+            case let x where x > Self.maxGain: dbPosition = locationForDBValue(Self.maxGain)
             default: dbPosition = locationForDBValue(dbValue)
             }
 
@@ -172,7 +173,7 @@ public final class FilterView: View {
 
     private func locationForFrequencyValue(_ value: Float) -> CGFloat {
         let pixelIncrement = graphLayer.frame.width / CGFloat(numFreqLines)
-        let number = value / defaultMinHertz
+        let number = value / Self.minHertz
         let location = logValueForNumber(number, base: Float(logBase)) * Float(pixelIncrement)
         return floor(CGFloat(location) + graphLayer.frame.origin.x) + 0.5
     }
@@ -184,14 +185,14 @@ public final class FilterView: View {
     }
 
     private func locationForDBValue(_ value: Float) -> CGFloat {
-        let step = graphLayer.frame.height / CGFloat(defaultMaxGain - defaultMinGain)
-        let location = (CGFloat(value) + CGFloat(defaultMaxGain)) * step
+        let step = graphLayer.frame.height / CGFloat(Self.gainSpan)
+        let location = (CGFloat(value) + CGFloat(Self.maxGain)) * step
         return graphLayer.frame.height - location + bottomMargin
     }
 
     private func dbValueForLocation(_ location: CGFloat) -> Float {
-        let step = graphLayer.frame.height / CGFloat(defaultMaxGain - defaultMinGain)
-        return Float(-(((location - bottomMargin) / step) - CGFloat(defaultMaxGain)))
+        let step = graphLayer.frame.height / CGFloat(Self.gainSpan)
+        return Float(-(((location - bottomMargin) / step) - CGFloat(Self.maxGain)))
     }
 
     private func stringForValue(_ value: Float) -> String {
@@ -215,11 +216,14 @@ public final class FilterView: View {
         containerLayer.frame = CGRect(origin: .zero, size: rootLayer.bounds.size)
         containerLayer.bounds = containerLayer.frame
         containerLayer.contentsScale = screenScale
+        containerLayer.borderColor = Color.red.cgColor
+        containerLayer.borderWidth = 1.0
+
         rootLayer.addSublayer(containerLayer)
         rootLayer.masksToBounds = false
 
         graphLayer.name = "graph background"
-        graphLayer.borderColor = Color.darkGray.cgColor
+        graphLayer.borderColor = Color.green.cgColor
         graphLayer.borderWidth = 1.0
         graphLayer.backgroundColor = Color(white: 0.88, alpha: 1.0).cgColor
         graphLayer.bounds = CGRect(x: 0, y: 0,
@@ -253,7 +257,7 @@ public final class FilterView: View {
 
     private func createDBLabelsAndLines() {
         for index in 0...numDBLines {
-            let value = index * dbSpacing + Int(defaultMinGain)
+            let value = index * dbSpacing + Int(Self.minGain)
             let labelLayer = makeLabelLayer(alignment: .right)
             labelLayer.string = "\(value) db"
 
@@ -293,8 +297,10 @@ public final class FilterView: View {
 
     private func makeLabelLayer(alignment: CATextLayerAlignmentMode = .center) -> CATextLayer {
         let labelLayer = CATextLayer()
-        labelLayer.font = Font.systemFont(ofSize: 14).fontName as CFTypeRef
-        labelLayer.fontSize = 14
+        let fontSize = CGFloat(12)
+        let font = CTFontCreateUIFontForLanguage(.label, fontSize, nil)
+        labelLayer.font = font
+        labelLayer.fontSize = fontSize
         labelLayer.contentsScale = screenScale
         labelLayer.foregroundColor = graphLabelColor.cgColor
         labelLayer.alignmentMode = alignment
@@ -359,7 +365,7 @@ public final class FilterView: View {
         let labelYOffset = bottomMargin + 8
         let labelWidth = leftMargin - 7.0
         for index in 0...numDBLines {
-            let value = Float(index * dbSpacing) + defaultMinGain
+            let value = Float(index * dbSpacing) + Self.minGain
             let location = floor(locationForDBValue(value))
             dbLines[index].frame = CGRect(x: lineX, y: location, width: lineWidth, height: 1.0)
             dbLabels[index].frame = CGRect(x: 0.0, y: location - labelYOffset, width: labelWidth, height: 16.0)
@@ -378,7 +384,7 @@ public final class FilterView: View {
     }
 
     #if os(iOS)
-    override func layoutSublayers(of layer: CALayer) {
+    override public func layoutSublayers(of layer: CALayer) {
         performLayout(of: layer)
     }
     #elseif os(macOS)
@@ -437,7 +443,7 @@ public final class FilterView: View {
 
     #if os(iOS)
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard var pointOfTouch = touches.first?.location(in: self) else { return }
         pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y + bottomMargin)
         if graphLayer.contains(pointOfTouch) {
@@ -448,7 +454,7 @@ public final class FilterView: View {
         }
     }
 
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard var pointOfTouch = touches.first?.location(in: self) else { return }
         pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y + bottomMargin)
         if graphLayer.contains(pointOfTouch) {
@@ -457,7 +463,7 @@ public final class FilterView: View {
         }
     }
 
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard var pointOfTouch = touches.first?.location(in: self) else { return }
         pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y + bottomMargin)
         if graphLayer.contains(pointOfTouch) { handleDrag(pointOfTouch) }
@@ -466,7 +472,7 @@ public final class FilterView: View {
         delegate?.filterViewTouchEnded(self)
     }
 
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) { touchDown = false }
+    override public func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) { touchDown = false }
 
     #elseif os(macOS)
 
