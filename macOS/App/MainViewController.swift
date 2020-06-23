@@ -80,7 +80,7 @@ private extension MainViewController {
     private func logValueForNumber(_ number: Float) -> Float { log(number) / log(2) }
 
     private func frequencyValueForSliderLocation(_ location: Float) -> Float {
-        ((pow(2, location) - 1) / 511) * (FilterView.maxHertz - FilterView.minHertz) + FilterView.minHertz
+        ((pow(2, location) - 1) / 511) * (FilterView.hertzMax - FilterView.hertzMin) + FilterView.hertzMin
     }
 }
 
@@ -91,7 +91,7 @@ extension MainViewController: NSWindowDelegate {
 extension MainViewController: AudioUnitManagerDelegate {
 
     func cutoffValueDidChange(_ value: Float) {
-        let normalizedValue = ((value - FilterView.minHertz) / (FilterView.maxHertz - FilterView.minHertz)) * 511.0 + 1.0
+        let normalizedValue = ((value - FilterView.hertzMin) / (FilterView.hertzMax - FilterView.hertzMin)) * 511.0 + 1.0
         cutoffSlider.floatValue = Float(logValueForNumber(normalizedValue))
         cutoffTextField.text = String(format: "%.f", value)
     }

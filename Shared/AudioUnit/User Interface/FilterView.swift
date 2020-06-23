@@ -11,27 +11,24 @@ protocol FilterViewDelegate: class {
 
 public final class FilterView: View {
 
-    public static let minHertz = Float(12.0)
-    public static let maxHertz = Float(20_000.0)
-    public static let hertzRange = minHertz...maxHertz
-    public static let hertzSpan = maxHertz - minHertz
-    public static let hertzScale = log2f(maxHertz / minHertz)
+    public static let hertzMin = Float(12.0)
+    public static let hertzMax = Float(20_000.0)
+    public static let hertzRange = hertzMin...hertzMax
+    public static let hertzSpan = hertzMax - hertzMin
+    public static let hertzScale = log2f(hertzMax / hertzMin)
 
-    public static let minGain = Float(-20)
-    public static let maxGain = Float(20)
-    public static let gainRange = minGain...maxGain
-    public static let gainSpan = maxGain - minGain
+    public static let gainMin = Float(-20)
+    public static let gainMax = Float(20)
+    public static let gainRange = gainMin...gainMax
+    public static let gainSpan = gainMax - gainMin
 
     let leftMargin: CGFloat = 54.0
-    let rightMargin: CGFloat = 10.0
     let bottomMargin: CGFloat = 40.0
 
     let numDBLines = 8
     lazy var dbSpacing = Int(Self.gainSpan / Float(numDBLines))
 
     let numFreqLines = 11
-
-    let labelWidth: CGFloat = 40.0
 
     let maxNumberOfResponseFrequencies = 1024
     var frequencies: [Float]?
@@ -74,7 +71,7 @@ public final class FilterView: View {
         #endif
     }
 
-    var frequency: Float = minHertz {
+    var frequency: Float = hertzMin {
         didSet {
             frequency = frequency.clamp(to: Self.hertzRange)
             editPoint.x = floor(locationForFrequencyValue(frequency))
@@ -100,7 +97,7 @@ public final class FilterView: View {
         #endif
     }
 
-    func valueAtFreqIndex(_ index: Float) -> Float { Self.minHertz * powf(2.0, index) }
+    func valueAtFreqIndex(_ index: Float) -> Float { Self.hertzMin * powf(2.0, index) }
 
     func frequencyDataForDrawing() -> [Float] {
         guard frequencies == nil else { return frequencies! }
@@ -133,19 +130,19 @@ public final class FilterView: View {
     }
 
     private func frequencyValueForLocation(_ location: CGFloat) -> Float {
-        Self.minHertz * pow(2, Float((location) / graphLayer.bounds.width) * Self.hertzScale)
+        Self.hertzMin * pow(2, Float((location) / graphLayer.bounds.width) * Self.hertzScale)
     }
 
     private func locationForFrequencyValue(_ value: Float) -> CGFloat {
-        CGFloat(log2(value / Self.minHertz) * Float(graphLayer.bounds.width) / Self.hertzScale)
+        CGFloat(log2(value / Self.hertzMin) * Float(graphLayer.bounds.width) / Self.hertzScale)
     }
 
     private func dbValueForLocation(_ location: CGFloat) -> Float {
-        Float(graphLayer.bounds.height - location) * Self.gainSpan / Float(graphLayer.bounds.height) + Self.minGain
+        Float(graphLayer.bounds.height - location) * Self.gainSpan / Float(graphLayer.bounds.height) + Self.gainMin
     }
 
     private func locationForDBValue(_ value: Float) -> CGFloat {
-        CGFloat(Self.maxGain - value.clamp(to: Self.gainRange)) * graphLayer.bounds.height / CGFloat(Self.gainSpan)
+        CGFloat(Self.gainMax - value.clamp(to: Self.gainRange)) * graphLayer.bounds.height / CGFloat(Self.gainSpan)
     }
 
     private func stringForValue(_ value: Float) -> String {
@@ -170,9 +167,7 @@ public final class FilterView: View {
         graphLayer.borderColor = Color.green.cgColor
         graphLayer.borderWidth = 1.0
         graphLayer.backgroundColor = Color(white: 0.88, alpha: 1.0).cgColor
-        graphLayer.bounds = CGRect(x: 0, y: 0,
-                                   width: rootLayer.frame.width - leftMargin,
-                                   height: rootLayer.frame.height - bottomMargin)
+        graphLayer.bounds = CGRect(x: 0, y: 0, width: rootLayer.bounds.width - leftMargin, height: rootLayer.bounds.height - bottomMargin)
         graphLayer.position = CGPoint(x: leftMargin, y: 0)
         graphLayer.anchorPoint = .zero
         graphLayer.contentsScale = screenScale
@@ -203,20 +198,38 @@ public final class FilterView: View {
     #endif
 
     private func createDBLabelsAndLines() {
-        for index in 0...numDBLines {
-            let value = index * dbSpacing + Int(Self.minGain)
+        let maxLines = Int(Self.gainSpan / Float(dbSpacing) - 1)
+        let minSpacing = CGFloat(20)
+        let height = graphLayer.bounds.height
+
+        var lineCount = maxLines
+        var spacing = height / CGFloat(maxLines)
+
+        if spacing < minSpacing {
+            lineCount = Int(round(graphLayer.bounds.height / minSpacing))
+            spacing = height / CGFloat(lineCount)
+        }
+
+        for value in stride(from: CGFloat(0), through: height, by: spacing) {
             let labelLayer = makeLabelLayer(alignment: .right)
-            labelLayer.string = "\(value) db"
+            labelLayer.string = "\(dbValueForLocation(value)) db"
 
             dbLabels.append(labelLayer)
             plotLayer.addSublayer(labelLayer)
 
-            let lineLayer = CALayer(white: index == 0 ? 0.65 : 0.8)
-            dbLines.append(lineLayer)
-
-            if index > 0 && index < numDBLines {
+            if value > 0 && value < height {
+                let lineLayer = CALayer(white: 0.8)
+                dbLines.append(lineLayer)
                 graphLayer.addSublayer(lineLayer)
             }
+        }
+    }
+
+    private func updateDBLayers() {
+        let spacing = graphLayer.bounds.height / CGFloat(dbLines.count + 1)
+        let width = graphLayer.bounds.width
+        for (index, line) in dbLines.enumerated() {
+            line.frame = CGRect(x: 0, y: CGFloat(index + 1) * spacing, width: width, height: 1.0)
         }
     }
 
@@ -282,9 +295,8 @@ public final class FilterView: View {
     private func updateControls(refreshColor: Bool) {
         let color = touchDown ? tintColor.darker.cgColor: Color.darkGray.cgColor
         CATransaction.noAnimation {
-            let posX = graphLayer.frame.origin.x
-            let width = graphLayer.frame.width
-            let height = graphLayer.frame.height
+            let width = graphLayer.bounds.width
+            let height = graphLayer.bounds.height
             for layer in controls {
                 switch layer.name! {
                 case "point":
@@ -292,10 +304,10 @@ public final class FilterView: View {
                     layer.position = editPoint
 
                 case "x":
-                    layer.frame = CGRect(x: posX, y: floor(editPoint.y + 0.5), width: width, height: 1.0)
+                    layer.frame = CGRect(x: 0, y: editPoint.y, width: width, height: 1.0)
 
                 case "y":
-                    layer.frame = CGRect(x: floor(editPoint.x) + 0.5, y: bottomMargin, width: 1.0,  height: height)
+                    layer.frame = CGRect(x: editPoint.x, y: 0.0, width: 1.0,  height: height)
 
                 default:
                     layer.frame = .zero
@@ -306,28 +318,7 @@ public final class FilterView: View {
         }
     }
 
-    private func updateDBLayers() {
-        let lineX = graphLayer.frame.origin.x
-        let lineWidth = graphLayer.frame.width
-        let labelYOffset = bottomMargin + 8
-        let labelWidth = leftMargin - 7.0
-        for index in 0...numDBLines {
-            let value = Float(index * dbSpacing) + Self.minGain
-            let location = floor(locationForDBValue(value))
-            dbLines[index].frame = CGRect(x: lineX, y: location, width: lineWidth, height: 1.0)
-            dbLabels[index].frame = CGRect(x: 0.0, y: location - labelYOffset, width: labelWidth, height: 16.0)
-        }
-    }
-
     private func updateFrequencyLayers() {
-        let graphHeight = graphLayer.frame.height
-        let halfWidth = labelWidth / 2.0
-        for index in 0...numFreqLines {
-            let value = valueAtFreqIndex(Float(index))
-            let pos = floor(locationForFrequencyValue(value))
-            freqLines[index].frame = CGRect(x: pos, y: bottomMargin, width: 1.0, height: graphHeight)
-            frequencyLabels[index].frame = CGRect(x: pos - halfWidth, y: graphHeight + 16, width: labelWidth + rightMargin, height: 16.0)
-        }
     }
 
     #if os(iOS)
@@ -344,8 +335,7 @@ public final class FilterView: View {
         if layer === rootLayer {
             CATransaction.noAnimation {
                 plotLayer.bounds = rootLayer.bounds
-                graphLayer.bounds = CGRect(x: 0, y: 0,
-                                           width: layer.bounds.width - leftMargin - rightMargin,
+                graphLayer.bounds = CGRect(x: 0, y: 0, width: layer.bounds.width - leftMargin,
                                            height: layer.bounds.height - bottomMargin - 10.0)
 
                 updateDBLayers()
@@ -381,8 +371,8 @@ public final class FilterView: View {
 
 
     private func handleDrag(_ dragPoint: CGPoint) {
-        editPoint.x = dragPoint.x.clamp(to: 0...(graphLayer.frame.width + leftMargin))
-        editPoint.y = dragPoint.y.clamp(to: 0...(graphLayer.frame.height + bottomMargin))
+        editPoint.x = dragPoint.x.clamp(to: 0...graphLayer.bounds.width)
+        editPoint.y = dragPoint.y.clamp(to: 0...graphLayer.bounds.height)
     }
 
     #if os(iOS)
