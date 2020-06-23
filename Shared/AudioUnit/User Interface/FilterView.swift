@@ -145,6 +145,16 @@ public final class FilterView: View {
     }
     #endif
 
+    #if os(iOS)
+    override public func layoutSublayers(of layer: CALayer) {
+        performLayout(of: layer)
+    }
+    #elseif os(macOS)
+    func layoutSublayers(of layer: CALayer) {
+        performLayout(of: layer)
+    }
+    #endif
+
     func valueAtFreqIndex(_ index: Float) -> Float { Self.hertzMin * powf(2.0, index) }
 
     func frequencyDataForDrawing() -> [Float] {
@@ -174,8 +184,80 @@ public final class FilterView: View {
 
         CATransaction.noAnimation { curveLayer.path = bezierPath }
 
-        updateControls(refreshColor: true)
+        updateIndicator()
     }
+}
+
+// MARK: - Touch/Mouse Event Handling
+extension FilterView {
+
+    #if os(iOS)
+
+    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard var pointOfTouch = touches.first?.location(in: self) else { return }
+        pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y)
+        if graphLayer.contains(pointOfTouch) {
+            touchDown = true
+            editPoint = pointOfTouch
+            updateFrequenciesAndResonance()
+            delegate?.filterViewTouchBegan(self)
+        }
+    }
+
+    override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard var pointOfTouch = touches.first?.location(in: self) else { return }
+        pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y)
+        if graphLayer.contains(pointOfTouch) {
+            handleDrag(pointOfTouch)
+            updateFrequenciesAndResonance()
+        }
+    }
+
+    override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard var pointOfTouch = touches.first?.location(in: self) else { return }
+        pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y)
+        if graphLayer.contains(pointOfTouch) { handleDrag(pointOfTouch) }
+        touchDown = false
+        updateFrequenciesAndResonance()
+        delegate?.filterViewTouchEnded(self)
+    }
+
+    override public func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) { touchDown = false }
+
+    #elseif os(macOS)
+
+    override public func mouseDown(with event: NSEvent) {
+        let pointOfTouch = NSPointToCGPoint(convert(event.locationInWindow, from: nil))
+        let convertedPoint = graphLayer.convert(pointOfTouch, from: rootLayer)
+        if graphLayer.contains(convertedPoint) {
+            touchDown = true
+            editPoint = convertedPoint
+            updateIndicator()
+            delegate?.filterViewTouchBegan(self)
+            updateFrequenciesAndResonance()
+        }
+    }
+
+    override public func mouseDragged(with event: NSEvent) {
+        let pointOfClick = NSPointToCGPoint(convert(event.locationInWindow, from: nil))
+        let convertedPoint = rootLayer.convert(pointOfClick, to: graphLayer)
+        if graphLayer.contains(convertedPoint) {
+            handleDrag(convertedPoint)
+            updateFrequenciesAndResonance()
+        }
+    }
+
+    override public func mouseUp(with event: NSEvent) {
+        touchDown = false
+        updateIndicator()
+        delegate?.filterViewTouchEnded(self)
+    }
+
+    #endif
+}
+
+// MARK: - Unit Conversions
+extension FilterView {
 
     private func frequencyValueForLocation(_ location: CGFloat) -> Float {
         Self.hertzMin * pow(2, Float((location) / graphLayer.bounds.width) * Self.hertzScale)
@@ -192,6 +274,10 @@ public final class FilterView: View {
     private func locationForDBValue(_ value: Float) -> CGFloat {
         CGFloat(Self.gainMax - value.clamp(to: Self.gainRange)) * graphLayer.bounds.height / CGFloat(Self.gainSpan)
     }
+}
+
+// MARK: - Axis Management
+extension FilterView {
 
     private func stringForValue(_ value: Float) -> String {
         let value = floor((value >= 1000 ? value / 1000 : value) * 100.0) / 100.0
@@ -279,6 +365,10 @@ public final class FilterView: View {
             }
         }
     }
+}
+
+// MARK: - Filter Setting Indicator
+extension FilterView {
 
     private func createIndicatorPoint() {
         guard let color = touchDown ? tintColor : Color.darkGray else {
@@ -300,43 +390,26 @@ public final class FilterView: View {
         indicatorLayer.addSublayer(circle)
     }
 
-    private func updateControls(refreshColor: Bool) {
+    private func updateIndicator() {
         guard let layers = indicatorLayer.sublayers else { return }
-        let color = touchDown ? tintColor.darker.cgColor: Color.darkGray.cgColor
+        let width = graphLayer.bounds.width
+        let height = graphLayer.bounds.height
         CATransaction.noAnimation {
-            let width = graphLayer.bounds.width
-            let height = graphLayer.bounds.height
-            for layer in layers {
-                switch layer.name! {
-                case "pos":
-                    layer.frame = CGRect(x: editPoint.x - 3, y: editPoint.y - 3, width: 7, height: 7)
-                    layer.position = editPoint
-
-                case "h":
-                    layer.frame = CGRect(x: 0, y: editPoint.y, width: width, height: 1.0)
-
-                case "v":
-                    layer.frame = CGRect(x: editPoint.x, y: 0.0, width: 1.0,  height: height)
-
-                default:
-                    layer.frame = .zero
-                    continue
-                }
-                if refreshColor { layer.backgroundColor = color }
+            layers.forEach {
+                $0.frame = {
+                    switch $0.name! {
+                    case "pos": return CGRect(x: editPoint.x - 3, y: editPoint.y - 3, width: 7, height: 7)
+                    case "h": return CGRect(x: 0, y: editPoint.y, width: width, height: 1.0)
+                    case "v": return CGRect(x: editPoint.x, y: 0.0, width: 1.0,  height: height)
+                    default: return .zero
+                    }
+                }($0)
             }
         }
     }
+}
 
-    #if os(iOS)
-    override public func layoutSublayers(of layer: CALayer) {
-        performLayout(of: layer)
-    }
-    #elseif os(macOS)
-    func layoutSublayers(of layer: CALayer) {
-        performLayout(of: layer)
-    }
-    #endif
-
+extension FilterView {
     private func performLayout(of layer: CALayer) {
         if layer === rootLayer {
             CATransaction.noAnimation {
@@ -353,7 +426,7 @@ public final class FilterView: View {
             }
         }
 
-        updateControls(refreshColor: false)
+        updateIndicator()
         frequencies = nil
         delegate?.filterViewDataDidChange(self)
     }
@@ -382,68 +455,4 @@ public final class FilterView: View {
         editPoint.x = dragPoint.x.clamp(to: 0...graphLayer.bounds.width)
         editPoint.y = dragPoint.y.clamp(to: 0...graphLayer.bounds.height)
     }
-
-    #if os(iOS)
-
-    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard var pointOfTouch = touches.first?.location(in: self) else { return }
-        pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y)
-        if graphLayer.contains(pointOfTouch) {
-            touchDown = true
-            editPoint = pointOfTouch
-            updateFrequenciesAndResonance()
-            delegate?.filterViewTouchBegan(self)
-        }
-    }
-
-    override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard var pointOfTouch = touches.first?.location(in: self) else { return }
-        pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y)
-        if graphLayer.contains(pointOfTouch) {
-            handleDrag(pointOfTouch)
-            updateFrequenciesAndResonance()
-        }
-    }
-
-    override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard var pointOfTouch = touches.first?.location(in: self) else { return }
-        pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y)
-        if graphLayer.contains(pointOfTouch) { handleDrag(pointOfTouch) }
-        touchDown = false
-        updateFrequenciesAndResonance()
-        delegate?.filterViewTouchEnded(self)
-    }
-
-    override public func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) { touchDown = false }
-
-    #elseif os(macOS)
-
-    override public func mouseDown(with event: NSEvent) {
-        let pointOfTouch = NSPointToCGPoint(convert(event.locationInWindow, from: nil))
-        let convertedPoint = graphLayer.convert(pointOfTouch, from: rootLayer)
-        if graphLayer.contains(convertedPoint) {
-            touchDown = true
-            editPoint = convertedPoint
-            updateControls(refreshColor: true)
-            delegate?.filterViewTouchBegan(self)
-            updateFrequenciesAndResonance()
-        }
-    }
-
-    override public func mouseDragged(with event: NSEvent) {
-        let pointOfClick = NSPointToCGPoint(convert(event.locationInWindow, from: nil))
-        let convertedPoint = rootLayer.convert(pointOfClick, to: graphLayer)
-        if graphLayer.contains(convertedPoint) {
-            handleDrag(convertedPoint)
-            updateFrequenciesAndResonance()
-        }
-    }
-
-    override public func mouseUp(with event: NSEvent) {
-        touchDown = false
-        updateControls(refreshColor: true)
-        delegate?.filterViewTouchEnded(self)
-    }
-
-    #endif
 }
