@@ -22,30 +22,33 @@ public final class FilterView: View {
     public static let gainRange = gainMin...gainMax
     public static let gainSpan = gainMax - gainMin
 
-    let yAxisWidth: CGFloat = 40.0
-    let xAxisHeight: CGFloat = 20.0
+    private let yAxisWidth: CGFloat = 40.0
+    private let xAxisHeight: CGFloat = 20.0
 
-    let maxNumberOfResponseFrequencies = 1024
-    var frequencies: [Float]?
+    private let maxNumberOfResponseFrequencies = 1024
+    private var frequencies: [Float]?
 
-    var dbLines = [CALayer]()
-    var dbLabels = [CATextLayer]()
+    private var axisElements = [CALayer]()
 
-    var frequencyLines = [CALayer]()
-    var frequencyLabels = [CATextLayer]()
+    /// Layer for all of the plot elements (graph + labels)
+    private var plotLayer = CALayer()
 
-    var plotLayer = CALayer()
-    var graphLayer = CALayer()
-    var gridLayer = CALayer()
+    /// Layer for the graph elements
+    private var graphLayer = CALayer()
 
-    var curveLayer: CAShapeLayer = {
+    /// Layer for the grid in the graph
+    private var gridLayer = CALayer()
+
+    /// Layer that shows the response curve of the filter
+    private var curveLayer: CAShapeLayer = {
         let shapeLayer = CAShapeLayer()
         let fillColor = Color(red: 0.067, green: 0.535, blue: 0.842, alpha: 1.000)
         shapeLayer.fillColor = fillColor.cgColor
         return shapeLayer
     }()
 
-    var indicatorLayer = CALayer()
+    /// Layer that indicates the current filter setting
+    private var indicatorLayer = CALayer()
 
     weak var delegate: FilterViewDelegate?
 
@@ -100,41 +103,33 @@ public final class FilterView: View {
         rootLayer.masksToBounds = false
         rootLayer.contentsScale = screenScale
 
-        // Holds the labels and the graph
         plotLayer.name = "plot"
         plotLayer.anchorPoint = .zero
         plotLayer.bounds = CGRect(origin: .zero, size: rootLayer.bounds.size)
         plotLayer.contentsScale = screenScale
         rootLayer.addSublayer(plotLayer)
 
-        // Holds the graph and the indicator
-        let size = rootLayer.bounds.size
         graphLayer.name = "graph"
         graphLayer.backgroundColor = Color(white: 0.88, alpha: 1.0).cgColor
-        graphLayer.bounds = CGRect(x: 0, y: 0, width: size.width - yAxisWidth, height: size.height - xAxisHeight)
         graphLayer.position = CGPoint(x: yAxisWidth, y: 0.0)
         graphLayer.anchorPoint = .zero
         graphLayer.contentsScale = screenScale
         plotLayer.addSublayer(graphLayer)
 
-        curveLayer.anchorPoint = .zero
-        curveLayer.position = .zero
-        graphLayer.addSublayer(curveLayer)
-
         gridLayer.name = "grid"
-        gridLayer.bounds = graphLayer.bounds
         gridLayer.position = .zero
         gridLayer.anchorPoint = .zero
         graphLayer.addSublayer(gridLayer)
 
+        curveLayer.name = "curve"
+        curveLayer.anchorPoint = .zero
+        curveLayer.position = .zero
+        graphLayer.addSublayer(curveLayer)
+
         indicatorLayer.name = "indicator"
-        indicatorLayer.bounds = graphLayer.bounds
         indicatorLayer.position = .zero
         indicatorLayer.anchorPoint = .zero
         graphLayer.addSublayer(indicatorLayer)
-
-        createDBLabelsAndLines()
-        createFrequencyLabelsAndLines()
 
         createIndicatorPoint()
 
@@ -218,13 +213,14 @@ public final class FilterView: View {
         return labelLayer
     }
 
-    private func createDBLabelsAndLines() {
-        dbLabels.forEach { $0.removeFromSuperlayer() }
-        dbLabels.removeAll()
+    private func createAxisElements() {
+        axisElements.forEach { $0.removeFromSuperlayer() }
+        axisElements.removeAll()
+        createHorizontalAxisElements()
+        createVerticalAxisElements()
+    }
 
-        dbLines.forEach { $0.removeFromSuperlayer() }
-        dbLines.removeAll()
-
+    private func createVerticalAxisElements() {
         var numTicks = 9
         let height = gridLayer.bounds.height
         while height / CGFloat(numTicks) < 40.0 && numTicks > 3 {
@@ -241,25 +237,19 @@ public final class FilterView: View {
             let label = makeLabelLayer(String(format: floor(dbValue) == dbValue ? "%.0f" : "%.1f", dbValue) + "dB",
                                        frame: CGRect(x: 0, y: pos + offset, width: yAxisWidth - 4, height: 16.0),
                                        alignment: .right)
-            dbLabels.append(label)
+            axisElements.append(label)
             plotLayer.addSublayer(label)
 
             if index > 0 && index < numTicks - 1 {
                 let line = CALayer(white: 0.8)
                 line.frame = CGRect(x: 0, y: pos, width: width, height: 1.0)
-                dbLines.append(line)
+                axisElements.append(line)
                 gridLayer.addSublayer(line)
             }
         }
     }
 
-    private func createFrequencyLabelsAndLines() {
-        frequencyLabels.forEach { $0.removeFromSuperlayer() }
-        frequencyLabels.removeAll()
-
-        frequencyLines.forEach { $0.removeFromSuperlayer() }
-        frequencyLines.removeAll()
-
+    private func createHorizontalAxisElements() {
         var numTicks = 12
         let width = graphLayer.bounds.width
         while width / CGFloat(numTicks) < 40.0 && numTicks > 3 {
@@ -278,13 +268,13 @@ public final class FilterView: View {
                                             frame: CGRect(x: pos + offset, y: height + 4.0, width: 40, height: 16.0),
                                             alignment: .center)
 
-            frequencyLabels.append(labelLayer)
+            axisElements.append(labelLayer)
             plotLayer.addSublayer(labelLayer)
 
             if index > 0 && index < numTicks - 1 {
                 let line = CALayer(white: 0.8)
                 line.frame = CGRect(x: pos, y: 0, width: 1.0, height: height)
-                frequencyLines.append(line)
+                axisElements.append(line)
                 gridLayer.addSublayer(line)
             }
         }
@@ -356,8 +346,7 @@ public final class FilterView: View {
                 gridLayer.bounds = graphLayer.bounds
                 indicatorLayer.bounds = graphLayer.bounds
 
-                createFrequencyLabelsAndLines()
-                createDBLabelsAndLines()
+                createAxisElements()
 
                 editPoint = CGPoint(x: locationForFrequencyValue(frequency), y: locationForDBValue(resonance))
                 curveLayer.bounds = graphLayer.bounds
@@ -398,7 +387,7 @@ public final class FilterView: View {
 
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard var pointOfTouch = touches.first?.location(in: self) else { return }
-        pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y + xAxisHeight)
+        pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y)
         if graphLayer.contains(pointOfTouch) {
             touchDown = true
             editPoint = pointOfTouch
@@ -409,7 +398,7 @@ public final class FilterView: View {
 
     override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard var pointOfTouch = touches.first?.location(in: self) else { return }
-        pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y + xAxisHeight)
+        pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y)
         if graphLayer.contains(pointOfTouch) {
             handleDrag(pointOfTouch)
             updateFrequenciesAndResonance()
@@ -418,7 +407,7 @@ public final class FilterView: View {
 
     override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard var pointOfTouch = touches.first?.location(in: self) else { return }
-        pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y + xAxisHeight)
+        pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y)
         if graphLayer.contains(pointOfTouch) { handleDrag(pointOfTouch) }
         touchDown = false
         updateFrequenciesAndResonance()
