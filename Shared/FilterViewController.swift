@@ -21,8 +21,8 @@ public class FilterViewController: AUViewController {
 
     private var needsConnection = true
 
-    @IBOutlet var compactView: View! { didSet { compactView.setBorder(color: .black, width: 1) } }
-    @IBOutlet var expandedView: View! { didSet { expandedView.setBorder(color: .black, width: 1) } }
+    @IBOutlet var compactView: View! { didSet { compactView.setBorder(color: .black, width: 0) } }
+    @IBOutlet var expandedView: View! { didSet { expandedView.setBorder(color: .black, width: 0) } }
 
     public var audioUnit: FilterAudioUnit? {
         didSet {
@@ -44,6 +44,10 @@ public class FilterViewController: AUViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        // view.addSubview(compactView)
+        // compactView.pinToSuperviewEdges()
+        // compactView.isHidden = true
+
         view.addSubview(expandedView)
         expandedView.pinToSuperviewEdges()
 
@@ -156,8 +160,9 @@ private extension FilterViewController {
 
     #if os(iOS)
     private func transitionViews(from: UIView, to: UIView) {
-        UIView.transition(from: from, to: to, duration: 0.2, options: [.transitionCrossDissolve, .layoutSubviews])
-        if to == self.expandedView { to.pinToSuperviewEdges() }
+        UIView.transition(from: from, to: to, duration: 0.2,
+                          options: [.transitionCrossDissolve, .layoutSubviews])
+        to.pinToSuperviewEdges()
     }
     #endif
 

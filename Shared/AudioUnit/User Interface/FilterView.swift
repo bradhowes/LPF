@@ -91,9 +91,9 @@ public final class FilterView: View {
 
     private var graphLabelColor: Color {
         #if os(iOS)
-        return Color(white: 0.1, alpha: 1.0)
+        return Color.label
         #elseif os(macOS)
-        return Color.labelColor // Use Appearance-aware label color
+        return Color.labelColor
         #endif
     }
 
@@ -194,31 +194,29 @@ extension FilterView {
     #if os(iOS)
 
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard var pointOfTouch = touches.first?.location(in: self) else { return }
-        pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y)
-        if graphLayer.contains(pointOfTouch) {
+        guard let pointOfTouch = touches.first?.location(in: self) else { return }
+        let convertedPoint = rootLayer.convert(pointOfTouch, to: graphLayer)
+        if graphLayer.contains(convertedPoint) {
             touchDown = true
-            editPoint = pointOfTouch
-            updateFrequenciesAndResonance()
+            editPoint = convertedPoint
+            updateIndicator()
             delegate?.filterViewTouchBegan(self)
+            updateFrequenciesAndResonance()
         }
     }
 
     override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard var pointOfTouch = touches.first?.location(in: self) else { return }
-        pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y)
-        if graphLayer.contains(pointOfTouch) {
-            handleDrag(pointOfTouch)
+        guard let pointOfTouch = touches.first?.location(in: self) else { return }
+        let convertedPoint = rootLayer.convert(pointOfTouch, to: graphLayer)
+        if graphLayer.contains(convertedPoint) {
+            handleDrag(convertedPoint)
             updateFrequenciesAndResonance()
         }
     }
 
     override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard var pointOfTouch = touches.first?.location(in: self) else { return }
-        pointOfTouch = CGPoint(x: pointOfTouch.x, y: pointOfTouch.y)
-        if graphLayer.contains(pointOfTouch) { handleDrag(pointOfTouch) }
         touchDown = false
-        updateFrequenciesAndResonance()
+        updateIndicator()
         delegate?.filterViewTouchEnded(self)
     }
 
@@ -411,23 +409,25 @@ extension FilterView {
 
 extension FilterView {
     private func performLayout(of layer: CALayer) {
-        if layer === rootLayer {
-            CATransaction.noAnimation {
-                plotLayer.bounds = rootLayer.bounds
-                graphLayer.bounds = CGRect(x: 0, y: 0, width: layer.bounds.width - yAxisWidth,
+
+        // Resize layers and remake the response curve
+        guard layer === rootLayer else { return }
+        CATransaction.noAnimation {
+            plotLayer.bounds = rootLayer.bounds
+            graphLayer.bounds = CGRect(x: 0, y: 0, width: layer.bounds.width - yAxisWidth,
                                            height: layer.bounds.height - xAxisHeight - 10.0)
-                gridLayer.bounds = graphLayer.bounds
-                indicatorLayer.bounds = graphLayer.bounds
+            gridLayer.bounds = graphLayer.bounds
+            indicatorLayer.bounds = graphLayer.bounds
 
-                createAxisElements()
+            createAxisElements()
 
-                editPoint = CGPoint(x: locationForFrequencyValue(frequency), y: locationForDBValue(resonance))
-                curveLayer.bounds = graphLayer.bounds
-            }
+            editPoint = CGPoint(x: locationForFrequencyValue(frequency), y: locationForDBValue(resonance))
+            curveLayer.bounds = graphLayer.bounds
         }
 
         updateIndicator()
         frequencies = nil
+
         delegate?.filterViewDataDidChange(self)
     }
 
@@ -449,7 +449,6 @@ extension FilterView {
             delegate?.filterView(self, didChangeResonance: resonance)
         }
     }
-
 
     private func handleDrag(_ dragPoint: CGPoint) {
         editPoint.x = dragPoint.x.clamp(to: 0...graphLayer.bounds.width)

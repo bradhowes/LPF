@@ -6,6 +6,7 @@ Small extensions to simplify view handling in the demo app.
 */
 
 public extension View {
+
     func pinToSuperviewEdges() {
         guard let superview = superview else { return }
         translatesAutoresizingMaskIntoConstraints = false
