@@ -82,36 +82,36 @@ extension FilterViewController: FilterViewDelegate {
 
     func updateFilterViewFrequencyAndMagnitudes() {
         guard let audioUnit = audioUnit else { return }
-        filterView.setMagnitudes(audioUnit.magnitudes(forFrequencies: filterView.frequencyDataForDrawing()))
+        filterView.makeFilterResponseCurve(audioUnit.magnitudes(forFrequencies: filterView.responseCurveFrequencies))
     }
 
-    func filterViewTouchBegan(_ view: FilterView) {
+    public func filterViewTouchBegan(_ view: FilterView) {
         cutoffParam.setValue(view.frequency, originator: paramObserverToken, atHostTime: 0, eventType: .touch)
         resonanceParam.setValue(view.resonance, originator: paramObserverToken, atHostTime: 0, eventType: .touch)
     }
     
-    func filterView(_ view: FilterView, didChangeResonance resonance: Float) {
+    public func filterView(_ view: FilterView, didChangeResonance resonance: Float) {
         resonanceParam.setValue(resonance, originator: paramObserverToken, atHostTime: 0, eventType: .value)
         updateFilterViewFrequencyAndMagnitudes()
     }
 
-    func filterView(_ view: FilterView, didChangeFrequency frequency: Float) {
+    public func filterView(_ view: FilterView, didChangeFrequency frequency: Float) {
         cutoffParam.setValue(frequency, originator: paramObserverToken, atHostTime: 0, eventType: .value)
         updateFilterViewFrequencyAndMagnitudes()
     }
 
-    func filterView(_ view: FilterView, didChangeFrequency frequency: Float, andResonance resonance: Float) {
+    public func filterView(_ view: FilterView, didChangeFrequency frequency: Float, andResonance resonance: Float) {
         cutoffParam.setValue(frequency, originator: paramObserverToken, atHostTime: 0, eventType: .value)
         resonanceParam.setValue(resonance, originator: paramObserverToken, atHostTime: 0, eventType: .value)
         updateFilterViewFrequencyAndMagnitudes()
     }
 
-    func filterViewTouchEnded(_ view: FilterView) {
+    public func filterViewTouchEnded(_ view: FilterView) {
         cutoffParam.setValue(filterView.frequency, originator: nil, atHostTime: 0, eventType: .release)
         resonanceParam.setValue(filterView.resonance, originator: nil, atHostTime: 0, eventType: .release)
     }
     
-    func filterViewDataDidChange(_ view: FilterView) {
+    public func filterViewDataDidChange(_ view: FilterView) {
         updateFilterViewFrequencyAndMagnitudes()
     }
 }
