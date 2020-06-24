@@ -14,6 +14,9 @@ public class FilterViewController: AUViewController {
     private var observer: NSKeyValueObservation?
     private var needsConnection = true
 
+    @IBOutlet var compactView: View! { didSet { compactView.setBorder(color: .black, width: 0) } }
+    @IBOutlet var expandedView: View! { didSet { expandedView.setBorder(color: .black, width: 0) } }
+
     public var audioUnit: FilterAudioUnit? {
         didSet {
             audioUnit?.viewController = self
@@ -33,6 +36,10 @@ public class FilterViewController: AUViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.addSubview(expandedView)
+        expandedView.pinToSuperviewEdges()
+
         filterView.delegate = self
         guard audioUnit != nil else { return }
         connectViewToAU()
