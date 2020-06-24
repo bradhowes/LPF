@@ -1,10 +1,10 @@
-// Copyright © 2020 Brad Howes. All rights reserved.
+// Changes: Copyright © 2020 Brad Howes. All rights reserved.
+// Original: See LICENSE folder for this sample’s licensing information.
 
 #pragma once
 
 #import <atomic>
 #import <AudioToolbox/AudioToolbox.h>
-// #import <libkern/OSAtomic.h>
 
 #import "ValueChangeDetector.hpp"
 

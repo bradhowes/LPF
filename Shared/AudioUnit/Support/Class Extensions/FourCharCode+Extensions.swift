@@ -1,10 +1,18 @@
-// Copyright © 2020 Apple. All rights reserved.
+// Copyright © 2020 Brad Howes. All rights reserved.
 
 import Foundation
 
 extension FourCharCode {
 
-    var stringValue: String {
-        String(bytes: [24, 16, 8, 0].map { UInt8(self >> $0 & 0x000000FF) }, encoding: .utf8) ?? "????"
+    private static let bytesSizeForStringValue = MemoryLayout<Self>.size
+
+    /// Obtain a 4-character string from our value - based on https://stackoverflow.com/a/60367676/629836
+    public var stringValue: String {
+        withUnsafePointer(to: bigEndian) { pointer in
+            pointer.withMemoryRebound(to: UInt8.self, capacity: Self.bytesSizeForStringValue) { bytes in
+                String(bytes: UnsafeBufferPointer(start: bytes, count: Self.bytesSizeForStringValue),
+                       encoding: .macOSRoman) ?? "????"
+            }
+        }
     }
 }

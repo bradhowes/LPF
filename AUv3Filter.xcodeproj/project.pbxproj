@@ -13,6 +13,7 @@
 		BD1F7BAF249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */; };
 		BD49661624A35D8700A81F0B /* FourCharCode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */; };
 		BD49661724A35D8900A81F0B /* FourCharCode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */; };
+		BD49661A24A3605900A81F0B /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = BD49661924A3605800A81F0B /* LICENSE.md */; };
 		BD95146B24A028E700D8024C /* AudioUnitBusBufferManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */; };
 		BD95146C24A028E800D8024C /* AudioUnitBusBufferManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */; };
 		BD95147824A08BB600D8024C /* macOSFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD95147724A08BB600D8024C /* macOSFrameworkTests.swift */; };
@@ -191,6 +192,7 @@
 		BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BiquadFilter.cpp; sourceTree = "<group>"; };
 		BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BiquadFilter.hpp; sourceTree = "<group>"; };
 		BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FourCharCode+Extensions.swift"; sourceTree = "<group>"; };
+		BD49661924A3605800A81F0B /* LICENSE.md */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = LICENSE.md; sourceTree = "<group>"; };
 		BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioUnitBusBufferManager.mm; sourceTree = "<group>"; };
 		BD95147524A08BB600D8024C /* macOSFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = macOSFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD95147724A08BB600D8024C /* macOSFrameworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = macOSFrameworkTests.swift; sourceTree = "<group>"; };
@@ -260,7 +262,7 @@
 		C4F07730223AC4F5008FFF06 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		C4F07734223ACB91008FFF06 /* Synth.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Synth.aif; sourceTree = "<group>"; };
 		F145FF70F145FFC000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
-		F14BFD10F14BCC1000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		F14BFD10F14BCC1000000001 /* APPLE_LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = APPLE_LICENSE.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -556,7 +558,8 @@
 		D153B980F14C7C7000000001 /* LICENSE */ = {
 			isa = PBXGroup;
 			children = (
-				F14BFD10F14BCC1000000001 /* LICENSE.txt */,
+				F14BFD10F14BCC1000000001 /* APPLE_LICENSE.txt */,
+				BD49661924A3605800A81F0B /* LICENSE.md */,
 			);
 			path = LICENSE;
 			sourceTree = "<group>";
@@ -830,6 +833,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4BEE7B122236A29001E6B6D /* Assets.xcassets in Resources */,
+				BD49661A24A3605900A81F0B /* LICENSE.md in Resources */,
 				C4BEE7B322236A29001E6B6D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
