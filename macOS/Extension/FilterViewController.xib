@@ -7,11 +7,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner">
             <connections>
-                <outlet property="compactView" destination="usM-Ct-ETz" id="6tA-ZU-CPN"/>
                 <outlet property="expandedView" destination="R36-UR-7aV" id="2Ns-GU-3Ee"/>
                 <outlet property="filterView" destination="oPI-wC-N8q" id="PWT-IO-Fp1"/>
-                <outlet property="frequencyTextField" destination="gNr-9C-Jcl" id="I5Y-My-cGT"/>
-                <outlet property="resonanceTextField" destination="mNt-J3-k64" id="hem-e4-IoW"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -37,99 +34,5 @@
             <point key="canvasLocation" x="139" y="-297"/>
         </customView>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <view wantsLayer="YES" id="usM-Ct-ETz" userLabel="Compact View">
-            <rect key="frame" x="0.0" y="0.0" width="400" height="100"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <subviews>
-                <gridView xPlacement="fill" yPlacement="fill" rowAlignment="none" rowSpacing="16" columnSpacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="uU1-9G-akK">
-                    <rect key="frame" x="71" y="20" width="259" height="60"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="60" id="5fB-FJ-Yfm"/>
-                    </constraints>
-                    <rows>
-                        <gridRow id="wNw-Rk-kNh"/>
-                        <gridRow id="ieJ-oZ-bA2"/>
-                    </rows>
-                    <columns>
-                        <gridColumn xPlacement="leading" id="f23-Im-FOH"/>
-                        <gridColumn id="99R-ul-yvS"/>
-                        <gridColumn id="Hru-wE-T25"/>
-                    </columns>
-                    <gridCells>
-                        <gridCell row="wNw-Rk-kNh" column="f23-Im-FOH" id="zHE-1x-fkg">
-                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vM1-UF-NEu">
-                                <rect key="frame" x="-2" y="39" width="114" height="21"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Cutoff Frequency:" id="JIC-Ub-2XD">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                        </gridCell>
-                        <gridCell row="wNw-Rk-kNh" column="99R-ul-yvS" id="ul6-DD-UJ5">
-                            <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gNr-9C-Jcl">
-                                <rect key="frame" x="126" y="39" width="100" height="21"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="dKN-GS-fOS">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                                <connections>
-                                    <action selector="frequencyUpdated:" target="-2" id="Xmz-vg-cG5"/>
-                                </connections>
-                            </textField>
-                        </gridCell>
-                        <gridCell row="wNw-Rk-kNh" column="Hru-wE-T25" id="gkm-lV-TaS">
-                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8xF-Zd-Vtr">
-                                <rect key="frame" x="240" y="39" width="21" height="21"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Hz" id="Vxd-VN-jk7">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                        </gridCell>
-                        <gridCell row="ieJ-oZ-bA2" column="f23-Im-FOH" id="KYS-iE-d7Q">
-                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zzZ-08-gfZ">
-                                <rect key="frame" x="-2" y="0.0" width="75" height="23"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Resonance:" id="MDe-7U-QdX">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                        </gridCell>
-                        <gridCell row="ieJ-oZ-bA2" column="99R-ul-yvS" id="lUa-Fn-iWV">
-                            <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mNt-J3-k64">
-                                <rect key="frame" x="126" y="0.0" width="100" height="23"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="Wuy-nj-ksB">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                                <connections>
-                                    <action selector="resonanceUpdated:" target="-2" id="xdc-8B-QJx"/>
-                                </connections>
-                            </textField>
-                        </gridCell>
-                        <gridCell row="ieJ-oZ-bA2" column="Hru-wE-T25" id="JMX-lh-wBy">
-                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="1nB-gu-4UV">
-                                <rect key="frame" x="240" y="0.0" width="21" height="23"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="dB" id="PP9-vI-jV7">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                        </gridCell>
-                    </gridCells>
-                </gridView>
-            </subviews>
-            <constraints>
-                <constraint firstItem="uU1-9G-akK" firstAttribute="centerX" secondItem="usM-Ct-ETz" secondAttribute="centerX" id="VBz-yo-iNs"/>
-                <constraint firstItem="uU1-9G-akK" firstAttribute="top" secondItem="usM-Ct-ETz" secondAttribute="top" constant="20" id="ZTr-FW-Caj"/>
-            </constraints>
-            <point key="canvasLocation" x="111" y="441"/>
-        </view>
     </objects>
 </document>
