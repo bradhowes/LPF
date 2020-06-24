@@ -93,16 +93,17 @@
                                 </constraints>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="68k-M7-cHK">
-                                <rect key="frame" x="0.0" y="127.5" width="367" height="539.5"/>
+                                <rect key="frame" x="8" y="127.5" width="359" height="539.5"/>
                                 <connections>
                                     <segue destination="d3W-X0-TKr" kind="embed" id="weX-Mb-Asn"/>
                                 </connections>
                             </containerView>
                         </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="68k-M7-cHK" firstAttribute="top" secondItem="YiJ-1a-ELQ" secondAttribute="bottom" id="1vw-jJ-l1v"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YiJ-1a-ELQ" secondAttribute="trailing" constant="20" id="J1w-OT-736"/>
-                            <constraint firstItem="68k-M7-cHK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="JSr-xN-3FD"/>
+                            <constraint firstItem="68k-M7-cHK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="JSr-xN-3FD"/>
                             <constraint firstItem="YiJ-1a-ELQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Xaf-2D-B6b"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="68k-M7-cHK" secondAttribute="bottom" id="f0O-Cd-IJE"/>
                             <constraint firstItem="YiJ-1a-ELQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="gcb-Ax-44p"/>
@@ -123,14 +124,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="68.525179856115116" y="646.76258992805765"/>
+            <point key="canvasLocation" x="49" y="560"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="RPJ-4g-mch">
             <objects>
                 <viewController id="d3W-X0-TKr" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Sss-Fn-Ywk">
-                        <rect key="frame" x="0.0" y="0.0" width="367" height="539.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="359" height="539.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="pwW-eh-dp0"/>
