@@ -2,10 +2,13 @@
 
 #pragma once
 
+/**
+ Simple class for prohibiting derived classes from being copied.
+ */
 class NonCopyable
 {
 protected:
-    NonCopyable() = default;
+    constexpr NonCopyable() = default;
     ~NonCopyable() = default;
 
 private:

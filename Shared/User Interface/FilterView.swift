@@ -47,6 +47,10 @@ public protocol FilterViewDelegate: class {
     func filterViewDataDidChange(_ filterView: FilterView)
 }
 
+/**
+ Custom view that displays a response curve for the low-pass filter. Provides a control for changing the filter
+ cutoff and resonance values in real-time.
+ */
 public final class FilterView: View {
 
     public static let hertzMin = Float(12.0)
@@ -60,8 +64,10 @@ public final class FilterView: View {
     public static let gainRange = gainMin...gainMax
     public static let gainSpan = gainMax - gainMin
 
+    /// Delegate to receive change notification
     public weak var delegate: FilterViewDelegate?
 
+    /// Collection of frequencies to use when generating the response curve
     public var responseCurveFrequencies: [Float] {
         guard frequencies == nil else { return frequencies! }
         let width = graphLayer.bounds.width
@@ -71,6 +77,7 @@ public final class FilterView: View {
         return frequencies!
     }
 
+    /// Current filter cutoff frequency setting
     public var frequency: Float = hertzMin {
         didSet {
             frequency = frequency.clamp(to: Self.hertzRange)
@@ -78,6 +85,7 @@ public final class FilterView: View {
         }
     }
 
+    /// Current filter resonance setting
     public var resonance: Float = 0.0 {
         didSet {
             resonance = resonance.clamp(to: Self.gainRange)
@@ -89,21 +97,23 @@ public final class FilterView: View {
     override public var isFlipped: Bool { return true }
     #endif
 
+    /// Width of the area to the left of the graph that shows dB labels
     private let yAxisWidth: CGFloat = 40.0
+    /// Height of the area below the graph that shows Hz labels
     private let xAxisHeight: CGFloat = 20.0
+    /// Max number of points in the response curve
     private let maxNumberOfResponseFrequencies = 1024
+    /// Cache of the frequencies used to generate the response curve
     private var frequencies: [Float]?
+    /// Collection of CALayer labels and grid lines that are recreated when the view resizes
     private var axisElements = [CALayer]()
 
     /// Layer for all of the plot elements (graph + labels)
     private var plotLayer = CALayer()
-
     /// Layer for the graph elements
     private var graphLayer = CALayer()
-
     /// Layer for the grid in the graph
     private var gridLayer = CALayer()
-
     /// Layer that shows the response curve of the filter
     private var curveLayer: CAShapeLayer = {
         let shapeLayer = CAShapeLayer()
@@ -298,18 +308,42 @@ extension FilterView {
 // MARK: - Unit Conversions
 extension FilterView {
 
+    /**
+     Obtain the frequency for an X position on the graph
+
+     - parameter location: the X position to work with
+     - returns: the frequency value
+     */
     private func locationToFrequency(_ location: CGFloat) -> Float {
         Self.hertzMin * pow(2, Float((location) / graphLayer.bounds.width) * Self.hertzScale)
     }
 
+    /**
+     Obtain the X position on the graph for a frequency
+
+     - parameter frequency: the frequency value to work with
+     - returns: the X position
+     */
     private func frequencyToLocation(_ frequency: Float) -> CGFloat {
         CGFloat(log2(frequency / Self.hertzMin) * Float(graphLayer.bounds.width) / Self.hertzScale)
     }
 
+    /**
+     Obtain the dB value for a Y position on the graph
+
+     - parameter location: the Y position to work with
+     - returns: the dB value
+     */
     private func locationToDb(_ location: CGFloat) -> Float {
         Float(graphLayer.bounds.height - location) * Self.gainSpan / Float(graphLayer.bounds.height) + Self.gainMin
     }
 
+    /**
+     Obtain the Y position on the graph for a dB value
+
+     - parameter frequency: the dB value to work with
+     - returns: the Y position
+     */
     private func dbToLocation(_ value: Float) -> CGFloat {
         CGFloat(Self.gainMax - value.clamp(to: Self.gainRange)) * graphLayer.bounds.height / CGFloat(Self.gainSpan)
     }

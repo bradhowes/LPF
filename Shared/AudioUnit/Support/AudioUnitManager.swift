@@ -63,13 +63,9 @@ public final class AudioUnitManager {
     }
 
     private var audioUnit: FilterAudioUnit!
-
     private var cutoffParameter: AUParameter!
-
     private var resonanceParameter: AUParameter!
-
     private var parameterObserverToken: AUParameterObserverToken!
-
     private let componentDescription = AudioComponentDescription(
         componentType: kAudioUnitType_Effect,
         componentSubType: 0x666c7472,
@@ -78,8 +74,7 @@ public final class AudioUnitManager {
         componentFlagsMask: 0
     )
 
-    private let componentName = "Demo: LowPassFilter"
-
+    private let componentName = "BRH: LowPassFilter"
     private let playEngine = SimplePlayEngine()
 
     /**
@@ -97,7 +92,7 @@ public final class AudioUnitManager {
             }
             self.audioUnit = audioUnit.auAudioUnit as? FilterAudioUnit
             self.connectParametersToControls()
-            self.playEngine.connect(avAudioUnit: audioUnit)
+            self.playEngine.connectEffect(audioUnit: audioUnit)
         }
     }
 }
@@ -110,7 +105,7 @@ public extension AudioUnitManager {
      - returns: true if playing
      */
     @discardableResult
-    func togglePlayback() -> Bool { playEngine.togglePlay() }
+    func togglePlayback() -> Bool { playEngine.startStop() }
 
     /**
      Toggle between the views supported by the AudioUnit view controller.
@@ -121,7 +116,7 @@ public extension AudioUnitManager {
      The world is being torn apart. Stop any asynchronous eventing from happening in the future.
      */
     func cleanup() {
-        playEngine.stopPlaying()
+        playEngine.stop()
         guard let parameterTree = audioUnit?.parameterTree else { return }
         parameterTree.removeParameterObserver(parameterObserverToken)
     }

@@ -8,6 +8,9 @@
 
 #import "ValueChangeDetector.hpp"
 
+/**
+ Adaptation of a ValueChangeDetector that will provide ramped values when set to a new value.
+ */
 template <typename T, typename C>
 class RampingValueChangeDetector : public ValueChangeDetector<T> {
 public:

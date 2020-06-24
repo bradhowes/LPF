@@ -1,7 +1,8 @@
-// Copyright © 2020 Apple. All rights reserved.
+// Copyright © 2020 Brad Howes. All rights reserved.
 
 public extension Color {
 
+    /// Obtain a darker variation of the current color
     var darker: Color {
         var hue: CGFloat = 0
         var saturation: CGFloat = 0
@@ -11,6 +12,7 @@ public extension Color {
         return Color(hue: hue, saturation: saturation, brightness: brightness * 0.8, alpha: alpha)
     }
 
+    /// Obtain a lighter variation of the current color
     var lighter: Color {
         var hue: CGFloat = 0
         var saturation: CGFloat = 0

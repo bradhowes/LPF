@@ -49,7 +49,6 @@ AudioUnitBusInputBufferManager::prepareInputBufferList(UInt32 frameCount)
 {
     auto originalAudioBufferList = buffer_.audioBufferList;
     mutableAudioBufferList_->mNumberBuffers = originalAudioBufferList->mNumberBuffers;
-
     UInt32 byteSize = std::min(frameCount, maxFrames_) * sizeof(float);
     for (auto i = 0; i < originalAudioBufferList->mNumberBuffers; ++i) {
         auto& buff = mutableAudioBufferList_->mBuffers[i];
@@ -59,4 +58,3 @@ AudioUnitBusInputBufferManager::prepareInputBufferList(UInt32 frameCount)
         buff.mDataByteSize = byteSize;
     }
 }
-

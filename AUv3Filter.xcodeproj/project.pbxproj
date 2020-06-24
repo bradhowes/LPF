@@ -11,6 +11,8 @@
 		BD1F7BAD249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */; };
 		BD1F7BAE249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */; };
 		BD1F7BAF249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */; };
+		BD49661624A35D8700A81F0B /* FourCharCode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */; };
+		BD49661724A35D8900A81F0B /* FourCharCode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */; };
 		BD95146B24A028E700D8024C /* AudioUnitBusBufferManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */; };
 		BD95146C24A028E800D8024C /* AudioUnitBusBufferManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */; };
 		BD95147824A08BB600D8024C /* macOSFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD95147724A08BB600D8024C /* macOSFrameworkTests.swift */; };
@@ -188,6 +190,7 @@
 		7E56CF207E56CEE000000001 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BiquadFilter.cpp; sourceTree = "<group>"; };
 		BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BiquadFilter.hpp; sourceTree = "<group>"; };
+		BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FourCharCode+Extensions.swift"; sourceTree = "<group>"; };
 		BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioUnitBusBufferManager.mm; sourceTree = "<group>"; };
 		BD95147524A08BB600D8024C /* macOSFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = macOSFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD95147724A08BB600D8024C /* macOSFrameworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = macOSFrameworkTests.swift; sourceTree = "<group>"; };
@@ -325,6 +328,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BD49661824A35F3900A81F0B /* Class Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BDB11A5624A13C8900DD8EF9 /* CALayer+Extensions.swift */,
+				BDB11A5E24A13FAA00DD8EF9 /* CATransaction+Extensions.swift */,
+				BDB11A5A24A13F2A00DD8EF9 /* Color+Extensions.swift */,
+				BDB11A5224A13BFA00DD8EF9 /* Comparble+Extensions.swift */,
+				BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */,
+			);
+			path = "Class Extensions";
+			sourceTree = "<group>";
+		};
 		BD95147624A08BB600D8024C /* macOSFrameworkTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -475,22 +490,13 @@
 			isa = PBXGroup;
 			children = (
 				C4F07730223AC4F5008FFF06 /* FilterViewController.swift */,
-				C4BEE7E122236E99001E6B6D /* AudioUnit */,
-				C4F07733223AC506008FFF06 /* Support */,
-			);
-			path = Shared;
-			sourceTree = "<group>";
-		};
-		C4BEE7E122236E99001E6B6D /* AudioUnit */ = {
-			isa = PBXGroup;
-			children = (
 				C4F004A52239B2070014E248 /* FilterAudioUnit.swift */,
 				C4F0772D223AACBB008FFF06 /* FilterParameters.swift */,
 				BDB11A5124A114D700DD8EF9 /* Kernel */,
 				C4DCBAD6223ADE85000D9CB3 /* User Interface */,
 				C4BEE7E422236E99001E6B6D /* Support */,
 			);
-			path = AudioUnit;
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		C4BEE7E422236E99001E6B6D /* Support */ = {
@@ -499,10 +505,6 @@
 				C4BEE7E022236E99001E6B6D /* AudioUnitManager.swift */,
 				C4BEE7E822236E99001E6B6D /* AudioUnitBusBufferManager.hpp */,
 				BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */,
-				BDB11A5624A13C8900DD8EF9 /* CALayer+Extensions.swift */,
-				BDB11A5E24A13FAA00DD8EF9 /* CATransaction+Extensions.swift */,
-				BDB11A5A24A13F2A00DD8EF9 /* Color+Extensions.swift */,
-				BDB11A5224A13BFA00DD8EF9 /* Comparble+Extensions.swift */,
 				C4BEE7E622236E99001E6B6D /* DSPKernel.hpp */,
 				C4BEE7E722236E99001E6B6D /* DSPKernel.mm */,
 				C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.hpp */,
@@ -511,8 +513,11 @@
 				BDB7CE99249FC026009580D5 /* Preset.swift */,
 				C4BEE7E522236E99001E6B6D /* RampingValueChangeDetector.hpp */,
 				BDB7CE96249F7209009580D5 /* ValueChangeDetector.hpp */,
+				BD49661824A35F3900A81F0B /* Class Extensions */,
+				C4DCBAD5223ADE79000D9CB3 /* Audio */,
 			);
-			path = Support;
+			name = Support;
+			path = AudioUnit/Support;
 			sourceTree = "<group>";
 		};
 		C4BEE81822237394001E6B6D /* Frameworks */ = {
@@ -546,14 +551,6 @@
 				C4BEE7D722236E99001E6B6D /* ViewExtensions.swift */,
 			);
 			path = "User Interface";
-			sourceTree = "<group>";
-		};
-		C4F07733223AC506008FFF06 /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				C4DCBAD5223ADE79000D9CB3 /* Audio */,
-			);
-			path = Support;
 			sourceTree = "<group>";
 		};
 		D153B980F14C7C7000000001 /* LICENSE */ = {
@@ -907,6 +904,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4BEE7F722236F2D001E6B6D /* DSPKernel.mm in Sources */,
+				BD49661624A35D8700A81F0B /* FourCharCode+Extensions.swift in Sources */,
 				BD1F7BAC249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */,
 				BD95149124A0A63300D8024C /* FilterDSPKernel.mm in Sources */,
 				C4BEE80522236F6F001E6B6D /* ViewExtensions.swift in Sources */,
@@ -964,6 +962,7 @@
 				BD1F7BAD249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */,
 				C4F004A72239B2070014E248 /* FilterAudioUnit.swift in Sources */,
 				C4A3D65C223FF12A002784D4 /* SimplePlayEngine.swift in Sources */,
+				BD49661724A35D8900A81F0B /* FourCharCode+Extensions.swift in Sources */,
 				BDB11A6124A13FD000DD8EF9 /* CATransaction+Extensions.swift in Sources */,
 				BD95146C24A028E800D8024C /* AudioUnitBusBufferManager.mm in Sources */,
 				C4F004A42239B1E10014E248 /* FilterDSPKernelAdapter.mm in Sources */,
