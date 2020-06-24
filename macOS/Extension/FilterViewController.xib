@@ -7,7 +7,6 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner">
             <connections>
-                <outlet property="expandedView" destination="R36-UR-7aV" id="2Ns-GU-3Ee"/>
                 <outlet property="filterView" destination="oPI-wC-N8q" id="PWT-IO-Fp1"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
@@ -15,24 +14,20 @@
         <customView wantsLayer="YES" id="Hz6-mo-xeY">
             <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-            <point key="canvasLocation" x="139" y="154"/>
-        </customView>
-        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R36-UR-7aV" userLabel="Expanded View">
-            <rect key="frame" x="0.0" y="0.0" width="800" height="500"/>
             <subviews>
                 <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oPI-wC-N8q" customClass="FilterView" customModule="LowPassFilterFramework">
-                    <rect key="frame" x="8" y="8" width="784" height="484"/>
+                    <rect key="frame" x="8" y="8" width="464" height="256"/>
                 </customView>
             </subviews>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="oPI-wC-N8q" secondAttribute="bottom" constant="8" id="bOT-6Z-Sfb"/>
-                <constraint firstAttribute="trailing" secondItem="oPI-wC-N8q" secondAttribute="trailing" constant="8" id="f78-xv-Qnp"/>
-                <constraint firstItem="oPI-wC-N8q" firstAttribute="leading" secondItem="R36-UR-7aV" secondAttribute="leading" constant="8" id="ncK-hk-5iB"/>
-                <constraint firstItem="oPI-wC-N8q" firstAttribute="top" secondItem="R36-UR-7aV" secondAttribute="top" constant="8" id="u8L-ct-iRf"/>
+                <constraint firstAttribute="bottom" secondItem="oPI-wC-N8q" secondAttribute="bottom" constant="8" id="Fh2-nF-8uG"/>
+                <constraint firstItem="oPI-wC-N8q" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="8" id="lbS-fj-A1T"/>
+                <constraint firstAttribute="trailing" secondItem="oPI-wC-N8q" secondAttribute="trailing" constant="8" id="pXe-i5-8Fv"/>
+                <constraint firstItem="oPI-wC-N8q" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="8" id="pvK-0e-f1o"/>
             </constraints>
-            <point key="canvasLocation" x="139" y="-297"/>
+            <point key="canvasLocation" x="139" y="154"/>
         </customView>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
     </objects>
 </document>
