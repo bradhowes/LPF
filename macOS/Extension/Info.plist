@@ -27,16 +27,16 @@
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>AudioComponentBundle</key>
-			<string>com.example.apple-samplecode.AUv3FilterFramework</string>
+			<string>com.braysoftware.LowPassFilterFramework</string>
 			<key>AudioComponents</key>
 			<array>
 				<dict>
 					<key>description</key>
 					<string>LowPassFilter</string>
 					<key>manufacturer</key>
-					<string>BRAY</string>
+					<string>bray</string>
 					<key>name</key>
-					<string>Demo: LowPassFilter</string>
+					<string>bray: LowPassFilter</string>
 					<key>sandboxSafe</key>
 					<true/>
 					<key>subtype</key>

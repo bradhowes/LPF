@@ -107,20 +107,6 @@
                         <toolbar key="toolbar" implicitIdentifier="5207E1E8-A93F-4F10-9C18-0E48AC0FF7E7" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="BM6-k9-grP">
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Rub-ZQ-gKo"/>
-                                <toolbarItem implicitItemIdentifier="F6F8A975-8F6B-4BB9-856B-4B4439A2A782" label="Toggle" paletteLabel="Toggle Button" sizingBehavior="auto" id="nKc-jD-zLA">
-                                    <nil key="toolTip"/>
-                                    <button key="view" verticalHuggingPriority="750" id="FeZ-Yx-F5y">
-                                        <rect key="frame" x="0.0" y="14" width="116" height="43"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="push" title="Toggle Views" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xer-d4-QIL">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="toggleView:" target="Oky-zY-oP4" id="Xmc-GB-D6j"/>
-                                        </connections>
-                                    </button>
-                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="290CDF7D-A4F5-4CB1-8BAB-065BEAC4FDC3" label="Play" paletteLabel="Play Button" sizingBehavior="auto" id="gZY-Pi-OZc">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="ogO-fI-sF4">
@@ -139,7 +125,6 @@
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="Rub-ZQ-gKo"/>
-                                <toolbarItem reference="nKc-jD-zLA"/>
                                 <toolbarItem reference="gZY-Pi-OZc"/>
                             </defaultToolbarItems>
                         </toolbar>
@@ -163,14 +148,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="900" height="560"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <box borderType="line" title="Parameters" translatesAutoresizingMaskIntoConstraints="NO" id="rfi-rJ-PdE" userLabel="Parameters Box">
-                                <rect key="frame" x="33" y="440" width="834" height="100"/>
+                            <box borderType="none" titlePosition="noTitle" transparent="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rfi-rJ-PdE" userLabel="Parameters Box">
+                                <rect key="frame" x="33" y="440" width="834" height="102"/>
                                 <view key="contentView" id="b4b-Oa-AOn">
-                                    <rect key="frame" x="3" y="3" width="828" height="82"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="834" height="102"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R8U-qk-iuM">
-                                            <rect key="frame" x="99" y="50" width="71" height="21"/>
+                                            <rect key="frame" x="99" y="70" width="71" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="71" id="I4M-w8-4Kb"/>
                                             </constraints>
@@ -181,7 +166,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="95k-cc-122">
-                                            <rect key="frame" x="47" y="52" width="46" height="16"/>
+                                            <rect key="frame" x="47" y="72" width="46" height="16"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Cutoff:" id="LoT-h2-3bE">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -205,14 +190,14 @@
                                             </textFieldCell>
                                         </textField>
                                         <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="veU-X7-Bd9">
-                                            <rect key="frame" x="205" y="51" width="605" height="19"/>
+                                            <rect key="frame" x="205" y="71" width="611" height="19"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="9" doubleValue="5" tickMarkPosition="above" sliderType="linear" id="JtD-C5-MRg"/>
                                             <connections>
                                                 <action selector="cutoffSliderValueChanged:" target="XfG-lQ-9wD" id="ru5-Mu-YlM"/>
                                             </connections>
                                         </slider>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="78S-15-HAR">
-                                            <rect key="frame" x="176" y="52" width="21" height="16"/>
+                                            <rect key="frame" x="176" y="72" width="21" height="16"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Hz" id="IXh-ZG-FGJ">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -228,7 +213,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MX2-fm-3rT">
-                                            <rect key="frame" x="205" y="15" width="605" height="19"/>
+                                            <rect key="frame" x="205" y="15" width="611" height="19"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="-20" maxValue="20" tickMarkPosition="above" sliderType="linear" id="UiK-7l-PXj"/>
                                             <connections>
                                                 <action selector="resonanceSliderValueChanged:" target="XfG-lQ-9wD" id="LlT-VI-6f7"/>

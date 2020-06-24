@@ -2,14 +2,10 @@
 // Original: See LICENSE folder for this sample’s licensing information.
 
 import CoreAudioKit
+//*** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '-[LowPassFilterFramework.FilterViewController createAudioUnitWithComponentDescription:error:]: unrecognized selector sent to instance 0x600001cf9590'
 
 public class FilterViewController: AUViewController {
 
-    let compact = AUAudioUnitViewConfiguration(width: 400, height: 100, hostHasController: false)
-    let expanded = AUAudioUnitViewConfiguration(width: 800, height: 500, hostHasController: false)
-    public var viewConfigurations: [AUAudioUnitViewConfiguration] { [expanded, compact] }
-
-    private var viewConfig: AUAudioUnitViewConfiguration!
     private var cutoffParam: AUParameter!
     private var resonanceParam: AUParameter!
     private var paramObserverToken: AUParameterObserverToken?
@@ -19,7 +15,6 @@ public class FilterViewController: AUViewController {
     @IBOutlet private weak var resonanceTextField: TextField!
     
     private var observer: NSKeyValueObservation?
-
     private var needsConnection = true
 
     @IBOutlet var compactView: View! { didSet { compactView.setBorder(color: .black, width: 0) } }
@@ -45,14 +40,9 @@ public class FilterViewController: AUViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        // view.addSubview(compactView)
-        // compactView.pinToSuperviewEdges()
-        // compactView.isHidden = true
-
         view.addSubview(expandedView)
         expandedView.pinToSuperviewEdges()
 
-        viewConfig = expanded
         filterView.delegate = self
 
         #if os(iOS)
@@ -64,18 +54,19 @@ public class FilterViewController: AUViewController {
 
         connectViewToAU()
     }
+}
 
-    public func toggleViewConfiguration() { audioUnit?.select(viewConfig == expanded ? compact : expanded) }
+extension FilterViewController: AUAudioUnitFactory {
 
-    public func selectViewConfiguration(_ viewConfig: AUAudioUnitViewConfiguration) {
-        guard self.viewConfig != viewConfig else { return }
-        self.viewConfig = viewConfig
-        if viewConfig.width >= expanded.width && viewConfig.height >= expanded.height {
-            performOnMain { self.transitionViews(from: self.compactView, to: self.expandedView) }
-        }
-        else {
-            performOnMain { self.transitionViews(from: self.expandedView, to: self.compactView) }
-        }
+    /**
+     Create a new FilterAudioUnit instance to run in an AVu3 container.
+
+     - parameter componentDescription: descriptions of the audio environment it will run in
+     - returns: new FilterAudioUnit
+     */
+    public func createAudioUnit(with componentDescription: AudioComponentDescription) throws -> AUAudioUnit {
+        audioUnit = try FilterAudioUnit(componentDescription: componentDescription, options: [])
+        return audioUnit!
     }
 }
 

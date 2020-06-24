@@ -32,9 +32,9 @@
 					<key>factoryFunction</key>
 					<string>$(PRODUCT_MODULE_NAME).FilterViewController</string>
 					<key>manufacturer</key>
-					<string>Demo</string>
+					<string>bray</string>
 					<key>name</key>
-					<string>LowPassFilter</string>
+					<string>bray:LowPassFilter</string>
 					<key>sandboxSafe</key>
 					<true/>
 					<key>subtype</key>

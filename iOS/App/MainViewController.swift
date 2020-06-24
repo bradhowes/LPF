@@ -30,10 +30,6 @@ class MainViewController: UIViewController {
         playButton.setTitle(titleText, for: .normal)
     }
 
-    @IBAction private func toggleView(_ sender: UIButton) {
-        audioUnitManager.toggleView()
-    }
-
     @IBAction private func cutoffSliderValueChanged(_ sender: UISlider) {
         audioUnitManager.cutoffValue = frequencyValueForSliderLocation(sender.value)
     }

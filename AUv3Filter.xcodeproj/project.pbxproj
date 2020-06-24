@@ -23,7 +23,6 @@
 		BD95149124A0A63300D8024C /* FilterDSPKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95149024A0A63300D8024C /* FilterDSPKernel.mm */; };
 		BD95149224A0A63300D8024C /* FilterDSPKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95149024A0A63300D8024C /* FilterDSPKernel.mm */; };
 		BD95149624A0C57E00D8024C /* FilterViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4201A2822403120006E4333 /* FilterViewControllerExtension.swift */; };
-		BD95149724A0C57E00D8024C /* FilterViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4201A2822403120006E4333 /* FilterViewControllerExtension.swift */; };
 		BDB11A5424A13C4A00DD8EF9 /* Comparble+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB11A5224A13BFA00DD8EF9 /* Comparble+Extensions.swift */; };
 		BDB11A5524A13C4B00DD8EF9 /* Comparble+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB11A5224A13BFA00DD8EF9 /* Comparble+Extensions.swift */; };
 		BDB11A5824A13CB100DD8EF9 /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB11A5624A13C8900DD8EF9 /* CALayer+Extensions.swift */; };
@@ -897,7 +896,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD95149724A0C57E00D8024C /* FilterViewControllerExtension.swift in Sources */,
 				C4BEE7B422236A29001E6B6D /* AppDelegate.swift in Sources */,
 				C4BEE81022237302001E6B6D /* MainViewController.swift in Sources */,
 			);

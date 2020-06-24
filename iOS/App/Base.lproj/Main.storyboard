@@ -19,7 +19,7 @@
                                 <rect key="frame" x="20" y="0.0" width="335" height="127.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="firstBaseline" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="7fx-rV-Ws4" userLabel="Buttons Container">
-                                        <rect key="frame" x="97" y="0.0" width="141" height="30"/>
+                                        <rect key="frame" x="152.5" y="0.0" width="30" height="30"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tzZ-pe-UL7">
                                                 <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
@@ -27,14 +27,6 @@
                                                 <state key="normal" title="Play"/>
                                                 <connections>
                                                     <action selector="togglePlay:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kt8-zh-HcD"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ycR-sk-SUr" userLabel="Toggle Views Button">
-                                                <rect key="frame" x="50" y="0.0" width="91" height="30"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                <state key="normal" title="Toggle Views"/>
-                                                <connections>
-                                                    <action selector="toggleView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jL5-4Z-KqB"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -127,7 +119,6 @@
                         <outlet property="playButton" destination="tzZ-pe-UL7" id="Yxx-Rt-URy"/>
                         <outlet property="resonanceSlider" destination="qNn-m8-7L4" id="l3b-91-eiR"/>
                         <outlet property="resonanceTextField" destination="byn-dA-uK7" id="9U3-4m-y3R"/>
-                        <outlet property="toggleButton" destination="ycR-sk-SUr" id="ltu-bg-AFP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -147,7 +138,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D2O-tw-VKc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="791" y="720"/>
+            <point key="canvasLocation" x="935" y="646"/>
         </scene>
     </scenes>
 </document>

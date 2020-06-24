@@ -32,8 +32,6 @@ class MainViewController: NSViewController {
 
     @IBAction private func togglePlay(_ sender: NSButton) { audioUnitManager.togglePlayback() }
 
-    @IBAction private func toggleView(_ sender: NSButton) { audioUnitManager.toggleView() }
-
     @IBAction private func cutoffSliderValueChanged(_ sender: NSSlider) {
         audioUnitManager.cutoffValue = frequencyValueForSliderLocation(sender.floatValue)
     }

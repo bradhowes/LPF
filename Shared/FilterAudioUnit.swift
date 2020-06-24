@@ -110,25 +110,6 @@ public class FilterAudioUnit: AUAudioUnit {
         kernelAdapter.deallocateRenderResources()
     }
 
-    public override func supportedViewConfigurations(_ availableViewConfigurations: [AUAudioUnitViewConfiguration])
-        -> IndexSet {
-        var indexSet = IndexSet()
-        let min = CGSize(width: 400, height: 100)
-        let max = CGSize(width: 800, height: 500)
-        for (index, config) in availableViewConfigurations.enumerated() {
-            if config.width < min.width || config.height < min.height ||
-               config.width > max.width || config.height > max.height {
-                continue
-            }
-            indexSet.insert(index)
-        }
-        return indexSet
-    }
-
-    public override func select(_ viewConfiguration: AUAudioUnitViewConfiguration) {
-        viewController?.selectViewConfiguration(viewConfiguration)
-    }
-
     private func log(_ acd: AudioComponentDescription) {
 
         let info = ProcessInfo.processInfo

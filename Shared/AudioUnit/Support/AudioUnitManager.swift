@@ -109,11 +109,6 @@ public extension AudioUnitManager {
     func togglePlayback() -> Bool { playEngine.startStop() }
 
     /**
-     Toggle between the views supported by the AudioUnit view controller.
-     */
-    func toggleView() { viewController.toggleViewConfiguration() }
-
-    /**
      The world is being torn apart. Stop any asynchronous eventing from happening in the future.
      */
     func cleanup() {
