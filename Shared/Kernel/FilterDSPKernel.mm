@@ -1,6 +1,8 @@
 // Changes: Copyright © 2020 Brad Howes. All rights reserved.
 // Original: See LICENSE folder for this sample’s licensing information.
 
+#import <os/log.h>
+
 #include "FilterDSPKernel.hpp"
 #include "FilterDSPKernelAdapter.hpp"
 
@@ -23,12 +25,15 @@ FilterDSPKernel::reset() {
 void
 FilterDSPKernel::setParameterValue(AUParameterAddress address, AUValue value)
 {
+
     switch (address) {
         case FilterParameterAddressCutoff:
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "set cutoff: %f", value);
             cutoff_ = value;
             break;
 
         case FilterParameterAddressResonance:
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "set resonance: %f", value);
             resonance_ = value;
             break;
     }
@@ -38,8 +43,12 @@ AUValue
 FilterDSPKernel::getParameterValue(AUParameterAddress address) const
 {
     switch (address) {
-        case FilterParameterAddressCutoff: return cutoff_;
-        case FilterParameterAddressResonance: return resonance_;
+        case FilterParameterAddressCutoff:
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "get cutoff: %f", cutoff_.value());
+            return cutoff_.value();
+        case FilterParameterAddressResonance:
+            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "get resonance: %f", resonance_.value());
+            return resonance_.value();
         default: return 0.0;
     }
 }

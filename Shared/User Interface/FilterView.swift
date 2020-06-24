@@ -229,6 +229,7 @@ extension FilterView {
 
         bezierPath.move(to: CGPoint(x: 0, y: graphLayer.bounds.height))
         for (index, magnitude) in magnitudes.enumerated() {
+            
             bezierPath.addLine(to: CGPoint(x: CGFloat(index) * scale, y: dbToLocation(20.0 * log10(magnitude))))
         }
 

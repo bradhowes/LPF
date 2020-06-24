@@ -54,11 +54,15 @@ final class FilterParameters: NSObject {
 
         // Provide a way to obtain String values for the current settings.
         parameterTree.implementorStringFromValueCallback = { param, value in
-            switch param.address {
-            case FilterParameterAddress.cutoff.rawValue: return String(format: "%.2f", value ?? param.value)
-            case FilterParameterAddress.resonance.rawValue: return String(format: "%.2f", value ?? param.value)
-            default: return "?"
-            }
+            let s: String = {
+                switch param.address {
+                case FilterParameterAddress.cutoff.rawValue: return String(format: "%.2f", param.value)
+                case FilterParameterAddress.resonance.rawValue: return String(format: "%.2f", param.value)
+                default: return "?"
+                }
+            }()
+            os_log("parameter %d as string: %d %f %s", param.address, param.value, s)
+            return s
         }
     }
 

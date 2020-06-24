@@ -6,9 +6,9 @@ import AudioToolbox
 import AVFoundation
 import CoreAudioKit
 
-public class FilterAudioUnit: AUAudioUnit {
+public final class FilterAudioUnit: AUAudioUnit {
 
-    private let parameters: FilterParameters
+    private let parameterDefinitions: FilterParameters
     private let kernelAdapter: FilterDSPKernelAdapter
 
     lazy private var inputBusArray: AUAudioUnitBusArray = {
@@ -19,13 +19,13 @@ public class FilterAudioUnit: AUAudioUnit {
         AUAudioUnitBusArray(audioUnit: self, busType: .output, busses: [kernelAdapter.outputBus])
     }()
 
-    weak var viewController: FilterViewController?
+    public weak var viewController: FilterViewController?
 
     public override var inputBusses: AUAudioUnitBusArray { inputBusArray }
     public override var outputBusses: AUAudioUnitBusArray { outputBusArray }
     
     public override var parameterTree: AUParameterTree? {
-        get { return parameters.parameterTree }
+        get { return parameterDefinitions.parameterTree }
         set { /* The sample doesn't allow this property to be modified. */ }
     }
 
@@ -55,7 +55,7 @@ public class FilterAudioUnit: AUAudioUnit {
             
             if preset.number >= 0 {
                 let values = factoryPresetValues[preset.number]
-                parameters.setParameterValues(cutoff: values.cutoff, resonance: values.resonance)
+                parameterDefinitions.setParameterValues(cutoff: values.cutoff, resonance: values.resonance)
                 _currentPreset = preset
             }
             else {
@@ -76,7 +76,7 @@ public class FilterAudioUnit: AUAudioUnit {
     public override init(componentDescription: AudioComponentDescription,
                          options: AudioComponentInstantiationOptions = []) throws {
         kernelAdapter = FilterDSPKernelAdapter()
-        parameters = FilterParameters(parameterHandler: kernelAdapter)
+        parameterDefinitions = FilterParameters(parameterHandler: kernelAdapter)
         try super.init(componentDescription: componentDescription, options: options)
         log(componentDescription)
         currentPreset = factoryPresets.first
