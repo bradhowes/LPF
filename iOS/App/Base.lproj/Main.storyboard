@@ -68,6 +68,13 @@
                                             <action selector="resonanceSliderValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="8jz-TF-BDa"/>
                                         </connections>
                                     </slider>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="v1.0.1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nnu-Th-Fvg" userLabel="APP_VERSION">
+                                        <rect key="frame" x="0.0" y="5" width="29" height="13.5"/>
+                                        <accessibility key="accessibilityConfiguration" label="APP_VERSION"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="ZT5-00-ojX" firstAttribute="leading" secondItem="YiJ-1a-ELQ" secondAttribute="leading" id="2Kf-Hk-Z3u"/>
@@ -76,10 +83,13 @@
                                     <constraint firstItem="qNn-m8-7L4" firstAttribute="leading" secondItem="byn-dA-uK7" secondAttribute="trailing" constant="8" id="BZR-Yf-zFq"/>
                                     <constraint firstAttribute="trailing" secondItem="9rt-TL-68F" secondAttribute="trailing" id="CeX-nl-VyP"/>
                                     <constraint firstItem="XyD-hC-vsa" firstAttribute="leading" secondItem="YiJ-1a-ELQ" secondAttribute="leading" id="ENE-bm-4wJ"/>
+                                    <constraint firstItem="7fx-rV-Ws4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nnu-Th-Fvg" secondAttribute="trailing" constant="8" id="OXS-8Q-Vbs"/>
                                     <constraint firstItem="byn-dA-uK7" firstAttribute="top" secondItem="qnu-xa-K9r" secondAttribute="bottom" constant="8" id="Qy4-fM-uOo"/>
+                                    <constraint firstItem="nnu-Th-Fvg" firstAttribute="leading" secondItem="YiJ-1a-ELQ" secondAttribute="leading" id="R6l-xn-CWI"/>
                                     <constraint firstItem="7fx-rV-Ws4" firstAttribute="top" secondItem="YiJ-1a-ELQ" secondAttribute="top" id="TjZ-vk-2j6"/>
                                     <constraint firstAttribute="trailing" secondItem="qNn-m8-7L4" secondAttribute="trailing" id="Wlz-Rn-3PA"/>
                                     <constraint firstItem="qnu-xa-K9r" firstAttribute="firstBaseline" secondItem="ZT5-00-ojX" secondAttribute="firstBaseline" id="YKJ-Cv-RSW"/>
+                                    <constraint firstItem="nnu-Th-Fvg" firstAttribute="top" secondItem="YiJ-1a-ELQ" secondAttribute="top" constant="5" id="aqW-pv-7yI"/>
                                     <constraint firstItem="qnu-xa-K9r" firstAttribute="width" secondItem="byn-dA-uK7" secondAttribute="width" id="dif-CH-eOs"/>
                                     <constraint firstItem="qnu-xa-K9r" firstAttribute="leading" secondItem="byn-dA-uK7" secondAttribute="leading" id="e8m-qr-KGG"/>
                                     <constraint firstItem="7fx-rV-Ws4" firstAttribute="centerX" secondItem="YiJ-1a-ELQ" secondAttribute="centerX" id="gty-7P-wq4"/>

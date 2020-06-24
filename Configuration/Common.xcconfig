@@ -1,0 +1,13 @@
+//
+//  Dev.xcconfig
+//  AUv3Filter
+//
+//  Created by Brad Howes on 6/24/20.
+//  Copyright © 2020 Apple. All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+DEVELOPMENT_TEAM = UP6SS5ES7E
+SHARED_BUNDLE_PREFIX = com.braysoftware.LowPassFilter
