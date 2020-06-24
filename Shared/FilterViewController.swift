@@ -36,9 +36,11 @@ public class FilterViewController: AUViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        #if os(macOS)
         view.addSubview(expandedView)
         expandedView.pinToSuperviewEdges()
+        #endif
 
         filterView.delegate = self
         guard audioUnit != nil else { return }

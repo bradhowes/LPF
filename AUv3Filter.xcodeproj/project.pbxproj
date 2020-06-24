@@ -457,6 +457,7 @@
 			isa = PBXGroup;
 			children = (
 				C4201A2822403120006E4333 /* FilterViewControllerExtension.swift */,
+				C4C9EAAB2227D79D003FEE1C /* FilterViewController.xib */,
 				C4BEE7BE22236A58001E6B6D /* Info.plist */,
 				C4BEE7BD22236A58001E6B6D /* Extension.entitlements */,
 			);
@@ -466,7 +467,6 @@
 		C4BEE7C022236A58001E6B6D /* Framework */ = {
 			isa = PBXGroup;
 			children = (
-				C4C9EAAB2227D79D003FEE1C /* FilterViewController.xib */,
 				C4BEE80D2223713E001E6B6D /* LowPassFilterFramework.h */,
 				C4BEE7C222236A58001E6B6D /* Info.plist */,
 				C496340F22238947001D1F5B /* Support */,
