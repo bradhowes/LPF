@@ -13,10 +13,17 @@ typedef NS_ENUM(AUParameterAddress, FilterParameterAddress) {
     FilterParameterAddressResonance = 2
 };
 
+@protocol RuntimeParameterHandler
+
+- (void)setParameter:(nonnull AUParameter *)parameter value:(AUValue)value;
+- (AUValue)valueOf:(nonnull AUParameter *)parameter;
+
+@end
+
 /**
  Small Obj-C wrapper around the FilterDSPKernel C++ class.
  */
-@interface FilterDSPKernelAdapter : NSObject
+@interface FilterDSPKernelAdapter : NSObject <RuntimeParameterHandler>
 
 /// Maximum number of frames (samples) to handle in a render call.
 @property (nonatomic) AUAudioFrameCount maximumFramesToRender;

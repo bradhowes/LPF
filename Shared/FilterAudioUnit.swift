@@ -76,7 +76,7 @@ public class FilterAudioUnit: AUAudioUnit {
     public override init(componentDescription: AudioComponentDescription,
                          options: AudioComponentInstantiationOptions = []) throws {
         kernelAdapter = FilterDSPKernelAdapter()
-        parameters = FilterParameters(kernelAdapter: kernelAdapter)
+        parameters = FilterParameters(parameterHandler: kernelAdapter)
         try super.init(componentDescription: componentDescription, options: options)
         log(componentDescription)
         currentPreset = factoryPresets.first
