@@ -490,9 +490,9 @@
 		C4BEE7D522236E99001E6B6D /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				C4F07730223AC4F5008FFF06 /* FilterViewController.swift */,
 				C4F004A52239B2070014E248 /* FilterAudioUnit.swift */,
 				C4F0772D223AACBB008FFF06 /* FilterParameters.swift */,
+				C4F07730223AC4F5008FFF06 /* FilterViewController.swift */,
 				BDB11A5124A114D700DD8EF9 /* Kernel */,
 				C4DCBAD6223ADE85000D9CB3 /* User Interface */,
 				C4BEE7E422236E99001E6B6D /* Support */,

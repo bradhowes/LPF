@@ -12,15 +12,11 @@ public class FilterAudioUnit: AUAudioUnit {
     private let kernelAdapter: FilterDSPKernelAdapter
 
     lazy private var inputBusArray: AUAudioUnitBusArray = {
-        AUAudioUnitBusArray(audioUnit: self,
-                            busType: .input,
-                            busses: [kernelAdapter.inputBus])
+        AUAudioUnitBusArray(audioUnit: self, busType: .input, busses: [kernelAdapter.inputBus])
     }()
 
     lazy private var outputBusArray: AUAudioUnitBusArray = {
-        AUAudioUnitBusArray(audioUnit: self,
-                            busType: .output,
-                            busses: [kernelAdapter.outputBus])
+        AUAudioUnitBusArray(audioUnit: self, busType: .output, busses: [kernelAdapter.outputBus])
     }()
 
     weak var viewController: FilterViewController?
