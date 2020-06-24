@@ -2,7 +2,6 @@
 // Original: See LICENSE folder for this sample’s licensing information.
 
 import CoreAudioKit
-//*** Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '-[LowPassFilterFramework.FilterViewController createAudioUnitWithComponentDescription:error:]: unrecognized selector sent to instance 0x600001cf9590'
 
 public class FilterViewController: AUViewController {
 
@@ -11,14 +10,9 @@ public class FilterViewController: AUViewController {
     private var paramObserverToken: AUParameterObserverToken?
 
     @IBOutlet private weak var filterView: FilterView!
-    @IBOutlet private weak var frequencyTextField: TextField!
-    @IBOutlet private weak var resonanceTextField: TextField!
-    
+
     private var observer: NSKeyValueObservation?
     private var needsConnection = true
-
-    @IBOutlet var compactView: View! { didSet { compactView.setBorder(color: .black, width: 0) } }
-    @IBOutlet var expandedView: View! { didSet { expandedView.setBorder(color: .black, width: 0) } }
 
     public var audioUnit: FilterAudioUnit? {
         didSet {
@@ -39,19 +33,8 @@ public class FilterViewController: AUViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.addSubview(expandedView)
-        expandedView.pinToSuperviewEdges()
-
         filterView.delegate = self
-
-        #if os(iOS)
-        frequencyTextField.delegate = self
-        resonanceTextField.delegate = self
-        #endif
-
         guard audioUnit != nil else { return }
-
         connectViewToAU()
     }
 }
@@ -71,11 +54,6 @@ extension FilterViewController: AUAudioUnitFactory {
 }
 
 extension FilterViewController: FilterViewDelegate {
-
-    func updateFilterViewFrequencyAndMagnitudes() {
-        guard let audioUnit = audioUnit else { return }
-        filterView.makeFilterResponseCurve(audioUnit.magnitudes(forFrequencies: filterView.responseCurveFrequencies))
-    }
 
     public func filterViewTouchBegan(_ view: FilterView) {
         cutoffParam.setValue(view.frequency, originator: paramObserverToken, atHostTime: 0, eventType: .touch)
@@ -110,6 +88,11 @@ extension FilterViewController: FilterViewDelegate {
 
 private extension FilterViewController {
 
+    private func updateFilterViewFrequencyAndMagnitudes() {
+        guard let audioUnit = audioUnit else { return }
+        filterView.makeFilterResponseCurve(audioUnit.magnitudes(forFrequencies: filterView.responseCurveFrequencies))
+    }
+
     private func connectViewToAU() {
         guard needsConnection, let paramTree = audioUnit?.parameterTree else { return }
         needsConnection = false
@@ -136,35 +119,14 @@ private extension FilterViewController {
     private func updateDisplay() {
         filterView.frequency = cutoffParam.value
         filterView.resonance = resonanceParam.value
-        frequencyTextField.text = cutoffParam.string(fromValue: nil)
-        resonanceTextField.text = resonanceParam.string(fromValue: nil)
         updateFilterViewFrequencyAndMagnitudes()
     }
-
-    @IBAction private func frequencyUpdated(_ sender: TextField) { update(parameter: cutoffParam, with: sender) }
-    @IBAction private func resonanceUpdated(_ sender: TextField) { update(parameter: resonanceParam, with: sender) }
 
     private func update(parameter: AUParameter, with textField: TextField) {
         guard let value = (textField.text as NSString?)?.floatValue else { return }
         parameter.value = value
         textField.text = parameter.string(fromValue: nil)
     }
-
-    #if os(iOS)
-    private func transitionViews(from: UIView, to: UIView) {
-        UIView.transition(from: from, to: to, duration: 0.2,
-                          options: [.transitionCrossDissolve, .layoutSubviews])
-        to.pinToSuperviewEdges()
-    }
-    #endif
-
-    #if os(macOS)
-    private func transitionViews(from: View, to: View) {
-        self.view.addSubview(to)
-        from.removeFromSuperview()
-        to.pinToSuperviewEdges()
-    }
-    #endif
 
     private func performOnMain(_ operation: @escaping () -> Void) {
         guard Thread.isMainThread else {
