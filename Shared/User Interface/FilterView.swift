@@ -216,21 +216,37 @@ public final class FilterView: View {
 extension FilterView {
 
     /**
+     Convert "bad" values (NaNs, very small, and very large values to 1.0 (!)
+
+     - parameter x: value to check
+     - returns: filtered value or 1.0
+     */
+    private func filterBadValues(_ x: Float) -> Float {
+        if !x.isNaN {
+            let absx = abs(x)
+            if absx >= 1e-15 && absx <= 1e15 {
+                return x
+            }
+        }
+        return 1.0
+    }
+
+    /**
      Create a new response curve using the given magnitude values.
 
      - parameter magnitudes: the magnitudes from the filter for the frequencies in `frequencies`
      */
     public func makeFilterResponseCurve(_ magnitudes: [Float]) {
         guard let frequencies = self.frequencies else { return }
+        guard magnitudes.count > 0 else { return }
 
         let width = graphLayer.bounds.width
         let scale = width / CGFloat(frequencies.count)
         let bezierPath = CGMutablePath()
 
         bezierPath.move(to: CGPoint(x: 0, y: graphLayer.bounds.height))
-        for (index, magnitude) in magnitudes.enumerated() {
-            
-            bezierPath.addLine(to: CGPoint(x: CGFloat(index) * scale, y: dbToLocation(20.0 * log10(magnitude))))
+        for (index, magnitude) in magnitudes.map({ filterBadValues($0) }).enumerated() {
+            bezierPath.addLine(to: CGPoint(x: CGFloat(index) * scale,y: dbToLocation(20.0 * log10(magnitude))))
         }
 
         bezierPath.addLine(to: CGPoint(x: CGFloat(frequencies.count - 1) * scale, y: graphLayer.bounds.height))

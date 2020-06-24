@@ -46,6 +46,7 @@ FilterDSPKernel::getParameterValue(AUParameterAddress address) const
         case FilterParameterAddressCutoff:
             os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "get cutoff: %f", cutoff_.value());
             return cutoff_.value();
+
         case FilterParameterAddressResonance:
             os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "get resonance: %f", resonance_.value());
             return resonance_.value();
