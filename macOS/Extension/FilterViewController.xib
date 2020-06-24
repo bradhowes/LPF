@@ -11,7 +11,7 @@
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
-        <customView wantsLayer="YES" id="Hz6-mo-xeY">
+        <customView wantsLayer="YES" id="Hz6-mo-xeY" userLabel="AUv3 FilterView">
             <rect key="frame" x="0.0" y="0.0" width="480" height="272"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
