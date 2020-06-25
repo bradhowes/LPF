@@ -220,7 +220,7 @@
 		BDE2CE1924A3EBD1004AC8FA /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = Configuration/Common.xcconfig; sourceTree = "<group>"; };
 		C4201A2822403120006E4333 /* FilterViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewControllerExtension.swift; sourceTree = "<group>"; };
 		C433F56022404C7C00F1B750 /* FilterViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewControllerExtension.swift; sourceTree = "<group>"; };
-		C437FE3A222367A6008D6C09 /* LowPassFilterDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LowPassFilterDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C437FE3A222367A6008D6C09 /* LPF Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LPF Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LowPassFilterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C437FE632223686D008D6C09 /* LowPassFilter.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LowPassFilter.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C437FE7A2223688D008D6C09 /* LowPassFilterDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LowPassFilterDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -391,7 +391,7 @@
 		C437FE3B222367A6008D6C09 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C437FE3A222367A6008D6C09 /* LowPassFilterDemo.app */,
+				C437FE3A222367A6008D6C09 /* LPF Demo.app */,
 				C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */,
 				C437FE632223686D008D6C09 /* LowPassFilter.appex */,
 				C437FE7A2223688D008D6C09 /* LowPassFilterDemo.app */,
@@ -659,7 +659,7 @@
 			);
 			name = "iOS App";
 			productName = "AUv3Filter iOS";
-			productReference = C437FE3A222367A6008D6C09 /* LowPassFilterDemo.app */;
+			productReference = C437FE3A222367A6008D6C09 /* LPF Demo.app */;
 			productType = "com.apple.product-type.application";
 		};
 		C437FE51222367CD008D6C09 /* iOS Framework */ = {
@@ -1197,8 +1197,8 @@
 				MARKETING_VERSION = 1.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilter;
-				PRODUCT_NAME = LowPassFilterDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
+				PRODUCT_NAME = "LPF Demo";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1268,7 +1268,7 @@
 				MARKETING_VERSION = 1.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilter.Extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.Extension;
 				PRODUCT_NAME = LowPassFilter;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
@@ -1345,7 +1345,7 @@
 				MARKETING_VERSION = 1.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilterFramework;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.Framework;
 				PRODUCT_NAME = LowPassFilterFramework;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
@@ -1421,7 +1421,7 @@
 				MARKETING_VERSION = 1.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
 				PRODUCT_NAME = LowPassFilterDemo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
@@ -1492,7 +1492,7 @@
 				MARKETING_VERSION = 1.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilter.Extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.Extension;
 				PRODUCT_NAME = LowPassFilter;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
@@ -1569,7 +1569,7 @@
 				MARKETING_VERSION = 1.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilterFramework;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.Framework;
 				PRODUCT_MODULE_NAME = LowPassFilterFramework;
 				PRODUCT_NAME = LowPassFilterFramework;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1729,8 +1729,8 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilter;
-				PRODUCT_NAME = LowPassFilterDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
+				PRODUCT_NAME = "LPF Demo";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1811,7 +1811,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilterFramework;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.Framework;
 				PRODUCT_NAME = LowPassFilterFramework;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
@@ -1891,7 +1891,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilter.Extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.Extension;
 				PRODUCT_NAME = LowPassFilter;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
@@ -1971,7 +1971,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
 				PRODUCT_NAME = LowPassFilterDemo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
@@ -2054,7 +2054,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilterFramework;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.Framework;
 				PRODUCT_MODULE_NAME = LowPassFilterFramework;
 				PRODUCT_NAME = LowPassFilterFramework;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2136,7 +2136,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LowPassFilter.Extension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.Extension;
 				PRODUCT_NAME = LowPassFilter;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;

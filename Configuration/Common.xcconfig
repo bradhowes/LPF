@@ -1,5 +1,5 @@
 //
-//  Dev.xcconfig
+//  Common.xcconfig
 //  AUv3Filter
 //
 //  Created by Brad Howes on 6/24/20.
@@ -11,3 +11,6 @@
 
 DEVELOPMENT_TEAM = UP6SS5ES7E
 SHARED_BUNDLE_PREFIX = com.braysoftware.LowPassFilter
+APP_BUNDLE_ID = $(SHARED_BUNDLE_PREFIX)
+AUV3_BUNDLE_ID = $(SHARED_BUNDLE_PREFIX).Extension
+SHARED_PRODUCT_NAME = LPF
