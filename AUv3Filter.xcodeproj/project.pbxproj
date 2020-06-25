@@ -51,7 +51,7 @@
 		C433F56122404C7C00F1B750 /* FilterViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433F56022404C7C00F1B750 /* FilterViewControllerExtension.swift */; };
 		C437FE59222367CD008D6C09 /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */; };
 		C437FE5A222367CD008D6C09 /* LowPassFilterFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C437FE712223686D008D6C09 /* LowPassFilter.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C437FE632223686D008D6C09 /* LowPassFilter.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C437FE712223686D008D6C09 /* LPF.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C437FE632223686D008D6C09 /* LPF.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C4660A5C2225F9A0007BE3B1 /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */; };
 		C4660A5D2225F9A0007BE3B1 /* LowPassFilterFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C4660A602225F9A0007BE3B1 /* LowPassFilter.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C437FEA0222368B7008D6C09 /* LowPassFilter.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -161,7 +161,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				C437FE712223686D008D6C09 /* LowPassFilter.appex in Embed App Extensions */,
+				C437FE712223686D008D6C09 /* LPF.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -220,9 +220,9 @@
 		BDE2CE1924A3EBD1004AC8FA /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = Configuration/Common.xcconfig; sourceTree = "<group>"; };
 		C4201A2822403120006E4333 /* FilterViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewControllerExtension.swift; sourceTree = "<group>"; };
 		C433F56022404C7C00F1B750 /* FilterViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewControllerExtension.swift; sourceTree = "<group>"; };
-		C437FE3A222367A6008D6C09 /* LPF Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LPF Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C437FE3A222367A6008D6C09 /* LPF Host.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LPF Host.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LowPassFilterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C437FE632223686D008D6C09 /* LowPassFilter.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LowPassFilter.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C437FE632223686D008D6C09 /* LPF.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LPF.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C437FE7A2223688D008D6C09 /* LowPassFilterDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LowPassFilterDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LowPassFilterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C437FEA0222368B7008D6C09 /* LowPassFilter.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LowPassFilter.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -391,9 +391,9 @@
 		C437FE3B222367A6008D6C09 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C437FE3A222367A6008D6C09 /* LPF Demo.app */,
+				C437FE3A222367A6008D6C09 /* LPF Host.app */,
 				C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */,
-				C437FE632223686D008D6C09 /* LowPassFilter.appex */,
+				C437FE632223686D008D6C09 /* LPF.appex */,
 				C437FE7A2223688D008D6C09 /* LowPassFilterDemo.app */,
 				C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */,
 				C437FEA0222368B7008D6C09 /* LowPassFilter.appex */,
@@ -659,7 +659,7 @@
 			);
 			name = "iOS App";
 			productName = "AUv3Filter iOS";
-			productReference = C437FE3A222367A6008D6C09 /* LPF Demo.app */;
+			productReference = C437FE3A222367A6008D6C09 /* LPF Host.app */;
 			productType = "com.apple.product-type.application";
 		};
 		C437FE51222367CD008D6C09 /* iOS Framework */ = {
@@ -694,7 +694,7 @@
 			);
 			name = "iOS Extension";
 			productName = "AUv3FilterExtension iOS";
-			productReference = C437FE632223686D008D6C09 /* LowPassFilter.appex */;
+			productReference = C437FE632223686D008D6C09 /* LPF.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		C437FE792223688D008D6C09 /* macOS App */ = {
@@ -1198,7 +1198,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
-				PRODUCT_NAME = "LPF Demo";
+				PRODUCT_NAME = "LPF Host";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1268,8 +1268,8 @@
 				MARKETING_VERSION = 1.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.Extension;
-				PRODUCT_NAME = LowPassFilter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.appex;
+				PRODUCT_NAME = LPF;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1345,7 +1345,7 @@
 				MARKETING_VERSION = 1.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.Framework;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.framework;
 				PRODUCT_NAME = LowPassFilterFramework;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
@@ -1730,7 +1730,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
-				PRODUCT_NAME = "LPF Demo";
+				PRODUCT_NAME = "LPF Host";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1811,7 +1811,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.Framework;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.framework;
 				PRODUCT_NAME = LowPassFilterFramework;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
@@ -1891,8 +1891,8 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.Extension;
-				PRODUCT_NAME = LowPassFilter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.appex;
+				PRODUCT_NAME = LPF;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;

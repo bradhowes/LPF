@@ -121,7 +121,7 @@ public extension AudioUnitManager {
 private extension AudioUnitManager {
 
     private func loadViewController() -> FilterViewController {
-        guard let url = Bundle.main.builtInPlugInsURL?.appendingPathComponent("LowPassFilter.appex"),
+        guard let url = Bundle.main.builtInPlugInsURL?.appendingPathComponent("LPF.appex"),
             let appexBundle = Bundle(url: url) else {
                 fatalError("Could not find app extension bundle URL.")
         }

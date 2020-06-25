@@ -5,15 +5,15 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>$(SHARED_PRODUCT_NAME)</string>
+	<string>LPF</string>
 	<key>CFBundleExecutable</key>
-	<string>$(SHARED_PRODUCT_NAME)AUv3</string>
+	<string>LPF</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>$(SHARED_PRODUCT_NAME)Extension</string>
+	<string>LPF AUv3</string>
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
@@ -34,7 +34,7 @@
 					<key>manufacturer</key>
 					<string>bray</string>
 					<key>name</key>
-					<string>bray:LowPassFilter</string>
+					<string>bray:LPF</string>
 					<key>sandboxSafe</key>
 					<true/>
 					<key>subtype</key>
