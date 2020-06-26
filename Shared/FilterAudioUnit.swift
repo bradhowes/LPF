@@ -1,11 +1,13 @@
 // Changes: Copyright © 2020 Brad Howes. All rights reserved.
 // Original: See LICENSE folder for this sample’s licensing information.
 
-import Foundation
 import AudioToolbox
-import AVFoundation
-import CoreAudioKit
 
+/**
+ Derivation of AUAudioUnit that provides a Swift container for the C++ FilterDSPKernel (by way of the Obj-C
+ FilterDSPKernelAdapter). Also provides for factory presets and preset management. The actual filtering logic
+ resides in the FilterDSPKernel class.
+ */
 public final class FilterAudioUnit: AUAudioUnit {
 
     private let parameterDefinitions: FilterParameters

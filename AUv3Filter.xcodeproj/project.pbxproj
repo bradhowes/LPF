@@ -377,13 +377,13 @@
 			isa = PBXGroup;
 			children = (
 				7E56CF207E56CEE000000001 /* README.md */,
+				F1464A50F1463F7000000001 /* Configuration */,
 				C4BEE79622236A29001E6B6D /* iOS */,
 				C4BEE7B622236A58001E6B6D /* macOS */,
 				C4BEE7D522236E99001E6B6D /* Shared */,
 				BD95147624A08BB600D8024C /* macOSFrameworkTests */,
 				C437FE3B222367A6008D6C09 /* Products */,
 				C4BEE81822237394001E6B6D /* Frameworks */,
-				F1464A50F1463F7000000001 /* Configuration */,
 				D153B980F14C7C7000000001 /* LICENSE */,
 			);
 			sourceTree = "<group>";

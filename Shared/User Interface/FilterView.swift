@@ -99,10 +99,12 @@ public final class FilterView: View {
     #endif
 
     /// Width of the area to the left of the graph that shows dB labels
+    /// TODO: determine the right size at runtime
     private let yAxisWidth: CGFloat = 40.0
     /// Height of the area below the graph that shows Hz labels
+    /// TODO: not as important, but no reason for having this hard-coded
     private let xAxisHeight: CGFloat = 20.0
-    /// Max number of points in the response curve
+    /// Max number of points in the response curve.
     private let maxNumberOfResponseFrequencies = 1024
     /// Cache of the frequencies used to generate the response curve
     private var frequencies: [Float]?
@@ -125,9 +127,8 @@ public final class FilterView: View {
 
     /// Layer that indicates the current filter setting
     private var indicatorLayer = CALayer()
-
+    /// The current location of the control in frequency (X) and dB (Y) axis.
     private var controlPoint = CGPoint.zero
-    private var touchIsActive = false
 
     private var rootLayer: CALayer {
         #if os(iOS)
@@ -250,7 +251,6 @@ extension FilterView {
         guard let pointOfTouch = touches.first?.location(in: self) else { return }
         let convertedPoint = rootLayer.convert(pointOfTouch, to: graphLayer)
         if graphLayer.contains(convertedPoint) {
-            touchIsActive = true
             controlPoint = convertedPoint
             updateIndicator()
             delegate?.filterViewTouchBegan(self)
@@ -268,12 +268,11 @@ extension FilterView {
     }
 
     override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        touchIsActive = false
         updateIndicator()
         delegate?.filterViewTouchEnded(self)
     }
 
-    override public func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) { touchIsActive = false }
+    override public func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {}
 
     #elseif os(macOS)
 
@@ -281,7 +280,6 @@ extension FilterView {
         let pointOfTouch = NSPointToCGPoint(convert(event.locationInWindow, from: nil))
         let convertedPoint = graphLayer.convert(pointOfTouch, from: rootLayer)
         if graphLayer.contains(convertedPoint) {
-            touchIsActive = true
             controlPoint = convertedPoint
             updateIndicator()
             delegate?.filterViewTouchBegan(self)
@@ -299,7 +297,6 @@ extension FilterView {
     }
 
     override public func mouseUp(with event: NSEvent) {
-        touchIsActive = false
         updateIndicator()
         delegate?.filterViewTouchEnded(self)
     }
@@ -354,10 +351,8 @@ extension FilterView {
 // MARK: - Axis Management
 extension FilterView {
 
-    private func frequencyString(_ value: Float) -> String {
-        let value = floor((value >= 1000 ? value / 1000 : value) * 100.0) / 100.0
-        return String(format: floor(value) == value ? "%.0f" : "%.1f", value)
-    }
+    private func frequencyString(_ value: Float) -> String { "\(Int(round(value >= 1000 ? value / 1000 : value)))" }
+    private func dbString(_ value: Float) -> String { "\(Int(round(value)))" }
 
     private func makeLabelLayer(_ content: String, frame: CGRect, alignment: CATextLayerAlignmentMode) -> CATextLayer {
         let labelLayer = CATextLayer()
@@ -399,7 +394,7 @@ extension FilterView {
 
             // First and last albels have special offsets to align with the top/bottom of the graph
             let offset = CGFloat(index == 0 ? 0 : (index == (numTicks - 1) ? -10 : -6))
-            let label = makeLabelLayer(String(format: floor(dbValue) == dbValue ? "%.0f" : "%.1f", dbValue) + "dB",
+            let label = makeLabelLayer(dbString(dbValue) + "dB",
                                        frame: CGRect(x: 0, y: pos + offset, width: yAxisWidth - 4, height: 16.0),
                                        alignment: .right)
             axisElements.append(label)
@@ -454,22 +449,18 @@ extension FilterView {
 extension FilterView {
 
     private func createIndicatorPoint() {
-        guard let color = touchIsActive ? tintColor : Color.darkGray else {
-            fatalError("Unable to get color value.")
-        }
-
         let width = graphLayer.bounds.width
         let height = graphLayer.bounds.height
 
-        let vline = CALayer(color: color, frame: CGRect(x: controlPoint.x, y: 0.0, width: 1.0,  height: height))
+        let vline = CALayer(color: tintColor, frame: CGRect(x: controlPoint.x, y: 0.0, width: 1.0,  height: height))
         vline.name = "v"
         indicatorLayer.addSublayer(vline)
 
-        let hline = CALayer(color: color, frame: CGRect(x: 0, y: controlPoint.y, width: width, height: 1.0))
+        let hline = CALayer(color: tintColor, frame: CGRect(x: 0, y: controlPoint.y, width: width, height: 1.0))
         hline.name = "h"
         indicatorLayer.addSublayer(hline)
 
-        let circle = CALayer(color: color, frame: .zero)
+        let circle = CALayer(color: tintColor, frame: .zero)
         circle.borderWidth = 2.0
         circle.cornerRadius = 3.0
         circle.name = "pos"
