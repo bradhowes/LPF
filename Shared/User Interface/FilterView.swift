@@ -125,13 +125,7 @@ public final class FilterView: View {
     private var curveColor: Color { Color.systemOrange.withAlphaComponent(0.8) }
     private var gridColor: Color { Color.systemGreen.withAlphaComponent(0.5) }
     private var controlColor: Color { Color.systemYellow }
-    private var tickLabelColor: Color {
-        #if os(iOS)
-        return Color.label
-        #elseif os(macOS)
-        return Color.labelColor
-        #endif
-    }
+    private var tickLabelColor: Color { Color.systemGray }
 
     /// Layer that indicates the current filter setting
     private var indicatorLayer = CALayer()
@@ -425,16 +419,21 @@ extension FilterView {
         }
     }
 
-    private func createHorizontalAxisElements() {
-
-        // Support narrow widths by reducing the number of ticks being shown
-        var numTicks = 12
-        let width = graphLayer.bounds.width
-        while width / CGFloat(numTicks) < 40.0 && numTicks > 3 {
-            numTicks -= 1
+    private var numHorizontalTicks: Int {
+        let width = gridLayer.bounds.width
+        var numTicks = Int(floor(width / 40.0))
+        if numTicks > Int(Self.gainSpan / 2.0) {
+            numTicks = Int(Self.gainSpan / 2.0)
         }
+        if numTicks < 3 {
+            numTicks = 3
+        }
+        return numTicks
+    }
 
-        let spacing = width / CGFloat(numTicks - 1)
+    private func createHorizontalAxisElements() {
+        let numTicks = numHorizontalTicks
+        let spacing = gridLayer.bounds.width / CGFloat(numTicks - 1)
         let height = gridLayer.bounds.height
 
         for index in 0..<numTicks {
@@ -444,7 +443,6 @@ extension FilterView {
             let labelLayer = makeLabelLayer(frequencyString(locationToFrequency(pos)),
                                             frame: CGRect(x: pos + offset, y: height + 4.0, width: 40, height: 16.0),
                                             alignment: .center)
-
             axisElements.append(labelLayer)
             plotLayer.addSublayer(labelLayer)
 
@@ -518,7 +516,6 @@ extension FilterView {
 
 extension FilterView {
     private func performLayout(of layer: CALayer) {
-
         // Resize layers and remake the response curve
         guard layer === rootLayer else { return }
         CATransaction.noAnimation {
@@ -527,16 +524,13 @@ extension FilterView {
                                            height: layer.bounds.height - xAxisHeight - 10.0)
             gridLayer.bounds = graphLayer.bounds
             indicatorLayer.bounds = graphLayer.bounds
-
             createAxisElements()
-
             controlPoint = CGPoint(x: frequencyToLocation(frequency), y: dbToLocation(resonance))
             curveLayer.bounds = graphLayer.bounds
         }
 
         updateIndicator()
         frequencies = nil
-
         delegate?.filterViewDataDidChange(self)
     }
 
