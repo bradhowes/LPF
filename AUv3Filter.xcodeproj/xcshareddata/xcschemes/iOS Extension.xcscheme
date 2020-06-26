@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C437FE622223686D008D6C09"
-               BuildableName = "LowPassFilter.appex"
+               BuildableName = "LPF.appex"
                BlueprintName = "iOS Extension"
                ReferencedContainer = "container:AUv3Filter.xcodeproj">
             </BuildableReference>
@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C437FE39222367A6008D6C09"
-               BuildableName = "LPF Demo.app"
+               BuildableName = "LPF Host.app"
                BlueprintName = "iOS App"
                ReferencedContainer = "container:AUv3Filter.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE622223686D008D6C09"
-            BuildableName = "LowPassFilter.appex"
+            BuildableName = "LPF.appex"
             BlueprintName = "iOS Extension"
             ReferencedContainer = "container:AUv3Filter.xcodeproj">
          </BuildableReference>
@@ -68,7 +68,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE39222367A6008D6C09"
-            BuildableName = "LPF Demo.app"
+            BuildableName = "LPF Host.app"
             BlueprintName = "iOS App"
             ReferencedContainer = "container:AUv3Filter.xcodeproj">
          </BuildableReference>
@@ -85,7 +85,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE39222367A6008D6C09"
-            BuildableName = "LPF Demo.app"
+            BuildableName = "LPF Host.app"
             BlueprintName = "iOS App"
             ReferencedContainer = "container:AUv3Filter.xcodeproj">
          </BuildableReference>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1150"
-   version = "1.3">
+   version = "2.0">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C437FE9F222368B7008D6C09"
-               BuildableName = "LowPassFilter.appex"
+               BuildableName = "LPF.appex"
                BlueprintName = "macOS Extension"
                ReferencedContainer = "container:AUv3Filter.xcodeproj">
             </BuildableReference>
@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C437FE792223688D008D6C09"
-               BuildableName = "LowPassFilterDemo.app"
+               BuildableName = "LPF Host.app"
                BlueprintName = "macOS App"
                ReferencedContainer = "container:AUv3Filter.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE9F222368B7008D6C09"
-            BuildableName = "LowPassFilter.appex"
+            BuildableName = "LPF.appex"
             BlueprintName = "macOS Extension"
             ReferencedContainer = "container:AUv3Filter.xcodeproj">
          </BuildableReference>
@@ -58,21 +58,22 @@
       selectedDebuggerIdentifier = ""
       selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       launchStyle = "0"
+      askForAppToLaunch = "Yes"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      allowLocationSimulation = "YES"
+      launchAutomaticallySubstyle = "2">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE792223688D008D6C09"
-            BuildableName = "LowPassFilterDemo.app"
+            BuildableName = "LPF Host.app"
             BlueprintName = "macOS App"
             ReferencedContainer = "container:AUv3Filter.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -85,7 +86,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE792223688D008D6C09"
-            BuildableName = "LowPassFilterDemo.app"
+            BuildableName = "LPF Host.app"
             BlueprintName = "macOS App"
             ReferencedContainer = "container:AUv3Filter.xcodeproj">
          </BuildableReference>
