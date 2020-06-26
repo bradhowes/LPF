@@ -111,19 +111,27 @@ public final class FilterView: View {
     /// Collection of CALayer labels and grid lines that are recreated when the view resizes
     private var axisElements = [CALayer]()
 
+    private let controlRadius: CGFloat = 4.0
+
     /// Layer for all of the plot elements (graph + labels)
-    private var plotLayer = CALayer()
+    private let plotLayer = CALayer()
     /// Layer for the graph elements
-    private var graphLayer = CALayer()
+    private let graphLayer = CALayer()
     /// Layer for the grid in the graph
-    private var gridLayer = CALayer()
+    private let gridLayer = CALayer()
     /// Layer that shows the response curve of the filter
-    private var curveLayer: CAShapeLayer = {
-        let shapeLayer = CAShapeLayer()
-        let fillColor = Color(red: 0.067, green: 0.535, blue: 0.842, alpha: 1.000)
-        shapeLayer.fillColor = fillColor.cgColor
-        return shapeLayer
-    }()
+    private let curveLayer: CAShapeLayer = CAShapeLayer()
+
+    private var curveColor: Color { Color.systemOrange.withAlphaComponent(0.8) }
+    private var gridColor: Color { Color.systemGreen.withAlphaComponent(0.5) }
+    private var controlColor: Color { Color.systemYellow }
+    private var tickLabelColor: Color {
+        #if os(iOS)
+        return Color.label
+        #elseif os(macOS)
+        return Color.labelColor
+        #endif
+    }
 
     /// Layer that indicates the current filter setting
     private var indicatorLayer = CALayer()
@@ -146,14 +154,6 @@ public final class FilterView: View {
         #endif
     }
 
-    private var axisLabelColor: Color {
-        #if os(iOS)
-        return Color.label
-        #elseif os(macOS)
-        return Color.labelColor
-        #endif
-    }
-
     override public func awakeFromNib() {
         super.awakeFromNib()
 
@@ -167,7 +167,7 @@ public final class FilterView: View {
         rootLayer.addSublayer(plotLayer)
 
         graphLayer.name = "graph"
-        graphLayer.backgroundColor = Color(white: 0.88, alpha: 1.0).cgColor
+        graphLayer.backgroundColor = Color.black.cgColor
         graphLayer.position = CGPoint(x: yAxisWidth, y: 0.0)
         graphLayer.anchorPoint = .zero
         graphLayer.contentsScale = screenScale
@@ -206,10 +206,13 @@ public final class FilterView: View {
     override public func layoutSublayers(of layer: CALayer) {
         performLayout(of: layer)
     }
+
     #elseif os(macOS)
+
     func layoutSublayers(of layer: CALayer) {
         performLayout(of: layer)
     }
+
     #endif
 }
 
@@ -237,7 +240,10 @@ extension FilterView {
         bezierPath.addLine(to: CGPoint(x: CGFloat(frequencies.count - 1) * scale, y: graphLayer.bounds.height))
         bezierPath.closeSubpath()
 
-        CATransaction.noAnimation { curveLayer.path = bezierPath }
+        CATransaction.noAnimation {
+            curveLayer.fillColor = curveColor.cgColor
+            curveLayer.path = bezierPath
+        }
         updateIndicator()
     }
 }
@@ -351,8 +357,12 @@ extension FilterView {
 // MARK: - Axis Management
 extension FilterView {
 
-    private func frequencyString(_ value: Float) -> String { "\(Int(round(value >= 1000 ? value / 1000 : value)))" }
-    private func dbString(_ value: Float) -> String { "\(Int(round(value)))" }
+    private func frequencyString(_ value: Float) -> String {
+        "\(Int(round(value >= 1000 ? value / 1000 : value)))"
+            + (value == Self.hertzMin ? "Hz" : (value >= 1000 ? "k" : ""))
+    }
+
+    private func dbString(_ value: Float) -> String { "\(Int(round(value)))dB" }
 
     private func makeLabelLayer(_ content: String, frame: CGRect, alignment: CATextLayerAlignmentMode) -> CATextLayer {
         let labelLayer = CATextLayer()
@@ -361,7 +371,7 @@ extension FilterView {
         labelLayer.font = font
         labelLayer.fontSize = fontSize
         labelLayer.contentsScale = screenScale
-        labelLayer.foregroundColor = axisLabelColor.cgColor
+        labelLayer.foregroundColor = tickLabelColor.cgColor
         labelLayer.alignmentMode = alignment
         labelLayer.anchorPoint = .zero
         labelLayer.string = content
@@ -376,25 +386,31 @@ extension FilterView {
         createVerticalAxisElements()
     }
 
-    private func createVerticalAxisElements() {
-
-        // Support small heights by reducing the number of ticks being shown
-        var numTicks = 9
+    private var numVerticalTicks: Int {
         let height = gridLayer.bounds.height
-        while height / CGFloat(numTicks) < 40.0 && numTicks > 3 {
-            numTicks -= 2
+        var numTicks = Int(floor(height / 40.0))
+        if numTicks > Int(Self.gainSpan / 2.0) {
+            numTicks = Int(Self.gainSpan / 2.0)
         }
+        if numTicks % 1 == 0 {
+            numTicks -= 1
+        }
+        if numTicks < 3 {
+            numTicks = 3
+        }
+        return numTicks
+    }
 
-        let spacing = height / CGFloat(numTicks - 1)
+    private func createVerticalAxisElements() {
+        let numTicks = numVerticalTicks
+        let spacing = gridLayer.bounds.height / CGFloat(numTicks - 1)
         let width = gridLayer.bounds.width
 
         for index in 0..<numTicks {
-            let pos = CGFloat(index) * spacing
-            let dbValue = locationToDb(pos)
-
             // First and last albels have special offsets to align with the top/bottom of the graph
             let offset = CGFloat(index == 0 ? 0 : (index == (numTicks - 1) ? -10 : -6))
-            let label = makeLabelLayer(dbString(dbValue) + "dB",
+            let pos = CGFloat(index) * spacing
+            let label = makeLabelLayer(dbString(locationToDb(pos)),
                                        frame: CGRect(x: 0, y: pos + offset, width: yAxisWidth - 4, height: 16.0),
                                        alignment: .right)
             axisElements.append(label)
@@ -402,7 +418,7 @@ extension FilterView {
 
             // Create a grid line if not at the graph edge
             if index > 0 && index < numTicks - 1 {
-                let line = CALayer(white: 0.8, frame: CGRect(x: 0, y: pos, width: width, height: 1.0))
+                let line = CALayer(color: gridColor, frame: CGRect(x: 0, y: pos, width: width, height: 1.0))
                 axisElements.append(line)
                 gridLayer.addSublayer(line)
             }
@@ -422,13 +438,10 @@ extension FilterView {
         let height = gridLayer.bounds.height
 
         for index in 0..<numTicks {
-            let pos = CGFloat(index) * spacing
-            let freqValue = locationToFrequency(pos)
-            let text = frequencyString(freqValue) + (index == 0 ? "Hz" : (freqValue >= 1000 ? "k" : ""))
-
             // First and last labels have special offsets to align with the left/right of the graph
             let offset = CGFloat(index == 0 ? 32 : (index == (numTicks - 1) ? 10 : 20))
-            let labelLayer = makeLabelLayer(text,
+            let pos = CGFloat(index) * spacing
+            let labelLayer = makeLabelLayer(frequencyString(locationToFrequency(pos)),
                                             frame: CGRect(x: pos + offset, y: height + 4.0, width: 40, height: 16.0),
                                             alignment: .center)
 
@@ -437,7 +450,7 @@ extension FilterView {
 
             // Create a grid line if not at the graph edge
             if index > 0 && index < numTicks - 1 {
-                let line = CALayer(white: 0.8, frame: CGRect(x: pos, y: 0, width: 1.0, height: height))
+                let line = CALayer(color: gridColor, frame: CGRect(x: pos, y: 0, width: 1.0, height: height))
                 axisElements.append(line)
                 gridLayer.addSublayer(line)
             }
@@ -449,35 +462,52 @@ extension FilterView {
 extension FilterView {
 
     private func createIndicatorPoint() {
+        indicatorLayer.sublayers?.removeAll()
+
         let width = graphLayer.bounds.width
         let height = graphLayer.bounds.height
 
-        let vline = CALayer(color: tintColor, frame: CGRect(x: controlPoint.x, y: 0.0, width: 1.0,  height: height))
-        vline.name = "v"
+        let vline = CALayer(color: controlColor, frame: CGRect(x: controlPoint.x, y: 0.0, width: 1.0,  height: height))
+        vline.name = "vline"
         indicatorLayer.addSublayer(vline)
 
-        let hline = CALayer(color: tintColor, frame: CGRect(x: 0, y: controlPoint.y, width: width, height: 1.0))
-        hline.name = "h"
+        let hline = CALayer(color: controlColor, frame: CGRect(x: 0, y: controlPoint.y, width: width, height: 1.0))
+        hline.name = "hline"
         indicatorLayer.addSublayer(hline)
 
-        let circle = CALayer(color: tintColor, frame: .zero)
-        circle.borderWidth = 2.0
-        circle.cornerRadius = 3.0
-        circle.name = "pos"
-        indicatorLayer.addSublayer(circle)
+        let pos = CALayer(color: controlColor, frame: .zero)
+        pos.cornerRadius = controlRadius
+        pos.name = "pos"
+        indicatorLayer.addSublayer(pos)
+
+        let vdot = CALayer(color: controlColor, frame: .zero)
+        vdot.cornerRadius = controlRadius
+        vdot.name = "vdot"
+        indicatorLayer.addSublayer(vdot)
+
+        let hdot = CALayer(color: controlColor, frame: .zero)
+        hdot.cornerRadius = controlRadius
+        hdot.name = "hdot"
+        indicatorLayer.addSublayer(hdot)
     }
 
     private func updateIndicator() {
         guard let layers = indicatorLayer.sublayers else { return }
-        let width = graphLayer.bounds.width
         let height = graphLayer.bounds.height
+        let diameter = 2 * controlRadius
         CATransaction.noAnimation {
             layers.forEach {
                 $0.frame = {
                     switch $0.name! {
-                    case "pos": return CGRect(x: controlPoint.x - 3, y: controlPoint.y - 3, width: 7, height: 7)
-                    case "h": return CGRect(x: 0, y: controlPoint.y, width: width, height: 1.0)
-                    case "v": return CGRect(x: controlPoint.x, y: 0.0, width: 1.0,  height: height)
+                    case "pos": return CGRect(x: controlPoint.x - controlRadius, y: controlPoint.y - controlRadius,
+                                              width: diameter, height: diameter)
+                    case "hdot": return CGRect(x: controlPoint.x - controlRadius, y: height - controlRadius,
+                                               width: diameter, height: diameter)
+                    case "vdot": return CGRect(x: -3, y: controlPoint.y - controlRadius,
+                                               width: diameter,  height: diameter)
+                    case "hline": return CGRect(x: 0, y: controlPoint.y, width: controlPoint.x, height: 1.0)
+                    case "vline": return CGRect(x: controlPoint.x, y: controlPoint.y, width: 1.0,
+                                                height: height - controlPoint.y)
                     default: return .zero
                     }
                 }($0)
