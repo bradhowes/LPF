@@ -25,7 +25,6 @@ FilterDSPKernel::reset() {
 void
 FilterDSPKernel::setParameterValue(AUParameterAddress address, AUValue value)
 {
-
     switch (address) {
         case FilterParameterAddressCutoff:
             os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "set cutoff: %f", value);
@@ -50,6 +49,7 @@ FilterDSPKernel::getParameterValue(AUParameterAddress address) const
         case FilterParameterAddressResonance:
             os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_ERROR, "get resonance: %f", resonance_.value());
             return resonance_.value();
+
         default: return 0.0;
     }
 }
@@ -91,6 +91,8 @@ FilterDSPKernel::renderFrames(AUAudioFrameCount frameCount, AUAudioFrameCount bu
         outs_[channel] = static_cast<float*>(outputs_->mBuffers[channel].mData) + bufferOffset;
     }
 
-    filter_.calculateParams(cutoffFilterSetting(), resonanceFilterSetting(), channelCount());
+    // Rely on the filter doing the right thing and only recalculating when needed.
+    filter_.calculateParams(cutoff_, resonance_, nyquistPeriod_, channelCount());
+
     filter_.apply(ins_, outs_, frameCount);
 }

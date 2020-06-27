@@ -32,11 +32,13 @@
     return _inputBus->bus();
 }
 
-- (void)magnitudes:(nonnull const float*)frequencies count:(NSInteger)count
-            output:(nonnull float*)output {
-    BiquadFilter coeffs;
-    coeffs.calculateParams(_kernel.cutoffFilterSetting(), _kernel.resonanceFilterSetting(), _kernel.channelCount());
-    coeffs.magnitudes(frequencies, count, _kernel.nyquistPeriod(), output);
+- (void)magnitudes:(nonnull const float*)frequencies count:(NSInteger)count output:(nonnull float*)output {
+
+    // Create temporary filter here since the one in the FilterDSPKernel is used by the music render thread and it may
+    // not have the most recent filter settings due to ramping or other latencies.
+    BiquadFilter filter;
+    filter.calculateParams(_kernel.cutoff(), _kernel.resonance(), _kernel.nyquistPeriod(), 1);
+    filter.magnitudes(frequencies, count, _kernel.nyquistPeriod(), output);
 }
 
 - (void)setParameter:(AUParameter *)parameter value:(AUValue)value {

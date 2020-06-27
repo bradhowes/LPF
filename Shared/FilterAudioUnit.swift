@@ -2,6 +2,7 @@
 // Original: See LICENSE folder for this sample’s licensing information.
 
 import AudioToolbox
+import CoreAudioKit
 
 /**
  Derivation of AUAudioUnit that provides a Swift container for the C++ FilterDSPKernel (by way of the Obj-C
@@ -9,6 +10,8 @@ import AudioToolbox
  resides in the FilterDSPKernel class.
  */
 public final class FilterAudioUnit: AUAudioUnit {
+
+    public weak var viewController: FilterViewController?
 
     private let parameterDefinitions: FilterParameters
     private let kernelAdapter: FilterDSPKernelAdapter
@@ -20,8 +23,6 @@ public final class FilterAudioUnit: AUAudioUnit {
     lazy private var outputBusArray: AUAudioUnitBusArray = {
         AUAudioUnitBusArray(audioUnit: self, busType: .output, busses: [kernelAdapter.outputBus])
     }()
-
-    public weak var viewController: FilterViewController?
 
     public override var inputBusses: AUAudioUnitBusArray { inputBusArray }
     public override var outputBusses: AUAudioUnitBusArray { outputBusArray }
@@ -72,8 +73,8 @@ public final class FilterAudioUnit: AUAudioUnit {
     }
     
     public override var supportsUserPresets: Bool { true }
-    public override var internalRenderBlock: AUInternalRenderBlock { kernelAdapter.internalRenderBlock() }
     public override var canProcessInPlace: Bool { true }
+    public override var internalRenderBlock: AUInternalRenderBlock { kernelAdapter.internalRenderBlock() }
 
     public override init(componentDescription: AudioComponentDescription,
                          options: AudioComponentInstantiationOptions = []) throws {
@@ -82,6 +83,16 @@ public final class FilterAudioUnit: AUAudioUnit {
         try super.init(componentDescription: componentDescription, options: options)
         log(componentDescription)
         currentPreset = factoryPresets.first
+    }
+
+    public override func parametersForOverview(withCount: Int) -> [NSNumber] { [0, 1] }
+
+    public override func supportedViewConfigurations(_ configs: [AUAudioUnitViewConfiguration]) -> IndexSet {
+        return IndexSet(0..<configs.count)
+    }
+
+    public override func select(_ viewConfiguration: AUAudioUnitViewConfiguration) {
+        super.select(viewConfiguration)
     }
 
     public func magnitudes(forFrequencies frequencies: [Float]) -> [Float] {

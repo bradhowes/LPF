@@ -421,7 +421,7 @@ extension FilterView {
 
     private var numHorizontalTicks: Int {
         let width = gridLayer.bounds.width
-        var numTicks = Int(floor(width / 40.0))
+        var numTicks = Int(floor(width / 60.0))
         if numTicks > Int(Self.gainSpan / 2.0) {
             numTicks = Int(Self.gainSpan / 2.0)
         }

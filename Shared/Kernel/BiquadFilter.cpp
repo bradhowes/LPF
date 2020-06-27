@@ -6,15 +6,16 @@
 #include "BiquadFilter.hpp"
 
 void
-BiquadFilter::calculateParams(double frequency, double resonance, size_t numChannels)
+BiquadFilter::calculateParams(double frequency, double resonance, float nyquistPeriod, size_t numChannels)
 {
     if (lastFrequency_ == frequency && lastResonance_ == resonance && numChannels == lastNumChannels_) return;
 
-    double r = pow(10.0, 0.05 * -resonance);
-    double k  = 0.5 * r * sin(M_PI * frequency);
-    double c1 = (1.0 - k) / (1.0 + k);
-    double c2 = (1.0 + c1) * cos(M_PI * frequency);
-    double c3 = (1.0 + c1 - c2) * 0.25;
+    const double freqRads = M_PI * frequency * nyquistPeriod;
+    const double r = pow(10.0, 0.05 * -resonance);
+    const double k  = 0.5 * r * sin(freqRads);
+    const double c1 = (1.0 - k) / (1.0 + k);
+    const double c2 = (1.0 + c1) * cos(freqRads);
+    const double c3 = (1.0 + c1 - c2) * 0.25;
 
     F_.clear();
     for (auto channel = 0; channel < numChannels; ++channel) {
@@ -50,7 +51,7 @@ BiquadFilter::calculateParams(double frequency, double resonance, size_t numChan
  */
 static inline float filterBadValues(double x)
 {
-    float absx = fabs(x);
+    const float absx = fabs(x);
     if (absx > 1e-15 && absx < 1e15 && x != 0.0) return x;
     return 1.0;
 }

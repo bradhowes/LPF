@@ -8,14 +8,6 @@ class LogScalingTests: XCTestCase {
     let maxHertz = Float(20000)
     lazy var hertzScale = log2f(maxHertz / minHertz)
     
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
     func testPositionToFrequency() throws {
         let p0 = CGFloat(0)
         let width = CGFloat(200)
@@ -32,10 +24,6 @@ class LogScalingTests: XCTestCase {
 
     func testFrequencyToPosition() throws {
         let width = CGFloat(200)
-
-        // let v0 = minHertz * pow(2, Float(p0 / width) * hertzScale)
-        // log2(v0 / minHertz) = Float(p0 / width) * hertzScale
-        // log2(v0 / minHertz) * width / hertzScale = p0
 
         let v0 = minHertz
         let p0 = CGFloat(log2(Float(v0) / minHertz) * Float(width) / hertzScale)

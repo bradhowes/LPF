@@ -21,18 +21,20 @@ public:
 
      @param frequency the cutoff frequency for the low-pass filter
      @param resonance the resonance setting for the low-pass filter
+     @param nyquistPeriod equivalent to 1.0 / (0.5 * sampleRate)
+     @param numChannels number of channels the filter will process
      */
-    void calculateParams(double frequency, double resonance, size_t numChannels);
+    void calculateParams(double frequency, double resonance, float nyquistPeriod, size_t numChannels);
 
     /**
      Calculate the frequency responses for the current filter configuration.
 
      @param frequencies array of frequency values to calculate on
      @param count the number of frequencies in the array
-     @param inverseNyquist equivalent to 1.0 / (0.5 * sampleRate)
+     @param nyquistPeriod equivalent to 1.0 / (0.5 * sampleRate)
      @param magnitudes mutable array of values with the same size as `frequencies` for holding the results
      */
-    void magnitudes(float const* frequencies, size_t count, float inverseNyquist, float* magnitudes) const;
+    void magnitudes(float const* frequencies, size_t count, float nyquistPeriod, float* magnitudes) const;
 
     /**
      Apply the filter to a collection of audio samples.

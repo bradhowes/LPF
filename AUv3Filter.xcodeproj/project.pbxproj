@@ -14,9 +14,11 @@
 		BD49661624A35D8700A81F0B /* FourCharCode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */; };
 		BD49661724A35D8900A81F0B /* FourCharCode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */; };
 		BD49661A24A3605900A81F0B /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = BD49661924A3605800A81F0B /* LICENSE.md */; };
+		BD938B5024A6BC1F00892358 /* BiquadFilterTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD938B4F24A6BC1F00892358 /* BiquadFilterTests.mm */; };
+		BD938B5724A781C200892358 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
 		BD95146B24A028E700D8024C /* AudioUnitBusBufferManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */; };
 		BD95146C24A028E800D8024C /* AudioUnitBusBufferManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */; };
-		BD95147824A08BB600D8024C /* macOSFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD95147724A08BB600D8024C /* macOSFrameworkTests.swift */; };
+		BD95147824A08BB600D8024C /* NewSwiftTestTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD95147724A08BB600D8024C /* NewSwiftTestTemplate.swift */; };
 		BD95147A24A08BB600D8024C /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */; };
 		BD95148324A090E400D8024C /* ValueChangeDetectorTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95148224A090E400D8024C /* ValueChangeDetectorTests.mm */; };
 		BD95148524A092E800D8024C /* RampingValueChangeDetectorTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95148424A092E800D8024C /* RampingValueChangeDetectorTests.mm */; };
@@ -81,10 +83,10 @@
 		C4BEE7FB22236F46001E6B6D /* AudioUnitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE7E022236E99001E6B6D /* AudioUnitManager.swift */; };
 		C4BEE7FF22236F6E001E6B6D /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE7D922236E99001E6B6D /* FilterView.swift */; };
 		C4BEE80022236F6E001E6B6D /* TypeAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE7DB22236E99001E6B6D /* TypeAliases.swift */; };
-		C4BEE80122236F6E001E6B6D /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE7D722236E99001E6B6D /* ViewExtensions.swift */; };
+		C4BEE80122236F6E001E6B6D /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE7D722236E99001E6B6D /* View+Extensions.swift */; };
 		C4BEE80322236F6F001E6B6D /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE7D922236E99001E6B6D /* FilterView.swift */; };
 		C4BEE80422236F6F001E6B6D /* TypeAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE7DB22236E99001E6B6D /* TypeAliases.swift */; };
-		C4BEE80522236F6F001E6B6D /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE7D722236E99001E6B6D /* ViewExtensions.swift */; };
+		C4BEE80522236F6F001E6B6D /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE7D722236E99001E6B6D /* View+Extensions.swift */; };
 		C4BEE80922237078001E6B6D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE80822237078001E6B6D /* MainViewController.swift */; };
 		C4BEE81022237302001E6B6D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE80F22237302001E6B6D /* MainViewController.swift */; };
 		C4BEE8132223734E001E6B6D /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4BEE8112223734E001E6B6D /* MainInterface.storyboard */; };
@@ -196,9 +198,10 @@
 		BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BiquadFilter.hpp; sourceTree = "<group>"; };
 		BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FourCharCode+Extensions.swift"; sourceTree = "<group>"; };
 		BD49661924A3605800A81F0B /* LICENSE.md */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = LICENSE.md; sourceTree = "<group>"; };
+		BD938B4F24A6BC1F00892358 /* BiquadFilterTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BiquadFilterTests.mm; sourceTree = "<group>"; };
 		BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioUnitBusBufferManager.mm; sourceTree = "<group>"; };
 		BD95147524A08BB600D8024C /* macOSFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = macOSFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BD95147724A08BB600D8024C /* macOSFrameworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = macOSFrameworkTests.swift; sourceTree = "<group>"; };
+		BD95147724A08BB600D8024C /* NewSwiftTestTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSwiftTestTemplate.swift; sourceTree = "<group>"; };
 		BD95147924A08BB600D8024C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BD95148224A090E400D8024C /* ValueChangeDetectorTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ValueChangeDetectorTests.mm; sourceTree = "<group>"; };
 		BD95148424A092E800D8024C /* RampingValueChangeDetectorTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RampingValueChangeDetectorTests.mm; sourceTree = "<group>"; };
@@ -245,7 +248,7 @@
 		C4BEE7C822236A58001E6B6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C4BEE7C922236A58001E6B6D /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4BEE7CA22236A58001E6B6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C4BEE7D722236E99001E6B6D /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
+		C4BEE7D722236E99001E6B6D /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		C4BEE7D922236E99001E6B6D /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		C4BEE7DB22236E99001E6B6D /* TypeAliases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeAliases.swift; sourceTree = "<group>"; };
 		C4BEE7E022236E99001E6B6D /* AudioUnitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioUnitManager.swift; sourceTree = "<group>"; };
@@ -278,6 +281,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD938B5724A781C200892358 /* Accelerate.framework in Frameworks */,
 				BD95147A24A08BB600D8024C /* LowPassFilterFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -346,6 +350,7 @@
 				BDB11A5A24A13F2A00DD8EF9 /* Color+Extensions.swift */,
 				BDB11A5224A13BFA00DD8EF9 /* Comparble+Extensions.swift */,
 				BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */,
+				C4BEE7D722236E99001E6B6D /* View+Extensions.swift */,
 			);
 			path = "Class Extensions";
 			sourceTree = "<group>";
@@ -353,11 +358,12 @@
 		BD95147624A08BB600D8024C /* macOSFrameworkTests */ = {
 			isa = PBXGroup;
 			children = (
-				BD95147724A08BB600D8024C /* macOSFrameworkTests.swift */,
+				BD95147724A08BB600D8024C /* NewSwiftTestTemplate.swift */,
+				BD938B4F24A6BC1F00892358 /* BiquadFilterTests.mm */,
 				BDB11A6224A1530D00DD8EF9 /* LogScaling.swift */,
-				BD95147924A08BB600D8024C /* Info.plist */,
-				BD95148224A090E400D8024C /* ValueChangeDetectorTests.mm */,
 				BD95148424A092E800D8024C /* RampingValueChangeDetectorTests.mm */,
+				BD95148224A090E400D8024C /* ValueChangeDetectorTests.mm */,
+				BD95147924A08BB600D8024C /* Info.plist */,
 			);
 			path = macOSFrameworkTests;
 			sourceTree = "<group>";
@@ -560,7 +566,6 @@
 			children = (
 				C4BEE7D922236E99001E6B6D /* FilterView.swift */,
 				C4BEE7DB22236E99001E6B6D /* TypeAliases.swift */,
-				C4BEE7D722236E99001E6B6D /* ViewExtensions.swift */,
 			);
 			path = "User Interface";
 			sourceTree = "<group>";
@@ -899,7 +904,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD95147824A08BB600D8024C /* macOSFrameworkTests.swift in Sources */,
+				BD95147824A08BB600D8024C /* NewSwiftTestTemplate.swift in Sources */,
+				BD938B5024A6BC1F00892358 /* BiquadFilterTests.mm in Sources */,
 				BD95148524A092E800D8024C /* RampingValueChangeDetectorTests.mm in Sources */,
 				BDB11A6324A1530D00DD8EF9 /* LogScaling.swift in Sources */,
 				BD95148324A090E400D8024C /* ValueChangeDetectorTests.mm in Sources */,
@@ -923,7 +929,7 @@
 				BD49661624A35D8700A81F0B /* FourCharCode+Extensions.swift in Sources */,
 				BD1F7BAC249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */,
 				BD95149124A0A63300D8024C /* FilterDSPKernel.mm in Sources */,
-				C4BEE80522236F6F001E6B6D /* ViewExtensions.swift in Sources */,
+				C4BEE80522236F6F001E6B6D /* View+Extensions.swift in Sources */,
 				C4F07731223AC4F5008FFF06 /* FilterViewController.swift in Sources */,
 				BDE2CDF524A3DF24004AC8FA /* Bundle+Extensions.swift in Sources */,
 				C4F004A62239B2070014E248 /* FilterAudioUnit.swift in Sources */,
@@ -968,7 +974,7 @@
 				C4F0772F223AACBB008FFF06 /* FilterParameters.swift in Sources */,
 				BD95149224A0A63300D8024C /* FilterDSPKernel.mm in Sources */,
 				C4F07732223AC4F5008FFF06 /* FilterViewController.swift in Sources */,
-				C4BEE80122236F6E001E6B6D /* ViewExtensions.swift in Sources */,
+				C4BEE80122236F6E001E6B6D /* View+Extensions.swift in Sources */,
 				BDB11A5424A13C4A00DD8EF9 /* Comparble+Extensions.swift in Sources */,
 				C4BEE7FB22236F46001E6B6D /* AudioUnitManager.swift in Sources */,
 				BDB7CE9C249FC0AC009580D5 /* Preset.swift in Sources */,

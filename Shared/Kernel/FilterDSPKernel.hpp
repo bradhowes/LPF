@@ -13,7 +13,10 @@
 class FilterDSPKernel : public DSPKernel {
 public:
 
-    FilterDSPKernel() : DSPKernel(), cutoff_{float(400.0)}, resonance_{20.0} {}
+    FilterDSPKernel() : DSPKernel(), cutoff_{float(400.0)}, resonance_{20.0}
+    {
+        filter_.calculateParams(cutoff_.value(), resonance_.value(), nyquistPeriod_, 2);
+    }
 
     void setFormat(AVAudioFormat* format);
 
@@ -41,8 +44,8 @@ public:
     float nyquistFrequency() const { return nyquistFrequency_; }
     float nyquistPeriod() const { return nyquistPeriod_; }
 
-    float cutoffFilterSetting() const { return cutoff_ * nyquistPeriod_; }
-    float resonanceFilterSetting() const { return resonance_; }
+    float cutoff() const { return cutoff_; }
+    float resonance() const { return resonance_; }
 
 private:
     BiquadFilter filter_;

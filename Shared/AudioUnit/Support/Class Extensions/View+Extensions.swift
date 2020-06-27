@@ -17,14 +17,4 @@ public extension View {
             trailingAnchor.constraint(equalTo: superview.trailingAnchor)
         ])
     }
-
-    func setBorder(color: Color, width: CGFloat) {
-        #if os(iOS)
-        layer.borderColor = color.cgColor
-        layer.borderWidth = CGFloat(width)
-        #elseif os(macOS)
-        layer?.borderColor = color.cgColor
-        layer?.borderWidth = CGFloat(width)
-        #endif
-    }
 }

@@ -37,6 +37,16 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BD95147424A08BB600D8024C"
+               BuildableName = "macOSFrameworkTests.xctest"
+               BlueprintName = "macOSFrameworkTests"
+               ReferencedContainer = "container:AUv3Filter.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
