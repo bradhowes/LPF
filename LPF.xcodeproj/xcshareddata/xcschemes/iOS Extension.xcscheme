@@ -17,7 +17,7 @@
                BlueprintIdentifier = "C437FE622223686D008D6C09"
                BuildableName = "LPF.appex"
                BlueprintName = "iOS Extension"
-               ReferencedContainer = "container:AUv3Filter.xcodeproj">
+               ReferencedContainer = "container:LPF.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,7 +31,7 @@
                BlueprintIdentifier = "C437FE39222367A6008D6C09"
                BuildableName = "LPF Host.app"
                BlueprintName = "iOS App"
-               ReferencedContainer = "container:AUv3Filter.xcodeproj">
+               ReferencedContainer = "container:LPF.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,7 +47,7 @@
             BlueprintIdentifier = "C437FE622223686D008D6C09"
             BuildableName = "LPF.appex"
             BlueprintName = "iOS Extension"
-            ReferencedContainer = "container:AUv3Filter.xcodeproj">
+            ReferencedContainer = "container:LPF.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -70,7 +70,7 @@
             BlueprintIdentifier = "C437FE39222367A6008D6C09"
             BuildableName = "LPF Host.app"
             BlueprintName = "iOS App"
-            ReferencedContainer = "container:AUv3Filter.xcodeproj">
+            ReferencedContainer = "container:LPF.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -87,7 +87,7 @@
             BlueprintIdentifier = "C437FE39222367A6008D6C09"
             BuildableName = "LPF Host.app"
             BlueprintName = "iOS App"
-            ReferencedContainer = "container:AUv3Filter.xcodeproj">
+            ReferencedContainer = "container:LPF.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

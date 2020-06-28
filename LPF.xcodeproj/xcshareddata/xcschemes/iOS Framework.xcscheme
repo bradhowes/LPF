@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C437FE39222367A6008D6C09"
-               BuildableName = "LPF Host.app"
-               BlueprintName = "iOS App"
-               ReferencedContainer = "container:AUv3Filter.xcodeproj">
+               BlueprintIdentifier = "C437FE51222367CD008D6C09"
+               BuildableName = "LowPassFilterFramework.framework"
+               BlueprintName = "iOS Framework"
+               ReferencedContainer = "container:LPF.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -27,15 +27,6 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C437FE39222367A6008D6C09"
-            BuildableName = "LPF Host.app"
-            BlueprintName = "iOS App"
-            ReferencedContainer = "container:AUv3Filter.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <Testables>
       </Testables>
    </TestAction>
@@ -49,23 +40,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C437FE39222367A6008D6C09"
-            BuildableName = "LPF Host.app"
-            BlueprintName = "iOS App"
-            ReferencedContainer = "container:AUv3Filter.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "CG_NUMERICS_SHOW_BACKTRACE"
-            value = "NO"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -73,16 +47,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C437FE39222367A6008D6C09"
-            BuildableName = "LPF Host.app"
-            BlueprintName = "iOS App"
-            ReferencedContainer = "container:AUv3Filter.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Release">

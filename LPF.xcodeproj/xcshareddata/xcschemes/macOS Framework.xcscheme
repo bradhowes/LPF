@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C437FE51222367CD008D6C09"
+               BlueprintIdentifier = "C437FE8E222368A1008D6C09"
                BuildableName = "LowPassFilterFramework.framework"
-               BlueprintName = "iOS Framework"
-               ReferencedContainer = "container:AUv3Filter.xcodeproj">
+               BlueprintName = "macOS Framework"
+               ReferencedContainer = "container:LPF.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,6 +28,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BD95147424A08BB600D8024C"
+               BuildableName = "macOSFrameworkTests.xctest"
+               BlueprintName = "macOSFrameworkTests"
+               ReferencedContainer = "container:LPF.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -47,6 +57,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "C437FE8E222368A1008D6C09"
+            BuildableName = "LowPassFilterFramework.framework"
+            BlueprintName = "macOS Framework"
+            ReferencedContainer = "container:LPF.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Release">
