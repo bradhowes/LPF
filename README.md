@@ -1,5 +1,5 @@
 # About LPF (Low-pass Filter)
-This project is an adaptation of Apple's [Creating Custom Audio Effects](https://developer.apple.com/documentation/audiotoolbox/audio_unit_v3_plug-ins/creating_custom_audio_effects) project. Much has been retooled for a better experience and code understanding. You can find Apple's original README [here](APPLE_README.html)
+This project is an adaptation of Apple's [Creating Custom Audio Effects](https://developer.apple.com/documentation/audiotoolbox/audio_unit_v3_plug-ins/creating_custom_audio_effects) project. Much has been retooled for a better experience and code understanding. You can find Apple's original README [here](APPLE_README.md)
 
 
 The gist is still the same: 
