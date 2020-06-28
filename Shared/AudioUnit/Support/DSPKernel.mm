@@ -1,24 +1,20 @@
-/*
-See LICENSE folder for this sample’s licensing information.
+// Changes: Copyright © 2020 Brad Howes. All rights reserved.
+// Original: See LICENSE folder for this sample’s licensing information.
 
-Abstract:
-Utility code to manage scheduled parameters in an audio unit implementation.
-*/
+#import <algorithm>
 
 #import "DSPKernel.hpp"
 
-void DSPKernel::handleOneEvent(AURenderEvent const *event) {
-    switch (event->head.eventType) {
+void
+DSPKernel::renderEvent(AURenderEvent const& event) {
+    switch (event.head.eventType) {
         case AURenderEventParameter:
-        case AURenderEventParameterRamp: {
-            AUParameterEvent const& paramEvent = event->parameter;
-
-            startRamp(paramEvent.parameterAddress, paramEvent.value, paramEvent.rampDurationSampleFrames);
+        case AURenderEventParameterRamp:
+            handleParameterEvent(event.parameter);
             break;
-        }
 
         case AURenderEventMIDI:
-            handleMIDIEvent(event->MIDI);
+            handleMIDIEvent(event.MIDI);
             break;
 
         default:
@@ -26,58 +22,38 @@ void DSPKernel::handleOneEvent(AURenderEvent const *event) {
     }
 }
 
-void DSPKernel::performAllSimultaneousEvents(AUEventSampleTime now, AURenderEvent const *&event, AUMIDIOutputEventBlock midiOut) {
-    do {
-        handleOneEvent(event);
-
-        if (event->head.eventType == AURenderEventMIDI && midiOut)
-        {
-            midiOut(now, 0, event->MIDI.length, event->MIDI.data);
-        }
-        
-        // Go to next event.
+AURenderEvent const*
+DSPKernel::renderEventsUntil(AUEventSampleTime now, AURenderEvent const *event)
+{
+    while (event != nullptr && event->head.eventSampleTime <= now) {
+        renderEvent(*event);
         event = event->head.next;
+    }
 
-        // While event is not null and is simultaneous (or late).
-    } while (event && event->head.eventSampleTime <= now);
+    return event;
 }
 
-/**
- This function handles the event list processing and rendering loop for you.
- Call it inside your internalRenderBlock.
- */
-void DSPKernel::processWithEvents(AudioTimeStamp const *timestamp, AUAudioFrameCount frameCount, AURenderEvent const *events, AUMIDIOutputEventBlock midiOut) {
+void
+DSPKernel::render(AudioTimeStamp const* timestamp, AUAudioFrameCount frameCount, AURenderEvent const* events)
+{
+    auto now = AUEventSampleTime(timestamp->mSampleTime);
+    auto framesRemaining = frameCount;
 
-    AUEventSampleTime now = AUEventSampleTime(timestamp->mSampleTime);
-    AUAudioFrameCount framesRemaining = frameCount;
-    AURenderEvent const *event = events;
-
+    // Process events and samples together. First process samples up to an event time and then do the event to update
+    // render parameters. Continue until all frames (samples) are rendered.
     while (framesRemaining > 0) {
-        // If there are no more events, we can process the entire remaining segment and exit.
-        if (event == nullptr) {
-            AUAudioFrameCount const bufferOffset = frameCount - framesRemaining;
-            process(framesRemaining, bufferOffset);
+        if (events == nullptr) {
+            renderFrames(framesRemaining, frameCount - framesRemaining);
             return;
         }
 
-        // **** start late events late.
-        auto timeZero = AUEventSampleTime(0);
-        auto headEventTime = event->head.eventSampleTime;
-        AUAudioFrameCount const framesThisSegment = AUAudioFrameCount(std::max(timeZero, headEventTime - now));
-
-        // Compute everything before the next event.
+        auto framesThisSegment = AUAudioFrameCount(std::max(events->head.eventSampleTime - now, AUEventSampleTime(0)));
         if (framesThisSegment > 0) {
-            AUAudioFrameCount const bufferOffset = frameCount - framesRemaining;
-            process(framesThisSegment, bufferOffset);
-
-            // Advance frames.
+            renderFrames(framesThisSegment, frameCount - framesRemaining);
             framesRemaining -= framesThisSegment;
-
-            // Advance time.
             now += AUEventSampleTime(framesThisSegment);
         }
 
-        performAllSimultaneousEvents(now, event, midiOut);
+        events = renderEventsUntil(now, events);
     }
 }
-

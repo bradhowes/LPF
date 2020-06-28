@@ -1,67 +1,52 @@
-/*
-See LICENSE folder for this sample’s licensing information.
+// Changes: Copyright © 2020 Brad Howes. All rights reserved.
+// Original: See LICENSE folder for this sample’s licensing information.
 
-Abstract:
-Adapter object providing a Swift-accessible interface to the filter's underlying DSP code.
-*/
-
-#import <AVFoundation/AVFoundation.h>
-#import <CoreAudioKit/AUViewController.h>
+#import "AudioUnitBusBufferManager.hpp"
+#import "BiquadFilter.hpp"
 #import "FilterDSPKernel.hpp"
-#import "BufferedAudioBus.hpp"
-#import "FilterDSPKernelAdapter.h"
+#import "FilterDSPKernelAdapter.hpp"
 
 @implementation FilterDSPKernelAdapter {
-    // C++ members need to be ivars; they would be copied on access if they were properties.
-    FilterDSPKernel  _kernel;
-    BufferedInputBus _inputBus;
+    FilterDSPKernel _kernel;
+    AudioUnitBusInputBufferManager* _inputBus;
 }
 
 - (instancetype)init {
-
     if (self = [super init]) {
         AVAudioFormat *format = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:44100 channels:2];
-        // Create a DSP kernel to handle the signal processing.
-        _kernel.init(format.channelCount, format.sampleRate);
-        _kernel.setParameter(FilterParamCutoff, 0);
-        _kernel.setParameter(FilterParamResonance, 0);
+        _kernel.setFormat(format);
 
-        // Create the input and output busses.
-        _inputBus.init(format, 8);
+        AUAudioUnitBus* bus = [[AUAudioUnitBus alloc] initWithFormat:format error:nil];
+        _inputBus = new AudioUnitBusInputBufferManager(bus, 8);
         _outputBus = [[AUAudioUnitBus alloc] initWithFormat:format error:nil];
     }
+
     return self;
 }
 
-- (AUAudioUnitBus *)inputBus {
-    return _inputBus.bus;
+- (void)dealloc {
+    delete _inputBus;
 }
 
-- (NSArray<NSNumber *> *)magnitudesForFrequencies:(NSArray<NSNumber *> *)frequencies {
-    FilterDSPKernel::BiquadCoefficients coefficients;
+- (AUAudioUnitBus *)inputBus {
+    return _inputBus->bus();
+}
 
-    double inverseNyquist = 2.0 / self.outputBus.format.sampleRate;
+- (void)magnitudes:(nonnull const float*)frequencies count:(NSInteger)count output:(nonnull float*)output {
 
-    coefficients.calculateLopassParams(_kernel.cutoffRamper.getUIValue(), _kernel.resonanceRamper.getUIValue());
-
-    NSMutableArray<NSNumber *> *magnitudes = [NSMutableArray arrayWithCapacity:frequencies.count];
-
-    for (NSNumber *number in frequencies) {
-        double frequency = [number doubleValue];
-        double magnitude = coefficients.magnitudeForFrequency(frequency * inverseNyquist);
-
-        [magnitudes addObject:@(magnitude)];
-    }
-
-    return [NSArray arrayWithArray:magnitudes];
+    // Create temporary filter here since the one in the FilterDSPKernel is used by the music render thread and it may
+    // not have the most recent filter settings due to ramping or other latencies.
+    BiquadFilter filter;
+    filter.calculateParams(_kernel.cutoff(), _kernel.resonance(), _kernel.nyquistPeriod(), 1);
+    filter.magnitudes(frequencies, count, _kernel.nyquistPeriod(), output);
 }
 
 - (void)setParameter:(AUParameter *)parameter value:(AUValue)value {
-    _kernel.setParameter(parameter.address, value);
+    _kernel.setParameterValue(parameter.address, value);
 }
 
-- (AUValue)valueForParameter:(AUParameter *)parameter {
-    return _kernel.getParameter(parameter.address);
+- (AUValue)valueOf:(AUParameter *)parameter {
+    return _kernel.getParameterValue(parameter.address);
 }
 
 - (AUAudioFrameCount)maximumFramesToRender {
@@ -72,81 +57,48 @@ Adapter object providing a Swift-accessible interface to the filter's underlying
     _kernel.setMaximumFramesToRender(maximumFramesToRender);
 }
 
-- (BOOL)shouldBypassEffect {
-    return _kernel.isBypassed();
-}
-
-- (void)setShouldBypassEffect:(BOOL)bypass {
-    _kernel.setBypass(bypass);
-}
-
 - (void)allocateRenderResources {
-    _inputBus.allocateRenderResources(self.maximumFramesToRender);
-    _kernel.init(self.outputBus.format.channelCount, self.outputBus.format.sampleRate);
-    _kernel.reset();
+    _inputBus->allocateRenderResources(self.maximumFramesToRender);
+    _kernel.setFormat(self.outputBus.format);
 }
 
 - (void)deallocateRenderResources {
-    _inputBus.deallocateRenderResources();
+    _inputBus->deallocateRenderResources();
 }
 
 #pragma mark - AUAudioUnit (AUAudioUnitImplementation)
 
-// Subclassers must provide a AUInternalRenderBlock (via a getter) to implement rendering.
 - (AUInternalRenderBlock)internalRenderBlock {
-    /*
-     Capture in locals to avoid ObjC member lookups. If "self" is captured in
-     render, we're doing it wrong.
-     */
-    // Specify captured objects are mutable.
-    __block FilterDSPKernel *state = &_kernel;
-    __block BufferedInputBus *input = &_inputBus;
 
-    return ^AUAudioUnitStatus(AudioUnitRenderActionFlags *actionFlags,
-                              const AudioTimeStamp       *timestamp,
-                              AVAudioFrameCount           frameCount,
-                              NSInteger                   outputBusNumber,
-                              AudioBufferList            *outputData,
-                              const AURenderEvent        *realtimeEventListHead,
-                              AURenderPullInputBlock      pullInputBlock) {
+    // References to capture for use within the block.
+    FilterDSPKernel& kernel = _kernel;
+    AudioUnitBusInputBufferManager& inputBus = *_inputBus;
 
+    return ^AUAudioUnitStatus(AudioUnitRenderActionFlags* actionFlags, const AudioTimeStamp* timestamp,
+                              AVAudioFrameCount frameCount, NSInteger outputBusNumber, AudioBufferList* outputData,
+                              const AURenderEvent* realtimeEventListHead, AURenderPullInputBlock pullInputBlock) {
+        if (frameCount > kernel.maximumFramesToRender()) return kAudioUnitErr_TooManyFramesToProcess;
+
+        // Fetch samples from upstream
         AudioUnitRenderActionFlags pullFlags = 0;
+        AUAudioUnitStatus err = inputBus.pullInput(&pullFlags, timestamp, frameCount, 0, pullInputBlock);
+        if (err != 0) return err;
 
-        if (frameCount > state->maximumFramesToRender()) {
-            return kAudioUnitErr_TooManyFramesToProcess;
-        }
-
-        AUAudioUnitStatus err = input->pullInput(&pullFlags, timestamp, frameCount, 0, pullInputBlock);
-
-        if (err != 0) { return err; }
-
-        AudioBufferList *inAudioBufferList = input->mutableAudioBufferList;
-
-        /*
-         Important:
-         If the caller passed non-null output pointers (outputData->mBuffers[x].mData), use those.
-
-         If the caller passed null output buffer pointers, process in memory owned by the Audio Unit
-         and modify the (outputData->mBuffers[x].mData) pointers to point to this owned memory.
-         The Audio Unit is responsible for preserving the validity of this memory until the next call to render,
-         or deallocateRenderResources is called.
-
-         If your algorithm cannot process in-place, you will need to preallocate an output buffer
-         and use it here.
-
-         See the description of the canProcessInPlace property.
-         */
-
-        // If passed null output buffer pointers, process in-place in the input buffer.
-        AudioBufferList *outAudioBufferList = outputData;
+        // Obtain the sample buffers to use for rendering
+        AudioBufferList* inAudioBufferList = inputBus.mutableAudioBufferList();
+        AudioBufferList* outAudioBufferList = outputData;
         if (outAudioBufferList->mBuffers[0].mData == nullptr) {
-            for (UInt32 i = 0; i < outAudioBufferList->mNumberBuffers; ++i) {
-                outAudioBufferList->mBuffers[i].mData = inAudioBufferList->mBuffers[i].mData;
+
+            // Use the input buffers for the output buffers
+            for (UInt32 index = 0; index < outAudioBufferList->mNumberBuffers; ++index) {
+                outAudioBufferList->mBuffers[index].mData = inAudioBufferList->mBuffers[index].mData;
             }
         }
 
-        state->setBuffers(inAudioBufferList, outAudioBufferList);
-        state->processWithEvents(timestamp, frameCount, realtimeEventListHead, nil /* MIDIOutEventBlock */);
+        kernel.setBuffers(inAudioBufferList, outAudioBufferList);
+
+        // Do the rendering
+        kernel.render(timestamp, frameCount, realtimeEventListHead);
 
         return noErr;
     };
