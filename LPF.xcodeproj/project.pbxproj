@@ -25,6 +25,7 @@
 		BD95149124A0A63300D8024C /* FilterDSPKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95149024A0A63300D8024C /* FilterDSPKernel.mm */; };
 		BD95149224A0A63300D8024C /* FilterDSPKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95149024A0A63300D8024C /* FilterDSPKernel.mm */; };
 		BD95149624A0C57E00D8024C /* FilterViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4201A2822403120006E4333 /* FilterViewControllerExtension.swift */; };
+		BD9FA81124A93C6000FA9940 /* APPLE_README.md in Resources */ = {isa = PBXBuildFile; fileRef = BD9FA81024A93C6000FA9940 /* APPLE_README.md */; };
 		BDB11A5424A13C4A00DD8EF9 /* Comparble+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB11A5224A13BFA00DD8EF9 /* Comparble+Extensions.swift */; };
 		BDB11A5524A13C4B00DD8EF9 /* Comparble+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB11A5224A13BFA00DD8EF9 /* Comparble+Extensions.swift */; };
 		BDB11A5824A13CB100DD8EF9 /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB11A5624A13C8900DD8EF9 /* CALayer+Extensions.swift */; };
@@ -206,6 +207,8 @@
 		BD95148224A090E400D8024C /* ValueChangeDetectorTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ValueChangeDetectorTests.mm; sourceTree = "<group>"; };
 		BD95148424A092E800D8024C /* RampingValueChangeDetectorTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RampingValueChangeDetectorTests.mm; sourceTree = "<group>"; };
 		BD95149024A0A63300D8024C /* FilterDSPKernel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FilterDSPKernel.mm; sourceTree = "<group>"; };
+		BD9FA80F24A938F800FA9940 /* Documentation */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Documentation; sourceTree = "<group>"; };
+		BD9FA81024A93C6000FA9940 /* APPLE_README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = APPLE_README.md; sourceTree = "<group>"; };
 		BDB11A5224A13BFA00DD8EF9 /* Comparble+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Comparble+Extensions.swift"; sourceTree = "<group>"; };
 		BDB11A5624A13C8900DD8EF9 /* CALayer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extensions.swift"; sourceTree = "<group>"; };
 		BDB11A5A24A13F2A00DD8EF9 /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
@@ -384,6 +387,8 @@
 			isa = PBXGroup;
 			children = (
 				7E56CF207E56CEE000000001 /* README.md */,
+				BD9FA81024A93C6000FA9940 /* APPLE_README.md */,
+				BD9FA80F24A938F800FA9940 /* Documentation */,
 				F1464A50F1463F7000000001 /* Configuration */,
 				C4BEE79622236A29001E6B6D /* iOS */,
 				C4BEE7B622236A58001E6B6D /* macOS */,
@@ -851,6 +856,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4BEE7B122236A29001E6B6D /* Assets.xcassets in Resources */,
+				BD9FA81124A93C6000FA9940 /* APPLE_README.md in Resources */,
 				BD49661A24A3605900A81F0B /* LICENSE.md in Resources */,
 				C4BEE7B322236A29001E6B6D /* Main.storyboard in Resources */,
 			);
