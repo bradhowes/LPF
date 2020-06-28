@@ -3,7 +3,7 @@
 import Cocoa
 import LowPassFilterFramework
 
-class MainViewController: NSViewController {
+final class MainViewController: NSViewController {
 
     let audioUnitManager = AudioUnitManager()
 

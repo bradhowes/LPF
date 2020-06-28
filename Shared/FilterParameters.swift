@@ -11,7 +11,7 @@ import os
  - resonance -- a dB setting that can attenuate the frequencies near the cutoff
 
  */
-final class FilterParameters: NSObject {
+public final class FilterParameters: NSObject {
 
     /// Definition of the cutoff parameter. Range is 12 - 20kHz.
     let cutoffParam: AUParameter = {

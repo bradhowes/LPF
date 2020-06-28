@@ -345,6 +345,7 @@
 		BD49661824A35F3900A81F0B /* Class Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				BDE2CDF324A3DF13004AC8FA /* Bundle+Extensions.swift */,
 				BDB11A5624A13C8900DD8EF9 /* CALayer+Extensions.swift */,
 				BDB11A5E24A13FAA00DD8EF9 /* CATransaction+Extensions.swift */,
 				BDB11A5A24A13F2A00DD8EF9 /* Color+Extensions.swift */,
@@ -521,7 +522,6 @@
 				C4BEE7E022236E99001E6B6D /* AudioUnitManager.swift */,
 				C4BEE7E822236E99001E6B6D /* AudioUnitBusBufferManager.hpp */,
 				BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */,
-				BDE2CDF324A3DF13004AC8FA /* Bundle+Extensions.swift */,
 				C4BEE7E622236E99001E6B6D /* DSPKernel.hpp */,
 				C4BEE7E722236E99001E6B6D /* DSPKernel.mm */,
 				C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.hpp */,

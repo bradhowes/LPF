@@ -3,7 +3,10 @@
 
 import CoreAudioKit
 
-public class FilterViewController: AUViewController {
+/**
+ Controller for the AUv3 filter view.
+ */
+public final class FilterViewController: AUViewController {
 
     private var cutoffParam: AUParameter!
     private var resonanceParam: AUParameter!
@@ -12,7 +15,6 @@ public class FilterViewController: AUViewController {
     @IBOutlet private weak var filterView: FilterView!
 
     private var observer: NSKeyValueObservation?
-    private var needsConnection = true
 
     public var audioUnit: FilterAudioUnit? {
         didSet {
@@ -94,8 +96,7 @@ private extension FilterViewController {
     }
 
     private func connectViewToAU() {
-        guard needsConnection, let paramTree = audioUnit?.parameterTree else { return }
-        needsConnection = false
+        guard let paramTree = audioUnit?.parameterTree else { return }
 
         guard let cutoff = paramTree.value(forKey: "cutoff") as? AUParameter,
             let resonance = paramTree.value(forKey: "resonance") as? AUParameter else {
