@@ -392,7 +392,6 @@
 		C437FE2F2223672C008D6C09 = {
 			isa = PBXGroup;
 			children = (
-				BD9FA81A24A9505300FA9940 /* Default-568h@2x.png */,
 				7E56CF207E56CEE000000001 /* README.md */,
 				D153B980F14C7C7000000001 /* LICENSE */,
 				BD9FA80F24A938F800FA9940 /* Documentation */,
@@ -465,6 +464,7 @@
 				C4BEE7A722236A29001E6B6D /* Main.storyboard */,
 				C4BEE7A422236A29001E6B6D /* Assets.xcassets */,
 				C4BEE7AA22236A29001E6B6D /* Info.plist */,
+				BD9FA81A24A9505300FA9940 /* Default-568h@2x.png */,
 				C4737B092231D918002CAD0B /* App.entitlements */,
 			);
 			path = App;

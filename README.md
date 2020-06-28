@@ -1,3 +1,5 @@
+![](Shared/Resources/LPF/256px.png)
+
 # About LPF (Low-pass Filter)
 
 This project is an adaptation of Apple's [Creating Custom Audio
