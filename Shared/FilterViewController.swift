@@ -56,7 +56,7 @@ extension FilterViewController: AUAudioUnitFactory {
 extension FilterViewController: FilterViewDelegate {
 
     public func filterViewTouchBegan(_ view: FilterView) {
-        cutoffParam.setValue(view.frequency, originator: paramObserverToken, atHostTime: 0, eventType: .touch)
+        cutoffParam.setValue(view.cutoff, originator: paramObserverToken, atHostTime: 0, eventType: .touch)
         resonanceParam.setValue(view.resonance, originator: paramObserverToken, atHostTime: 0, eventType: .touch)
     }
     
@@ -65,19 +65,19 @@ extension FilterViewController: FilterViewDelegate {
         updateFilterViewFrequencyAndMagnitudes()
     }
 
-    public func filterView(_ view: FilterView, didChangeFrequency frequency: Float) {
-        cutoffParam.setValue(frequency, originator: paramObserverToken, atHostTime: 0, eventType: .value)
+    public func filterView(_ view: FilterView, didChangeCutoff cutoff: Float) {
+        cutoffParam.setValue(cutoff, originator: paramObserverToken, atHostTime: 0, eventType: .value)
         updateFilterViewFrequencyAndMagnitudes()
     }
 
-    public func filterView(_ view: FilterView, didChangeFrequency frequency: Float, andResonance resonance: Float) {
-        cutoffParam.setValue(frequency, originator: paramObserverToken, atHostTime: 0, eventType: .value)
+    public func filterView(_ view: FilterView, didChangeCutoff cutoff: Float, andResonance resonance: Float) {
+        cutoffParam.setValue(cutoff, originator: paramObserverToken, atHostTime: 0, eventType: .value)
         resonanceParam.setValue(resonance, originator: paramObserverToken, atHostTime: 0, eventType: .value)
         updateFilterViewFrequencyAndMagnitudes()
     }
 
     public func filterViewTouchEnded(_ view: FilterView) {
-        cutoffParam.setValue(filterView.frequency, originator: nil, atHostTime: 0, eventType: .release)
+        cutoffParam.setValue(filterView.cutoff, originator: nil, atHostTime: 0, eventType: .release)
         resonanceParam.setValue(filterView.resonance, originator: nil, atHostTime: 0, eventType: .release)
     }
     
@@ -117,7 +117,7 @@ private extension FilterViewController {
     }
 
     private func updateDisplay() {
-        filterView.frequency = cutoffParam.value
+        filterView.cutoff = cutoffParam.value
         filterView.resonance = resonanceParam.value
         updateFilterViewFrequencyAndMagnitudes()
     }

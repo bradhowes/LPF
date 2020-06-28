@@ -33,18 +33,18 @@ public protocol FilterViewDelegate: class {
      Notification that the frequency setting has changed.
 
      - parameter filterView: the source of the notification
-     - parameter frequency: the new value
+     - parameter cutoff: the new value
      */
-    func filterView(_ filterView: FilterView, didChangeFrequency frequency: Float)
+    func filterView(_ filterView: FilterView, didChangeCutoff cutoff: Float)
 
     /**
      Notification that the frequency and resonance settings have changed.
 
      - parameter filterView: the source of the notification
-     - parameter frequency: the new frequency value
+     - parameter cutoff: the new frequency value
      - parameter resonance: the new resonance value
      */
-    func filterView(_ filterView: FilterView, didChangeFrequency frequency: Float, andResonance resonance: Float)
+    func filterView(_ filterView: FilterView, didChangeCutoff cutoff: Float, andResonance resonance: Float)
     func filterViewDataDidChange(_ filterView: FilterView)
 }
 
@@ -78,19 +78,37 @@ public final class FilterView: View {
         return frequencies!
     }
 
+    private var _cutoff: Float = hertzMin
+    private var _resonance: Float = 0.0
+
     /// Current filter cutoff frequency setting
-    public var frequency: Float = hertzMin {
-        didSet {
-            frequency = frequency.clamp(to: Self.hertzRange)
-            controlPoint.x = floor(frequencyToLocation(frequency))
+    public var cutoff: Float {
+        get { _cutoff }
+        set {
+            _cutoff = newValue.clamp(to: Self.hertzRange)
+            updateIndicator()
+            delegate?.filterView(self, didChangeCutoff: cutoff)
         }
     }
 
     /// Current filter resonance setting
-    public var resonance: Float = 0.0 {
-        didSet {
-            resonance = resonance.clamp(to: Self.gainRange)
-            controlPoint.y = floor(dbToLocation(resonance))
+    public var resonance: Float {
+        get { _resonance }
+        set {
+            _resonance = newValue.clamp(to: Self.gainRange)
+            updateIndicator()
+            delegate?.filterView(self, didChangeResonance: resonance)
+        }
+    }
+
+    /// The current location of the control in frequency (X) and dB (Y) axis.
+    private var controlPoint: CGPoint {
+        get { CGPoint(x: frequencyToLocation(cutoff), y: dbToLocation(resonance)) }
+        set {
+            _cutoff = locationToFrequency(newValue.x).clamp(to: Self.hertzRange)
+            _resonance = locationToDb(newValue.y).clamp(to: Self.gainRange)
+            updateIndicator()
+            delegate?.filterView(self, didChangeCutoff: cutoff, andResonance: resonance)
         }
     }
 
@@ -129,8 +147,6 @@ public final class FilterView: View {
 
     /// Layer that indicates the current filter setting
     private var indicatorLayer = CALayer()
-    /// The current location of the control in frequency (X) and dB (Y) axis.
-    private var controlPoint = CGPoint.zero
 
     private var rootLayer: CALayer {
         #if os(iOS)
@@ -251,10 +267,8 @@ extension FilterView {
         guard let pointOfTouch = touches.first?.location(in: self) else { return }
         let convertedPoint = rootLayer.convert(pointOfTouch, to: graphLayer)
         if graphLayer.contains(convertedPoint) {
-            controlPoint = convertedPoint
-            updateIndicator()
             delegate?.filterViewTouchBegan(self)
-            updateFrequenciesAndResonance()
+            controlPoint = convertedPoint
         }
     }
 
@@ -262,13 +276,11 @@ extension FilterView {
         guard let pointOfTouch = touches.first?.location(in: self) else { return }
         let convertedPoint = rootLayer.convert(pointOfTouch, to: graphLayer)
         if graphLayer.contains(convertedPoint) {
-            handleDrag(convertedPoint)
-            updateFrequenciesAndResonance()
+            controlPoint = convertedPoint
         }
     }
 
     override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        updateIndicator()
         delegate?.filterViewTouchEnded(self)
     }
 
@@ -280,10 +292,8 @@ extension FilterView {
         let pointOfTouch = NSPointToCGPoint(convert(event.locationInWindow, from: nil))
         let convertedPoint = graphLayer.convert(pointOfTouch, from: rootLayer)
         if graphLayer.contains(convertedPoint) {
-            controlPoint = convertedPoint
-            updateIndicator()
             delegate?.filterViewTouchBegan(self)
-            updateFrequenciesAndResonance()
+            controlPoint = convertedPoint
         }
     }
 
@@ -291,13 +301,11 @@ extension FilterView {
         let pointOfClick = NSPointToCGPoint(convert(event.locationInWindow, from: nil))
         let convertedPoint = rootLayer.convert(pointOfClick, to: graphLayer)
         if graphLayer.contains(convertedPoint) {
-            handleDrag(convertedPoint)
-            updateFrequenciesAndResonance()
+            controlPoint = convertedPoint
         }
     }
 
     override public func mouseUp(with event: NSEvent) {
-        updateIndicator()
         delegate?.filterViewTouchEnded(self)
     }
 
@@ -493,19 +501,20 @@ extension FilterView {
         guard let layers = indicatorLayer.sublayers else { return }
         let height = graphLayer.bounds.height
         let diameter = 2 * controlRadius
+        let pos = controlPoint
         CATransaction.noAnimation {
             layers.forEach {
                 $0.frame = {
                     switch $0.name! {
-                    case "pos": return CGRect(x: controlPoint.x - controlRadius, y: controlPoint.y - controlRadius,
+                    case "pos": return CGRect(x: pos.x - controlRadius, y: pos.y - controlRadius,
                                               width: diameter, height: diameter)
-                    case "hdot": return CGRect(x: controlPoint.x - controlRadius, y: height - controlRadius,
+                    case "hdot": return CGRect(x: pos.x - controlRadius, y: height - controlRadius,
                                                width: diameter, height: diameter)
-                    case "vdot": return CGRect(x: -3, y: controlPoint.y - controlRadius,
+                    case "vdot": return CGRect(x: -3, y: pos.y - controlRadius,
                                                width: diameter,  height: diameter)
-                    case "hline": return CGRect(x: 0, y: controlPoint.y, width: controlPoint.x, height: 1.0)
-                    case "vline": return CGRect(x: controlPoint.x, y: controlPoint.y, width: 1.0,
-                                                height: height - controlPoint.y)
+                    case "hline": return CGRect(x: 0, y: controlPoint.y, width: pos.x, height: 1.0)
+                    case "vline": return CGRect(x: pos.x, y: pos.y, width: 1.0,
+                                                height: height - pos.y)
                     default: return .zero
                     }
                 }($0)
@@ -524,37 +533,12 @@ extension FilterView {
                                            height: layer.bounds.height - xAxisHeight - 10.0)
             gridLayer.bounds = graphLayer.bounds
             indicatorLayer.bounds = graphLayer.bounds
-            createAxisElements()
-            controlPoint = CGPoint(x: frequencyToLocation(frequency), y: dbToLocation(resonance))
             curveLayer.bounds = graphLayer.bounds
+            createAxisElements()
         }
 
         updateIndicator()
         frequencies = nil
         delegate?.filterViewDataDidChange(self)
-    }
-
-    private func updateFrequenciesAndResonance() {
-        let pickedFrequency = locationToFrequency(controlPoint.x)
-        let pickedResonance = locationToDb(controlPoint.y)
-
-        if pickedFrequency != frequency && pickedResonance != resonance {
-            frequency = pickedFrequency
-            resonance = pickedResonance
-            delegate?.filterView(self, didChangeFrequency: frequency, andResonance: resonance)
-        }
-        else if pickedFrequency != frequency {
-            frequency = pickedFrequency
-            delegate?.filterView(self, didChangeFrequency: frequency)
-        }
-        else if pickedResonance != resonance {
-            resonance = pickedResonance
-            delegate?.filterView(self, didChangeResonance: resonance)
-        }
-    }
-
-    private func handleDrag(_ dragPoint: CGPoint) {
-        controlPoint.x = dragPoint.x.clamp(to: 0...graphLayer.bounds.width)
-        controlPoint.y = dragPoint.y.clamp(to: 0...graphLayer.bounds.height)
     }
 }
