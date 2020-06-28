@@ -52,6 +52,4 @@ preset, and clicking on it will let you change it or let you save the current se
 alternate control view (one provided by GarageBand itself), and expand the existing view to use the entire height of the display.
 
 ![](Documentation/GarageBand3.jpg)
-
-# Original README
 
