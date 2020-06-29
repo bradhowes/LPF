@@ -34,7 +34,7 @@ The `Shared` folder hold all of the code that is used by the above products. In 
 * `BiquadFilter` -- the C++ class that manages the filter state.
 * `FilterDSPKernel` -- another C++ class that does the rendering of audio samples by sending them through the filter.
 * `FilterView` -- a custom view (UIView and NSView) that draws the frequency response curve for the current filter
-settings. It also allows for chaning of the filter settings by touch or mouse.
+settings. It also allows for dynamically changing the filter settings by touch (UIView) or mouse (NSView).
 * `FilterAudioUnit` -- the actual AUv3 AudioUnit.
 * `FilterViewController` -- a custom `AUViewController` that creates new `FilterAudioUnit` instances for the host
 application.
