@@ -55,6 +55,8 @@
 		BDB7CE9E249FC152009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE9D249FC152009580D5 /* Accelerate.framework */; };
 		BDB7CE9F249FC157009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE9D249FC152009580D5 /* Accelerate.framework */; };
 		BDB7CEA0249FC162009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
+		BDBDBB2E24AFDD0F003B4BFD /* WaveformGenerators.h in Headers */ = {isa = PBXBuildFile; fileRef = BDBDBB2D24AFDD0F003B4BFD /* WaveformGenerators.h */; };
+		BDBDBB2F24AFDD0F003B4BFD /* WaveformGenerators.h in Headers */ = {isa = PBXBuildFile; fileRef = BDBDBB2D24AFDD0F003B4BFD /* WaveformGenerators.h */; };
 		BDE2CDF124A3DEE4004AC8FA /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE2CDEF24A3DE9F004AC8FA /* Logging.swift */; };
 		BDE2CDF224A3DEE5004AC8FA /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE2CDEF24A3DE9F004AC8FA /* Logging.swift */; };
 		BDE2CDF524A3DF24004AC8FA /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE2CDF324A3DF13004AC8FA /* Bundle+Extensions.swift */; };
@@ -231,6 +233,7 @@
 		BDB7CE96249F7209009580D5 /* ValueChangeDetector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ValueChangeDetector.hpp; sourceTree = "<group>"; };
 		BDB7CE99249FC026009580D5 /* Preset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preset.swift; sourceTree = "<group>"; };
 		BDB7CE9D249FC152009580D5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.5.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
+		BDBDBB2D24AFDD0F003B4BFD /* WaveformGenerators.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveformGenerators.h; sourceTree = "<group>"; };
 		BDE2CDEF24A3DE9F004AC8FA /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		BDE2CDF324A3DF13004AC8FA /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
 		BDE2CE1724A3E887004AC8FA /* Dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Dev.xcconfig; path = Configuration/Dev.xcconfig; sourceTree = "<group>"; };
@@ -546,6 +549,7 @@
 				C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.hpp */,
 				C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */,
 				BD63B14F24AE21E60015236D /* LFO.hpp */,
+				BDBDBB2D24AFDD0F003B4BFD /* WaveformGenerators.h */,
 				BD63B14E24AE21E60015236D /* LFO.cpp */,
 				BDE2CDEF24A3DE9F004AC8FA /* Logging.swift */,
 				BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */,
@@ -622,6 +626,7 @@
 				C4BEE8172223736F001E6B6D /* LowPassFilterFramework.h in Headers */,
 				BD63B15224AE21E60015236D /* LFO.hpp in Headers */,
 				BD1F7BAE249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */,
+				BDBDBB2E24AFDD0F003B4BFD /* WaveformGenerators.h in Headers */,
 				BDB7CE97249F7694009580D5 /* ValueChangeDetector.hpp in Headers */,
 				C4BEE7EF22236F24001E6B6D /* RampingValueChangeDetector.hpp in Headers */,
 				C4BEE7F122236F24001E6B6D /* AudioUnitBusBufferManager.hpp in Headers */,
@@ -639,6 +644,7 @@
 				C496341422238CFA001D1F5B /* LowPassFilterFramework.h in Headers */,
 				BD63B15324AE21E60015236D /* LFO.hpp in Headers */,
 				BD1F7BAF249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */,
+				BDBDBB2F24AFDD0F003B4BFD /* WaveformGenerators.h in Headers */,
 				BDB7CE98249F7694009580D5 /* ValueChangeDetector.hpp in Headers */,
 				C4BEE7F322236F27001E6B6D /* RampingValueChangeDetector.hpp in Headers */,
 				C4BEE7F522236F27001E6B6D /* AudioUnitBusBufferManager.hpp in Headers */,

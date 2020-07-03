@@ -3,6 +3,7 @@
 #include <cmath>
 
 #include "LFO.hpp"
+#include "WaveformGenerators.h"
 
 LFO::LFO(WaveGenerator const& generator)
 : reference_(), samples_(nullptr), size_(generator.sampleCount()), phase_{0.0}, increment_{0.0}
