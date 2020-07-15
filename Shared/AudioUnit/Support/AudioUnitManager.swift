@@ -67,15 +67,16 @@ public final class AudioUnitManager {
     private var cutoffParameter: AUParameter!
     private var resonanceParameter: AUParameter!
     private var parameterObserverToken: AUParameterObserverToken!
+
     private let componentDescription = AudioComponentDescription(
         componentType: kAudioUnitType_Effect,
-        componentSubType: 0x666c7472,
-        componentManufacturer: 0x44656d6f,
+        componentSubType: FourCharCode(stringLiteral: "lpas"),
+        componentManufacturer: FourCharCode(stringLiteral: "BRay"),
         componentFlags: 0,
         componentFlagsMask: 0
     )
 
-    private let componentName = "BRH: LowPassFilter"
+    private let componentName = "B-Ray: Low-pass"
     private let playEngine = SimplePlayEngine()
 
     /**
@@ -87,13 +88,15 @@ public final class AudioUnitManager {
         AUAudioUnit.registerSubclass(FilterAudioUnit.self, as: componentDescription, name: componentName,
                                      version: UInt32.max)
 
-        AVAudioUnit.instantiate(with: componentDescription) { audioUnit, error in
-            guard error == nil, let audioUnit = audioUnit else {
+        AVAudioUnit.instantiate(with: componentDescription, options: []) { avAudioUnit, error in
+            guard error == nil, let avAudioUnit = avAudioUnit else {
                 fatalError("Could not instantiate audio unit: \(String(describing: error))")
             }
-            self.audioUnit = audioUnit.auAudioUnit as? FilterAudioUnit
+
+            self.audioUnit = avAudioUnit.auAudioUnit as? FilterAudioUnit
+            self.viewController.audioUnit = self.audioUnit
             self.connectParametersToControls()
-            self.playEngine.connectEffect(audioUnit: audioUnit)
+            self.playEngine.connectEffect(audioUnit: avAudioUnit)
         }
     }
 }

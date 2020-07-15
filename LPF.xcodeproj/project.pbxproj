@@ -15,8 +15,8 @@
 		BD49661724A35D8900A81F0B /* FourCharCode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */; };
 		BD63B15024AE21E60015236D /* LFO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BD63B14E24AE21E60015236D /* LFO.cpp */; };
 		BD63B15124AE21E60015236D /* LFO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BD63B14E24AE21E60015236D /* LFO.cpp */; };
-		BD63B15224AE21E60015236D /* LFO.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BD63B14F24AE21E60015236D /* LFO.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
-		BD63B15324AE21E60015236D /* LFO.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BD63B14F24AE21E60015236D /* LFO.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		BD63B15224AE21E60015236D /* LFO.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BD63B14F24AE21E60015236D /* LFO.hpp */; };
+		BD63B15324AE21E60015236D /* LFO.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BD63B14F24AE21E60015236D /* LFO.hpp */; };
 		BD63B15424AE25F80015236D /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = BD49661924A3605800A81F0B /* LICENSE.md */; };
 		BD63B15524AE25F80015236D /* APPLE_LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = F14BFD10F14BCC1000000001 /* APPLE_LICENSE.txt */; };
 		BD63B15624AE26020015236D /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = BD49661924A3605800A81F0B /* LICENSE.md */; };
@@ -205,6 +205,19 @@
 
 /* Begin PBXFileReference section */
 		7E56CF207E56CEE000000001 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; wrapsLines = 1; };
+		BD16FF1A24BEF50C0015F392 /* LowPassFilterAudioUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LowPassFilterAudioUnit.h; sourceTree = "<group>"; };
+		BD16FF1B24BEF50C0015F392 /* LowPassFilterAudioUnit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LowPassFilterAudioUnit.m; sourceTree = "<group>"; };
+		BD16FF1F24BEF50C0015F392 /* DSPKernel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DSPKernel.hpp; sourceTree = "<group>"; };
+		BD16FF2124BEF50C0015F392 /* DSPKernel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DSPKernel.mm; sourceTree = "<group>"; };
+		BD16FF2324BEF50C0015F392 /* BufferedAudioBus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BufferedAudioBus.hpp; sourceTree = "<group>"; };
+		BD16FF2524BEF50C0015F392 /* LowPassFilterDSPKernelAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LowPassFilterDSPKernelAdapter.h; sourceTree = "<group>"; };
+		BD16FF2624BEF50C0015F392 /* LowPassFilterDSPKernel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LowPassFilterDSPKernel.hpp; sourceTree = "<group>"; };
+		BD16FF2824BEF50C0015F392 /* LowPassFilterDSPKernel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LowPassFilterDSPKernel.mm; sourceTree = "<group>"; };
+		BD16FF2B24BEF50C0015F392 /* AudioUnitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioUnitViewController.swift; sourceTree = "<group>"; };
+		BD16FF2D24BEF50C0015F392 /* LowPassFilter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LowPassFilter-Bridging-Header.h"; sourceTree = "<group>"; };
+		BD16FF2F24BEF50C0015F392 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AudioUnitViewController.xib; sourceTree = "<group>"; };
+		BD16FF3124BEF50C0015F392 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BD16FF3224BEF50C0015F392 /* LowPassFilter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LowPassFilter.entitlements; sourceTree = "<group>"; };
 		BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BiquadFilter.cpp; sourceTree = "<group>"; };
 		BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BiquadFilter.hpp; sourceTree = "<group>"; };
 		BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FourCharCode+Extensions.swift"; sourceTree = "<group>"; };
@@ -360,6 +373,58 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BD16FF1824BEF50C0015F392 /* LowPassFilter */ = {
+			isa = PBXGroup;
+			children = (
+				BD16FF2D24BEF50C0015F392 /* LowPassFilter-Bridging-Header.h */,
+				BD16FF2E24BEF50C0015F392 /* AudioUnitViewController.xib */,
+				BD16FF3124BEF50C0015F392 /* Info.plist */,
+				BD16FF3224BEF50C0015F392 /* LowPassFilter.entitlements */,
+				BD16FF1924BEF50C0015F392 /* Audio Unit */,
+				BD16FF1D24BEF50C0015F392 /* DSP */,
+				BD16FF2A24BEF50C0015F392 /* UI */,
+			);
+			path = LowPassFilter;
+			sourceTree = "<group>";
+		};
+		BD16FF1924BEF50C0015F392 /* Audio Unit */ = {
+			isa = PBXGroup;
+			children = (
+				BD16FF1A24BEF50C0015F392 /* LowPassFilterAudioUnit.h */,
+				BD16FF1B24BEF50C0015F392 /* LowPassFilterAudioUnit.m */,
+			);
+			path = "Audio Unit";
+			sourceTree = "<group>";
+		};
+		BD16FF1D24BEF50C0015F392 /* DSP */ = {
+			isa = PBXGroup;
+			children = (
+				BD16FF2624BEF50C0015F392 /* LowPassFilterDSPKernel.hpp */,
+				BD16FF2824BEF50C0015F392 /* LowPassFilterDSPKernel.mm */,
+				BD16FF1E24BEF50C0015F392 /* Helpers */,
+			);
+			path = DSP;
+			sourceTree = "<group>";
+		};
+		BD16FF1E24BEF50C0015F392 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				BD16FF1F24BEF50C0015F392 /* DSPKernel.hpp */,
+				BD16FF2124BEF50C0015F392 /* DSPKernel.mm */,
+				BD16FF2324BEF50C0015F392 /* BufferedAudioBus.hpp */,
+				BD16FF2524BEF50C0015F392 /* LowPassFilterDSPKernelAdapter.h */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		BD16FF2A24BEF50C0015F392 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				BD16FF2B24BEF50C0015F392 /* AudioUnitViewController.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		BD49661824A35F3900A81F0B /* Class Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -410,6 +475,7 @@
 				C4BEE7B622236A58001E6B6D /* macOS */,
 				C4BEE7D522236E99001E6B6D /* Shared */,
 				BD95147624A08BB600D8024C /* macOSFrameworkTests */,
+				BD16FF1824BEF50C0015F392 /* LowPassFilter */,
 				C437FE3B222367A6008D6C09 /* Products */,
 				C4BEE81822237394001E6B6D /* Frameworks */,
 			);
@@ -549,13 +615,13 @@
 				C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.hpp */,
 				C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */,
 				BD63B14F24AE21E60015236D /* LFO.hpp */,
-				BDBDBB2D24AFDD0F003B4BFD /* WaveformGenerators.h */,
 				BD63B14E24AE21E60015236D /* LFO.cpp */,
 				BDE2CDEF24A3DE9F004AC8FA /* Logging.swift */,
 				BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */,
 				BDB7CE99249FC026009580D5 /* Preset.swift */,
 				C4BEE7E522236E99001E6B6D /* RampingValueChangeDetector.hpp */,
 				BDB7CE96249F7209009580D5 /* ValueChangeDetector.hpp */,
+				BDBDBB2D24AFDD0F003B4BFD /* WaveformGenerators.h */,
 				BD49661824A35F3900A81F0B /* Class Extensions */,
 				C4DCBAD5223ADE79000D9CB3 /* Audio */,
 			);
@@ -1070,6 +1136,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		BD16FF2E24BEF50C0015F392 /* AudioUnitViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BD16FF2F24BEF50C0015F392 /* Base */,
+			);
+			name = AudioUnitViewController.xib;
+			sourceTree = "<group>";
+		};
 		C4BEE7A722236A29001E6B6D /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1218,7 +1292,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200629101807;
+				CURRENT_PROJECT_VERSION = 20200715133601;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1236,7 +1310,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
@@ -1288,7 +1362,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200629101807;
+				CURRENT_PROJECT_VERSION = 20200715133601;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1307,7 +1381,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.appex;
@@ -1360,7 +1434,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200629101807;
+				CURRENT_PROJECT_VERSION = 20200715133601;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
@@ -1384,7 +1458,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.framework;
@@ -1441,7 +1515,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200629101807;
+				CURRENT_PROJECT_VERSION = 20200715133601;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1460,7 +1534,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
@@ -1511,7 +1585,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200629101807;
+				CURRENT_PROJECT_VERSION = 20200715133601;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1531,7 +1605,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.appex;
@@ -1583,7 +1657,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200629101807;
+				CURRENT_PROJECT_VERSION = 20200715133601;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -1608,7 +1682,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.framework;
@@ -1743,7 +1817,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200629101807;
+				CURRENT_PROJECT_VERSION = 20200715133601;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1767,7 +1841,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1819,7 +1893,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200629101807;
+				CURRENT_PROJECT_VERSION = 20200715133601;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -1849,7 +1923,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1904,7 +1978,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200629101807;
+				CURRENT_PROJECT_VERSION = 20200715133601;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1929,7 +2003,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1984,7 +2058,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200629101807;
+				CURRENT_PROJECT_VERSION = 20200715133601;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -2009,7 +2083,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2061,7 +2135,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200629101807;
+				CURRENT_PROJECT_VERSION = 20200715133601;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2092,7 +2166,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2148,7 +2222,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200629101807;
+				CURRENT_PROJECT_VERSION = 20200715133601;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -2174,7 +2248,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
