@@ -22,6 +22,7 @@
 		BD63B15624AE26020015236D /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = BD49661924A3605800A81F0B /* LICENSE.md */; };
 		BD63B15724AE26020015236D /* APPLE_LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = F14BFD10F14BCC1000000001 /* APPLE_LICENSE.txt */; };
 		BD63B15924AE26D40015236D /* LFOTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD63B15824AE26D40015236D /* LFOTests.mm */; };
+		BD78FDC224C2F6530091A854 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD78FDC124C2F6530091A854 /* MainWindowController.swift */; };
 		BD938B5024A6BC1F00892358 /* BiquadFilterTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD938B4F24A6BC1F00892358 /* BiquadFilterTests.mm */; };
 		BD938B5724A781C200892358 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
 		BD95146B24A028E700D8024C /* AudioUnitBusBufferManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */; };
@@ -225,6 +226,7 @@
 		BD63B14E24AE21E60015236D /* LFO.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LFO.cpp; sourceTree = "<group>"; };
 		BD63B14F24AE21E60015236D /* LFO.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LFO.hpp; sourceTree = "<group>"; };
 		BD63B15824AE26D40015236D /* LFOTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LFOTests.mm; sourceTree = "<group>"; };
+		BD78FDC124C2F6530091A854 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		BD938B4F24A6BC1F00892358 /* BiquadFilterTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BiquadFilterTests.mm; sourceTree = "<group>"; };
 		BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioUnitBusBufferManager.mm; sourceTree = "<group>"; };
 		BD95147524A08BB600D8024C /* macOSFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = macOSFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -582,6 +584,7 @@
 			children = (
 				C4BEE7C922236A58001E6B6D /* AppDelegate.swift */,
 				C4BEE80822237078001E6B6D /* MainViewController.swift */,
+				BD78FDC124C2F6530091A854 /* MainWindowController.swift */,
 				C4BEE7C722236A58001E6B6D /* Main.storyboard */,
 				C4BEE7C622236A58001E6B6D /* Assets.xcassets */,
 				C4BEE7CA22236A58001E6B6D /* Info.plist */,
@@ -1064,6 +1067,7 @@
 			files = (
 				C4BEE7D322236A58001E6B6D /* AppDelegate.swift in Sources */,
 				C4BEE80922237078001E6B6D /* MainViewController.swift in Sources */,
+				BD78FDC224C2F6530091A854 /* MainWindowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

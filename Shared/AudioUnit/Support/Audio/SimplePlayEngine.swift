@@ -22,6 +22,8 @@ final class SimplePlayEngine {
     
     private let midiOutBlock: AUMIDIOutputEventBlock = { sampleTime, cable, length, data in return noErr }
 
+    public var isPlaying: Bool { player.isPlaying }
+
     /**
      Create new audio processing setup, with an audio file player connected directly to the mixer for the main
      output device.

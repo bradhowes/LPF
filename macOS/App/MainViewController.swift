@@ -5,23 +5,14 @@ import AVFoundation
 import LowPassFilterFramework
 
 final class MainViewController: NSViewController {
-    let componentDescription = AudioComponentDescription(
-        componentType: kAudioUnitType_Effect,
-        componentSubType: FourCharCode(stringLiteral: "lpas"),
-        componentManufacturer: FourCharCode(stringLiteral: "BRay"),
-        componentFlags: 0,
-        componentFlagsMask: 0
-    )
-
-    private let componentName = "B-Ray: Low-pass"
 
     private let cutoffSliderMinValue = 0.0
     private let cutoffSliderMaxValue = 9.0
     private lazy var cutoffSliderMaxValuePower2Minus1 = Float(pow(2, cutoffSliderMaxValue) - 1)
 
-    lazy var audioUnitManager = AudioUnitManager(componentDescription: self.componentDescription)
+    private let audioUnitManager = AudioUnitManager(componentDescription: FilterAudioUnit.componentDescription)
 
-    @IBOutlet var playButton: NSButton!
+    private var playButton: NSButton?
 
     @IBOutlet var cutoffSlider: NSSlider!
     @IBOutlet var cutoffTextField: NSTextField!
@@ -31,19 +22,28 @@ final class MainViewController: NSViewController {
 
     @IBOutlet var containerView: NSView!
 
+    var windowController: MainWindowController? {
+        self.view.window?.windowController as? MainWindowController
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         audioUnitManager.delegate = self
+        cutoffSlider.minValue = cutoffSliderMinValue
+        cutoffSlider.maxValue = cutoffSliderMaxValue
     }
 
     override func viewWillAppear() {
         super.viewWillAppear()
         view.window?.delegate = self
-        cutoffSlider.minValue = cutoffSliderMinValue
-        cutoffSlider.maxValue = cutoffSliderMaxValue
+        playButton = windowController?.playButton
     }
 
-    @IBAction private func togglePlay(_ sender: NSButton) { audioUnitManager.togglePlayback() }
+    @IBAction private func togglePlay(_ sender: NSButton) {
+        audioUnitManager.togglePlayback()
+        playButton?.state = audioUnitManager.isPlaying ? .on : .off
+        playButton?.title = audioUnitManager.isPlaying ? "Stop" : "Play"
+    }
 
     @IBAction private func cutoffSliderValueChanged(_ sender: NSSlider) {
         audioUnitManager.cutoffValue = frequencyValueForSliderLocation(sender.floatValue)

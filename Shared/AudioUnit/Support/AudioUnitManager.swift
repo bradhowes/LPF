@@ -89,6 +89,8 @@ public final class AudioUnitManager {
     private var parameterObserverToken: AUParameterObserverToken!
 
     private let playEngine = SimplePlayEngine()
+    public var isPlaying: Bool { playEngine.isPlaying }
+
     private var observationToken: NSObjectProtocol?
 
     private let componentDescription: AudioComponentDescription

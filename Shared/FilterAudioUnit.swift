@@ -11,6 +11,16 @@ import CoreAudioKit
  */
 public final class FilterAudioUnit: AUAudioUnit {
 
+    public static let componentDescription = AudioComponentDescription(
+        componentType: kAudioUnitType_Effect,
+        componentSubType: FourCharCode(stringLiteral: "lpas"),
+        componentManufacturer: FourCharCode(stringLiteral: "BRay"),
+        componentFlags: 0,
+        componentFlagsMask: 0
+    )
+
+    public static let componentName = "B-Ray: Low-pass"
+
     public weak var viewController: FilterViewController?
 
     private let parameterDefinitions: FilterParameters
