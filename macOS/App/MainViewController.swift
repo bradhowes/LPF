@@ -1,14 +1,27 @@
 // Copyright © 2020 Brad Howes. All rights reserved.
 
 import Cocoa
+import AVFoundation
 import LowPassFilterFramework
 
 final class MainViewController: NSViewController {
+    let componentDescription = AudioComponentDescription(
+        componentType: kAudioUnitType_Effect,
+        componentSubType: FourCharCode(stringLiteral: "lpas"),
+        componentManufacturer: FourCharCode(stringLiteral: "BRay"),
+        componentFlags: 0,
+        componentFlagsMask: 0
+    )
 
-    let audioUnitManager = AudioUnitManager()
+    private let componentName = "B-Ray: Low-pass"
+
+    private let cutoffSliderMinValue = 0.0
+    private let cutoffSliderMaxValue = 9.0
+    private lazy var cutoffSliderMaxValuePower2Minus1 = Float(pow(2, cutoffSliderMaxValue) - 1)
+
+    lazy var audioUnitManager = AudioUnitManager(componentDescription: self.componentDescription)
 
     @IBOutlet var playButton: NSButton!
-    @IBOutlet var toggleButton: NSButton!
 
     @IBOutlet var cutoffSlider: NSSlider!
     @IBOutlet var cutoffTextField: NSTextField!
@@ -20,14 +33,14 @@ final class MainViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        embedPlugInView()
-        populatePresetMenu()
         audioUnitManager.delegate = self
     }
 
     override func viewWillAppear() {
         super.viewWillAppear()
         view.window?.delegate = self
+        cutoffSlider.minValue = cutoffSliderMinValue
+        cutoffSlider.maxValue = cutoffSliderMaxValue
     }
 
     @IBAction private func togglePlay(_ sender: NSButton) { audioUnitManager.togglePlayback() }
@@ -42,16 +55,6 @@ final class MainViewController: NSViewController {
 }
 
 private extension MainViewController {
-
-    private func embedPlugInView() {
-        guard let controller = audioUnitManager.viewController else {
-            fatalError("Could not load audio unit's view controller.")
-        }
-
-        addChild(controller)
-        containerView.addSubview(controller.view)
-        controller.view.pinToSuperviewEdges()
-    }
 
     private func populatePresetMenu() {
         guard let presetMenu = NSApplication.shared.mainMenu?.item(withTag: 666)?.submenu else { return }
@@ -77,8 +80,14 @@ private extension MainViewController {
 
     private func logValueForNumber(_ number: Float) -> Float { log(number) / log(2) }
 
+    private func sliderLocationForFrequencyValue(_ frequency: Float) -> Float {
+        log(((frequency - FilterView.hertzMin) / (FilterView.hertzMax - FilterView.hertzMin)) *
+            cutoffSliderMaxValuePower2Minus1 + 1.0) / log(2)
+    }
+
     private func frequencyValueForSliderLocation(_ location: Float) -> Float {
-        ((pow(2, location) - 1) / 511) * (FilterView.hertzMax - FilterView.hertzMin) + FilterView.hertzMin
+        ((pow(2, location) - 1) / cutoffSliderMaxValuePower2Minus1) * (FilterView.hertzMax - FilterView.hertzMin) +
+            FilterView.hertzMin
     }
 }
 
@@ -88,9 +97,24 @@ extension MainViewController: NSWindowDelegate {
 
 extension MainViewController: AudioUnitManagerDelegate {
 
+    func audioUnitCutoffParameter(_ parameter: AUParameter) {
+    }
+
+    func audioUnitResonanceParameter(_ parameter: AUParameter) {
+        resonanceSlider.minValue = Double(parameter.minValue)
+        resonanceSlider.maxValue = Double(parameter.maxValue)
+    }
+
+    func audioUnitViewController(_ viewController: NSViewController?) {
+        guard let viewController = viewController else { return }
+        addChild(viewController)
+        containerView.addSubview(viewController.view)
+        viewController.view.pinToSuperviewEdges()
+        populatePresetMenu()
+    }
+
     func cutoffValueDidChange(_ value: Float) {
-        let normalizedValue = ((value - FilterView.hertzMin) / (FilterView.hertzMax - FilterView.hertzMin)) * 511.0 + 1.0
-        cutoffSlider.floatValue = Float(logValueForNumber(normalizedValue))
+        cutoffSlider.floatValue = sliderLocationForFrequencyValue(value)
         cutoffTextField.text = String(format: "%.f", value)
     }
 

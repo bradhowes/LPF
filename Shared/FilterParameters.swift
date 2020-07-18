@@ -27,7 +27,7 @@ public final class FilterParameters: NSObject {
     let resonanceParam: AUParameter = {
         let param = AUParameterTree.createParameter(
             withIdentifier: "resonance", name: "Resonance", address: FilterParameterAddress.resonance.rawValue,
-            min: -20.0, max: 20.0, unit: .decibels, unitName: nil,
+            min: -20.0, max: 40.0, unit: .decibels, unitName: nil,
             flags: [.flag_IsReadable, .flag_IsWritable, .flag_CanRamp], valueStrings: nil, dependentParameters: nil)
         param.value = 5.0
         return param

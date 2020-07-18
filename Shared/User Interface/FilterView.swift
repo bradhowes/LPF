@@ -61,7 +61,7 @@ public final class FilterView: View {
     public static let hertzScale = log2f(hertzMax / hertzMin)
 
     public static let gainMin = Float(-20)
-    public static let gainMax = Float(20)
+    public static let gainMax = Float(40)
     public static let gainRange = gainMin...gainMax
     public static let gainSpan = gainMax - gainMin
 
@@ -116,6 +116,8 @@ public final class FilterView: View {
     override public var isFlipped: Bool { return true }
     #endif
 
+    private let numVerticalTicks: Int = 7
+
     /// Width of the area to the left of the graph that shows dB labels
     /// TODO: determine the right size at runtime
     private let yAxisWidth: CGFloat = 40.0
@@ -164,6 +166,8 @@ public final class FilterView: View {
         #endif
     }
 
+    public override var intrinsicContentSize: NSSize { CGSize(width: 600, height: 400) }
+
     override public func awakeFromNib() {
         super.awakeFromNib()
 
@@ -205,19 +209,18 @@ public final class FilterView: View {
         #endif
     }
 
-    #if os(macOS)
-    override public func setFrameSize(_ newSize: NSSize) {
-        super.setFrameSize(newSize)
-        layoutSublayers(of: rootLayer)
-    }
-    #endif
-
     #if os(iOS)
+
     override public func layoutSublayers(of layer: CALayer) {
         performLayout(of: layer)
     }
 
     #elseif os(macOS)
+
+    override public func setFrameSize(_ newSize: NSSize) {
+        super.setFrameSize(newSize)
+        layoutSublayers(of: rootLayer)
+    }
 
     func layoutSublayers(of layer: CALayer) {
         performLayout(of: layer)
@@ -388,21 +391,6 @@ extension FilterView {
         createVerticalAxisElements()
     }
 
-    private var numVerticalTicks: Int {
-        let height = gridLayer.bounds.height
-        var numTicks = Int(floor(height / 40.0))
-        if numTicks > Int(Self.gainSpan / 2.0) {
-            numTicks = Int(Self.gainSpan / 2.0)
-        }
-        if numTicks % 1 == 0 {
-            numTicks -= 1
-        }
-        if numTicks < 3 {
-            numTicks = 3
-        }
-        return numTicks
-    }
-
     private func createVerticalAxisElements() {
         let numTicks = numVerticalTicks
         let spacing = gridLayer.bounds.height / CGFloat(numTicks - 1)
@@ -505,7 +493,7 @@ extension FilterView {
         CATransaction.noAnimation {
             layers.forEach {
                 $0.frame = {
-                    switch $0.name! {
+                    switch $0 {
                     case "pos": return CGRect(x: pos.x - controlRadius, y: pos.y - controlRadius,
                                               width: diameter, height: diameter)
                     case "hdot": return CGRect(x: pos.x - controlRadius, y: height - controlRadius,
@@ -517,13 +505,14 @@ extension FilterView {
                                                 height: height - pos.y)
                     default: return .zero
                     }
-                }($0)
+                }($0.name)
             }
         }
     }
 }
 
 extension FilterView {
+
     private func performLayout(of layer: CALayer) {
         // Resize layers and remake the response curve
         guard layer === rootLayer else { return }
