@@ -5,5 +5,5 @@ import Cocoa
 final class MainWindowController: NSWindowController {
 
     @IBOutlet public weak var playButton: NSButton!
-
+    
 }

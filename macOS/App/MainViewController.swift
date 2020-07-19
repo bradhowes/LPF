@@ -13,6 +13,7 @@ final class MainViewController: NSViewController {
     private let audioUnitManager = AudioUnitManager(componentDescription: FilterAudioUnit.componentDescription)
 
     private var playButton: NSButton?
+    private var playMenuItem: NSMenuItem?
 
     @IBOutlet var cutoffSlider: NSSlider!
     @IBOutlet var cutoffTextField: NSTextField!
@@ -22,9 +23,8 @@ final class MainViewController: NSViewController {
 
     @IBOutlet var containerView: NSView!
 
-    var windowController: MainWindowController? {
-        self.view.window?.windowController as? MainWindowController
-    }
+    private var windowController: MainWindowController? { view.window?.windowController as? MainWindowController }
+    private var appDelegate: AppDelegate? { NSApplication.shared.delegate as? AppDelegate }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,12 +37,14 @@ final class MainViewController: NSViewController {
         super.viewWillAppear()
         view.window?.delegate = self
         playButton = windowController?.playButton
+        playMenuItem = appDelegate?.playMenuItem
     }
 
     @IBAction private func togglePlay(_ sender: NSButton) {
         audioUnitManager.togglePlayback()
         playButton?.state = audioUnitManager.isPlaying ? .on : .off
         playButton?.title = audioUnitManager.isPlaying ? "Stop" : "Play"
+        playMenuItem?.title = audioUnitManager.isPlaying ? "Stop" : "Play"
     }
 
     @IBAction private func cutoffSliderValueChanged(_ sender: NSSlider) {
