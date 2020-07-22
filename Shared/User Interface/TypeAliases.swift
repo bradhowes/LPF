@@ -13,6 +13,7 @@ public typealias Font = UIFont
 public typealias Storyboard = UIStoryboard
 
 public typealias View = UIView
+public typealias ViewController = UIViewController
 public typealias TextField = UITextField
 public typealias Label = UILabel
 public typealias Button = UIButton
@@ -26,6 +27,7 @@ public typealias Font = NSFont
 public typealias Storyboard = NSStoryboard
 
 public typealias View = NSView
+public typealias ViewController = NSViewController
 public typealias TextField = NSTextField
 public typealias Label = NSTextField
 public typealias Button = NSButton

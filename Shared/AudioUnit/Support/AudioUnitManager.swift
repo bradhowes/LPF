@@ -8,7 +8,7 @@ import AVFoundation
  */
 public protocol AudioUnitManagerDelegate: AnyObject {
 
-    func audioUnitViewController(_ viewController: NSViewController?)
+    func audioUnitViewController(_ viewController: ViewController?)
 
     func audioUnitCutoffParameter(_ parameter: AUParameter)
 

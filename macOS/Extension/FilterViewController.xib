@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16097" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.2"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -12,19 +12,19 @@
             </connections>
         </customObject>
         <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hz6-mo-xeY" userLabel="AUv3 FilterView">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="400"/>
+            <rect key="frame" x="0.0" y="0.0" width="326" height="225"/>
             <subviews>
                 <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oPI-wC-N8q" customClass="FilterView" customModule="LowPassFilterFramework">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="400"/>
+                    <rect key="frame" x="0.0" y="0.0" width="326" height="225"/>
                 </customView>
             </subviews>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="oPI-wC-N8q" secondAttribute="bottom" id="Fh2-nF-8uG"/>
-                <constraint firstItem="oPI-wC-N8q" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="lbS-fj-A1T"/>
-                <constraint firstAttribute="trailing" secondItem="oPI-wC-N8q" secondAttribute="trailing" id="pXe-i5-8Fv"/>
-                <constraint firstItem="oPI-wC-N8q" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="pvK-0e-f1o"/>
+                <constraint firstAttribute="trailing" secondItem="oPI-wC-N8q" secondAttribute="trailing" id="Mtl-GQ-wds"/>
+                <constraint firstItem="oPI-wC-N8q" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="RyV-Fk-fJv"/>
+                <constraint firstItem="oPI-wC-N8q" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="XW1-Gf-UAO"/>
+                <constraint firstAttribute="bottom" secondItem="oPI-wC-N8q" secondAttribute="bottom" id="m43-sw-xoe"/>
             </constraints>
-            <point key="canvasLocation" x="200" y="-75"/>
+            <point key="canvasLocation" x="63" y="-162.5"/>
         </customView>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>

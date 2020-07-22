@@ -109,9 +109,18 @@ extension MainViewController: AudioUnitManagerDelegate {
 
     func audioUnitViewController(_ viewController: NSViewController?) {
         guard let viewController = viewController else { return }
+        let filterView = viewController.view
+        containerView.addSubview(filterView)
         addChild(viewController)
-        containerView.addSubview(viewController.view)
-        viewController.view.pinToSuperviewEdges()
+
+        filterView.frame = containerView.bounds
+
+        filterView.translatesAutoresizingMaskIntoConstraints = false
+        filterView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
+        filterView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
+        filterView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+        filterView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+
         populatePresetMenu()
     }
 

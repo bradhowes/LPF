@@ -28,17 +28,17 @@
 			<array>
 				<dict>
 					<key>description</key>
-					<string>LowPassFilter</string>
+					<string>LPF</string>
 					<key>factoryFunction</key>
-					<string>$(PRODUCT_MODULE_NAME).FilterViewController</string>
+					<string>LowPassFilterFramework.FilterViewController</string>
 					<key>manufacturer</key>
-					<string>bray</string>
+					<string>BRay</string>
 					<key>name</key>
-					<string>bray:LPF</string>
+					<string>B-Ray: Low-pass</string>
 					<key>sandboxSafe</key>
 					<true/>
 					<key>subtype</key>
-					<string>fltr</string>
+					<string>lpas</string>
 					<key>tags</key>
 					<array>
 						<string>Effects</string>

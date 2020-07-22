@@ -166,7 +166,7 @@ public final class FilterView: View {
         #endif
     }
 
-    public override var intrinsicContentSize: NSSize { CGSize(width: 600, height: 400) }
+//    public override var intrinsicContentSize: Size { CGSize(width: 600, height: 400) }
 
     override public func awakeFromNib() {
         super.awakeFromNib()
