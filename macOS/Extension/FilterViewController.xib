@@ -16,11 +16,11 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oPI-wC-N8q" customClass="FilterView" customModule="LowPassFilterFramework">
-                    <rect key="frame" x="0.0" y="0.0" width="326" height="225"/>
+                    <rect key="frame" x="0.0" y="0.0" width="318" height="225"/>
                 </customView>
             </subviews>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="oPI-wC-N8q" secondAttribute="trailing" id="Mtl-GQ-wds"/>
+                <constraint firstAttribute="trailing" secondItem="oPI-wC-N8q" secondAttribute="trailing" constant="8" id="Mtl-GQ-wds"/>
                 <constraint firstItem="oPI-wC-N8q" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="RyV-Fk-fJv"/>
                 <constraint firstItem="oPI-wC-N8q" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="XW1-Gf-UAO"/>
                 <constraint firstAttribute="bottom" secondItem="oPI-wC-N8q" secondAttribute="bottom" id="m43-sw-xoe"/>
