@@ -22,6 +22,7 @@ final class MainViewController: NSViewController {
     @IBOutlet var resonanceTextField: NSTextField!
 
     @IBOutlet var containerView: NSView!
+    private var filterView: NSView?
 
     private var windowController: MainWindowController? { view.window?.windowController as? MainWindowController }
     private var appDelegate: AppDelegate? { NSApplication.shared.delegate as? AppDelegate }
@@ -38,6 +39,12 @@ final class MainViewController: NSViewController {
         view.window?.delegate = self
         playButton = windowController?.playButton
         playMenuItem = appDelegate?.playMenuItem
+    }
+
+    override func viewDidLayout() {
+        super.viewDidLayout()
+        guard let filterView = filterView else { return }
+        filterView.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: containerView.frame.size)
     }
 
     @IBAction private func togglePlay(_ sender: NSButton) {
@@ -109,17 +116,10 @@ extension MainViewController: AudioUnitManagerDelegate {
 
     func audioUnitViewController(_ viewController: NSViewController?) {
         guard let viewController = viewController else { return }
-        let filterView = viewController.view
-        containerView.addSubview(filterView)
+        filterView = viewController.view
+        containerView.addSubview(filterView!)
         addChild(viewController)
-
-        filterView.frame.size = containerView.bounds.size
-
-        filterView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
-        filterView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
-        filterView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
-        filterView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
-
+        view.needsLayout = true
         populatePresetMenu()
     }
 
