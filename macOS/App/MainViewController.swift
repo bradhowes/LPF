@@ -113,9 +113,8 @@ extension MainViewController: AudioUnitManagerDelegate {
         containerView.addSubview(filterView)
         addChild(viewController)
 
-        filterView.frame = containerView.bounds
+        filterView.frame.size = containerView.bounds.size
 
-        filterView.translatesAutoresizingMaskIntoConstraints = false
         filterView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
         filterView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
         filterView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true

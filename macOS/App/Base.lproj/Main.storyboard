@@ -229,18 +229,9 @@
                                                 <action selector="resonanceSliderValueChanged:" target="XfG-lQ-9wD" id="LlT-VI-6f7"/>
                                             </connections>
                                         </slider>
-                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jzG-Lt-RF2" userLabel="APP_VERSION">
-                                            <rect key="frame" x="18" y="44" width="33" height="14"/>
-                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Label" id="0K1-pt-DFp">
-                                                <font key="font" metaFont="message" size="11"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            </textFieldCell>
-                                        </textField>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="R8U-qk-iuM" firstAttribute="centerY" secondItem="95k-cc-122" secondAttribute="centerY" id="15P-rW-6Ms"/>
-                                        <constraint firstItem="MeH-hB-FRB" firstAttribute="top" secondItem="jzG-Lt-RF2" secondAttribute="bottom" constant="12" id="5mw-13-Dnm"/>
                                         <constraint firstAttribute="trailing" secondItem="MX2-fm-3rT" secondAttribute="trailing" constant="20" id="B4g-wr-ABW"/>
                                         <constraint firstItem="veU-X7-Bd9" firstAttribute="centerY" secondItem="78S-15-HAR" secondAttribute="centerY" id="GE7-4u-SeA"/>
                                         <constraint firstItem="78S-15-HAR" firstAttribute="leading" secondItem="R8U-qk-iuM" secondAttribute="trailing" constant="8" id="HNc-VC-Bub"/>
@@ -254,13 +245,11 @@
                                         <constraint firstItem="MX2-fm-3rT" firstAttribute="leading" secondItem="5TQ-m1-Rzx" secondAttribute="trailing" constant="12" id="dxZ-rS-Y9y"/>
                                         <constraint firstItem="25o-BP-DCr" firstAttribute="leading" secondItem="MeH-hB-FRB" secondAttribute="trailing" constant="8" id="exT-an-7PR"/>
                                         <constraint firstItem="95k-cc-122" firstAttribute="trailing" secondItem="MeH-hB-FRB" secondAttribute="trailing" id="hu0-zs-GFq"/>
-                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="jzG-Lt-RF2" secondAttribute="trailing" constant="8" id="j76-0z-6eI"/>
                                         <constraint firstItem="5TQ-m1-Rzx" firstAttribute="centerY" secondItem="25o-BP-DCr" secondAttribute="centerY" id="l6x-vR-csa"/>
                                         <constraint firstItem="MeH-hB-FRB" firstAttribute="leading" secondItem="b4b-Oa-AOn" secondAttribute="leading" constant="20" id="pgi-1m-kex"/>
                                         <constraint firstItem="MX2-fm-3rT" firstAttribute="centerY" secondItem="5TQ-m1-Rzx" secondAttribute="centerY" id="tVD-Vh-qlO"/>
                                         <constraint firstAttribute="trailing" secondItem="veU-X7-Bd9" secondAttribute="trailing" constant="20" id="uSd-wZ-Cb2"/>
                                         <constraint firstItem="5TQ-m1-Rzx" firstAttribute="leading" secondItem="25o-BP-DCr" secondAttribute="trailing" constant="8" id="ujD-G6-Ktr"/>
-                                        <constraint firstItem="jzG-Lt-RF2" firstAttribute="leading" secondItem="b4b-Oa-AOn" secondAttribute="leading" constant="20" id="vIn-hS-lpn"/>
                                         <constraint firstItem="veU-X7-Bd9" firstAttribute="leading" secondItem="78S-15-HAR" secondAttribute="trailing" constant="12" id="xQK-Sm-GaF"/>
                                     </constraints>
                                 </view>
@@ -271,12 +260,23 @@
                             <customView autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AVM-k6-jTo" userLabel="Content View">
                                 <rect key="frame" x="10" y="10" width="460" height="268"/>
                             </customView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jzG-Lt-RF2">
+                                <rect key="frame" x="6" y="392" width="33" height="14"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="v1.1.5" id="0K1-pt-DFp" userLabel="APP_VERSION">
+                                    <font key="font" metaFont="message" size="11"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="AVM-k6-jTo" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="10" id="3f5-lk-ZZb"/>
+                            <constraint firstItem="jzG-Lt-RF2" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="8" id="Bzc-ue-cgC"/>
                             <constraint firstAttribute="bottom" secondItem="AVM-k6-jTo" secondAttribute="bottom" constant="10" id="Lno-1a-N0L"/>
                             <constraint firstAttribute="trailing" secondItem="AVM-k6-jTo" secondAttribute="trailing" constant="10" id="Nud-sn-hDf"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="jzG-Lt-RF2" secondAttribute="trailing" constant="20" symbolic="YES" id="OSP-cr-9Sg"/>
                             <constraint firstItem="rfi-rJ-PdE" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="mGv-Rv-Zr0"/>
+                            <constraint firstItem="jzG-Lt-RF2" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="8" id="ph0-St-zC1"/>
                             <constraint firstItem="AVM-k6-jTo" firstAttribute="top" secondItem="rfi-rJ-PdE" secondAttribute="bottom" constant="20" id="r5b-fw-3E1"/>
                             <constraint firstAttribute="trailing" secondItem="rfi-rJ-PdE" secondAttribute="trailing" constant="20" id="xgr-zl-iDR"/>
                             <constraint firstItem="rfi-rJ-PdE" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="xxy-DI-ZcZ"/>

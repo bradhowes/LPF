@@ -11,8 +11,9 @@
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
-        <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hz6-mo-xeY" userLabel="AUv3 FilterView">
+        <customView wantsLayer="YES" id="Hz6-mo-xeY" userLabel="AUv3 FilterView">
             <rect key="frame" x="0.0" y="0.0" width="326" height="225"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <customView wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oPI-wC-N8q" customClass="FilterView" customModule="LowPassFilterFramework">
                     <rect key="frame" x="0.0" y="0.0" width="326" height="225"/>
