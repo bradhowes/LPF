@@ -85,9 +85,12 @@ public final class FilterView: View {
     public var cutoff: Float {
         get { _cutoff }
         set {
-            _cutoff = newValue.clamp(to: Self.hertzRange)
-            updateIndicator()
-            delegate?.filterView(self, didChangeCutoff: cutoff)
+            let newValue = newValue.clamp(to: Self.hertzRange)
+            if newValue != _cutoff {
+                _cutoff = newValue
+                updateIndicator()
+                delegate?.filterView(self, didChangeCutoff: cutoff)
+            }
         }
     }
 
@@ -95,9 +98,12 @@ public final class FilterView: View {
     public var resonance: Float {
         get { _resonance }
         set {
-            _resonance = newValue.clamp(to: Self.gainRange)
-            updateIndicator()
-            delegate?.filterView(self, didChangeResonance: resonance)
+            let newValue = newValue.clamp(to: Self.gainRange)
+            if newValue != _resonance {
+                _resonance = newValue
+                updateIndicator()
+                delegate?.filterView(self, didChangeResonance: resonance)
+            }
         }
     }
 

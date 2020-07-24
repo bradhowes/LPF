@@ -41,11 +41,11 @@
     filter.magnitudes(frequencies, count, _kernel.nyquistPeriod(), output);
 }
 
-- (void)setParameter:(AUParameter *)parameter value:(AUValue)value {
+- (void)set:(AUParameter *)parameter value:(AUValue)value {
     _kernel.setParameterValue(parameter.address, value);
 }
 
-- (AUValue)valueOf:(AUParameter *)parameter {
+- (AUValue)get:(AUParameter *)parameter {
     return _kernel.getParameterValue(parameter.address);
 }
 

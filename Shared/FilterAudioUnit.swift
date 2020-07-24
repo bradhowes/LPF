@@ -3,6 +3,7 @@
 
 import AudioToolbox
 import CoreAudioKit
+import os
 
 /**
  Derivation of AUAudioUnit that provides a Swift container for the C++ FilterDSPKernel (by way of the Obj-C
@@ -10,6 +11,8 @@ import CoreAudioKit
  resides in the FilterDSPKernel class.
  */
 public final class FilterAudioUnit: AUAudioUnit {
+
+    private let log = Logging.logger("FilterAudioUnit")
 
     public static let componentDescription = AudioComponentDescription(
         componentType: kAudioUnitType_Effect,
@@ -23,8 +26,22 @@ public final class FilterAudioUnit: AUAudioUnit {
 
     public weak var viewController: FilterViewController?
 
-    private let parameterDefinitions: FilterParameters
+    public let parameterDefinitions: AudioUnitParameters
     private let kernelAdapter: FilterDSPKernelAdapter
+
+    private let factoryPresetValues:[(cutoff: AUValue, resonance: AUValue)] = [
+        (2500.0, 5.0),    // "Prominent"
+        (14_000.0, 12.0), // "Bright"
+        (384.0, -3.0)     // "Warm"
+    ]
+
+    private let _factoryPresets = [
+        AUAudioUnitPreset(number: 0, name: "Prominent"),
+        AUAudioUnitPreset(number: 1, name: "Bright"),
+        AUAudioUnitPreset(number: 2, name: "Warm")
+    ]
+
+    private var _currentPreset: AUAudioUnitPreset?
 
     lazy private var inputBusArray: AUAudioUnitBusArray = {
         AUAudioUnitBusArray(audioUnit: self, busType: .input, busses: [kernelAdapter.inputBus])
@@ -42,22 +59,8 @@ public final class FilterAudioUnit: AUAudioUnit {
         set { /* The sample doesn't allow this property to be modified. */ }
     }
 
-    public override var factoryPresets: [AUAudioUnitPreset] {
-        return [
-            AUAudioUnitPreset(number: 0, name: "Prominent"),
-            AUAudioUnitPreset(number: 1, name: "Bright"),
-            AUAudioUnitPreset(number: 2, name: "Warm")
-        ]
-    }
+    public override var factoryPresets: [AUAudioUnitPreset] { _factoryPresets }
 
-    private let factoryPresetValues:[(cutoff: AUValue, resonance: AUValue)] = [
-        (2500.0, 5.0),    // "Prominent"
-        (14_000.0, 12.0), // "Bright"
-        (384.0, -3.0)     // "Warm"
-    ]
-
-    private var _currentPreset: AUAudioUnitPreset?
-    
     public override var currentPreset: AUAudioUnitPreset? {
         get { return _currentPreset }
         set {
@@ -65,18 +68,20 @@ public final class FilterAudioUnit: AUAudioUnit {
                 _currentPreset = nil
                 return
             }
-            
+            os_log(.info, log: log, "applying preset %{public}s/%d", preset.name, preset.number)
             if preset.number >= 0 {
-                let values = factoryPresetValues[preset.number]
-                parameterDefinitions.setParameterValues(cutoff: values.cutoff, resonance: values.resonance)
+                os_log(.info, log: log, "using factory")
+                let settings = factoryPresetValues[preset.number]
+                parameterDefinitions.setParameterValues(cutoff: settings.cutoff, resonance: settings.resonance)
                 _currentPreset = preset
             }
             else {
+                os_log(.info, log: log, "using custom preset")
                 do {
                     fullStateForDocument = try presetState(for: preset)
                     _currentPreset = preset
                 } catch {
-                    print("Unable to restore set for preset \(preset.name)")
+                    os_log(.error, log: log, "unable to restore settings for preset %d", preset.number)
                 }
             }
         }
@@ -89,19 +94,32 @@ public final class FilterAudioUnit: AUAudioUnit {
     public override init(componentDescription: AudioComponentDescription,
                          options: AudioComponentInstantiationOptions = []) throws {
         kernelAdapter = FilterDSPKernelAdapter()
-        parameterDefinitions = FilterParameters(parameterHandler: kernelAdapter)
+        parameterDefinitions = AudioUnitParameters(parameterHandler: kernelAdapter)
         try super.init(componentDescription: componentDescription, options: options)
-        log(componentDescription)
+
+        let info = ProcessInfo.processInfo
+        os_log(.info, log: log, "process name: %{public}s PID: %d", info.processName, info.processIdentifier)
+        os_log(.info, log: log, "type: %{public}s, subtype: %{public}s, manufacturer: %{public}s flags: %x",
+               componentDescription.componentType.stringValue,
+               componentDescription.componentSubType.stringValue,
+               componentDescription.componentManufacturer.stringValue,
+               componentDescription.componentFlags)
+
         currentPreset = factoryPresets.first
     }
 
     public override func parametersForOverview(withCount: Int) -> [NSNumber] { [0, 1] }
 
     public override func supportedViewConfigurations(_ configs: [AUAudioUnitViewConfiguration]) -> IndexSet {
+        os_log(.error, log: log, "supportedViewConfigurations %d", configs.count)
+        for config in configs {
+            os_log(.error, log: log, "config: %f x %f", config.width, config.height)
+        }
         return IndexSet(0..<configs.count)
     }
 
     public override func select(_ viewConfiguration: AUAudioUnitViewConfiguration) {
+        os_log(.error, log: log, "select(viewConfiguration) %f x %f", viewConfiguration.width, viewConfiguration.height)
         super.select(viewConfiguration)
     }
 
@@ -127,21 +145,5 @@ public final class FilterAudioUnit: AUAudioUnit {
     public override func deallocateRenderResources() {
         super.deallocateRenderResources()
         kernelAdapter.deallocateRenderResources()
-    }
-
-    private func log(_ acd: AudioComponentDescription) {
-
-        let info = ProcessInfo.processInfo
-        print("\nProcess Name: \(info.processName) PID: \(info.processIdentifier)\n")
-
-        let message = """
-        FilterAudioUnit (
-        type: \(acd.componentType.stringValue)
-        subtype: \(acd.componentSubType.stringValue)
-        manufacturer: \(acd.componentManufacturer.stringValue)
-        flags: \(String(format: "%#010x", acd.componentFlags))
-        )
-        """
-        print(message)
     }
 }

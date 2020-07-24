@@ -35,4 +35,10 @@ public typealias Slider = NSSlider
 
 public var tintColor: NSColor! = NSColor.controlAccentColor.usingColorSpace(.deviceRGB)
 
+extension NSView {
+    func setNeedsDisplay() {
+        self.needsDisplay = true
+    }
+}
+
 #endif

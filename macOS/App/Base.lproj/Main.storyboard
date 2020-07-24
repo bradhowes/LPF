@@ -259,6 +259,20 @@
                             </box>
                             <customView autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AVM-k6-jTo" userLabel="Content View">
                                 <rect key="frame" x="10" y="10" width="460" height="268"/>
+                                <subviews>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iO5-GT-K4x">
+                                        <rect key="frame" x="178" y="120" width="105" height="28"/>
+                                        <textFieldCell key="cell" lineBreakMode="clipping" title="Loading…" id="fyr-Jd-O0Q">
+                                            <font key="font" metaFont="system" size="24"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="iO5-GT-K4x" firstAttribute="centerX" secondItem="AVM-k6-jTo" secondAttribute="centerX" id="jKE-HI-XiS"/>
+                                    <constraint firstItem="iO5-GT-K4x" firstAttribute="centerY" secondItem="AVM-k6-jTo" secondAttribute="centerY" id="pn7-zq-qTJ"/>
+                                </constraints>
                             </customView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jzG-Lt-RF2">
                                 <rect key="frame" x="6" y="392" width="33" height="14"/>

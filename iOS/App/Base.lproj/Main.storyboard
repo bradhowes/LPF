@@ -102,6 +102,12 @@
                                     <constraint firstItem="9rt-TL-68F" firstAttribute="leading" secondItem="qNn-m8-7L4" secondAttribute="leading" id="zvK-KJ-p9j"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading…" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="198-45-xa8">
+                                <rect key="frame" x="129.5" y="380.5" width="116.5" height="33.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="68k-M7-cHK">
                                 <rect key="frame" x="8" y="127.5" width="359" height="539.5"/>
                             </containerView>
@@ -114,7 +120,9 @@
                             <constraint firstItem="YiJ-1a-ELQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Xaf-2D-B6b"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="68k-M7-cHK" secondAttribute="bottom" id="f0O-Cd-IJE"/>
                             <constraint firstItem="YiJ-1a-ELQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="gcb-Ax-44p"/>
+                            <constraint firstItem="198-45-xa8" firstAttribute="centerX" secondItem="68k-M7-cHK" secondAttribute="centerX" id="kVf-NM-Jf3"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="68k-M7-cHK" secondAttribute="trailing" constant="8" id="pxu-xY-NpT"/>
+                            <constraint firstItem="198-45-xa8" firstAttribute="centerY" secondItem="68k-M7-cHK" secondAttribute="centerY" id="s7t-K9-4yo"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

@@ -13,17 +13,28 @@ typedef NS_ENUM(AUParameterAddress, FilterParameterAddress) {
     FilterParameterAddressResonance = 2
 };
 
-@protocol RuntimeParameterHandler
+/**
+ Protocol that handles AUParameter get and set operations.
+ */
+@protocol AUParameterHandler
 
-- (void)setParameter:(nonnull AUParameter *)parameter value:(AUValue)value;
-- (AUValue)valueOf:(nonnull AUParameter *)parameter;
+/**
+ Set an AUParameter to a new value
+ */
+- (void)set:(nonnull AUParameter *)parameter value:(AUValue)value;
+
+/**
+ Get the current value of an AUParameter
+ */
+- (AUValue)get:(nonnull AUParameter *)parameter;
 
 @end
 
 /**
- Small Obj-C wrapper around the FilterDSPKernel C++ class.
+ Small Obj-C wrapper around the FilterDSPKernel C++ class. Handles AUParameter get/set requests by forwarding them to
+ the kernel.
  */
-@interface FilterDSPKernelAdapter : NSObject <RuntimeParameterHandler>
+@interface FilterDSPKernelAdapter : NSObject <AUParameterHandler>
 
 /// Maximum number of frames (samples) to handle in a render call.
 @property (nonatomic) AUAudioFrameCount maximumFramesToRender;
@@ -31,22 +42,6 @@ typedef NS_ENUM(AUParameterAddress, FilterParameterAddress) {
 @property (nonnull, nonatomic, readonly) AUAudioUnitBus *inputBus;
 /// The output bus to use for sending filtered samples
 @property (nonnull, nonatomic, readonly) AUAudioUnitBus *outputBus;
-
-/**
- Set a runtime parameter to a new value
-
- @param parameter which parameter to change
- @param value the new value to assign to it
- */
-- (void)setParameter:(nonnull AUParameter *)parameter value:(AUValue)value;
-
-/**
- Obtain the current value of a runtime paramater
-
- @param parameter which parameter to query
- @returns the parameter's value
- */
-- (AUValue)valueOf:(nonnull AUParameter *)parameter;
 
 /**
  Request by the audio framework to allocate all necessary resources to handle audio rendering requests.

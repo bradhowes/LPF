@@ -2,11 +2,14 @@
 // Original: See LICENSE folder for this sample’s licensing information.
 
 import CoreAudioKit
+import os
 
 /**
  Controller for the AUv3 filter view.
  */
 public final class FilterViewController: AUViewController {
+
+    private let log = Logging.logger("FilterViewController")
 
     private var cutoffParam: AUParameter!
     private var resonanceParam: AUParameter!
@@ -18,6 +21,7 @@ public final class FilterViewController: AUViewController {
 
     public var audioUnit: FilterAudioUnit? {
         didSet {
+            os_log(.debug, log: log, "connection audioUnit")
             audioUnit?.viewController = self
             performOnMain { if self.isViewLoaded { self.connectViewToAU() } }
         }
@@ -50,6 +54,8 @@ extension FilterViewController: AUAudioUnitFactory {
      - returns: new FilterAudioUnit
      */
     public func createAudioUnit(with componentDescription: AudioComponentDescription) throws -> AUAudioUnit {
+        os_log(.debug, log: log, "creating new audio unit")
+        componentDescription.log(log, type: .debug)
         audioUnit = try FilterAudioUnit(componentDescription: componentDescription, options: [])
         return audioUnit!
     }
@@ -58,32 +64,38 @@ extension FilterViewController: AUAudioUnitFactory {
 extension FilterViewController: FilterViewDelegate {
 
     public func filterViewTouchBegan(_ view: FilterView) {
+        os_log(.debug, log: log, "touch began")
         cutoffParam.setValue(view.cutoff, originator: paramObserverToken, atHostTime: 0, eventType: .touch)
         resonanceParam.setValue(view.resonance, originator: paramObserverToken, atHostTime: 0, eventType: .touch)
     }
     
     public func filterView(_ view: FilterView, didChangeResonance resonance: Float) {
+        os_log(.debug, log: log, "resonance changed: %f", resonance)
         resonanceParam.setValue(resonance, originator: paramObserverToken, atHostTime: 0, eventType: .value)
         updateFilterViewFrequencyAndMagnitudes()
     }
 
     public func filterView(_ view: FilterView, didChangeCutoff cutoff: Float) {
+        os_log(.debug, log: log, "cutoff changed: %f", cutoff)
         cutoffParam.setValue(cutoff, originator: paramObserverToken, atHostTime: 0, eventType: .value)
         updateFilterViewFrequencyAndMagnitudes()
     }
 
     public func filterView(_ view: FilterView, didChangeCutoff cutoff: Float, andResonance resonance: Float) {
+        os_log(.debug, log: log, "changed cutoff: %f resonance: %f", cutoff, resonance)
         cutoffParam.setValue(cutoff, originator: paramObserverToken, atHostTime: 0, eventType: .value)
         resonanceParam.setValue(resonance, originator: paramObserverToken, atHostTime: 0, eventType: .value)
         updateFilterViewFrequencyAndMagnitudes()
     }
 
     public func filterViewTouchEnded(_ view: FilterView) {
+        os_log(.debug, log: log, "touch ended")
         cutoffParam.setValue(filterView.cutoff, originator: nil, atHostTime: 0, eventType: .release)
         resonanceParam.setValue(filterView.resonance, originator: nil, atHostTime: 0, eventType: .release)
     }
     
     public func filterViewDataDidChange(_ view: FilterView) {
+        os_log(.debug, log: log, "dataDidChange")
         updateFilterViewFrequencyAndMagnitudes()
     }
 }
@@ -93,23 +105,39 @@ private extension FilterViewController {
     private func updateFilterViewFrequencyAndMagnitudes() {
         guard let audioUnit = audioUnit else { return }
         filterView.makeFilterResponseCurve(audioUnit.magnitudes(forFrequencies: filterView.responseCurveFrequencies))
+        filterView.setNeedsDisplay()
     }
 
     private func connectViewToAU() {
-        guard let paramTree = audioUnit?.parameterTree else { return }
+        os_log(.info, log: log, "connectViewToAU")
 
-        guard let cutoff = paramTree.value(forKey: "cutoff") as? AUParameter,
-            let resonance = paramTree.value(forKey: "resonance") as? AUParameter else {
-                fatalError("Required AU parameters not found.")
+        guard let audioUnit = audioUnit else {
+            os_log(.error, log: log, "logic error -- nil audioUnit value")
+            fatalError("logic error -- nil audioUnit value")
         }
 
-        cutoffParam = cutoff
-        resonanceParam = resonance
-        observer = audioUnit?.observe(\.allParameterValues) { _, _ in self.performOnMain { self.updateDisplay() } }
+        guard let paramTree = audioUnit.parameterTree else {
+            os_log(.error, log: log, "logic error -- nil parameterTree")
+            fatalError("logic error -- nil parameterTree")
+        }
 
+        // Fetch the expected parameters from the parameter tree. We could fetch directly from audioUnit, but this way
+        // we show that the tree was setup correctly.
+        let pdefs = audioUnit.parameterDefinitions
+        guard let cutoffParam = paramTree.value(forKey: pdefs.cutoffParam.identifier) as? AUParameter,
+            let resonanceParam = paramTree.value(forKey: pdefs.resonanceParam.identifier) as? AUParameter else {
+                os_log(.error, log: log, "logic error -- missing parameter(s)")
+                fatalError("logic error -- missing parameter(s)")
+        }
+
+        self.cutoffParam = cutoffParam
+        self.resonanceParam = resonanceParam
+
+        // Update display when a runtime parameter changes
         paramObserverToken = paramTree.token(byAddingParameterObserver: { [weak self] address, value in
             guard let self = self else { return }
-            if address == cutoff.address || address == resonance.address {
+            if address == cutoffParam.address || address == resonanceParam.address {
+                os_log(.debug, log: self.log, "parameter value changed")
                 self.performOnMain{ self.updateDisplay() }
             }
         })
@@ -117,9 +145,13 @@ private extension FilterViewController {
         updateDisplay()
     }
 
-    private func updateDisplay() {
+    private func updateKernelParameters() {
         filterView.cutoff = cutoffParam.value
         filterView.resonance = resonanceParam.value
+    }
+
+    private func updateDisplay() {
+        updateKernelParameters()
         updateFilterViewFrequencyAndMagnitudes()
     }
 

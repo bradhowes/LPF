@@ -7,7 +7,7 @@ private class Tag {}
 public struct Logging {
 
     /// The top-level identifier to use for logging
-    public static let subsystem = Bundle(for: Tag.self).bundleID
+    public static let subsystem = "LPF"
 
     /**
      Create a new logger for a subsystem
