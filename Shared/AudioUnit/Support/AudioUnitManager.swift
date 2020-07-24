@@ -8,11 +8,11 @@ import AVFoundation
  */
 public protocol AudioUnitManagerDelegate: AnyObject {
 
-    func audioUnitViewController(_ viewController: ViewController?)
+    func audioUnitViewControllerDeclared(_ viewController: ViewController?)
 
-    func audioUnitCutoffParameter(_ parameter: AUParameter)
+    func audioUnitCutoffParameterDeclared(_ parameter: AUParameter)
 
-    func audioUnitResonanceParameter(_ parameter: AUParameter)
+    func audioUnitResonanceParameterDeclared(_ parameter: AUParameter)
 
     /**
      Notification that cutoff value changed.
@@ -74,7 +74,7 @@ public final class AudioUnitManager {
         didSet {
             guard let param = cutoffParameter else { return }
             cutoffValue = param.value
-            delegate?.audioUnitCutoffParameter(param)
+            delegate?.audioUnitCutoffParameterDeclared(param)
         }
     }
 
@@ -82,7 +82,7 @@ public final class AudioUnitManager {
         didSet {
             guard let param = resonanceParameter else { return }
             resonanceValue = param.value
-            delegate?.audioUnitResonanceParameter(param)
+            delegate?.audioUnitResonanceParameterDeclared(param)
         }
     }
 
@@ -131,7 +131,7 @@ extension AudioUnitManager {
             self.playEngine.connectEffect(audioUnit: avAudioUnit)
 
             DispatchQueue.main.async {
-                self.auAudioUnit?.requestViewController { self.delegate?.audioUnitViewController($0) }
+                self.auAudioUnit?.requestViewController { self.delegate?.audioUnitViewControllerDeclared($0) }
             }
         }
     }

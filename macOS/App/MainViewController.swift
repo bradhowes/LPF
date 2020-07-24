@@ -106,15 +106,15 @@ extension MainViewController: NSWindowDelegate {
 
 extension MainViewController: AudioUnitManagerDelegate {
 
-    func audioUnitCutoffParameter(_ parameter: AUParameter) {
+    func audioUnitCutoffParameterDeclared(_ parameter: AUParameter) {
     }
 
-    func audioUnitResonanceParameter(_ parameter: AUParameter) {
+    func audioUnitResonanceParameterDeclared(_ parameter: AUParameter) {
         resonanceSlider.minValue = Double(parameter.minValue)
         resonanceSlider.maxValue = Double(parameter.maxValue)
     }
 
-    func audioUnitViewController(_ viewController: NSViewController?) {
+    func audioUnitViewControllerDeclared(_ viewController: NSViewController?) {
         guard let viewController = viewController else { return }
         filterView = viewController.view
         containerView.addSubview(filterView!)

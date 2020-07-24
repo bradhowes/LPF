@@ -60,15 +60,15 @@ private extension MainViewController {
 
 extension MainViewController: AudioUnitManagerDelegate {
 
-    func audioUnitCutoffParameter(_ parameter: AUParameter) {
+    func audioUnitCutoffParameterDeclared(_ parameter: AUParameter) {
     }
 
-    func audioUnitResonanceParameter(_ parameter: AUParameter) {
+    func audioUnitResonanceParameterDeclared(_ parameter: AUParameter) {
         resonanceSlider.minimumValue = parameter.minValue
         resonanceSlider.maximumValue = parameter.maxValue
     }
 
-    func audioUnitViewController(_ viewController: UIViewController?) {
+    func audioUnitViewControllerDeclared(_ viewController: UIViewController?) {
         guard let viewController = viewController else { return }
         guard let filterView = viewController.view else { return }
 
