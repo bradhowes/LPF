@@ -16,7 +16,6 @@ final class MainViewController: NSViewController {
     private var playButton: NSButton?
     private var playMenuItem: NSMenuItem?
 
-    private var loadPresetMenuItem: NSMenuItem?
     private var savePresetMenuItem: NSMenuItem?
 
     @IBOutlet var cutoffSlider: NSSlider!
@@ -30,6 +29,10 @@ final class MainViewController: NSViewController {
 
     private var windowController: MainWindowController? { view.window?.windowController as? MainWindowController }
     private var appDelegate: AppDelegate? { NSApplication.shared.delegate as? AppDelegate }
+}
+
+// MARK: - View Management
+extension MainViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,6 +53,46 @@ final class MainViewController: NSViewController {
         guard let filterView = filterView else { return }
         filterView.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: containerView.frame.size)
     }
+}
+
+// MARK: - AudioUnitManagerDelegate
+extension MainViewController: AudioUnitManagerDelegate {
+
+    func audioUnitCutoffParameterDeclared(_ parameter: AUParameter) {
+    }
+
+    func audioUnitResonanceParameterDeclared(_ parameter: AUParameter) {
+        resonanceSlider.minValue = Double(parameter.minValue)
+        resonanceSlider.maxValue = Double(parameter.maxValue)
+    }
+
+    func audioUnitViewControllerDeclared(_ viewController: NSViewController) {
+        guard let viewController = viewController as? FilterViewController else {
+            fatalError("unexpected view controller type")
+        }
+
+        filterView = viewController.view
+        containerView.addSubview(filterView!)
+        addChild(viewController)
+        view.needsLayout = true
+        populatePresetMenu()
+    }
+
+    func cutoffValueDidChange(_ value: Float) {
+        cutoffSlider.floatValue = sliderLocationForFrequencyValue(value)
+        cutoffTextField.text = String(format: "%.f", value)
+        clearPresetCheck()
+    }
+
+    func resonanceValueDidChange(_ value: Float) {
+        resonanceSlider.floatValue = value
+        resonanceTextField.text = String(format: "%.2f", value)
+        clearPresetCheck()
+    }
+}
+
+// MARK: - UI Actions
+extension MainViewController {
 
     @IBAction private func togglePlay(_ sender: NSButton) {
         audioUnitManager.togglePlayback()
@@ -67,17 +110,13 @@ final class MainViewController: NSViewController {
     }
 }
 
+// MARK: - Presets
 private extension MainViewController {
 
     private func populatePresetMenu() {
         guard let presetMenu = NSApplication.shared.mainMenu?.item(withTag: 666)?.submenu else { return }
 
-        loadPresetMenuItem = presetMenu.items[0]
-        loadPresetMenuItem?.isEnabled = true
-        loadPresetMenuItem?.target = self
-        loadPresetMenuItem?.action = #selector(handleLoadPresetMenuSelection(_:))
-
-        savePresetMenuItem = presetMenu.items[1]
+        savePresetMenuItem = presetMenu.items[0]
         savePresetMenuItem?.isEnabled = true
         savePresetMenuItem?.target = self
         savePresetMenuItem?.action = #selector(handleSavePresetMenuSelection(_:))
@@ -91,13 +130,8 @@ private extension MainViewController {
         }
 
         if let currentPreset = audioUnitManager.currentPreset {
-            presetMenu.item(at: currentPreset.number + 3)?.state = .on
+            presetMenu.item(at: currentPreset.number + 2)?.state = .on
         }
-    }
-
-    @objc
-    private func handleLoadPresetMenuSelection(_ sender: NSMenuItem) {
-
     }
 
     @objc
@@ -124,8 +158,15 @@ private extension MainViewController {
         audioUnitManager.currentPreset = audioUnitManager.presets[abs(sender.tag)]
         sender.state = .on
     }
+}
 
-    private func logValueForNumber(_ number: Float) -> Float { log(number) / log(2) }
+// MARK: NSWindowDelegate
+extension MainViewController: NSWindowDelegate {
+    func windowWillClose(_ notification: Notification) { audioUnitManager.cleanup() }
+}
+
+// MARK: - Private
+extension MainViewController {
 
     private func sliderLocationForFrequencyValue(_ frequency: Float) -> Float {
         log(((frequency - FilterView.hertzMin) / (FilterView.hertzMax - FilterView.hertzMin)) *
@@ -142,45 +183,5 @@ private extension MainViewController {
         guard let audioUnit = audioUnitManager.auAudioUnit else { return }
         guard !audioUnit.usingPreset else { return }
         presetMenu.items.forEach { $0.state = .off }
-    }
-}
-
-extension MainViewController: NSWindowDelegate {
-    func windowWillClose(_ notification: Notification) { audioUnitManager.cleanup() }
-}
-
-extension MainViewController: AudioUnitManagerDelegate {
-
-    func audioUnitCutoffParameterDeclared(_ parameter: AUParameter) {
-    }
-
-    func audioUnitResonanceParameterDeclared(_ parameter: AUParameter) {
-        resonanceSlider.minValue = Double(parameter.minValue)
-        resonanceSlider.maxValue = Double(parameter.maxValue)
-    }
-
-    func audioUnitViewControllerDeclared(_ viewController: NSViewController) {
-        guard let viewController = viewController as? FilterViewController else {
-            fatalError("unexpected view controller type")
-        }
-
-        filterView = viewController.view
-        containerView.addSubview(filterView!)
-        addChild(viewController)
-        view.needsLayout = true
-        populatePresetMenu()
-    }
-
-    func cutoffValueDidChange(_ value: Float) {
-        let value = sliderLocationForFrequencyValue(value)
-        cutoffSlider.floatValue = value
-        cutoffTextField.text = String(format: "%.f", value)
-        clearPresetCheck()
-    }
-
-    func resonanceValueDidChange(_ value: Float) {
-        resonanceSlider.floatValue = value
-        resonanceTextField.text = String(format: "%.2f", value)
-        clearPresetCheck()
     }
 }

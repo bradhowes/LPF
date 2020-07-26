@@ -6,7 +6,3 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 }
-@IBOutlet weak var loadPreset: NSMenuItem!
-@IBOutlet weak var presetsMenu: NSMenuItem!
-@IBOutlet weak var savePreset: NSMenuItem!
-@IBOutlet weak var loadPresetButton: NSMenuItem!

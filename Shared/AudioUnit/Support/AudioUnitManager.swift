@@ -6,7 +6,7 @@ import AVFoundation
 /**
  Delegation protocol for AudioUnitManager class.
  */
-public protocol AudioUnitManagerDelegate: AnyObject {
+public protocol AudioUnitManagerDelegate: class {
 
     /**
      Notification that a ViewController for the audio unit has been instantiated

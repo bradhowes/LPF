@@ -9,7 +9,8 @@ final class MainViewController: UIViewController {
     private let cutoffSliderMaxValue: Float = 9.0
     private lazy var cutoffSliderMaxValuePower2Minus1 = Float(pow(2, cutoffSliderMaxValue) - 1)
 
-    private let audioUnitManager = AudioUnitManager(componentDescription: FilterAudioUnit.componentDescription)
+    private let audioUnitManager = AudioUnitManager<FilterViewController>(
+        componentDescription: FilterAudioUnit.componentDescription, appExt: "LPF")
 
     @IBOutlet var playButton: UIButton!
 
@@ -45,8 +46,6 @@ final class MainViewController: UIViewController {
 
 private extension MainViewController {
 
-    private func logValueForNumber(_ number: Float) -> Float { log(number) / log(2) }
-
     private func sliderLocationForFrequencyValue(_ frequency: Float) -> Float {
         log(((frequency - FilterView.hertzMin) / (FilterView.hertzMax - FilterView.hertzMin)) *
             cutoffSliderMaxValuePower2Minus1 + 1.0) / log(2)
@@ -68,8 +67,10 @@ extension MainViewController: AudioUnitManagerDelegate {
         resonanceSlider.maximumValue = parameter.maxValue
     }
 
-    func audioUnitViewControllerDeclared(_ viewController: UIViewController?) {
-        guard let viewController = viewController else { return }
+    func audioUnitViewControllerDeclared(_ viewController: UIViewController) {
+        guard let viewController = viewController as? FilterViewController else {
+            fatalError("unexpected view controller type")
+        }
         guard let filterView = viewController.view else { return }
 
         addChild(viewController)
@@ -86,8 +87,8 @@ extension MainViewController: AudioUnitManagerDelegate {
     }
 
     func cutoffValueDidChange(_ value: Float) {
-        let normalizedValue = ((value - FilterView.hertzMin) / (FilterView.hertzMax - FilterView.hertzMin)) * 511 + 1
-        cutoffSlider.value = Float(logValueForNumber(normalizedValue))
+        // let normalizedValue = ((value - FilterView.hertzMin) / (FilterView.hertzMax - FilterView.hertzMin)) * 511 + 1
+        cutoffSlider.value = sliderLocationForFrequencyValue(value)
         cutoffTextField.text = String(format: "%.f", value)
     }
 

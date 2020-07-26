@@ -51,10 +51,7 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Presets" id="GEO-Iw-cKr">
                                     <items>
-                                        <menuItem title="Load…" id="ZQm-Ws-xVs">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                        </menuItem>
-                                        <menuItem title="Save…" id="9NY-AS-9aU" userLabel="Save…">
+                                        <menuItem title="Save" id="9NY-AS-9aU">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="gsf-1N-Qsg"/>
