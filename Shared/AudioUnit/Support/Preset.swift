@@ -9,9 +9,9 @@ import AVFoundation
 public struct Preset {
 
     /// The index of the preset
-    public var number: Int { return audioUnitPreset.number }
+    public var number: Int { audioUnitPreset.number }
     /// The name of the preset
-    public var name: String { return audioUnitPreset.name }
+    public var name: String { audioUnitPreset.name }
 
     internal init(preset: AUAudioUnitPreset) {
         audioUnitPreset = preset
@@ -21,6 +21,7 @@ public struct Preset {
 }
 
 internal extension AUAudioUnitPreset {
+
     convenience init(number: Int, name: String) {
         self.init()
         self.number = number

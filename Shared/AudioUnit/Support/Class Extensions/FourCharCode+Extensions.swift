@@ -1,6 +1,7 @@
 // Copyright © 2020 Brad Howes. All rights reserved.
 
 import Foundation
+import os
 
 extension FourCharCode: ExpressibleByStringLiteral {
 
@@ -14,7 +15,8 @@ extension FourCharCode: ExpressibleByStringLiteral {
             }
         }
         else {
-            print("FourCharCode: Can't initialize with '\(value)', only printable ASCII allowed. Setting to '????'.")
+            os_log(.error, "FourCharCode: Can't initialize with '%s', only printable ASCII allowed. Setting to '????'.",
+                   value)
             code = 0x3F3F3F3F // = '????'
         }
         self = code

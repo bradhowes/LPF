@@ -24,22 +24,20 @@ public final class FilterAudioUnit: AUAudioUnit {
 
     public static let componentName = "B-Ray: Low-pass"
 
-    public weak var viewController: FilterViewController?
+    // public weak var viewController: FilterViewController?
 
     public let parameterDefinitions: AudioUnitParameters
     private let kernelAdapter: FilterDSPKernelAdapter
 
-    private let factoryPresetValues:[(cutoff: AUValue, resonance: AUValue)] = [
-        (2500.0, 5.0),    // "Prominent"
-        (14_000.0, 12.0), // "Bright"
-        (384.0, -3.0)     // "Warm"
+    private let factoryPresetValues:[(name: String, cutoff: AUValue, resonance: AUValue)] = [
+        ("Prominent", 2500.0, 5.0),
+        ("Bright", 14_000.0, 12.0),
+        ("Warm", 384.0, -3.0)
     ]
 
-    private let _factoryPresets = [
-        AUAudioUnitPreset(number: 0, name: "Prominent"),
-        AUAudioUnitPreset(number: 1, name: "Bright"),
-        AUAudioUnitPreset(number: 2, name: "Warm")
-    ]
+    private lazy var _factoryPresets = factoryPresetValues.enumerated().map {
+        AUAudioUnitPreset(number: $0, name: $1.name)
+    }
 
     private var _currentPreset: AUAudioUnitPreset?
 
@@ -53,21 +51,38 @@ public final class FilterAudioUnit: AUAudioUnit {
 
     public override var inputBusses: AUAudioUnitBusArray { inputBusArray }
     public override var outputBusses: AUAudioUnitBusArray { outputBusArray }
-    
+
+    public override var fullState: [String : Any]? {
+        get {
+            (super.fullState ?? [String:Any]()).merging(parameterDefinitions.state) { $1 }
+        }
+        set {
+            if let state = newValue {
+                parameterDefinitions.setState(state)
+            }
+            super.fullState = newValue
+        }
+    }
+
     public override var parameterTree: AUParameterTree? {
-        get { return parameterDefinitions.parameterTree }
-        set { /* The sample doesn't allow this property to be modified. */ }
+        get { parameterDefinitions.parameterTree }
+        set {
+            os_log(.error, log: log, "attempted to set new parameterTree")
+        }
     }
 
     public override var factoryPresets: [AUAudioUnitPreset] { _factoryPresets }
 
     public override var currentPreset: AUAudioUnitPreset? {
-        get { return _currentPreset }
+        get {
+            _currentPreset
+        }
         set {
             guard let preset = newValue else {
                 _currentPreset = nil
                 return
             }
+
             os_log(.info, log: log, "applying preset %{public}s/%d", preset.name, preset.number)
             if preset.number >= 0 {
                 os_log(.info, log: log, "using factory")
@@ -78,24 +93,36 @@ public final class FilterAudioUnit: AUAudioUnit {
             else {
                 os_log(.info, log: log, "using custom preset")
                 do {
-                    fullStateForDocument = try presetState(for: preset)
-                    _currentPreset = preset
+                    fullState = try presetState(for: preset)
                 } catch {
                     os_log(.error, log: log, "unable to restore settings for preset %d", preset.number)
                 }
+                _currentPreset = preset
             }
         }
     }
-    
+
     public override var supportsUserPresets: Bool { true }
     public override var canProcessInPlace: Bool { true }
+
     public override var internalRenderBlock: AUInternalRenderBlock { kernelAdapter.internalRenderBlock() }
+
+    public override class func instantiate(with componentDescription: AudioComponentDescription,
+                                           options: AudioComponentInstantiationOptions = [],
+                                           completionHandler: @escaping (AUAudioUnit?, Error?) -> Void) {
+        do {
+            let auAudioUnit = try FilterAudioUnit(componentDescription: componentDescription, options: options)
+            completionHandler(auAudioUnit, nil)
+        } catch {
+            completionHandler(nil, error)
+        }
+    }
 
     public override init(componentDescription: AudioComponentDescription,
                          options: AudioComponentInstantiationOptions = []) throws {
         kernelAdapter = FilterDSPKernelAdapter()
         parameterDefinitions = AudioUnitParameters(parameterHandler: kernelAdapter)
-        try super.init(componentDescription: componentDescription, options: options)
+        try super.init(componentDescription: componentDescription, options: [.loadOutOfProcess])
 
         let info = ProcessInfo.processInfo
         os_log(.info, log: log, "process name: %{public}s PID: %d", info.processName, info.processIdentifier)
@@ -123,12 +150,6 @@ public final class FilterAudioUnit: AUAudioUnit {
         super.select(viewConfiguration)
     }
 
-    public func magnitudes(forFrequencies frequencies: [Float]) -> [Float] {
-        var output: [Float] = Array(repeating: 0.0, count: frequencies.count)
-        kernelAdapter.magnitudes(frequencies, count: frequencies.count, output: &output)
-        return output
-    }
-
     public override var maximumFramesToRender: AUAudioFrameCount {
         get { kernelAdapter.maximumFramesToRender }
         set { if !renderResourcesAllocated { kernelAdapter.maximumFramesToRender = newValue } }
@@ -146,4 +167,39 @@ public final class FilterAudioUnit: AUAudioUnit {
         super.deallocateRenderResources()
         kernelAdapter.deallocateRenderResources()
     }
+}
+
+extension FilterAudioUnit {
+
+    /**
+     Obtain the magnitudes at given frequencies (frequency response) for the current filter settings.
+
+     - parameter frequencies: the frequencies to evaluate
+     - returns: the filter responses at the given frequencies
+     */
+    public func magnitudes(forFrequencies frequencies: [Float]) -> [Float] {
+        var output: [Float] = Array(repeating: 0.0, count: frequencies.count)
+        kernelAdapter.magnitudes(frequencies, count: frequencies.count, output: &output)
+        return output
+    }
+}
+
+extension FilterAudioUnit {
+
+    public var usingPreset: Bool {
+        guard let preset = currentPreset else { return false }
+        guard let state = anyPresetState(preset: preset) else { return false }
+        return parameterDefinitions.matches(state)
+    }
+
+    private func factoryState(index: Int) -> [String:Float] {
+        let preset = factoryPresetValues[index]
+        return [parameterDefinitions.cutoffParam.identifier: preset.cutoff,
+                parameterDefinitions.resonanceParam.identifier: preset.resonance]
+    }
+
+    private func anyPresetState(preset: AUAudioUnitPreset) -> [String:Any]? {
+        preset.number >= 0 ? factoryState(index: preset.number) : try? presetState(for: preset)
+    }
+
 }

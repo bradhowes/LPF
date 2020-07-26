@@ -88,3 +88,32 @@ public final class AudioUnitParameters: NSObject {
         resonanceParam.value = resonance
     }
 }
+
+extension AudioUnitParameters {
+
+    var state: [String:Float] {
+        [cutoffParam.identifier: cutoffParam.value, resonanceParam.identifier: resonanceParam.value]
+    }
+
+    func setState(_ state: [String:Any]) {
+        guard let cutoff = state[cutoffParam.identifier] as? Float else {
+            os_log(.error, log: log, "missing '%s' in state", cutoffParam.identifier)
+            return
+        }
+        cutoffParam.value = cutoff
+
+        guard let resonance = state[resonanceParam.identifier] as? Float else {
+            os_log(.error, log: log, "missing '%s' in state", resonanceParam.identifier)
+            return
+        }
+        resonanceParam.value = resonance
+    }
+
+    func matches(_ state: [String:Any]) -> Bool {
+        for (key, value) in self.state {
+            guard let other = state[key] as? Float, other == value else { return false }
+        }
+
+        return true
+    }
+}

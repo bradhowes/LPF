@@ -57,14 +57,18 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = ""
       selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
+      debugAsWhichUser = "root"
       launchStyle = "0"
       askForAppToLaunch = "Yes"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
-      debugDocumentVersioning = "YES"
+      debugDocumentVersioning = "NO"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES"
-      launchAutomaticallySubstyle = "2">
+      enableGPUFrameCaptureMode = "3"
+      enableGPUValidationMode = "1"
+      allowLocationSimulation = "NO"
+      launchAutomaticallySubstyle = "2"
+      GPUProfilerEnabled = "No">
       <RemoteRunnable
          runnableDebuggingMode = "0"
          BundleIdentifier = "com.apple.garageband10"
@@ -73,9 +77,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C437FE792223688D008D6C09"
-            BuildableName = "LPF Host.app"
-            BlueprintName = "macOS App"
+            BlueprintIdentifier = "C437FE9F222368B7008D6C09"
+            BuildableName = "LPF.appex"
+            BlueprintName = "macOS Extension"
             ReferencedContainer = "container:LPF.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

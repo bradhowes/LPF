@@ -10,10 +10,14 @@ final class MainViewController: NSViewController {
     private let cutoffSliderMaxValue = 9.0
     private lazy var cutoffSliderMaxValuePower2Minus1 = Float(pow(2, cutoffSliderMaxValue) - 1)
 
-    private let audioUnitManager = AudioUnitManager(componentDescription: FilterAudioUnit.componentDescription)
+    private let audioUnitManager = AudioUnitManager<FilterViewController>(
+        componentDescription: FilterAudioUnit.componentDescription, appExt: "LPF")
 
     private var playButton: NSButton?
     private var playMenuItem: NSMenuItem?
+
+    private var loadPresetMenuItem: NSMenuItem?
+    private var savePresetMenuItem: NSMenuItem?
 
     @IBOutlet var cutoffSlider: NSSlider!
     @IBOutlet var cutoffTextField: NSTextField!
@@ -67,24 +71,58 @@ private extension MainViewController {
 
     private func populatePresetMenu() {
         guard let presetMenu = NSApplication.shared.mainMenu?.item(withTag: 666)?.submenu else { return }
+
+        loadPresetMenuItem = presetMenu.items[0]
+        loadPresetMenuItem?.isEnabled = true
+        loadPresetMenuItem?.target = self
+        loadPresetMenuItem?.action = #selector(handleLoadPresetMenuSelection(_:))
+
+        savePresetMenuItem = presetMenu.items[1]
+        savePresetMenuItem?.isEnabled = true
+        savePresetMenuItem?.target = self
+        savePresetMenuItem?.action = #selector(handleSavePresetMenuSelection(_:))
+
         for preset in audioUnitManager.presets {
             let menuItem = NSMenuItem(title: preset.name,
-                                      action: #selector(handleMenuSelection(_:)),
+                                      action: #selector(handlePresetMenuSelection(_:)),
                                       keyEquivalent: "\(preset.number + 1)")
             menuItem.tag = preset.number
             presetMenu.addItem(menuItem)
         }
 
         if let currentPreset = audioUnitManager.currentPreset {
-            presetMenu.item(at: currentPreset.number)?.state = .on
+            presetMenu.item(at: currentPreset.number + 3)?.state = .on
         }
     }
 
     @objc
-    private func handleMenuSelection(_ sender: NSMenuItem) {
+    private func handleLoadPresetMenuSelection(_ sender: NSMenuItem) {
+
+    }
+
+    @objc
+    private func handleSavePresetMenuSelection(_ sender: NSMenuItem) throws {
+        guard let audioUnit = audioUnitManager.auAudioUnit else { return }
+        guard let presetMenu = NSApplication.shared.mainMenu?.item(withTag: 666)?.submenu else { return }
+
+        let preset = AUAudioUnitPreset()
+        let index = audioUnitManager.presets.count
+        preset.name = "Preset \(index + 1)"
+        preset.number = -index
+        try audioUnit.saveUserPreset(preset)
+        let menuItem = NSMenuItem(title: preset.name,
+                                  action: #selector(handlePresetMenuSelection(_:)),
+                                  keyEquivalent: "")
+        menuItem.tag = preset.number
+        presetMenu.addItem(menuItem)
+        audioUnitManager.presets.append(preset)
+    }
+
+    @objc
+    private func handlePresetMenuSelection(_ sender: NSMenuItem) {
         sender.menu?.items.forEach { $0.state = .off }
+        audioUnitManager.currentPreset = audioUnitManager.presets[abs(sender.tag)]
         sender.state = .on
-        audioUnitManager.currentPreset = audioUnitManager.presets[sender.tag]
     }
 
     private func logValueForNumber(_ number: Float) -> Float { log(number) / log(2) }
@@ -97,6 +135,13 @@ private extension MainViewController {
     private func frequencyValueForSliderLocation(_ location: Float) -> Float {
         ((pow(2, location) - 1) / cutoffSliderMaxValuePower2Minus1) * (FilterView.hertzMax - FilterView.hertzMin) +
             FilterView.hertzMin
+    }
+
+    private func clearPresetCheck() {
+        guard let presetMenu = NSApplication.shared.mainMenu?.item(withTag: 666)?.submenu else { return }
+        guard let audioUnit = audioUnitManager.auAudioUnit else { return }
+        guard !audioUnit.usingPreset else { return }
+        presetMenu.items.forEach { $0.state = .off }
     }
 }
 
@@ -114,8 +159,11 @@ extension MainViewController: AudioUnitManagerDelegate {
         resonanceSlider.maxValue = Double(parameter.maxValue)
     }
 
-    func audioUnitViewControllerDeclared(_ viewController: NSViewController?) {
-        guard let viewController = viewController else { return }
+    func audioUnitViewControllerDeclared(_ viewController: NSViewController) {
+        guard let viewController = viewController as? FilterViewController else {
+            fatalError("unexpected view controller type")
+        }
+
         filterView = viewController.view
         containerView.addSubview(filterView!)
         addChild(viewController)
@@ -124,12 +172,15 @@ extension MainViewController: AudioUnitManagerDelegate {
     }
 
     func cutoffValueDidChange(_ value: Float) {
-        cutoffSlider.floatValue = sliderLocationForFrequencyValue(value)
+        let value = sliderLocationForFrequencyValue(value)
+        cutoffSlider.floatValue = value
         cutoffTextField.text = String(format: "%.f", value)
+        clearPresetCheck()
     }
 
     func resonanceValueDidChange(_ value: Float) {
         resonanceSlider.floatValue = value
         resonanceTextField.text = String(format: "%.2f", value)
+        clearPresetCheck()
     }
 }

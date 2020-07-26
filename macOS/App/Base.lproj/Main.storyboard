@@ -49,7 +49,17 @@
                             </menuItem>
                             <menuItem title="Presets" tag="666" id="jxT-CU-nIS">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Presets" id="GEO-Iw-cKr"/>
+                                <menu key="submenu" title="Presets" id="GEO-Iw-cKr">
+                                    <items>
+                                        <menuItem title="Load…" id="ZQm-Ws-xVs">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem title="Save…" id="9NY-AS-9aU" userLabel="Save…">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="gsf-1N-Qsg"/>
+                                    </items>
+                                </menu>
                             </menuItem>
                             <menuItem title="Window" id="aUF-d1-5bR">
                                 <modifierMask key="keyEquivalentModifierMask"/>
@@ -155,13 +165,13 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="MainViewController" customModule="LPF_Host" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="414"/>
+                        <rect key="frame" x="0.0" y="0.0" width="467" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <box borderType="none" titlePosition="noTitle" transparent="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rfi-rJ-PdE" userLabel="Parameters Box">
-                                <rect key="frame" x="17" y="294" width="446" height="102"/>
+                                <rect key="frame" x="17" y="294" width="433" height="102"/>
                                 <view key="contentView" id="b4b-Oa-AOn">
-                                    <rect key="frame" x="0.0" y="0.0" width="446" height="102"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="433" height="102"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="95k-cc-122">
@@ -192,7 +202,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="veU-X7-Bd9">
-                                            <rect key="frame" x="205" y="71" width="223" height="19"/>
+                                            <rect key="frame" x="205" y="71" width="210" height="19"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="9" doubleValue="5" tickMarkPosition="above" sliderType="linear" id="JtD-C5-MRg"/>
                                             <connections>
                                                 <action selector="cutoffSliderValueChanged:" target="XfG-lQ-9wD" id="ru5-Mu-YlM"/>
@@ -223,7 +233,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MX2-fm-3rT">
-                                            <rect key="frame" x="205" y="15" width="223" height="19"/>
+                                            <rect key="frame" x="205" y="15" width="210" height="19"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="-20" maxValue="20" tickMarkPosition="above" sliderType="linear" id="UiK-7l-PXj"/>
                                             <connections>
                                                 <action selector="resonanceSliderValueChanged:" target="XfG-lQ-9wD" id="LlT-VI-6f7"/>
@@ -258,10 +268,10 @@
                                 </constraints>
                             </box>
                             <customView autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AVM-k6-jTo" userLabel="Content View">
-                                <rect key="frame" x="10" y="10" width="460" height="268"/>
+                                <rect key="frame" x="10" y="10" width="447" height="268"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iO5-GT-K4x">
-                                        <rect key="frame" x="178" y="120" width="105" height="28"/>
+                                        <rect key="frame" x="171" y="120" width="105" height="28"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Loading…" id="fyr-Jd-O0Q">
                                             <font key="font" metaFont="system" size="24"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -276,7 +286,7 @@
                             </customView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jzG-Lt-RF2">
                                 <rect key="frame" x="6" y="392" width="33" height="14"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="v1.1.5" id="0K1-pt-DFp" userLabel="APP_VERSION">
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="v1.1.6" id="0K1-pt-DFp" userLabel="APP_VERSION">
                                     <font key="font" metaFont="message" size="11"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -306,7 +316,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="166" y="1122"/>
+            <point key="canvasLocation" x="159.5" y="1122"/>
         </scene>
     </scenes>
 </document>

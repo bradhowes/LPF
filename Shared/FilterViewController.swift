@@ -4,6 +4,12 @@
 import CoreAudioKit
 import os
 
+public protocol FilterViewAudioUnitLink {
+    associatedtype AudioUnitType
+
+    func setAudioUnit(_ audioUnit: AudioUnitType)
+}
+
 /**
  Controller for the AUv3 filter view.
  */
@@ -19,10 +25,9 @@ public final class FilterViewController: AUViewController {
 
     private var observer: NSKeyValueObservation?
 
-    public var audioUnit: FilterAudioUnit? {
+    public private(set) var audioUnit: FilterAudioUnit? {
         didSet {
             os_log(.debug, log: log, "connection audioUnit")
-            audioUnit?.viewController = self
             performOnMain { if self.isViewLoaded { self.connectViewToAU() } }
         }
     }
@@ -42,6 +47,14 @@ public final class FilterViewController: AUViewController {
         filterView.delegate = self
         guard audioUnit != nil else { return }
         connectViewToAU()
+    }
+}
+
+extension FilterViewController: FilterViewAudioUnitLink {
+    public typealias AudioUnitType = FilterAudioUnit
+
+    public func setAudioUnit(_ audioUnit: FilterAudioUnit) {
+        self.audioUnit = audioUnit
     }
 }
 

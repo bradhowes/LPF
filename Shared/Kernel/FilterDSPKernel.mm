@@ -6,6 +6,8 @@
 #include "FilterDSPKernel.hpp"
 #include "FilterDSPKernelAdapter.hpp"
 
+static auto logger = os_log_create("LPF", "FilterDSPKernel");
+
 void
 FilterDSPKernel::setFormat(AVAudioFormat* format)
 {
@@ -27,12 +29,12 @@ FilterDSPKernel::setParameterValue(AUParameterAddress address, AUValue value)
 {
     switch (address) {
         case FilterParameterAddressCutoff:
-            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_INFO, "set cutoff: %f", value);
+            os_log_with_type(logger, OS_LOG_TYPE_INFO, "set cutoff: %f", value);
             cutoff_ = value;
             break;
 
         case FilterParameterAddressResonance:
-            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_INFO, "set resonance: %f", value);
+            os_log_with_type(logger, OS_LOG_TYPE_INFO, "set resonance: %f", value);
             resonance_ = value;
             break;
     }
@@ -43,11 +45,11 @@ FilterDSPKernel::getParameterValue(AUParameterAddress address) const
 {
     switch (address) {
         case FilterParameterAddressCutoff:
-            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_INFO, "get cutoff: %f", cutoff_.value());
+            os_log_with_type(logger, OS_LOG_TYPE_INFO, "get cutoff: %f", cutoff_.value());
             return cutoff_.value();
 
         case FilterParameterAddressResonance:
-            os_log_with_type(OS_LOG_DEFAULT, OS_LOG_TYPE_INFO, "get resonance: %f", resonance_.value());
+            os_log_with_type(logger, OS_LOG_TYPE_INFO, "get resonance: %f", resonance_.value());
             return resonance_.value();
 
         default: return 0.0;
