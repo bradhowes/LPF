@@ -36,7 +36,7 @@ public final class AudioUnitParameters: NSObject {
     }()
 
     /// AUParameterTree created with the parameter defintions for the audio unit
-    let parameterTree: AUParameterTree
+    public let parameterTree: AUParameterTree
 
     /**
      Create a new AUParameterTree for the defined filter parameters.
@@ -92,7 +92,10 @@ public final class AudioUnitParameters: NSObject {
 extension AudioUnitParameters {
 
     var state: [String:Float] {
-        [cutoffParam.identifier: cutoffParam.value, resonanceParam.identifier: resonanceParam.value]
+        let cutoff = cutoffParam.value
+        let resonance = resonanceParam.value
+        os_log(.info, log: log, "state - cutoff: %f resonance: %f", cutoff, resonance)
+        return [cutoffParam.identifier: cutoff, resonanceParam.identifier: resonance]
     }
 
     func setState(_ state: [String:Any]) {
@@ -107,13 +110,13 @@ extension AudioUnitParameters {
             return
         }
         resonanceParam.value = resonance
+        os_log(.info, log: log, "setState - cutoff: %f resonance: %f", cutoff, resonance)
     }
 
     func matches(_ state: [String:Any]) -> Bool {
         for (key, value) in self.state {
             guard let other = state[key] as? Float, other == value else { return false }
         }
-
         return true
     }
 }

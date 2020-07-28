@@ -121,11 +121,23 @@ private extension MainViewController {
         savePresetMenuItem?.target = self
         savePresetMenuItem?.action = #selector(handleSavePresetMenuSelection(_:))
 
-        for preset in audioUnitManager.presets {
+        for preset in audioUnitManager.factoryPresets ?? [] {
+            let keyEquivalent = "\(preset.number + 1)"
             let menuItem = NSMenuItem(title: preset.name,
                                       action: #selector(handlePresetMenuSelection(_:)),
-                                      keyEquivalent: "\(preset.number + 1)")
+                                      keyEquivalent: keyEquivalent)
             menuItem.tag = preset.number
+            print(preset.number)
+            presetMenu.addItem(menuItem)
+        }
+
+        for preset in audioUnitManager.userPresets ?? [] {
+            let keyEquivalent = ""
+            let menuItem = NSMenuItem(title: preset.name,
+                                      action: #selector(handlePresetMenuSelection(_:)),
+                                      keyEquivalent: keyEquivalent)
+            menuItem.tag = preset.number
+            print(preset.number)
             presetMenu.addItem(menuItem)
         }
 
@@ -136,26 +148,31 @@ private extension MainViewController {
 
     @objc
     private func handleSavePresetMenuSelection(_ sender: NSMenuItem) throws {
-        guard let audioUnit = audioUnitManager.auAudioUnit else { return }
-        guard let presetMenu = NSApplication.shared.mainMenu?.item(withTag: 666)?.submenu else { return }
-
-        let preset = AUAudioUnitPreset()
-        let index = audioUnitManager.presets.count
-        preset.name = "Preset \(index + 1)"
-        preset.number = -index
-        try audioUnit.saveUserPreset(preset)
-        let menuItem = NSMenuItem(title: preset.name,
-                                  action: #selector(handlePresetMenuSelection(_:)),
-                                  keyEquivalent: "")
-        menuItem.tag = preset.number
-        presetMenu.addItem(menuItem)
-        audioUnitManager.presets.append(preset)
+//        guard let audioUnit = audioUnitManager.auAudioUnit else { return }
+//        guard let presetMenu = NSApplication.shared.mainMenu?.item(withTag: 666)?.submenu else { return }
+//
+//        let preset = AUAudioUnitPreset()
+//        let index = audioUnitManager.presets.count
+//        preset.name = "Preset \(index + 1)"
+//        preset.number = -index
+//        try audioUnit.saveUserPreset(preset)
+//        let menuItem = NSMenuItem(title: preset.name,
+//                                  action: #selector(handlePresetMenuSelection(_:)),
+//                                  keyEquivalent: "")
+//        menuItem.tag = preset.number
+//        presetMenu.addItem(menuItem)
+//        audioUnitManager.presets.append(preset)
     }
 
     @objc
     private func handlePresetMenuSelection(_ sender: NSMenuItem) {
         sender.menu?.items.forEach { $0.state = .off }
-        audioUnitManager.currentPreset = audioUnitManager.presets[abs(sender.tag)]
+        if sender.tag >= 0 {
+            audioUnitManager.currentPreset = audioUnitManager.factoryPresets![sender.tag]
+        }
+        else {
+            audioUnitManager.currentPreset = audioUnitManager.userPresets![abs(sender.tag) - 1]
+        }
         sender.state = .on
     }
 }

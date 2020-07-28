@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BD06772C24CF9FA00039F161 /* Optional+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD06772B24CF9FA00039F161 /* Optional+Extensions.swift */; };
+		BD06772D24CF9FA00039F161 /* Optional+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD06772B24CF9FA00039F161 /* Optional+Extensions.swift */; };
+		BD06772F24D03B960039F161 /* FolderMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD06772E24D03B960039F161 /* FolderMonitor.swift */; };
+		BD06773024D03B960039F161 /* FolderMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD06772E24D03B960039F161 /* FolderMonitor.swift */; };
+		BD06773224D041720039F161 /* FolderMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD06773124D041720039F161 /* FolderMonitorTests.swift */; };
 		BD18B39C24CB248100B7CB1E /* AudioComponentDescription+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD18B39A24CB247400B7CB1E /* AudioComponentDescription+Extensions.swift */; };
 		BD18B39D24CB248200B7CB1E /* AudioComponentDescription+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD18B39A24CB247400B7CB1E /* AudioComponentDescription+Extensions.swift */; };
 		BD18B39F24CB31B200B7CB1E /* AudioUnitParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD18B39E24CB31B200B7CB1E /* AudioUnitParameters.swift */; };
@@ -121,6 +126,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		BD06773324D042560039F161 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C437FE302223672C008D6C09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C437FE792223688D008D6C09;
+			remoteInfo = "macOS App";
+		};
+		BD06773524D0425A0039F161 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C437FE302223672C008D6C09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C437FE39222367A6008D6C09;
+			remoteInfo = "iOS App";
+		};
 		BD95147B24A08BB600D8024C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C437FE302223672C008D6C09 /* Project object */;
@@ -207,19 +226,9 @@
 
 /* Begin PBXFileReference section */
 		7E56CF207E56CEE000000001 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; wrapsLines = 1; };
-		BD16FF1A24BEF50C0015F392 /* LowPassFilterAudioUnit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LowPassFilterAudioUnit.h; sourceTree = "<group>"; };
-		BD16FF1B24BEF50C0015F392 /* LowPassFilterAudioUnit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LowPassFilterAudioUnit.m; sourceTree = "<group>"; };
-		BD16FF1F24BEF50C0015F392 /* DSPKernel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DSPKernel.hpp; sourceTree = "<group>"; };
-		BD16FF2124BEF50C0015F392 /* DSPKernel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DSPKernel.mm; sourceTree = "<group>"; };
-		BD16FF2324BEF50C0015F392 /* BufferedAudioBus.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BufferedAudioBus.hpp; sourceTree = "<group>"; };
-		BD16FF2524BEF50C0015F392 /* LowPassFilterDSPKernelAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LowPassFilterDSPKernelAdapter.h; sourceTree = "<group>"; };
-		BD16FF2624BEF50C0015F392 /* LowPassFilterDSPKernel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LowPassFilterDSPKernel.hpp; sourceTree = "<group>"; };
-		BD16FF2824BEF50C0015F392 /* LowPassFilterDSPKernel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LowPassFilterDSPKernel.mm; sourceTree = "<group>"; };
-		BD16FF2B24BEF50C0015F392 /* AudioUnitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioUnitViewController.swift; sourceTree = "<group>"; };
-		BD16FF2D24BEF50C0015F392 /* LowPassFilter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LowPassFilter-Bridging-Header.h"; sourceTree = "<group>"; };
-		BD16FF2F24BEF50C0015F392 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AudioUnitViewController.xib; sourceTree = "<group>"; };
-		BD16FF3124BEF50C0015F392 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BD16FF3224BEF50C0015F392 /* LowPassFilter.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LowPassFilter.entitlements; sourceTree = "<group>"; };
+		BD06772B24CF9FA00039F161 /* Optional+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Optional+Extensions.swift"; sourceTree = "<group>"; };
+		BD06772E24D03B960039F161 /* FolderMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderMonitor.swift; sourceTree = "<group>"; };
+		BD06773124D041720039F161 /* FolderMonitorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderMonitorTests.swift; sourceTree = "<group>"; };
 		BD18B39A24CB247400B7CB1E /* AudioComponentDescription+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AudioComponentDescription+Extensions.swift"; sourceTree = "<group>"; };
 		BD18B39E24CB31B200B7CB1E /* AudioUnitParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioUnitParameters.swift; sourceTree = "<group>"; };
 		BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BiquadFilter.cpp; sourceTree = "<group>"; };
@@ -377,58 +386,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		BD16FF1824BEF50C0015F392 /* LowPassFilter */ = {
-			isa = PBXGroup;
-			children = (
-				BD16FF2D24BEF50C0015F392 /* LowPassFilter-Bridging-Header.h */,
-				BD16FF2E24BEF50C0015F392 /* AudioUnitViewController.xib */,
-				BD16FF3124BEF50C0015F392 /* Info.plist */,
-				BD16FF3224BEF50C0015F392 /* LowPassFilter.entitlements */,
-				BD16FF1924BEF50C0015F392 /* Audio Unit */,
-				BD16FF1D24BEF50C0015F392 /* DSP */,
-				BD16FF2A24BEF50C0015F392 /* UI */,
-			);
-			path = LowPassFilter;
-			sourceTree = "<group>";
-		};
-		BD16FF1924BEF50C0015F392 /* Audio Unit */ = {
-			isa = PBXGroup;
-			children = (
-				BD16FF1A24BEF50C0015F392 /* LowPassFilterAudioUnit.h */,
-				BD16FF1B24BEF50C0015F392 /* LowPassFilterAudioUnit.m */,
-			);
-			path = "Audio Unit";
-			sourceTree = "<group>";
-		};
-		BD16FF1D24BEF50C0015F392 /* DSP */ = {
-			isa = PBXGroup;
-			children = (
-				BD16FF2624BEF50C0015F392 /* LowPassFilterDSPKernel.hpp */,
-				BD16FF2824BEF50C0015F392 /* LowPassFilterDSPKernel.mm */,
-				BD16FF1E24BEF50C0015F392 /* Helpers */,
-			);
-			path = DSP;
-			sourceTree = "<group>";
-		};
-		BD16FF1E24BEF50C0015F392 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				BD16FF1F24BEF50C0015F392 /* DSPKernel.hpp */,
-				BD16FF2124BEF50C0015F392 /* DSPKernel.mm */,
-				BD16FF2324BEF50C0015F392 /* BufferedAudioBus.hpp */,
-				BD16FF2524BEF50C0015F392 /* LowPassFilterDSPKernelAdapter.h */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
-		BD16FF2A24BEF50C0015F392 /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				BD16FF2B24BEF50C0015F392 /* AudioUnitViewController.swift */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
 		BD49661824A35F3900A81F0B /* Class Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -440,6 +397,7 @@
 				BDB11A5A24A13F2A00DD8EF9 /* Color+Extensions.swift */,
 				BDB11A5224A13BFA00DD8EF9 /* Comparble+Extensions.swift */,
 				BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */,
+				BD06772B24CF9FA00039F161 /* Optional+Extensions.swift */,
 				C4BEE7D722236E99001E6B6D /* View+Extensions.swift */,
 			);
 			path = "Class Extensions";
@@ -450,6 +408,7 @@
 			children = (
 				BD95147724A08BB600D8024C /* NewSwiftTestTemplate.swift */,
 				BD938B4F24A6BC1F00892358 /* BiquadFilterTests.mm */,
+				BD06773124D041720039F161 /* FolderMonitorTests.swift */,
 				BD63B15824AE26D40015236D /* LFOTests.mm */,
 				BDB11A6224A1530D00DD8EF9 /* LogScaling.swift */,
 				BD95148424A092E800D8024C /* RampingValueChangeDetectorTests.mm */,
@@ -481,7 +440,6 @@
 				C4BEE7B622236A58001E6B6D /* macOS */,
 				C4BEE7D522236E99001E6B6D /* Shared */,
 				BD95147624A08BB600D8024C /* macOSFrameworkTests */,
-				BD16FF1824BEF50C0015F392 /* LowPassFilter */,
 				C437FE3B222367A6008D6C09 /* Products */,
 				C4BEE81822237394001E6B6D /* Frameworks */,
 			);
@@ -621,6 +579,7 @@
 				C4BEE7E722236E99001E6B6D /* DSPKernel.mm */,
 				C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.hpp */,
 				C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */,
+				BD06772E24D03B960039F161 /* FolderMonitor.swift */,
 				BD63B14F24AE21E60015236D /* LFO.hpp */,
 				BD63B14E24AE21E60015236D /* LFO.cpp */,
 				BDE2CDEF24A3DE9F004AC8FA /* Logging.swift */,
@@ -741,6 +700,8 @@
 			);
 			dependencies = (
 				BD95147C24A08BB600D8024C /* PBXTargetDependency */,
+				BD06773424D042560039F161 /* PBXTargetDependency */,
+				BD06773624D0425A0039F161 /* PBXTargetDependency */,
 			);
 			name = macOSFrameworkTests;
 			productName = macOSFrameworkTests;
@@ -1009,6 +970,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD06773224D041720039F161 /* FolderMonitorTests.swift in Sources */,
 				BD95147824A08BB600D8024C /* NewSwiftTestTemplate.swift in Sources */,
 				BD938B5024A6BC1F00892358 /* BiquadFilterTests.mm in Sources */,
 				BD95148524A092E800D8024C /* RampingValueChangeDetectorTests.mm in Sources */,
@@ -1043,6 +1005,7 @@
 				BDB11A6024A13FCF00DD8EF9 /* CATransaction+Extensions.swift in Sources */,
 				C4A3D65B223FF12A002784D4 /* SimplePlayEngine.swift in Sources */,
 				BDE2CDF124A3DEE4004AC8FA /* Logging.swift in Sources */,
+				BD06772C24CF9FA00039F161 /* Optional+Extensions.swift in Sources */,
 				C4BEE80322236F6F001E6B6D /* FilterView.swift in Sources */,
 				C4BEE80422236F6F001E6B6D /* TypeAliases.swift in Sources */,
 				BD95146B24A028E700D8024C /* AudioUnitBusBufferManager.mm in Sources */,
@@ -1050,6 +1013,7 @@
 				BDB11A5524A13C4B00DD8EF9 /* Comparble+Extensions.swift in Sources */,
 				BDB11A5C24A13F8700DD8EF9 /* Color+Extensions.swift in Sources */,
 				BDB7CE9B249FC0AB009580D5 /* AUAudioUnitPreset+Extensions.swift in Sources */,
+				BD06772F24D03B960039F161 /* FolderMonitor.swift in Sources */,
 				C4F004A32239B1E10014E248 /* FilterDSPKernelAdapter.mm in Sources */,
 				BD18B3A024CB31B200B7CB1E /* AudioUnitParameters.swift in Sources */,
 				BD63B15024AE21E60015236D /* LFO.cpp in Sources */,
@@ -1079,6 +1043,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4BEE7F622236F2C001E6B6D /* DSPKernel.mm in Sources */,
+				BD06772D24CF9FA00039F161 /* Optional+Extensions.swift in Sources */,
 				BD18B39C24CB248100B7CB1E /* AudioComponentDescription+Extensions.swift in Sources */,
 				BD18B39F24CB31B200B7CB1E /* AudioUnitParameters.swift in Sources */,
 				BD95149224A0A63300D8024C /* FilterDSPKernel.mm in Sources */,
@@ -1093,6 +1058,7 @@
 				BDB11A5924A13CB200DD8EF9 /* CALayer+Extensions.swift in Sources */,
 				BDB11A5D24A13F8800DD8EF9 /* Color+Extensions.swift in Sources */,
 				BDE2CDF624A3DF25004AC8FA /* Bundle+Extensions.swift in Sources */,
+				BD06773024D03B960039F161 /* FolderMonitor.swift in Sources */,
 				C4BEE80022236F6E001E6B6D /* TypeAliases.swift in Sources */,
 				BD1F7BAD249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */,
 				C4F004A72239B2070014E248 /* FilterAudioUnit.swift in Sources */,
@@ -1116,6 +1082,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		BD06773424D042560039F161 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C437FE792223688D008D6C09 /* macOS App */;
+			targetProxy = BD06773324D042560039F161 /* PBXContainerItemProxy */;
+		};
+		BD06773624D0425A0039F161 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C437FE39222367A6008D6C09 /* iOS App */;
+			targetProxy = BD06773524D0425A0039F161 /* PBXContainerItemProxy */;
+		};
 		BD95147C24A08BB600D8024C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C437FE8E222368A1008D6C09 /* macOS Framework */;
@@ -1144,14 +1120,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		BD16FF2E24BEF50C0015F392 /* AudioUnitViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BD16FF2F24BEF50C0015F392 /* Base */,
-			);
-			name = AudioUnitViewController.xib;
-			sourceTree = "<group>";
-		};
 		C4BEE7A722236A29001E6B6D /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1300,7 +1268,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200726220535;
+				CURRENT_PROJECT_VERSION = 20200728012127;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1318,7 +1286,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
@@ -1370,7 +1338,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200726220535;
+				CURRENT_PROJECT_VERSION = 20200728012127;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1389,7 +1357,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.appex;
@@ -1442,7 +1410,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200726220535;
+				CURRENT_PROJECT_VERSION = 20200728012127;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
@@ -1466,7 +1434,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.framework;
@@ -1523,7 +1491,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200726220535;
+				CURRENT_PROJECT_VERSION = 20200728012127;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1542,7 +1510,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
@@ -1593,7 +1561,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200726220535;
+				CURRENT_PROJECT_VERSION = 20200728012127;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1613,7 +1581,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.appex;
@@ -1665,7 +1633,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200726220535;
+				CURRENT_PROJECT_VERSION = 20200728012127;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -1690,7 +1658,7 @@
 					"@loader_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.framework;
@@ -1825,7 +1793,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200726220535;
+				CURRENT_PROJECT_VERSION = 20200728012127;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1849,7 +1817,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1901,7 +1869,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200726220535;
+				CURRENT_PROJECT_VERSION = 20200728012127;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -1931,7 +1899,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1986,7 +1954,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200726220535;
+				CURRENT_PROJECT_VERSION = 20200728012127;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2011,7 +1979,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2066,7 +2034,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200726220535;
+				CURRENT_PROJECT_VERSION = 20200728012127;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -2091,7 +2059,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2143,7 +2111,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200726220535;
+				CURRENT_PROJECT_VERSION = 20200728012127;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2174,7 +2142,7 @@
 					"@loader_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2230,7 +2198,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20200726220535;
+				CURRENT_PROJECT_VERSION = 20200728012127;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -2256,7 +2224,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;

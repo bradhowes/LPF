@@ -17,3 +17,7 @@ internal extension AUAudioUnitPreset {
         self.name = name
     }
 }
+
+extension AUAudioUnitPreset {
+    override public var description: String { "<AuAudioUnitPreset name: \(name)/\(number)>" }
+}

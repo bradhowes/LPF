@@ -40,7 +40,7 @@
 					<key>name</key>
 					<string>B-Ray: Low-pass</string>
 					<key>sandboxSafe</key>
-					<false/>
+					<true/>
 					<key>subtype</key>
 					<string>lpas</string>
 					<key>tags</key>

@@ -44,23 +44,6 @@ public protocol AudioUnitManagerDelegate: class {
     func resonanceValueDidChange(_ value: Float)
 }
 
-class MyObserver: NSObject {
-    @objc var objectToObserve: AUAudioUnitPreset
-    var observation: NSKeyValueObservation?
-
-    init(object: AUAudioUnitPreset) {
-        objectToObserve = object
-        super.init()
-
-        observation = observe(
-            \.objectToObserve.number,
-            options: [.old, .new]
-        ) { object, change in
-            print("myDate changed from: \(change.oldValue!), updated to: \(change.newValue!)")
-        }
-    }
-}
-
 /**
  Simple hosting container for the FilterAudioUnit when loaded in an application. Sets up a
  Manages the state of a FilterAudioUnit.
@@ -79,9 +62,11 @@ public final class AudioUnitManager<V> where V: ViewController, V: FilterViewAud
     /// Runtime parameter for the filter's resonance
     public var resonanceValue: Float = 0.0 { didSet { resonanceParameter?.value = resonanceValue } }
 
-    /// Collection of current presets for the AudioUnit
-    public var presets: [AUAudioUnitPreset] = []
-    private var presetObservers: [MyObserver] = []
+    /// Collection of factory presets from the AudioUnit
+    public var factoryPresets: [AUAudioUnitPreset]? { auAudioUnit?.factoryPresets }
+
+    /// Collection of user presets saved for the AudioUnit
+    public var userPresets: [AUAudioUnitPreset]? { auAudioUnit?.userPresets }
 
     /// The currently-active preset
     public var currentPreset: AUAudioUnitPreset? {
@@ -185,11 +170,6 @@ extension AudioUnitManager {
         }
 
         self.auAudioUnit = auAudioUnit
-
-        for each in auAudioUnit.factoryPresets ?? [] {
-            self.presets.append(each)
-            self.presetObservers.append(MyObserver(object: each))
-        }
 
         viewController.setAudioUnit(auAudioUnit)
 

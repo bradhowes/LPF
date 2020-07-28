@@ -67,9 +67,9 @@ extension FilterViewController: AUAudioUnitFactory {
      - returns: new FilterAudioUnit
      */
     public func createAudioUnit(with componentDescription: AudioComponentDescription) throws -> AUAudioUnit {
-        os_log(.debug, log: log, "creating new audio unit")
+        os_log(.info, log: log, "creating new audio unit")
         componentDescription.log(log, type: .debug)
-        audioUnit = try FilterAudioUnit(componentDescription: componentDescription, options: [])
+        audioUnit = try FilterAudioUnit(componentDescription: componentDescription, options: [.loadOutOfProcess])
         return audioUnit!
     }
 }
@@ -149,10 +149,8 @@ private extension FilterViewController {
         // Update display when a runtime parameter changes
         paramObserverToken = paramTree.token(byAddingParameterObserver: { [weak self] address, value in
             guard let self = self else { return }
-            if address == cutoffParam.address || address == resonanceParam.address {
-                os_log(.debug, log: self.log, "parameter value changed")
-                self.performOnMain{ self.updateDisplay() }
-            }
+            os_log(.info, log: self.log, "- parameter value changed: %d %f", address, value)
+            self.performOnMain{ self.updateDisplay() }
         })
 
         updateDisplay()
@@ -175,11 +173,7 @@ private extension FilterViewController {
     }
 
     private func performOnMain(_ operation: @escaping () -> Void) {
-        guard Thread.isMainThread else {
-            DispatchQueue.main.async { operation() }
-            return
-        }
-        operation()
+        (Thread.isMainThread ? operation : { DispatchQueue.main.async { operation() } })()
     }
 }
 

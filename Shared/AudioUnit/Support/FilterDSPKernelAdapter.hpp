@@ -3,8 +3,6 @@
 
 #import <AudioToolbox/AudioToolbox.h>
 
-@class FilterViewController;
-
 /**
  Address definitions for AUParameter settings. Available in Swift as `FilterParameterAddress.*`
  */
