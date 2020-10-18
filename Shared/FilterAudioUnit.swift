@@ -149,8 +149,7 @@ public final class FilterAudioUnit: AUAudioUnit {
 
     public override var internalRenderBlock: AUInternalRenderBlock { kernelAdapter.internalRenderBlock() }
 
-    public override class func instantiate(with componentDescription: AudioComponentDescription,
-                                           options: AudioComponentInstantiationOptions = [],
+    public override class func instantiate(with componentDescription: AudioComponentDescription, options: AudioComponentInstantiationOptions = [],
                                            completionHandler: @escaping (AUAudioUnit?, Error?) -> Void) {
         do {
             let auAudioUnit = try FilterAudioUnit(componentDescription: componentDescription, options: options)
@@ -160,10 +159,7 @@ public final class FilterAudioUnit: AUAudioUnit {
         }
     }
 
-    private var userPresetsObserver: NSKeyValueObservation!
-
-    public override init(componentDescription: AudioComponentDescription,
-                         options: AudioComponentInstantiationOptions = []) throws {
+    public override init(componentDescription: AudioComponentDescription, options: AudioComponentInstantiationOptions = []) throws {
         try super.init(componentDescription: componentDescription, options: options)
 
         let info = ProcessInfo.processInfo
@@ -177,13 +173,13 @@ public final class FilterAudioUnit: AUAudioUnit {
         currentPreset = factoryPresets.first
     }
 
-    deinit {
-        if let userPresetsObserver = self.userPresetsObserver {
-            NotificationCenter.default.removeObserver(userPresetsObserver)
-        }
+    public override func parametersForOverview(withCount: Int) -> [NSNumber] {
+        Array([
+            parameterDefinitions.cutoff.address,
+            parameterDefinitions.resonance.address
+            ]
+            .map { NSNumber(value: $0) }[0..<withCount])
     }
-
-    public override func parametersForOverview(withCount: Int) -> [NSNumber] { [0, 1] }
 
     public override func supportedViewConfigurations(_ configs: [AUAudioUnitViewConfiguration]) -> IndexSet {
         os_log(.error, log: log, "supportedViewConfigurations %d", configs.count)
@@ -245,8 +241,8 @@ extension FilterAudioUnit {
 
     private func factoryState(index: Int) -> [String:Float] {
         let preset = factoryPresetValues[index]
-        return [parameterDefinitions.cutoffParam.identifier: preset.cutoff,
-                parameterDefinitions.resonanceParam.identifier: preset.resonance]
+        return [parameterDefinitions.cutoff.identifier: preset.cutoff,
+                parameterDefinitions.resonance.identifier: preset.resonance]
     }
 
     private func anyPresetState(preset: AUAudioUnitPreset) -> [String:Any]? {

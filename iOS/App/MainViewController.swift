@@ -9,8 +9,9 @@ final class MainViewController: UIViewController {
     private let cutoffSliderMaxValue: Float = 9.0
     private lazy var cutoffSliderMaxValuePower2Minus1 = Float(pow(2, cutoffSliderMaxValue) - 1)
 
-    private let audioUnitManager = AudioUnitManager<FilterViewController>(
-        componentDescription: FilterAudioUnit.componentDescription, appExt: "LPF")
+    private let audioUnitManager = AudioUnitManager<FilterViewController>(componentDescription: FilterAudioUnit.componentDescription, appExt: "LPF")
+    private var cutoff: AUParameter? { audioUnitManager.auAudioUnit?.parameterDefinitions.cutoff }
+    private var resonance: AUParameter? { audioUnitManager.auAudioUnit?.parameterDefinitions.resonance }
 
     @IBOutlet var playButton: UIButton!
 
@@ -21,6 +22,9 @@ final class MainViewController: UIViewController {
     @IBOutlet var resonanceTextField: UITextField!
     
     @IBOutlet var containerView: UIView!
+
+    private var filterView: UIView?
+    private var parameterObserverToken: AUParameterObserverToken?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,11 +40,11 @@ final class MainViewController: UIViewController {
     }
 
     @IBAction private func cutoffSliderValueChanged(_ sender: UISlider) {
-        audioUnitManager.cutoffValue = frequencyValueForSliderLocation(sender.value)
+        cutoff?.value = frequencyValueForSliderLocation(sender.value)
     }
 
     @IBAction private func resonanceSliderValueChanged(_ sender: UISlider) {
-        audioUnitManager.resonanceValue = sender.value
+        resonance?.value = sender.value
     }
 }
 
@@ -59,31 +63,62 @@ private extension MainViewController {
 
 extension MainViewController: AudioUnitManagerDelegate {
 
-    func audioUnitCutoffParameterDeclared(_ parameter: AUParameter) {
+    func connected() {
+        connectFilterView()
+        connectParametersToControls()
     }
 
-    func audioUnitResonanceParameterDeclared(_ parameter: AUParameter) {
-        resonanceSlider.minimumValue = parameter.minValue
-        resonanceSlider.maximumValue = parameter.maxValue
-    }
-
-    func audioUnitViewControllerDeclared(_ viewController: UIViewController) {
-        guard let viewController = viewController as? FilterViewController else {
-            fatalError("unexpected view controller type")
-        }
-        guard let filterView = viewController.view else { return }
+    private func connectFilterView() {
+        guard let viewController = audioUnitManager.viewController else { fatalError() }
+        filterView = viewController.view
+        containerView.addSubview(filterView!)
+        filterView?.pinToSuperviewEdges()
 
         addChild(viewController)
-        filterView.frame = containerView.bounds
-        containerView.addSubview(filterView)
+        view.setNeedsLayout()
+        containerView.setNeedsLayout()
+    }
 
-        filterView.translatesAutoresizingMaskIntoConstraints = false
-        filterView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
-        filterView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
-        filterView.topAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
-        filterView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+    private func connectParametersToControls() {
+        guard let auAudioUnit = audioUnitManager.auAudioUnit else {
+            fatalError("Couldn't locate FilterAudioUnit")
+        }
 
-        viewController.didMove(toParent: self)
+        guard let parameterTree = auAudioUnit.parameterTree else {
+            fatalError("FilterAudioUnit does not define any parameters.")
+        }
+
+        guard let cutoffParameter = parameterTree.parameter(withAddress: FilterParameterAddress.cutoff.rawValue) else {
+            fatalError("Undefined cutoff parameter")
+        }
+
+        let minimumValue = cutoffParameter.minValue
+        print("cutoffParameter.minValue: \(minimumValue)")
+        let maximumValue = cutoffParameter.maxValue
+        print("cutoffParameter.maxValue: \(maximumValue)")
+
+
+        guard let resonanceParameter = parameterTree.parameter(withAddress: FilterParameterAddress.resonance.rawValue)
+        else {
+            fatalError("Undefined resonance parameter")
+        }
+
+        resonanceSlider.minimumValue = resonanceParameter.minValue
+        resonanceSlider.maximumValue = resonanceParameter.maxValue
+
+        parameterObserverToken = parameterTree.token(byAddingParameterObserver: { [weak self] address, value in
+            guard let self = self else { return }
+            switch address {
+
+            case FilterParameterAddress.cutoff.rawValue:
+                DispatchQueue.main.async { self.cutoffValueDidChange(value) }
+
+            case FilterParameterAddress.resonance.rawValue:
+                DispatchQueue.main.async { self.resonanceValueDidChange(value) }
+
+            default: break
+            }
+        })
     }
 
     func cutoffValueDidChange(_ value: Float) {

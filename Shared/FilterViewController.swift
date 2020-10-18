@@ -137,8 +137,8 @@ private extension FilterViewController {
         // Fetch the expected parameters from the parameter tree. We could fetch directly from audioUnit, but this way
         // we show that the tree was setup correctly.
         let pdefs = audioUnit.parameterDefinitions
-        guard let cutoffParam = paramTree.value(forKey: pdefs.cutoffParam.identifier) as? AUParameter,
-            let resonanceParam = paramTree.value(forKey: pdefs.resonanceParam.identifier) as? AUParameter else {
+        guard let cutoffParam = paramTree.value(forKey: pdefs.cutoff.identifier) as? AUParameter,
+            let resonanceParam = paramTree.value(forKey: pdefs.resonance.identifier) as? AUParameter else {
                 os_log(.error, log: log, "logic error -- missing parameter(s)")
                 fatalError("logic error -- missing parameter(s)")
         }

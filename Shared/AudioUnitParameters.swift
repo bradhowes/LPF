@@ -16,7 +16,7 @@ public final class AudioUnitParameters: NSObject {
     private let log = Logging.logger("FilterParameters")
 
     /// Definition of the cutoff parameter. Range is 12 - 20kHz.
-    public let cutoffParam: AUParameter = {
+    public let cutoff: AUParameter = {
         let param = AUParameterTree.createParameter(
             withIdentifier: "cutoff", name: "Cutoff", address: FilterParameterAddress.cutoff.rawValue,
             min: 12.0, max: 20_000.0, unit: .hertz, unitName: nil,
@@ -26,7 +26,7 @@ public final class AudioUnitParameters: NSObject {
     }()
 
     /// Definition of the resonance parameter. Range is -20dB - +40dB
-    public let resonanceParam: AUParameter = {
+    public let resonance: AUParameter = {
         let param = AUParameterTree.createParameter(
             withIdentifier: "resonance", name: "Resonance", address: FilterParameterAddress.resonance.rawValue,
             min: -20.0, max: 40.0, unit: .decibels, unitName: nil,
@@ -51,21 +51,21 @@ public final class AudioUnitParameters: NSObject {
     init(parameterHandler: AUParameterHandler) {
 
         // Define a new parameter tree with the parameter defintions
-        parameterTree = AUParameterTree.createTree(withChildren: [cutoffParam, resonanceParam])
+        parameterTree = AUParameterTree.createTree(withChildren: [cutoff, resonance])
         super.init()
 
         // Provide a way for the tree to change values in the AudioUnit
-        parameterTree.implementorValueObserver = { param, value in parameterHandler.set(param, value: value) }
+        parameterTree.implementorValueObserver = { parameterHandler.set($0, value: $1) }
 
-        // Provide a way for the tree to obtain the current value of a parameter
-        parameterTree.implementorValueProvider = { param in return parameterHandler.get(param) }
+        // Provide a way for the tree to obtain the current value of a parameter from the AudioUnit
+        parameterTree.implementorValueProvider = { parameterHandler.get($0) }
 
         // Provide a way to obtain String values for the current settings.
         parameterTree.implementorStringFromValueCallback = { param, value in
             let formatted: String = {
                 switch param.address {
-                case self.cutoffParam.address: return String(format: "%.2f", param.value)
-                case self.resonanceParam.address: return String(format: "%.2f", param.value)
+                case self.cutoff.address: return String(format: "%.2f", param.value)
+                case self.resonance.address: return String(format: "%.2f", param.value)
                 default: return "?"
                 }
             }()
@@ -79,37 +79,37 @@ public final class AudioUnitParameters: NSObject {
      Accept new values for the filter settings. Uses the AUParameterTree framework for communicating the changes to the
      AudioUnit.
 
-     - parameter cutoff: the new cutoff value to use
-     - parameter resonance: the new resonance value to use
+     - parameter cutoffValue: the new cutoff value to use
+     - parameter resonanceValue: the new resonance value to use
      */
     func setParameterValues(cutoff: AUValue, resonance: AUValue) {
         os_log(.info, log: log, "cutoff: %f resonance: %f", cutoff, resonance)
-        cutoffParam.value = cutoff
-        resonanceParam.value = resonance
+        self.cutoff.value = cutoff
+        self.resonance.value = resonance
     }
 }
 
 extension AudioUnitParameters {
 
     var state: [String:Float] {
-        let cutoff = cutoffParam.value
-        let resonance = resonanceParam.value
+        let cutoff = self.cutoff.value
+        let resonance = self.resonance.value
         os_log(.info, log: log, "state - cutoff: %f resonance: %f", cutoff, resonance)
-        return [cutoffParam.identifier: cutoff, resonanceParam.identifier: resonance]
+        return [self.cutoff.identifier: cutoff, self.resonance.identifier: resonance]
     }
 
     func setState(_ state: [String:Any]) {
-        guard let cutoff = state[cutoffParam.identifier] as? Float else {
-            os_log(.error, log: log, "missing '%s' in state", cutoffParam.identifier)
+        guard let cutoff = state[self.cutoff.identifier] as? Float else {
+            os_log(.error, log: log, "missing '%s' in state", self.cutoff.identifier)
             return
         }
-        cutoffParam.value = cutoff
+        self.cutoff.value = cutoff
 
-        guard let resonance = state[resonanceParam.identifier] as? Float else {
-            os_log(.error, log: log, "missing '%s' in state", resonanceParam.identifier)
+        guard let resonance = state[self.resonance.identifier] as? Float else {
+            os_log(.error, log: log, "missing '%s' in state", self.resonance.identifier)
             return
         }
-        resonanceParam.value = resonance
+        self.resonance.value = resonance
         os_log(.info, log: log, "setState - cutoff: %f resonance: %f", cutoff, resonance)
     }
 

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,12 +18,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YiJ-1a-ELQ" userLabel="Controls Header View">
-                                <rect key="frame" x="20" y="0.0" width="335" height="127.5"/>
+                                <rect key="frame" x="20" y="0.0" width="335" height="127"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="firstBaseline" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="7fx-rV-Ws4" userLabel="Buttons Container">
                                         <rect key="frame" x="152.5" y="0.0" width="30" height="30"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tzZ-pe-UL7">
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tzZ-pe-UL7">
                                                 <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <state key="normal" title="Play"/>
@@ -38,12 +40,12 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qnu-xa-K9r">
-                                        <rect key="frame" x="91" y="43.5" width="100" height="34"/>
+                                        <rect key="frame" x="91" y="43" width="100" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                     </textField>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="0.0" maxValue="9" translatesAutoresizingMaskIntoConstraints="NO" id="9rt-TL-68F">
-                                        <rect key="frame" x="197" y="45.5" width="140" height="31"/>
+                                        <rect key="frame" x="197" y="45" width="140" height="31"/>
                                         <connections>
                                             <action selector="cutoffSliderValueChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="Nhz-TD-4id"/>
                                         </connections>
@@ -55,7 +57,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="byn-dA-uK7">
-                                        <rect key="frame" x="91" y="85.5" width="100" height="34"/>
+                                        <rect key="frame" x="91" y="85" width="100" height="34"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="593-fC-fN7"/>
                                         </constraints>
@@ -102,29 +104,28 @@
                                     <constraint firstItem="9rt-TL-68F" firstAttribute="leading" secondItem="qNn-m8-7L4" secondAttribute="leading" id="zvK-KJ-p9j"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading…" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="198-45-xa8">
-                                <rect key="frame" x="129.5" y="380.5" width="116.5" height="33.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Loading…" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="198-45-xa8">
+                                <rect key="frame" x="130.5" y="380.5" width="114.5" height="33.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="68k-M7-cHK">
-                                <rect key="frame" x="8" y="127.5" width="359" height="539.5"/>
+                                <rect key="frame" x="8" y="135" width="359" height="524"/>
                             </containerView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="68k-M7-cHK" firstAttribute="top" secondItem="YiJ-1a-ELQ" secondAttribute="bottom" id="1vw-jJ-l1v"/>
+                            <constraint firstItem="68k-M7-cHK" firstAttribute="top" secondItem="YiJ-1a-ELQ" secondAttribute="bottom" constant="8" id="1vw-jJ-l1v"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YiJ-1a-ELQ" secondAttribute="trailing" constant="20" id="J1w-OT-736"/>
                             <constraint firstItem="68k-M7-cHK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="JSr-xN-3FD"/>
                             <constraint firstItem="YiJ-1a-ELQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Xaf-2D-B6b"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="68k-M7-cHK" secondAttribute="bottom" id="f0O-Cd-IJE"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="68k-M7-cHK" secondAttribute="bottom" constant="8" id="f0O-Cd-IJE"/>
                             <constraint firstItem="YiJ-1a-ELQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="gcb-Ax-44p"/>
-                            <constraint firstItem="198-45-xa8" firstAttribute="centerX" secondItem="68k-M7-cHK" secondAttribute="centerX" id="kVf-NM-Jf3"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="68k-M7-cHK" secondAttribute="trailing" constant="8" id="pxu-xY-NpT"/>
-                            <constraint firstItem="198-45-xa8" firstAttribute="centerY" secondItem="68k-M7-cHK" secondAttribute="centerY" id="s7t-K9-4yo"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
@@ -142,4 +143,9 @@
             <point key="canvasLocation" x="278" y="509"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

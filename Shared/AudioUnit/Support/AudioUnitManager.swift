@@ -9,105 +9,48 @@ import AVFoundation
 public protocol AudioUnitManagerDelegate: class {
 
     /**
-     Notification that a ViewController for the audio unit has been instantiated
-
-     - parameter viewController the new value
+     Notification that a ViewController for the audio unit has been instantiated.
      */
-    func audioUnitViewControllerDeclared(_ viewController: ViewController)
-
-    /**
-     Notification that the cutoff runtime parameter has been initialized.
-
-     - parameter parameter: the new values
-     */
-    func audioUnitCutoffParameterDeclared(_ parameter: AUParameter)
-
-    /**
-     Notification that the resonance runtime parameter has been initialized.
-
-     - parameter parameter: the new value
-     */
-    func audioUnitResonanceParameterDeclared(_ parameter: AUParameter)
-
-    /**
-     Notification that cutoff value changed.
-
-     - parameter value: new value
-     */
-    func cutoffValueDidChange(_ value: Float)
-
-    /**
-     Notification that resonance value changed.
-
-     - parameter value: new value
-     */
-    func resonanceValueDidChange(_ value: Float)
+    func connected()
 }
 
 /**
- Simple hosting container for the FilterAudioUnit when loaded in an application. Sets up a
- Manages the state of a FilterAudioUnit.
+ Simple hosting container for the FilterAudioUnit when used in an application. Loads the view controller for the
+ AudioUnit and then instantiates the audio unit itself. Finally, it wires the AudioUnit with SimmplePlayEngine to
+ send audio samples the AudioUnit.
  */
 public final class AudioUnitManager<V> where V: ViewController, V: FilterViewAudioUnitLink, V.AudioUnitType: AUAudioUnit {
 
     public typealias ViewControllerType = V
     public typealias AudioUnitType = V.AudioUnitType
 
-    /// Delegate interested in runtime parameter changes
-    public weak var delegate: AudioUnitManagerDelegate? { didSet { createAudioUnit() } }
-
-    /// Runtime parameter for the filter's cutoff
-    public var cutoffValue: Float = 0.0 { didSet { cutoffParameter?.value = cutoffValue } }
-
-    /// Runtime parameter for the filter's resonance
-    public var resonanceValue: Float = 0.0 { didSet { resonanceParameter?.value = resonanceValue } }
-
-    /// Collection of factory presets from the AudioUnit
-    public var factoryPresets: [AUAudioUnitPreset]? { auAudioUnit?.factoryPresets }
-
-    /// Collection of user presets saved for the AudioUnit
-    public var userPresets: [AUAudioUnitPreset]? { auAudioUnit?.userPresets }
-
-    /// The currently-active preset
-    public var currentPreset: AUAudioUnitPreset? {
-        get {
-            auAudioUnit?.currentPreset
+    /// Delegate interested in runtime parameter changes. Note that no AudioUnit will be created until this is set.
+    public weak var delegate: AudioUnitManagerDelegate? {
+        didSet {
+            guard let _ = viewController, let delegate = delegate else { return }
+            DispatchQueue.main.async { delegate.connected() }
         }
-        set {
-            auAudioUnit?.currentPreset = newValue
+    }
+
+    /// View controller for the AudioUnit interface
+    public private(set) var viewController: ViewControllerType? {
+        didSet {
+            guard let _ = viewController, let delegate = delegate else { return }
+            DispatchQueue.main.async { delegate.connected() }
         }
     }
 
     /// True if the audio engine is currently playing
     public var isPlaying: Bool { playEngine.isPlaying }
 
+    /// The AVAudioUnit instance that wraps the AudioUnit. Used with other AV components for simple audio processing.
     public private(set) var avAudioUnit: AVAudioUnit?
+
+    /// The AudioUnit being managed.
     public private(set) var auAudioUnit: AudioUnitType?
 
     private let log = Logging.logger("AudioUnitManager")
-
-    private var cutoffParameter: AUParameter? {
-        didSet {
-            guard let param = cutoffParameter, let delegate = delegate else { return }
-            cutoffValue = param.value
-            DispatchQueue.main.async { delegate.audioUnitCutoffParameterDeclared(param) }
-        }
-    }
-
-    private var resonanceParameter: AUParameter? {
-        didSet {
-            guard let param = resonanceParameter, let delegate = delegate else { return }
-            resonanceValue = param.value
-            DispatchQueue.main.async { delegate.audioUnitResonanceParameterDeclared(param) }
-        }
-    }
-
-    private var parameterObserverToken: AUParameterObserverToken!
-
     private let playEngine = SimplePlayEngine()
-
-    private var observationToken: NSObjectProtocol?
-
     private let componentDescription: AudioComponentDescription
     private let appExt: String
 
@@ -117,11 +60,7 @@ public final class AudioUnitManager<V> where V: ViewController, V: FilterViewAud
     public init(componentDescription: AudioComponentDescription, appExt: String) {
         self.componentDescription = componentDescription
         self.appExt = appExt
-    }
-
-    deinit {
-        guard let observationToken = self.observationToken else { return }
-        NotificationCenter.default.removeObserver(observationToken)
+        createAudioUnit()
     }
 }
 
@@ -170,17 +109,11 @@ extension AudioUnitManager {
         }
 
         self.auAudioUnit = auAudioUnit
-
         viewController.setAudioUnit(auAudioUnit)
-
-        updateCutoff()
-        updateResonance()
-        connectParametersToControls()
         playEngine.connectEffect(audioUnit: avAudioUnit)
 
-        DispatchQueue.main.async {
-            self.delegate?.audioUnitViewControllerDeclared(viewController)
-        }
+        // Keep this at the end of the initialization -- side-effect is notifying the delegate that all is connected.
+        self.viewController = viewController
     }
 
 //    private func locateAudioUnitComponent() {
@@ -227,42 +160,5 @@ public extension AudioUnitManager {
      */
     func cleanup() {
         playEngine.stop()
-        guard let parameterTree = auAudioUnit?.parameterTree else { return }
-        parameterTree.removeParameterObserver(parameterObserverToken)
-    }
-}
-
-private extension AudioUnitManager {
-
-    private func connectParametersToControls() {
-        guard let auAudioUnit = auAudioUnit else {
-            fatalError("Couldn't locate FilterAudioUnit")
-        }
-
-        guard let parameterTree = auAudioUnit.parameterTree else {
-            fatalError("FilterAudioUnit does not define any parameters.")
-        }
-
-        cutoffParameter = parameterTree.parameter(withAddress: FilterParameterAddress.cutoff.rawValue)
-        resonanceParameter = parameterTree.parameter(withAddress: FilterParameterAddress.resonance.rawValue)
-
-        parameterObserverToken = parameterTree.token(byAddingParameterObserver: { [weak self] address, _ in
-            guard let self = self else { return }
-            switch address {
-            case FilterParameterAddress.cutoff.rawValue: self.updateCutoff()
-            case FilterParameterAddress.resonance.rawValue: self.updateResonance()
-            default: break
-            }
-        })
-    }
-
-    private func updateCutoff() {
-        guard let param = cutoffParameter, let delegate = delegate else { return }
-        DispatchQueue.main.async { delegate.cutoffValueDidChange(param.value) }
-    }
-
-    private func updateResonance() {
-        guard let param = resonanceParameter, let delegate = delegate else { return }
-        DispatchQueue.main.async { delegate.resonanceValueDidChange(param.value) }
     }
 }
