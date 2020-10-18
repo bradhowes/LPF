@@ -130,6 +130,8 @@ extension MainViewController {
         guard let viewController = audioUnitManager.viewController else { fatalError() }
         filterView = viewController.view
         containerView.addSubview(filterView!)
+        filterView?.pinToSuperviewEdges()
+
         addChild(viewController)
         view.needsLayout = true
         containerView.needsLayout = true
