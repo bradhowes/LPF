@@ -115,34 +115,6 @@ extension AudioUnitManager {
         // Keep this at the end of the initialization -- side-effect is notifying the delegate that all is connected.
         self.viewController = viewController
     }
-
-//    private func locateAudioUnitComponent() {
-//        DispatchQueue.global(qos: .default).async {
-//            let found = AVAudioUnitComponentManager.shared().components(matching: self.componentDescription)
-//            guard let component = found.first else { return }
-//            self.create(component: component) {}
-//        }
-//    }
-
-//    private func create(component: AVAudioUnitComponent, closure: @escaping () -> Void) {
-//        AVAudioUnitEffect.instantiate(with: component.audioComponentDescription, options: []) { avAudioUnit, error in
-//            guard error == nil, let avAudioUnit = avAudioUnit else {
-//                fatalError("Could not instantiate audio unit: \(String(describing: error))")
-//            }
-//
-//            self.avAudioUnit = avAudioUnit as? AVAudioUnitEffect
-//            self.auAudioUnit = avAudioUnit.auAudioUnit as? FilterAudioUnit
-//            self.presets = self.auAudioUnit?.factoryPresets ?? []
-//
-//            self.connectParametersToControls()
-//            self.playEngine.connectEffect(audioUnit: avAudioUnit)
-//
-//            DispatchQueue.main.async {
-//                self.auAudioUnit?.requestViewController { self.delegate?.audioUnitViewControllerDeclared($0) }
-//            }
-//        }
-//    }
-
 }
 
 public extension AudioUnitManager {

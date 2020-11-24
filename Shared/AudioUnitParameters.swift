@@ -1,5 +1,4 @@
-// Changes: Copyright © 2020 Brad Howes. All rights reserved.
-// Original: See LICENSE folder for this sample’s licensing information.
+// Copyright © 2020 Brad Howes. All rights reserved.
 
 import Foundation
 import os
@@ -91,14 +90,14 @@ public final class AudioUnitParameters: NSObject {
 
 extension AudioUnitParameters {
 
-    var state: [String:Float] {
+    var state: [String: Float] {
         let cutoff = self.cutoff.value
         let resonance = self.resonance.value
         os_log(.info, log: log, "state - cutoff: %f resonance: %f", cutoff, resonance)
         return [self.cutoff.identifier: cutoff, self.resonance.identifier: resonance]
     }
 
-    func setState(_ state: [String:Any]) {
+    func setState(_ state: [String: Any]) {
         guard let cutoff = state[self.cutoff.identifier] as? Float else {
             os_log(.error, log: log, "missing '%s' in state", self.cutoff.identifier)
             return

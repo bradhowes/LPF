@@ -1,7 +1,6 @@
 // Copyright © 2020 Brad Howes. All rights reserved.
 
 import Cocoa
-import AVFoundation
 import LowPassFilterFramework
 
 final class MainViewController: NSViewController {
@@ -10,8 +9,9 @@ final class MainViewController: NSViewController {
     private let cutoffSliderMaxValue = 9.0
     private lazy var cutoffSliderMaxValuePower2Minus1 = Float(pow(2, cutoffSliderMaxValue) - 1)
 
-    private let audioUnitManager = AudioUnitManager<FilterViewController>(
-        componentDescription: FilterAudioUnit.componentDescription, appExt: "LPF")
+    private let audioUnitManager = AudioUnitManager<FilterViewController>(componentDescription: FilterAudioUnit.componentDescription, appExt: "LPF")
+    private var cutoff: AUParameter? { audioUnitManager.auAudioUnit?.parameterDefinitions.cutoff }
+    private var resonance: AUParameter? { audioUnitManager.auAudioUnit?.parameterDefinitions.resonance }
 
     private var playButton: NSButton?
     private var playMenuItem: NSMenuItem?
@@ -31,8 +31,6 @@ final class MainViewController: NSViewController {
 
     private var filterView: NSView?
     private var parameterObserverToken: AUParameterObserverToken?
-    private var cutoffParam: AUParameter? { audioUnitManager.auAudioUnit?.parameterDefinitions.cutoff }
-    private var resonanceParam: AUParameter? { audioUnitManager.auAudioUnit?.parameterDefinitions.resonance }
 }
 
 // MARK: - View Management
@@ -78,13 +76,9 @@ extension MainViewController {
         playMenuItem?.title = audioUnitManager.isPlaying ? "Stop" : "Play"
     }
 
-    @IBAction private func cutoffSliderValueChanged(_ sender: NSSlider) {
-        cutoffParam?.value = frequencyValueForSliderLocation(sender.floatValue)
-    }
+    @IBAction private func cutoffSliderValueChanged(_ sender: NSSlider) { cutoff?.value = frequencyValueForSliderLocation(sender.floatValue) }
 
-    @IBAction private func resonanceSliderValueChanged(_ sender: NSSlider) {
-        resonanceParam?.value = sender.floatValue
-    }
+    @IBAction private func resonanceSliderValueChanged(_ sender: NSSlider) { resonance?.value = sender.floatValue }
 
     @objc private func handleSavePresetMenuSelection(_ sender: NSMenuItem) throws {
         //        guard let audioUnit = audioUnitManager.auAudioUnit else { return }
