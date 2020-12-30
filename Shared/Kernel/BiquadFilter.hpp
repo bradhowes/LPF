@@ -24,7 +24,7 @@ public:
      @param nyquistPeriod equivalent to 1.0 / (0.5 * sampleRate)
      @param numChannels number of channels the filter will process
      */
-    void calculateParams(double frequency, double resonance, float nyquistPeriod, size_t numChannels);
+    void calculateParams(float frequency, float resonance, float nyquistPeriod, size_t numChannels);
 
     /**
      Calculate the frequency responses for the current filter configuration.
@@ -45,20 +45,16 @@ public:
      */
     void apply(std::vector<float const*> const& ins, std::vector<float*>& outs, size_t frameCount) const
     {
-        vDSP_biquadm(setup_,
-                     (float const* __nonnull* __nonnull)ins.data(), vDSP_Stride(1),
-                     (float * __nonnull * __nonnull)outs.data(), vDSP_Stride(1),
+        vDSP_biquadm(setup_, (float const* __nonnull* __nonnull)ins.data(), vDSP_Stride(1), (float * __nonnull * __nonnull)outs.data(), vDSP_Stride(1),
                      vDSP_Length(frameCount));
     }
 
 private:
-    static double squared(double x) { return x * x; }
-
     std::vector<double> F_;
     vDSP_biquadm_Setup setup_ = nullptr;
 
-    double lastFrequency_ = -1.0;
-    double lastResonance_ = 1E10;
+    float lastFrequency_ = -1.0;
+    float lastResonance_ = 1E10;
     size_t lastNumChannels_ = 0;
 
     float threshold_ = 0.05;

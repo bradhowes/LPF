@@ -4,31 +4,30 @@
 import CoreAudioKit
 import os
 
-public protocol FilterViewAudioUnitLink {
-    associatedtype AudioUnitType
-
-    func setAudioUnit(_ audioUnit: AudioUnitType)
-}
-
 /**
  Controller for the AUv3 filter view.
  */
 public final class FilterViewController: AUViewController {
 
     private let log = Logging.logger("FilterViewController")
+    private let compact = AUAudioUnitViewConfiguration(width: 400, height: 100, hostHasController: false)
+    private let expanded = AUAudioUnitViewConfiguration(width: 800, height: 500, hostHasController: false)
 
+    private var viewConfig: AUAudioUnitViewConfiguration!
     private var cutoffParam: AUParameter!
     private var resonanceParam: AUParameter!
-    private var paramObserverToken: AUParameterObserverToken?
+    private var parameterObserverToken: AUParameterObserverToken?
+    private var keyValueObserverToken: NSKeyValueObservation?
 
     @IBOutlet private weak var filterView: FilterView!
 
-    private var observer: NSKeyValueObservation?
-
-    public private(set) var audioUnit: FilterAudioUnit? {
+    public var audioUnit: FilterAudioUnit? {
         didSet {
-            os_log(.debug, log: log, "connection audioUnit")
-            performOnMain { if self.isViewLoaded { self.connectViewToAU() } }
+            performOnMain {
+                if self.isViewLoaded {
+                    self.connectViewToAU()
+                }
+            }
         }
     }
 
@@ -48,13 +47,33 @@ public final class FilterViewController: AUViewController {
         guard audioUnit != nil else { return }
         connectViewToAU()
     }
-}
 
-extension FilterViewController: FilterViewAudioUnitLink {
-    public typealias AudioUnitType = FilterAudioUnit
+    public func selectViewConfiguration(_ viewConfig: AUAudioUnitViewConfiguration) {
+        // If requested configuration is already active, do nothing
+        guard self.viewConfig != viewConfig else { return }
+        self.viewConfig = viewConfig
 
-    public func setAudioUnit(_ audioUnit: FilterAudioUnit) {
-        self.audioUnit = audioUnit
+//        let isDefault = viewConfig.width >= expanded.width && viewConfig.height >= expanded.height
+//        let fromView = isDefault ? compactView : expandedView
+//        let toView = isDefault ? expandedView : compactView
+//
+//        performOnMain {
+//            #if os(iOS)
+//            UIView.transition(from: fromView!,
+//                              to: toView!,
+//                              duration: 0.2,
+//                              options: [.transitionCrossDissolve, .layoutSubviews])
+//
+//            if toView == self.expandedView {
+//                toView?.pinToSuperviewEdges()
+//            }
+//
+//            #elseif os(macOS)
+//            self.view.addSubview(toView!)
+//            fromView!.removeFromSuperview()
+//            toView!.pinToSuperviewEdges()
+//            #endif
+//        }
     }
 }
 
@@ -78,26 +97,26 @@ extension FilterViewController: FilterViewDelegate {
 
     public func filterViewTouchBegan(_ view: FilterView) {
         os_log(.debug, log: log, "touch began")
-        cutoffParam.setValue(view.cutoff, originator: paramObserverToken, atHostTime: 0, eventType: .touch)
-        resonanceParam.setValue(view.resonance, originator: paramObserverToken, atHostTime: 0, eventType: .touch)
+        cutoffParam.setValue(view.cutoff, originator: parameterObserverToken, atHostTime: 0, eventType: .touch)
+        resonanceParam.setValue(view.resonance, originator: parameterObserverToken, atHostTime: 0, eventType: .touch)
     }
     
     public func filterView(_ view: FilterView, didChangeResonance resonance: Float) {
         os_log(.debug, log: log, "resonance changed: %f", resonance)
-        resonanceParam.setValue(resonance, originator: paramObserverToken, atHostTime: 0, eventType: .value)
+        resonanceParam.setValue(resonance, originator: parameterObserverToken, atHostTime: 0, eventType: .value)
         updateFilterViewFrequencyAndMagnitudes()
     }
 
     public func filterView(_ view: FilterView, didChangeCutoff cutoff: Float) {
         os_log(.debug, log: log, "cutoff changed: %f", cutoff)
-        cutoffParam.setValue(cutoff, originator: paramObserverToken, atHostTime: 0, eventType: .value)
+        cutoffParam.setValue(cutoff, originator: parameterObserverToken, atHostTime: 0, eventType: .value)
         updateFilterViewFrequencyAndMagnitudes()
     }
 
     public func filterView(_ view: FilterView, didChangeCutoff cutoff: Float, andResonance resonance: Float) {
         os_log(.debug, log: log, "changed cutoff: %f resonance: %f", cutoff, resonance)
-        cutoffParam.setValue(cutoff, originator: paramObserverToken, atHostTime: 0, eventType: .value)
-        resonanceParam.setValue(resonance, originator: paramObserverToken, atHostTime: 0, eventType: .value)
+        cutoffParam.setValue(cutoff, originator: parameterObserverToken, atHostTime: 0, eventType: .value)
+        resonanceParam.setValue(resonance, originator: parameterObserverToken, atHostTime: 0, eventType: .value)
         updateFilterViewFrequencyAndMagnitudes()
     }
 
@@ -113,7 +132,7 @@ extension FilterViewController: FilterViewDelegate {
     }
 }
 
-private extension FilterViewController {
+extension FilterViewController {
 
     private func updateFilterViewFrequencyAndMagnitudes() {
         guard let audioUnit = audioUnit else { return }
@@ -123,6 +142,8 @@ private extension FilterViewController {
 
     private func connectViewToAU() {
         os_log(.info, log: log, "connectViewToAU")
+
+        guard parameterObserverToken == nil else { return }
 
         guard let audioUnit = audioUnit else {
             os_log(.error, log: log, "logic error -- nil audioUnit value")
@@ -134,23 +155,23 @@ private extension FilterViewController {
             fatalError("logic error -- nil parameterTree")
         }
 
-        // Fetch the expected parameters from the parameter tree. We could fetch directly from audioUnit, but this way
-        // we show that the tree was setup correctly.
-        let pdefs = audioUnit.parameterDefinitions
-        guard let cutoffParam = paramTree.value(forKey: pdefs.cutoff.identifier) as? AUParameter,
-            let resonanceParam = paramTree.value(forKey: pdefs.resonance.identifier) as? AUParameter else {
-                os_log(.error, log: log, "logic error -- missing parameter(s)")
-                fatalError("logic error -- missing parameter(s)")
+        let defs = audioUnit.parameterDefinitions
+        guard let cutoffParam = paramTree.value(forKey: defs.cutoff.identifier) as? AUParameter,
+              let resonanceParam = paramTree.value(forKey: defs.resonance.identifier) as? AUParameter else {
+            os_log(.error, log: log, "logic error -- missing parameter(s)")
+            fatalError("logic error -- missing parameter(s)")
         }
 
         self.cutoffParam = cutoffParam
         self.resonanceParam = resonanceParam
 
-        // Update display when a runtime parameter changes
-        paramObserverToken = paramTree.token(byAddingParameterObserver: { [weak self] address, value in
+        // Observe major state changes like a user selecting a user preset.
+        keyValueObserverToken = audioUnit.observe(\.allParameterValues) { _, _ in self.performOnMain { self.updateDisplay() } }
+
+        parameterObserverToken = paramTree.token(byAddingParameterObserver: { [weak self] address, value in
             guard let self = self else { return }
             os_log(.info, log: self.log, "- parameter value changed: %d %f", address, value)
-            self.performOnMain{ self.updateDisplay() }
+            self.performOnMain { self.updateDisplay() }
         })
 
         updateDisplay()
@@ -179,6 +200,7 @@ private extension FilterViewController {
 
 #if os(iOS)
 extension FilterViewController: UITextFieldDelegate {
+
     // MARK: UITextFieldDelegate
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)

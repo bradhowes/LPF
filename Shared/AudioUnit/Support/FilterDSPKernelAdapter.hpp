@@ -4,14 +4,6 @@
 #import <AudioToolbox/AudioToolbox.h>
 
 /**
- Address definitions for AUParameter settings. Available in Swift as `FilterParameterAddress.*`
- */
-typedef NS_ENUM(AUParameterAddress, FilterParameterAddress) {
-    FilterParameterAddressCutoff = 1,
-    FilterParameterAddressResonance = 2
-};
-
-/**
  Protocol that handles AUParameter get and set operations.
  */
 @protocol AUParameterHandler
@@ -29,8 +21,16 @@ typedef NS_ENUM(AUParameterAddress, FilterParameterAddress) {
 @end
 
 /**
+ Address definitions for AUParameter settings. Available in Swift as `FilterParameterAddress.*`
+ */
+typedef NS_ENUM(AUParameterAddress, FilterParameterAddress) {
+    FilterParameterAddressCutoff = 1,
+    FilterParameterAddressResonance = 2
+};
+
+/**
  Small Obj-C wrapper around the FilterDSPKernel C++ class. Handles AUParameter get/set requests by forwarding them to
- the kernel.
+ the kernel. Provides the API for Swift (UI) access.
  */
 @interface FilterDSPKernelAdapter : NSObject <AUParameterHandler>
 
@@ -58,7 +58,7 @@ typedef NS_ENUM(AUParameterAddress, FilterParameterAddress) {
 - (nonnull AUInternalRenderBlock)internalRenderBlock;
 
 /**
- Request by the FilterViewController to fetch the frequency respones of the low-pass filter.
+ Request by the FilterViewController to fetch the frequency responses of the low-pass filter.
 
  @param frequencies C array of frequencies to use
  @param count the number of frequencies in the C array

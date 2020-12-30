@@ -6,7 +6,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 
 /**
- Base class for DSP kernels that provides commmon functionality. It properly interleaves render events with parameter
+ Base class for DSP kernels that provides common functionality. It properly interleaves render events with parameter
  updates.
 
  Derived classes must define two methods: `renderFrames` and `handleParameterEvent`.

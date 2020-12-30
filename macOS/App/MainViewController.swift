@@ -2,6 +2,7 @@
 
 import Cocoa
 import LowPassFilterFramework
+import os
 
 final class MainViewController: NSViewController {
 
@@ -9,9 +10,9 @@ final class MainViewController: NSViewController {
     private let cutoffSliderMaxValue = 9.0
     private lazy var cutoffSliderMaxValuePower2Minus1 = Float(pow(2, cutoffSliderMaxValue) - 1)
 
-    private let audioUnitManager = AudioUnitManager<FilterViewController>(componentDescription: FilterAudioUnit.componentDescription, appExt: "LPF")
-    private var cutoff: AUParameter? { audioUnitManager.auAudioUnit?.parameterDefinitions.cutoff }
-    private var resonance: AUParameter? { audioUnitManager.auAudioUnit?.parameterDefinitions.resonance }
+    private let audioUnitManager = AudioUnitManager(componentDescription: FilterAudioUnit.componentDescription, appExtension: "LPF")
+    private var cutoff: AUParameter? { audioUnitManager.viewController.audioUnit?.parameterDefinitions.cutoff }
+    private var resonance: AUParameter? { audioUnitManager.viewController.audioUnit?.parameterDefinitions.resonance }
 
     private var playButton: NSButton?
     private var playMenuItem: NSMenuItem?
@@ -81,28 +82,37 @@ extension MainViewController {
     @IBAction private func resonanceSliderValueChanged(_ sender: NSSlider) { resonance?.value = sender.floatValue }
 
     @objc private func handleSavePresetMenuSelection(_ sender: NSMenuItem) throws {
-        //        guard let audioUnit = audioUnitManager.auAudioUnit else { return }
-        //        guard let presetMenu = NSApplication.shared.mainMenu?.item(withTag: 666)?.submenu else { return }
-        //
-        //        let preset = AUAudioUnitPreset()
-        //        let index = audioUnitManager.presets.count
-        //        preset.name = "Preset \(index + 1)"
-        //        preset.number = -index
-        //        try audioUnit.saveUserPreset(preset)
-        //        let menuItem = NSMenuItem(title: preset.name,
-        //                                  action: #selector(handlePresetMenuSelection(_:)),
-        //                                  keyEquivalent: "")
-        //        menuItem.tag = preset.number
-        //        presetMenu.addItem(menuItem)
-        //        audioUnitManager.presets.append(preset)
+        guard let audioUnit = audioUnitManager.viewController.audioUnit else { return }
+        guard let presetMenu = NSApplication.shared.mainMenu?.item(withTag: 666)?.submenu else { return }
+
+        let preset = AUAudioUnitPreset()
+        let index = audioUnit.userPresets.count + 1
+        preset.name = "Preset \(index)"
+        preset.number = -index
+
+        do {
+            try audioUnit.saveUserPreset(preset)
+        } catch {
+            print(error.localizedDescription)
+        }
+
+        let menuItem = NSMenuItem(title: preset.name,
+                                  action: #selector(handlePresetMenuSelection(_:)),
+                                  keyEquivalent: "")
+        menuItem.tag = preset.number
+        presetMenu.addItem(menuItem)
     }
 
     @objc private func handlePresetMenuSelection(_ sender: NSMenuItem) {
-        guard let audioUnit = audioUnitManager.auAudioUnit else { return }
+        guard let audioUnit = audioUnitManager.viewController.audioUnit else { return }
         sender.menu?.items.forEach { $0.state = .off }
         if sender.tag >= 0 {
             audioUnit.currentPreset = audioUnit.factoryPresets[sender.tag]
         }
+        else {
+            audioUnit.currentPreset = audioUnit.userPresets[sender.tag]
+        }
+
         sender.state = .on
     }
 }
@@ -111,7 +121,7 @@ extension MainViewController {
 extension MainViewController: NSWindowDelegate {
     func windowWillClose(_ notification: Notification) {
         audioUnitManager.cleanup()
-        guard let parameterTree = audioUnitManager.auAudioUnit?.parameterTree,
+        guard let parameterTree = audioUnitManager.viewController.audioUnit?.parameterTree,
             let parameterObserverToken = parameterObserverToken else { return }
         parameterTree.removeParameterObserver(parameterObserverToken)
     }
@@ -121,44 +131,30 @@ extension MainViewController: NSWindowDelegate {
 extension MainViewController {
 
     private func connectFilterView() {
-        guard let viewController = audioUnitManager.viewController else { fatalError() }
+        let viewController = audioUnitManager.viewController
         filterView = viewController.view
         containerView.addSubview(filterView!)
         filterView?.pinToSuperviewEdges()
 
         addChild(viewController)
-        view.needsLayout = true
-        containerView.needsLayout = true
+        view.setNeedsLayout()
+        containerView.setNeedsLayout()
     }
 
     private func connectParametersToControls() {
-        guard let auAudioUnit = audioUnitManager.auAudioUnit else {
-            fatalError("Couldn't locate FilterAudioUnit")
-        }
-
-        guard let parameterTree = auAudioUnit.parameterTree else {
-            fatalError("FilterAudioUnit does not define any parameters.")
-        }
-
-        guard let _ = parameterTree.parameter(withAddress: FilterParameterAddress.cutoff.rawValue) else {
-            fatalError("Undefined cutoff parameter")
-        }
-
-        guard let resonanceParameter = parameterTree.parameter(withAddress: FilterParameterAddress.resonance.rawValue)
-            else {
-                fatalError("Undefined resonance parameter")
-        }
+        guard let auAudioUnit = audioUnitManager.viewController.audioUnit else { fatalError("Couldn't locate FilterAudioUnit") }
+        guard let parameterTree = auAudioUnit.parameterTree else { fatalError("FilterAudioUnit does not define any parameters.") }
+        guard let _ = parameterTree.parameter(withAddress: .cutoff) else { fatalError("Undefined cutoff parameter") }
+        guard let resonanceParameter = parameterTree.parameter(withAddress: .resonance) else { fatalError("Undefined resonance parameter") }
 
         resonanceSlider.minValue = Double(resonanceParameter.minValue)
         resonanceSlider.maxValue = Double(resonanceParameter.maxValue)
 
         parameterObserverToken = parameterTree.token(byAddingParameterObserver: { [weak self] address, value in
             guard let self = self else { return }
-            switch address {
-            case FilterParameterAddress.cutoff.rawValue:
-                DispatchQueue.main.async { self.cutoffValueDidChange(value) }
-            case FilterParameterAddress.resonance.rawValue:
-                DispatchQueue.main.async { self.resonanceValueDidChange(value) }
+            switch address.filterParameter {
+            case .cutoff: DispatchQueue.main.async { self.cutoffValueDidChange(value) }
+            case .resonance: DispatchQueue.main.async { self.resonanceValueDidChange(value) }
             default: break
             }
         })
@@ -166,16 +162,14 @@ extension MainViewController {
         populatePresetMenu(auAudioUnit)
     }
 
-    private func cutoffValueDidChange(_ value: AUValue) {
+    public func cutoffValueDidChange(_ value: AUValue) {
         cutoffSlider.floatValue = sliderLocationForFrequencyValue(value)
         cutoffTextField.text = String(format: "%.f", value)
-        clearPresetCheck()
     }
 
-    private func resonanceValueDidChange(_ value: AUValue) {
+    public func resonanceValueDidChange(_ value: AUValue) {
         resonanceSlider.floatValue = value
         resonanceTextField.text = String(format: "%.2f", value)
-        clearPresetCheck()
     }
 
     private func populatePresetMenu(_ audioUnit: FilterAudioUnit) {
@@ -209,12 +203,5 @@ extension MainViewController {
     private func frequencyValueForSliderLocation(_ location: Float) -> Float {
         ((pow(2, location) - 1) / cutoffSliderMaxValuePower2Minus1) * (FilterView.hertzMax - FilterView.hertzMin) +
             FilterView.hertzMin
-    }
-
-    private func clearPresetCheck() {
-        guard let presetMenu = NSApplication.shared.mainMenu?.item(withTag: 666)?.submenu else { return }
-        guard let audioUnit = audioUnitManager.auAudioUnit else { return }
-        guard !audioUnit.usingPreset else { return }
-        presetMenu.items.forEach { $0.state = .off }
     }
 }

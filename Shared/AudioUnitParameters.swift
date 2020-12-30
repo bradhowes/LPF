@@ -15,26 +15,12 @@ public final class AudioUnitParameters: NSObject {
     private let log = Logging.logger("FilterParameters")
 
     /// Definition of the cutoff parameter. Range is 12 - 20kHz.
-    public let cutoff: AUParameter = {
-        let param = AUParameterTree.createParameter(
-            withIdentifier: "cutoff", name: "Cutoff", address: FilterParameterAddress.cutoff.rawValue,
-            min: 12.0, max: 20_000.0, unit: .hertz, unitName: nil,
-            flags: [.flag_IsReadable, .flag_IsWritable, .flag_CanRamp], valueStrings: nil, dependentParameters: nil)
-        param.value = 440.0
-        return param
-    }()
+    public let cutoff: AUParameter
 
     /// Definition of the resonance parameter. Range is -20dB - +40dB
-    public let resonance: AUParameter = {
-        let param = AUParameterTree.createParameter(
-            withIdentifier: "resonance", name: "Resonance", address: FilterParameterAddress.resonance.rawValue,
-            min: -20.0, max: 40.0, unit: .decibels, unitName: nil,
-            flags: [.flag_IsReadable, .flag_IsWritable, .flag_CanRamp], valueStrings: nil, dependentParameters: nil)
-        param.value = 5.0
-        return param
-    }()
+    public let resonance: AUParameter
 
-    /// AUParameterTree created with the parameter defintions for the audio unit
+    /// AUParameterTree created with the parameter definitions for the audio unit
     public let parameterTree: AUParameterTree
 
     /**
@@ -48,8 +34,16 @@ public final class AudioUnitParameters: NSObject {
      - parameter parameterHandler the object to use to handle the AUParameterTree requests
      */
     init(parameterHandler: AUParameterHandler) {
+        cutoff = AUParameterTree.createParameter(withIdentifier: "cutoff", name: "Cutoff", address: FilterParameterAddress.cutoff.rawValue, min: 12.0, max: 20_000.0,
+                                                 unit: .hertz, unitName: nil, flags: [.flag_IsReadable, .flag_IsWritable, .flag_DisplayLogarithmic], valueStrings: nil,
+                                                 dependentParameters: nil)
+        cutoff.value = 440.0
 
-        // Define a new parameter tree with the parameter defintions
+        resonance = AUParameterTree.createParameter(withIdentifier: "resonance", name: "Resonance", address: FilterParameterAddress.resonance.rawValue, min: -20.0, max: 40.0,
+                                                    unit: .decibels, unitName: nil, flags: [.flag_IsReadable, .flag_IsWritable], valueStrings: nil, dependentParameters: nil)
+        resonance.value = 5.0
+
+        // Define a new parameter tree with the parameter definitions
         parameterTree = AUParameterTree.createTree(withChildren: [cutoff, resonance])
         super.init()
 
@@ -81,41 +75,9 @@ public final class AudioUnitParameters: NSObject {
      - parameter cutoffValue: the new cutoff value to use
      - parameter resonanceValue: the new resonance value to use
      */
-    func setParameterValues(cutoff: AUValue, resonance: AUValue) {
+    public func setValues(cutoff: AUValue, resonance: AUValue) {
         os_log(.info, log: log, "cutoff: %f resonance: %f", cutoff, resonance)
         self.cutoff.value = cutoff
         self.resonance.value = resonance
-    }
-}
-
-extension AudioUnitParameters {
-
-    var state: [String: Float] {
-        let cutoff = self.cutoff.value
-        let resonance = self.resonance.value
-        os_log(.info, log: log, "state - cutoff: %f resonance: %f", cutoff, resonance)
-        return [self.cutoff.identifier: cutoff, self.resonance.identifier: resonance]
-    }
-
-    func setState(_ state: [String: Any]) {
-        guard let cutoff = state[self.cutoff.identifier] as? Float else {
-            os_log(.error, log: log, "missing '%s' in state", self.cutoff.identifier)
-            return
-        }
-        self.cutoff.value = cutoff
-
-        guard let resonance = state[self.resonance.identifier] as? Float else {
-            os_log(.error, log: log, "missing '%s' in state", self.resonance.identifier)
-            return
-        }
-        self.resonance.value = resonance
-        os_log(.info, log: log, "setState - cutoff: %f resonance: %f", cutoff, resonance)
-    }
-
-    func matches(_ state: [String:Any]) -> Bool {
-        for (key, value) in self.state {
-            guard let other = state[key] as? Float, other == value else { return false }
-        }
-        return true
     }
 }

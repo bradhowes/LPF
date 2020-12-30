@@ -93,7 +93,9 @@ FilterDSPKernel::renderFrames(AUAudioFrameCount frameCount, AUAudioFrameCount bu
         outs_[channel] = static_cast<float*>(outputs_->mBuffers[channel].mData) + bufferOffset;
     }
 
-    // Rely on the filter doing the right thing and only recalculating when needed.
+    // Rely on the filter doing the right thing and only recalculating when needed. NOTE: this is not suitable if the
+    // cutoff and/or resonance parameters are ramped. In that case we would want to recalculate the filter on every
+    // sample.
     filter_.calculateParams(cutoff_, resonance_, nyquistPeriod_, channelCount());
 
     filter_.apply(ins_, outs_, frameCount);

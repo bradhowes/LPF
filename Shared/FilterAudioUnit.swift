@@ -29,7 +29,10 @@ public final class FilterAudioUnit: AUAudioUnit {
     /// Objective-C bridge into the C++ kernel
     private let kernelAdapter = FilterDSPKernelAdapter()
 
-    /// Runtime parameter defintions for the audio unit
+    // The owning view controller
+    public weak var viewController: FilterViewController?
+
+    /// Runtime parameter definitions for the audio unit
     public lazy var parameterDefinitions: AudioUnitParameters = AudioUnitParameters(parameterHandler: kernelAdapter)
 
     private let factoryPresetValues:[(name: String, cutoff: AUValue, resonance: AUValue)] = [
@@ -38,110 +41,46 @@ public final class FilterAudioUnit: AUAudioUnit {
         ("Warm", 384.0, -3.0)
     ]
 
-    private lazy var _factoryPresets = factoryPresetValues.enumerated().map {
-        AUAudioUnitPreset(number: $0, name: $1.name)
-    }
+    private var _currentPreset: AUAudioUnitPreset? { didSet { os_log(.info, log: log, "* _currentPreset name: %{public}s", _currentPreset.descriptionOrNil) } }
 
-    private var _currentPreset: AUAudioUnitPreset? {
-        didSet {
-            os_log(.info, log: log, "* _currentPreset name: %{public}s", _currentPreset.descriptionOrNil)
-        }
-    }
+    private lazy var _factoryPresets = factoryPresetValues.enumerated().map { AUAudioUnitPreset(number: $0, name: $1.name) }
+    private lazy var _inputBusses: AUAudioUnitBusArray = { AUAudioUnitBusArray(audioUnit: self, busType: .input, busses: [kernelAdapter.inputBus]) }()
+    private lazy var _outputBusses: AUAudioUnitBusArray = { AUAudioUnitBusArray(audioUnit: self, busType: .output, busses: [kernelAdapter.outputBus]) }()
 
-    lazy private var inputBusArray: AUAudioUnitBusArray = {
-        AUAudioUnitBusArray(audioUnit: self, busType: .input, busses: [kernelAdapter.inputBus])
-    }()
-
-    lazy private var outputBusArray: AUAudioUnitBusArray = {
-        AUAudioUnitBusArray(audioUnit: self, busType: .output, busses: [kernelAdapter.outputBus])
-    }()
-
-    public override var inputBusses: AUAudioUnitBusArray { inputBusArray }
-    public override var outputBusses: AUAudioUnitBusArray { outputBusArray }
-
-    public override var fullStateForDocument: [String : Any]? {
-        get {
-            let dict = super.fullStateForDocument ?? [String : Any]()
-            os_log(.info, log: log, "* get fullStateForDocument: %{public}s", dict.description)
-            return dict
-        }
-        set {
-            os_log(.info, log: log, "* set fullStateForDocument: %{public}s", newValue.descriptionOrNil)
-            super.fullStateForDocument = newValue
-        }
-    }
-
-    public override var fullState: [String : Any]? {
-        get {
-            let dict = super.fullState ?? [String : Any]()
-            os_log(.info, log: log, "* get fullState: %{public}s", dict.description)
-            return dict
-        }
-        set {
-            super.fullState = newValue
-            os_log(.info, log: log, "* set fullState: %{public}s", newValue.descriptionOrNil)
-            os_log(.info, log: log, "- userPresets.count: %d", userPresets.count)
-            for each in userPresets {
-                os_log(.info, log: log, "- %{public}s", each.description)
-            }
-        }
-    }
+    public override var inputBusses: AUAudioUnitBusArray { _inputBusses }
+    public override var outputBusses: AUAudioUnitBusArray { _outputBusses }
 
     public override var parameterTree: AUParameterTree? {
         get { parameterDefinitions.parameterTree }
-        set { os_log(.error, log: log, "attempted to set new parameterTree") }
+        set { fatalError("attempted to set new parameterTree") }
     }
 
     public override var factoryPresets: [AUAudioUnitPreset] { _factoryPresets }
 
+    public override var supportsUserPresets: Bool { true }
+
     public override var currentPreset: AUAudioUnitPreset? {
-        get {
-            os_log(.info, log: log, "* get currentPreset %{public}s", _currentPreset.descriptionOrNil)
-            return _currentPreset
-        }
-        set { setCurrentPreset(newValue) }
-    }
+        get { _currentPreset }
+        set {
+            guard let preset = newValue else {
+                _currentPreset = nil
+                return
+            }
 
-    private func setCurrentPreset(_ value: AUAudioUnitPreset?) {
-        os_log(.info, log: log, "* setCurrentPreset %{public}s", value.descriptionOrNil)
-        guard let preset = value else {
-            _currentPreset = nil
-            return
-        }
-
-        os_log(.info, log: log, "applying preset %{public}s/%d", preset.name, preset.number)
-        if preset.number >= 0 {
-            setFactoryPreset(preset)
-        }
-        else {
-            setUserPreset(preset)
-        }
-    }
-
-    private func setFactoryPreset(_ preset: AUAudioUnitPreset) {
-        os_log(.info, log: log, "using factory")
-        let settings = factoryPresetValues[preset.number]
-        parameterDefinitions.setParameterValues(cutoff: settings.cutoff, resonance: settings.resonance)
-        _currentPreset = preset
-    }
-
-    private func setUserPreset(_ preset: AUAudioUnitPreset) {
-        os_log(.info, log: log, "using custom preset")
-        if let state = try? presetState(for: preset) {
-            fullStateForDocument = state
-            _currentPreset = preset
-        }
-    }
-
-    public override var userPresets: [AUAudioUnitPreset] {
-        get {
-            let found = localFilePresets()
-                .map { $0.lastPathComponent }
-                .sorted { $0 < $1 }
-                .map { $0.split(separator: ".").first! }
-                .enumerated().map { AUAudioUnitPreset(number: -($0 + 1), name: String($1)) }
-            os_log(.info, log: log, "found.count: %d", found.count)
-            return found
+            if preset.number >= 0 {
+                let values = factoryPresetValues[preset.number]
+                _currentPreset = preset
+                parameterDefinitions.setValues(cutoff: values.cutoff, resonance: values.resonance)
+            }
+            else {
+                do {
+                    fullStateForDocument = try presetState(for: preset)
+                    _currentPreset = preset
+                    // parameterDefinitions.setValues(cutoff: parameterDefinitions.cutoff.value, resonance: parameterDefinitions.resonance.value)
+                } catch {
+                    os_log(.error, log: log, "Unable to restore from preset '%{public}s'", preset.name)
+                }
+            }
         }
     }
 
@@ -174,24 +113,31 @@ public final class FilterAudioUnit: AUAudioUnit {
     }
 
     public override func parametersForOverview(withCount: Int) -> [NSNumber] {
-        Array([
-            parameterDefinitions.cutoff.address,
-            parameterDefinitions.resonance.address
-            ]
-            .map { NSNumber(value: $0) }[0..<withCount])
+        Array([parameterDefinitions.cutoff, parameterDefinitions.resonance].map { NSNumber(value: $0.address) }[0..<withCount])
     }
 
-    public override func supportedViewConfigurations(_ configs: [AUAudioUnitViewConfiguration]) -> IndexSet {
-        os_log(.error, log: log, "supportedViewConfigurations %d", configs.count)
-        for config in configs {
-            os_log(.error, log: log, "config: %f x %f", config.width, config.height)
+    public override func supportedViewConfigurations(_ availableViewConfigurations: [AUAudioUnitViewConfiguration]) -> IndexSet {
+        var indexSet = IndexSet()
+
+        let min = CGSize(width: 400, height: 100)
+        let max = CGSize(width: 800, height: 500)
+
+        for (index, config) in availableViewConfigurations.enumerated() {
+
+            let size = CGSize(width: config.width, height: config.height)
+
+            if size.width <= min.width && size.height <= min.height ||
+                size.width >= max.width && size.height >= max.height ||
+                size == .zero {
+
+                indexSet.insert(index)
+            }
         }
-        return IndexSet(0..<configs.count)
+        return indexSet
     }
 
     public override func select(_ viewConfiguration: AUAudioUnitViewConfiguration) {
-        os_log(.error, log: log, "select(viewConfiguration) %f x %f", viewConfiguration.width, viewConfiguration.height)
-        super.select(viewConfiguration)
+        viewController?.selectViewConfiguration(viewConfiguration)
     }
 
     public override var maximumFramesToRender: AUAudioFrameCount {
@@ -225,56 +171,5 @@ extension FilterAudioUnit {
         var output: [Float] = Array(repeating: 0.0, count: frequencies.count)
         kernelAdapter.magnitudes(frequencies, count: frequencies.count, output: &output)
         return output
-    }
-}
-
-// MARK: - Presets
-extension FilterAudioUnit {
-
-    public override var supportsUserPresets: Bool { true }
-
-    public var usingPreset: Bool {
-        guard let preset = currentPreset else { return false }
-        guard let state = anyPresetState(preset: preset) else { return false }
-        return parameterDefinitions.matches(state)
-    }
-
-    private func factoryState(index: Int) -> [String:Float] {
-        let preset = factoryPresetValues[index]
-        return [parameterDefinitions.cutoff.identifier: preset.cutoff,
-                parameterDefinitions.resonance.identifier: preset.resonance]
-    }
-
-    private func anyPresetState(preset: AUAudioUnitPreset) -> [String:Any]? {
-        if var dict = preset.number >= 0 ? factoryState(index: preset.number) : try? presetState(for: preset) {
-            dict["presetInfo"] = (preset.name, preset.number)
-            return dict
-        }
-        return nil
-    }
-
-    override public func saveUserPreset(_ userPreset: AUAudioUnitPreset) throws {
-        os_log(.info, log: log, "* saveUserPreset - %{public}s/%d", userPreset.name, userPreset.number)
-        try super.saveUserPreset(userPreset)
-    }
-
-    override public func deleteUserPreset(_ userPreset: AUAudioUnitPreset) throws {
-        os_log(.info, log: log, "* deleteUserPreset - %{public}s/%d", userPreset.name, userPreset.number)
-        try super.deleteUserPreset(userPreset)
-    }
-
-    private func localFilePresets() -> [URL] {
-        guard let library = try? FileManager.default.url(for: .allLibrariesDirectory, in: .userDomainMask,
-                                                         appropriateFor: nil, create: true) else { return [] }
-        let path = "Audio/Presets/" + Self.componentName
-            .split(separator: ":")
-            .map { $0.trimmingCharacters(in: .whitespaces) }
-            .joined(separator: "/")
-        let pluginFolder = library.appendingPathComponent(path, isDirectory: true)
-        let found = try? FileManager.default.contentsOfDirectory(at: pluginFolder, includingPropertiesForKeys: nil,
-                                                                 options: [.skipsHiddenFiles,
-                                                                           .skipsSubdirectoryDescendants,
-                                                                           .skipsPackageDescendants])
-        return found ?? []
     }
 }

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		BD06772C24CF9FA00039F161 /* Optional+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD06772B24CF9FA00039F161 /* Optional+Extensions.swift */; };
 		BD06772D24CF9FA00039F161 /* Optional+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD06772B24CF9FA00039F161 /* Optional+Extensions.swift */; };
-		BD06773224D041720039F161 /* FolderMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD06773124D041720039F161 /* FolderMonitorTests.swift */; };
 		BD18B39C24CB248100B7CB1E /* AudioComponentDescription+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD18B39A24CB247400B7CB1E /* AudioComponentDescription+Extensions.swift */; };
 		BD18B39D24CB248200B7CB1E /* AudioComponentDescription+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD18B39A24CB247400B7CB1E /* AudioComponentDescription+Extensions.swift */; };
 		BD18B39F24CB31B200B7CB1E /* AudioUnitParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD18B39E24CB31B200B7CB1E /* AudioUnitParameters.swift */; };
@@ -18,6 +17,10 @@
 		BD1F7BAD249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */; };
 		BD1F7BAE249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */; };
 		BD1F7BAF249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */; };
+		BD2FD3ED259B5104004A3196 /* AUParameterTree+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FD3EC259B5104004A3196 /* AUParameterTree+Extensions.swift */; };
+		BD2FD3EE259B5104004A3196 /* AUParameterTree+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FD3EC259B5104004A3196 /* AUParameterTree+Extensions.swift */; };
+		BD2FD3F5259B5130004A3196 /* AUParameterAddress+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FD3F4259B512F004A3196 /* AUParameterAddress+Extensions.swift */; };
+		BD2FD3F6259B5130004A3196 /* AUParameterAddress+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FD3F4259B512F004A3196 /* AUParameterAddress+Extensions.swift */; };
 		BD49661624A35D8700A81F0B /* FourCharCode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */; };
 		BD49661724A35D8900A81F0B /* FourCharCode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */; };
 		BD63B15424AE25F80015236D /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = BD49661924A3605800A81F0B /* LICENSE.md */; };
@@ -219,11 +222,12 @@
 /* Begin PBXFileReference section */
 		7E56CF207E56CEE000000001 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; wrapsLines = 1; };
 		BD06772B24CF9FA00039F161 /* Optional+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Optional+Extensions.swift"; sourceTree = "<group>"; };
-		BD06773124D041720039F161 /* FolderMonitorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderMonitorTests.swift; sourceTree = "<group>"; };
 		BD18B39A24CB247400B7CB1E /* AudioComponentDescription+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AudioComponentDescription+Extensions.swift"; sourceTree = "<group>"; };
 		BD18B39E24CB31B200B7CB1E /* AudioUnitParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioUnitParameters.swift; sourceTree = "<group>"; };
 		BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BiquadFilter.cpp; sourceTree = "<group>"; };
 		BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BiquadFilter.hpp; sourceTree = "<group>"; };
+		BD2FD3EC259B5104004A3196 /* AUParameterTree+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AUParameterTree+Extensions.swift"; sourceTree = "<group>"; };
+		BD2FD3F4259B512F004A3196 /* AUParameterAddress+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AUParameterAddress+Extensions.swift"; sourceTree = "<group>"; };
 		BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FourCharCode+Extensions.swift"; sourceTree = "<group>"; };
 		BD49661924A3605800A81F0B /* LICENSE.md */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = LICENSE.md; sourceTree = "<group>"; };
 		BD63B15824AE26D40015236D /* LFOTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LFOTests.mm; sourceTree = "<group>"; };
@@ -304,7 +308,6 @@
 		C4F004A52239B2070014E248 /* FilterAudioUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterAudioUnit.swift; sourceTree = "<group>"; };
 		C4F07730223AC4F5008FFF06 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		C4F07734223ACB91008FFF06 /* Synth.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Synth.aif; sourceTree = "<group>"; };
-		F145FF70F145FFC000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		F14BFD10F14BCC1000000001 /* APPLE_LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = APPLE_LICENSE.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -378,6 +381,8 @@
 			isa = PBXGroup;
 			children = (
 				BDB7CE99249FC026009580D5 /* AUAudioUnitPreset+Extensions.swift */,
+				BD2FD3EC259B5104004A3196 /* AUParameterTree+Extensions.swift */,
+				BD2FD3F4259B512F004A3196 /* AUParameterAddress+Extensions.swift */,
 				BD18B39A24CB247400B7CB1E /* AudioComponentDescription+Extensions.swift */,
 				BDE2CDF324A3DF13004AC8FA /* Bundle+Extensions.swift */,
 				BDB11A5624A13C8900DD8EF9 /* CALayer+Extensions.swift */,
@@ -396,7 +401,6 @@
 			children = (
 				BD95147724A08BB600D8024C /* NewSwiftTestTemplate.swift */,
 				BD938B4F24A6BC1F00892358 /* BiquadFilterTests.mm */,
-				BD06773124D041720039F161 /* FolderMonitorTests.swift */,
 				BD63B15824AE26D40015236D /* LFOTests.mm */,
 				BDB11A6224A1530D00DD8EF9 /* LogScaling.swift */,
 				BD95148424A092E800D8024C /* RampingValueChangeDetectorTests.mm */,
@@ -622,10 +626,9 @@
 		F1464A50F1463F7000000001 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				BDE2CE1724A3E887004AC8FA /* Dev.xcconfig */,
 				BDE2CE1924A3EBD1004AC8FA /* Common.xcconfig */,
+				BDE2CE1724A3E887004AC8FA /* Dev.xcconfig */,
 				BDE2CE1824A3E8DB004AC8FA /* Staging.xcconfig */,
-				F145FF70F145FFC000000001 /* SampleCode.xcconfig */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -950,7 +953,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BD06773224D041720039F161 /* FolderMonitorTests.swift in Sources */,
 				BD95147824A08BB600D8024C /* NewSwiftTestTemplate.swift in Sources */,
 				BD938B5024A6BC1F00892358 /* BiquadFilterTests.mm in Sources */,
 				BD95148524A092E800D8024C /* RampingValueChangeDetectorTests.mm in Sources */,
@@ -982,6 +984,7 @@
 				C4F004A62239B2070014E248 /* FilterAudioUnit.swift in Sources */,
 				C4BEE7F822236F44001E6B6D /* AudioUnitManager.swift in Sources */,
 				BDB11A5824A13CB100DD8EF9 /* CALayer+Extensions.swift in Sources */,
+				BD2FD3ED259B5104004A3196 /* AUParameterTree+Extensions.swift in Sources */,
 				BDB11A6024A13FCF00DD8EF9 /* CATransaction+Extensions.swift in Sources */,
 				C4A3D65B223FF12A002784D4 /* SimplePlayEngine.swift in Sources */,
 				BDE2CDF124A3DEE4004AC8FA /* Logging.swift in Sources */,
@@ -994,6 +997,7 @@
 				BDB11A5C24A13F8700DD8EF9 /* Color+Extensions.swift in Sources */,
 				BDB7CE9B249FC0AB009580D5 /* AUAudioUnitPreset+Extensions.swift in Sources */,
 				C4F004A32239B1E10014E248 /* FilterDSPKernelAdapter.mm in Sources */,
+				BD2FD3F5259B5130004A3196 /* AUParameterAddress+Extensions.swift in Sources */,
 				BD18B3A024CB31B200B7CB1E /* AudioUnitParameters.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1035,8 +1039,10 @@
 				BDE2CDF224A3DEE5004AC8FA /* Logging.swift in Sources */,
 				BDB11A5924A13CB200DD8EF9 /* CALayer+Extensions.swift in Sources */,
 				BDB11A5D24A13F8800DD8EF9 /* Color+Extensions.swift in Sources */,
+				BD2FD3EE259B5104004A3196 /* AUParameterTree+Extensions.swift in Sources */,
 				BDE2CDF624A3DF25004AC8FA /* Bundle+Extensions.swift in Sources */,
 				C4BEE80022236F6E001E6B6D /* TypeAliases.swift in Sources */,
+				BD2FD3F6259B5130004A3196 /* AUParameterAddress+Extensions.swift in Sources */,
 				BD1F7BAD249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */,
 				C4F004A72239B2070014E248 /* FilterAudioUnit.swift in Sources */,
 				C4A3D65C223FF12A002784D4 /* SimplePlayEngine.swift in Sources */,

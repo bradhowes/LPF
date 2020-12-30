@@ -22,7 +22,7 @@ public:
     using counter_type = std::atomic<int32_t>;
 
     /**
-     Construct new parameter ramp with an initial value.
+     Construct new parameter detector with an initial value.
 
      @param value the initial value of the parameter
      */
@@ -68,7 +68,8 @@ public:
     operator T() const { return value_; }
 
     /**
-     Determine if the parameter was changed since the last time it was checked.
+     Determine if the parameter was changed since the last time it was checked. Note that this is a mutating operation: it will only return true
+     once if there are no changes between calls.
 
      @returns true if so
      */
@@ -82,6 +83,6 @@ public:
 
 private:
     T value_;
-    counter_type changeCounter_;
-    int32_t lastUpdateCounter_ = 0;
+    counter_type changeCounter_; // NOTE: should only be manipulated in `operator =` method
+    int32_t lastUpdateCounter_ = 0; // NOTE: should only be manipulated in `wasChanged` method
 };
