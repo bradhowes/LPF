@@ -10,8 +10,6 @@ import os
 public final class FilterViewController: AUViewController {
 
     private let log = Logging.logger("FilterViewController")
-    private let compact = AUAudioUnitViewConfiguration(width: 400, height: 100, hostHasController: false)
-    private let expanded = AUAudioUnitViewConfiguration(width: 800, height: 500, hostHasController: false)
 
     private var viewConfig: AUAudioUnitViewConfiguration!
     private var cutoffParam: AUParameter!
@@ -49,31 +47,8 @@ public final class FilterViewController: AUViewController {
     }
 
     public func selectViewConfiguration(_ viewConfig: AUAudioUnitViewConfiguration) {
-        // If requested configuration is already active, do nothing
         guard self.viewConfig != viewConfig else { return }
         self.viewConfig = viewConfig
-
-//        let isDefault = viewConfig.width >= expanded.width && viewConfig.height >= expanded.height
-//        let fromView = isDefault ? compactView : expandedView
-//        let toView = isDefault ? expandedView : compactView
-//
-//        performOnMain {
-//            #if os(iOS)
-//            UIView.transition(from: fromView!,
-//                              to: toView!,
-//                              duration: 0.2,
-//                              options: [.transitionCrossDissolve, .layoutSubviews])
-//
-//            if toView == self.expandedView {
-//                toView?.pinToSuperviewEdges()
-//            }
-//
-//            #elseif os(macOS)
-//            self.view.addSubview(toView!)
-//            fromView!.removeFromSuperview()
-//            toView!.pinToSuperviewEdges()
-//            #endif
-//        }
     }
 }
 
