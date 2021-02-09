@@ -21,8 +21,7 @@ FilterDSPKernel::startProcessing(AVAudioFormat* format, AVAudioChannelCount chan
     KernelEventProcessor::startProcessing(format, channelCount, maxFramesToRender);
     
     sampleRate_ = format.sampleRate;
-    nyquistFrequency_ = 0.5 * sampleRate_;
-    nyquistPeriod_ = 1.0 / nyquistFrequency_;
+    nyquistPeriod_ = 2.0 / sampleRate_;
     reset();
 }
 

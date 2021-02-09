@@ -45,7 +45,6 @@ public:
     float cutoff() const { return cutoff_; }
     float resonance() const { return resonance_; }
     float sampleRate() const { return sampleRate_; }
-    float nyquistFrequency() const { return nyquistFrequency_; }
     float nyquistPeriod() const { return nyquistPeriod_; }
 
 private:
@@ -60,8 +59,7 @@ private:
     BiquadFilter filter_;
 
     float sampleRate_ = 44100.0;
-    float nyquistFrequency_ = 0.5 * sampleRate_;
-    float nyquistPeriod_ = 1.0 / nyquistFrequency_;
+    float nyquistPeriod_ = 2.0 / sampleRate_;
     float cutoff_;
     float resonance_;
 

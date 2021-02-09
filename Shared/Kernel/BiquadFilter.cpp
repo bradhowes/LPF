@@ -22,7 +22,7 @@ BiquadFilter::calculateParams(float frequency, float resonance, float nyquistPer
 
     for (auto channel = 0; channel < numChannels; ++channel) {
         F_.push_back(c3);
-        F_.push_back(2.0 * c3);
+        F_.push_back(c3 + c3);
         F_.push_back(c3);
         F_.push_back(-c2);
         F_.push_back(c1);
