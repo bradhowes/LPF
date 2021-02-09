@@ -8,8 +8,14 @@ on:
 
 jobs:
   build:
+    runs-on: ios-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run iOS build
+      run: xcodebuild clean build -scheme 'iOS App' -destination 'name=iPhone 12' -showBuildTimingSummary -allowProvisioningUpdates
+  build:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Run tests
-      run: xcodebuild clean build -scheme 'iOS App' -destination 'name=iPhone 12' -showBuildTimingSummary -allowProvisioningUpdates
+    - name: Run macOS build
+      run: xcodebuild clean build -scheme 'macOS App' -showBuildTimingSummary -allowProvisioningUpdates
