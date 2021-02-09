@@ -9,21 +9,18 @@ final class MainViewController: UIViewController {
     private let cutoffSliderMaxValue: Float = 9.0
     private lazy var cutoffSliderMaxValuePower2Minus1 = Float(pow(2, cutoffSliderMaxValue) - 1)
 
-    private let audioUnitManager = AudioUnitManager(componentDescription: FilterAudioUnit.componentDescription, appExtension: "LPF")
+    private let audioUnitManager = AudioUnitManager(componentDescription: FilterAudioUnit.componentDescription,
+                                                    appExtension: "LPF")
     private var cutoff: AUParameter? { audioUnitManager.audioUnit?.parameterDefinitions.cutoff }
     private var resonance: AUParameter? { audioUnitManager.audioUnit?.parameterDefinitions.resonance }
 
     @IBOutlet var playButton: UIButton!
-
     @IBOutlet var cutoffSlider: UISlider!
     @IBOutlet var cutoffTextField: UITextField!
-
     @IBOutlet var resonanceSlider: UISlider!
     @IBOutlet var resonanceTextField: UITextField!
-    
     @IBOutlet var containerView: UIView!
 
-    private var filterView: UIView?
     private var parameterObserverToken: AUParameterObserverToken?
 
     override func viewDidLoad() {
@@ -48,18 +45,6 @@ final class MainViewController: UIViewController {
     }
 }
 
-private extension MainViewController {
-
-    func sliderLocationForFrequencyValue(_ frequency: Float) -> Float {
-        log(((frequency - FilterView.hertzMin) / (FilterView.hertzMax - FilterView.hertzMin)) * cutoffSliderMaxValuePower2Minus1 + 1.0) / log(2)
-    }
-
-    func frequencyValueForSliderLocation(_ location: Float) -> Float {
-        ((pow(2, location) - 1) / cutoffSliderMaxValuePower2Minus1) * (FilterView.hertzMax - FilterView.hertzMin) + FilterView.hertzMin
-    }
-}
-
-// MARK: - AudioUnitManagerDelegate
 extension MainViewController: AudioUnitManagerDelegate {
 
     func connected() {
@@ -72,9 +57,9 @@ extension MainViewController {
 
     private func connectFilterView() {
         let viewController = audioUnitManager.viewController
-        filterView = viewController.view
-        containerView.addSubview(filterView!)
-        filterView?.pinToSuperviewEdges()
+        guard let filterView = viewController.view else { fatalError("no view found from audio unit") }
+        containerView.addSubview(filterView)
+        filterView.pinToSuperviewEdges()
 
         addChild(viewController)
         view.setNeedsLayout()
@@ -82,10 +67,18 @@ extension MainViewController {
     }
 
     private func connectParametersToControls() {
-        guard let audioUnit = audioUnitManager.audioUnit else { fatalError("Couldn't locate FilterAudioUnit") }
-        guard let parameterTree = audioUnit.parameterTree else { fatalError("FilterAudioUnit does not define any parameters.") }
-        guard let _ = parameterTree.parameter(withAddress: .cutoff) else { fatalError("Undefined cutoff parameter") }
-        guard let resonanceParameter = parameterTree.parameter(withAddress: .resonance) else { fatalError("Undefined resonance parameter") }
+        guard let audioUnit = audioUnitManager.audioUnit else {
+            fatalError("Couldn't locate FilterAudioUnit")
+        }
+        guard let parameterTree = audioUnit.parameterTree else {
+            fatalError("FilterAudioUnit does not define any parameters.")
+        }
+        guard let _ = parameterTree.parameter(withAddress: .cutoff) else {
+            fatalError("Undefined cutoff parameter")
+        }
+        guard let resonanceParameter = parameterTree.parameter(withAddress: .resonance) else {
+            fatalError("Undefined resonance parameter")
+        }
 
         resonanceSlider.minimumValue = resonanceParameter.minValue
         resonanceSlider.maximumValue = resonanceParameter.maxValue
@@ -108,5 +101,15 @@ extension MainViewController {
     private func resonanceValueDidChange(_ value: Float) {
         resonanceSlider.value = value
         resonanceTextField.text = String(format: "%.2f", value)
+    }
+
+    func sliderLocationForFrequencyValue(_ frequency: Float) -> Float {
+        log(((frequency - FilterView.hertzMin) / (FilterView.hertzMax - FilterView.hertzMin)) *
+                cutoffSliderMaxValuePower2Minus1 + 1.0) / log(2)
+    }
+
+    func frequencyValueForSliderLocation(_ location: Float) -> Float {
+        ((pow(2, location) - 1) / cutoffSliderMaxValuePower2Minus1) * (FilterView.hertzMax - FilterView.hertzMin) +
+            FilterView.hertzMin
     }
 }

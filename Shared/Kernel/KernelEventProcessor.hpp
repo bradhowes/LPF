@@ -23,9 +23,11 @@ public:
 
     KernelEventProcessor(os_log_t logger) : logger_{logger} {}
 
-    void setFormat(AVAudioFormat* format, AVAudioChannelCount channelCount, AUAudioFrameCount maxFramesToRender) {
+    void startProcessing(AVAudioFormat* format, AVAudioChannelCount channelCount, AUAudioFrameCount maxFramesToRender) {
         inputBuffer_.setFormat(format, channelCount, maxFramesToRender);
     }
+
+    void stopProcessing() { inputBuffer_.reset(); }
 
     void setBypass(bool bypass) { bypassed_ = bypass; }
 
@@ -53,6 +55,7 @@ public:
 
         setBuffers(inputBuffer_.audioBufferList(), output);
         render(timestamp, frameCount, realtimeEventListHead);
+        clearBuffers();
 
         return noErr;
     }
@@ -115,6 +118,13 @@ private:
             ins_.emplace_back(static_cast<float*>(inputs_->mBuffers[channel].mData));
             outs_.emplace_back(static_cast<float*>(outputs_->mBuffers[channel].mData));
         }
+    }
+
+    void clearBuffers() {
+        inputs_ = nullptr;
+        outputs_ = nullptr;
+        ins_.clear();
+        outs_.clear();
     }
 
     AURenderEvent const* renderEventsUntil(AUEventSampleTime now, AURenderEvent const* event) {

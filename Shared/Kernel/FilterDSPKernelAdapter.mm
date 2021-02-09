@@ -18,9 +18,13 @@
     return self;
 }
 
-- (void) configureInput:(AVAudioFormat*)inputFormat output:(AVAudioFormat*)outputFormat
-      maxFramesToRender:(AUAudioFrameCount)maxFramesToRender {
-    kernel_.setFormat(inputFormat, outputFormat.channelCount, maxFramesToRender);
+- (void)startProcessing:(AVAudioFormat*)inputFormat output:(AVAudioFormat*)outputFormat
+     maxFramesToRender:(AUAudioFrameCount)maxFramesToRender {
+    kernel_.startProcessing(inputFormat, outputFormat.channelCount, maxFramesToRender);
+}
+
+- (void)stopProcessing {
+    kernel_.stopProcessing();
 }
 
 - (void)magnitudes:(nonnull const float*)frequencies count:(NSInteger)count output:(nonnull float*)output {
@@ -32,25 +36,19 @@
     filter.magnitudes(frequencies, count, kernel_.nyquistPeriod(), output);
 }
 
-- (void)set:(AUParameter *)parameter value:(AUValue)value {
-    kernel_.setParameterValue(parameter.address, value);
-}
+- (void)set:(AUParameter *)parameter value:(AUValue)value { kernel_.setParameterValue(parameter.address, value); }
 
-- (AUValue)get:(AUParameter *)parameter {
-    return kernel_.getParameterValue(parameter.address);
-}
+- (AUValue)get:(AUParameter *)parameter { return kernel_.getParameterValue(parameter.address); }
 
 - (AUAudioUnitStatus) process:(AudioTimeStamp*)timestamp
                    frameCount:(UInt32)frameCount
-                     inputBus:(NSInteger)inputBusNumber
                        output:(AudioBufferList*)output
                        events:(AURenderEvent*)realtimeEventListHead
                pullInputBlock:(AURenderPullInputBlock)pullInputBlock
 {
-    os_log_with_type(logger_, OS_LOG_TYPE_INFO, "process:frameCount - frameCount: %d", frameCount);
-
-    return kernel_.processAndRender(timestamp, frameCount, inputBusNumber, output, realtimeEventListHead,
-                                    pullInputBlock);
+    os_log_with_type(logger_, OS_LOG_TYPE_DEBUG, "process:frameCount - frameCount: %d", frameCount);
+    auto inputBus = 0;
+    return kernel_.processAndRender(timestamp, frameCount, inputBus, output, realtimeEventListHead, pullInputBlock);
 }
 
 @end

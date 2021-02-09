@@ -20,7 +20,8 @@ public final class FilterAudioUnit: AUAudioUnit {
         case unableToInitialize(String)
     }
 
-    /// Component description for the AudioUnit. This must match the values found in the Info.plist
+    /// Component description that matches this AudioUnit. The values must match those found in the Info.plist
+    /// Used by the app hosts to load the right component.
     public static let componentDescription = AudioComponentDescription(
         componentType: kAudioUnitType_Effect,
         componentSubType: FourCharCode(stringLiteral: "lpas"),
@@ -29,60 +30,27 @@ public final class FilterAudioUnit: AUAudioUnit {
         componentFlagsMask: 0
     )
 
-    private let sampleRate: Double = 44100.0
-    private let maxNumberOfChannels: UInt32 = 8
-    private let maxFramesToRender: UInt32 = 512
-
     /// Name of the component
     public static let componentName = "B-Ray: Low-pass"
-
-    /// Objective-C bridge into the C++ kernel
-    private let kernel = FilterDSPKernelAdapter()
-
-    // The owning view controller
+    /// The associated view controller for the audio unit that shows the controls
     public weak var viewController: FilterViewController?
-
     /// Runtime parameter definitions for the audio unit
     public lazy var parameterDefinitions: AudioUnitParameters = AudioUnitParameters(parameterHandler: kernel)
-
-    private let factoryPresetValues:[(name: String, cutoff: AUValue, resonance: AUValue)] = [
-        ("Prominent", 2500.0, 5.0),
-        ("Bright", 14_000.0, 12.0),
-        ("Warm", 384.0, -3.0)
-    ]
-
-    private var _currentPreset: AUAudioUnitPreset? {
-        didSet { os_log(.info, log: log, "* _currentPreset name: %{public}s", _currentPreset.descriptionOrNil) }
-    }
-
-    private lazy var _factoryPresets = factoryPresetValues.enumerated().map {
-        AUAudioUnitPreset(number: $0, name: $1.name)
-    }
-
-    private var inputBus: AUAudioUnitBus
-    private var outputBus: AUAudioUnitBus
-
-    private lazy var _inputBusses: AUAudioUnitBusArray = { AUAudioUnitBusArray(audioUnit: self, busType: .input,
-                                                                               busses: [inputBus]) }()
-    private lazy var _outputBusses: AUAudioUnitBusArray = { AUAudioUnitBusArray(audioUnit: self, busType: .output,
-                                                                                busses: [outputBus]) }()
-
+    /// Support one input bus
     public override var inputBusses: AUAudioUnitBusArray { _inputBusses }
+    /// Support one output bus
     public override var outputBusses: AUAudioUnitBusArray { _outputBusses }
-
+    /// Parameter tree containing filter parameter values
     public override var parameterTree: AUParameterTree? {
         get { parameterDefinitions.parameterTree }
         set { fatalError("attempted to set new parameterTree") }
     }
 
-    public override var maximumFramesToRender: AUAudioFrameCount {
-        didSet { os_log(.info, log: log, "new maximumFramesToRender: %d", maximumFramesToRender) }
-    }
-
+    /// Factory presets for the filter
     public override var factoryPresets: [AUAudioUnitPreset] { _factoryPresets }
-
+    /// Announce support for user presets as well
     public override var supportsUserPresets: Bool { true }
-
+    /// Preset get/set
     public override var currentPreset: AUAudioUnitPreset? {
         get { _currentPreset }
         set {
@@ -107,28 +75,46 @@ public final class FilterAudioUnit: AUAudioUnit {
         }
     }
 
+    /// Announce that the filter can work directly on upstream sample buffers
     public override var canProcessInPlace: Bool { true }
 
-    public override var internalRenderBlock: AUInternalRenderBlock {
-        os_log(.info, log: log, "internalRenderBlock")
+    /// Initial sample rate
+    private let sampleRate: Double = 44100.0
+    /// Maximum number of channels to support
+    private let maxNumberOfChannels: UInt32 = 8
+    /// Maximum frames to render
+    private let maxFramesToRender: UInt32 = 512
+    /// Objective-C bridge into the C++ kernel
+    private let kernel = FilterDSPKernelAdapter()
 
-        let maximumFramesToRender = self.maximumFramesToRender
-        let kernel = self.kernel
+    private let factoryPresetValues:[(name: String, cutoff: AUValue, resonance: AUValue)] = [
+        ("Prominent", 2500.0, 5.0),
+        ("Bright", 14_000.0, 12.0),
+        ("Warm", 384.0, -3.0)
+    ]
 
-        return { _, timestamp, frameCount, outputBusNumber, outputData, events, pullInputBlock in
-            os_log(.debug, log: Self.log, "render - frameCount: %d  outputBusNumber: %d", frameCount, outputBusNumber)
-            guard frameCount <= maximumFramesToRender else { return kAudioUnitErr_TooManyFramesToProcess }
-            guard let pullInputBlock = pullInputBlock else { return kAudioUnitErr_NoConnection }
-            return kernel.process(UnsafeMutablePointer(mutating: timestamp), frameCount: frameCount, inputBus: 0,
-                                  output: outputData, events: UnsafeMutablePointer(mutating: events),
-                                  pullInputBlock: pullInputBlock)
-        }
+    private var _currentPreset: AUAudioUnitPreset? {
+        didSet { os_log(.debug, log: log, "* _currentPreset name: %{public}s", _currentPreset.descriptionOrNil) }
     }
 
-    public override func setRenderResourcesAllocated(_ flag: Bool) {
-
+    private lazy var _factoryPresets = factoryPresetValues.enumerated().map {
+        AUAudioUnitPreset(number: $0, name: $1.name)
     }
 
+    private var inputBus: AUAudioUnitBus
+    private var outputBus: AUAudioUnitBus
+
+    private lazy var _inputBusses: AUAudioUnitBusArray = { AUAudioUnitBusArray(audioUnit: self, busType: .input,
+                                                                               busses: [inputBus]) }()
+    private lazy var _outputBusses: AUAudioUnitBusArray = { AUAudioUnitBusArray(audioUnit: self, busType: .output,
+                                                                                busses: [outputBus]) }()
+    /**
+     Crete a new audio unit asynchronously.
+
+     - parameter componentDescription: the component to instantiate
+     - parameter options: options for instantiation
+     - parameter completionHandler: closure to invoke upon creation or error
+     */
     public override class func instantiate(with componentDescription: AudioComponentDescription,
                                            options: AudioComponentInstantiationOptions = [],
                                            completionHandler: @escaping (AUAudioUnit?, Error?) -> Void) {
@@ -140,6 +126,12 @@ public final class FilterAudioUnit: AUAudioUnit {
         }
     }
 
+    /**
+     Construct new instance, throwing exception if there is an error doing so.
+
+     - parameter componentDescription: the component to instantiate
+     - parameter options: options for instantiation
+     */
     public override init(componentDescription: AudioComponentDescription,
                          options: AudioComponentInstantiationOptions = []) throws {
 
@@ -150,19 +142,17 @@ public final class FilterAudioUnit: AUAudioUnit {
             throw Failure.unableToInitialize(String(describing: AVAudioFormat.self))
         }
 
-        os_log(.info, log: Self.log, "format: %{public}s", format.description)
+        os_log(.debug, log: Self.log, "format: %{public}s", format.description)
         inputBus = try AUAudioUnitBus(format: format)
         inputBus.maximumChannelCount = maxNumberOfChannels
 
-        os_log(.info, log: Self.log, "creating output bus")
+        os_log(.debug, log: Self.log, "creating output bus")
         outputBus = try AUAudioUnitBus(format: format)
         outputBus.maximumChannelCount = maxNumberOfChannels
 
         try super.init(componentDescription: componentDescription, options: options)
 
-        let info = ProcessInfo.processInfo
-        os_log(.info, log: log, "process name: %{public}s PID: %d", info.processName, info.processIdentifier)
-        os_log(.info, log: log, "type: %{public}s, subtype: %{public}s, manufacturer: %{public}s flags: %x",
+        os_log(.debug, log: log, "type: %{public}s, subtype: %{public}s, manufacturer: %{public}s flags: %x",
                componentDescription.componentType.stringValue,
                componentDescription.componentSubType.stringValue,
                componentDescription.componentManufacturer.stringValue,
@@ -172,11 +162,15 @@ public final class FilterAudioUnit: AUAudioUnit {
         currentPreset = factoryPresets.first
     }
 
+    /**
+     Take notice of input/output bus formats and prepare for rendering. If there are any errors getting things ready,
+     routine should `setRenderResourcesAllocated(false)`.
+     */
     public override func allocateRenderResources() throws {
         os_log(.info, log: log, "allocateRenderResources")
-        os_log(.info, log: log, "inputBus format: %{public}s", inputBus.format.description)
-        os_log(.info, log: log, "outputBus format: %{public}s", outputBus.format.description)
-        os_log(.info, log: log, "maximumFramesToRender: %d", maximumFramesToRender)
+        os_log(.debug, log: log, "inputBus format: %{public}s", inputBus.format.description)
+        os_log(.debug, log: log, "outputBus format: %{public}s", outputBus.format.description)
+        os_log(.debug, log: log, "maximumFramesToRender: %d", maximumFramesToRender)
 
         if outputBus.format.channelCount != inputBus.format.channelCount {
             os_log(.error, log: log, "unequal channel count")
@@ -184,44 +178,48 @@ public final class FilterAudioUnit: AUAudioUnit {
             throw Failure.statusError(kAudioUnitErr_FailedInitialization)
         }
 
-        kernel.configureInput(inputBus.format, output: outputBus.format, maxFramesToRender: maximumFramesToRender)
+        // Communicate to the kernel the new formats being used
+        kernel.startProcessing(inputBus.format, output: outputBus.format, maxFramesToRender: maximumFramesToRender)
 
-        os_log(.info, log: log, "super.allocateRenderResources")
         try super.allocateRenderResources()
-        os_log(.info, log: log, "super.allocateRenderResources - OK")
     }
 
+    /**
+     Rendering has stopped -- tear down stuff that was supporting it.
+     */
     public override func deallocateRenderResources() {
-        os_log(.info, log: log, "before super.deallocateRenderResources")
+        os_log(.debug, log: log, "before super.deallocateRenderResources")
+        kernel.stopProcessing()
         super.deallocateRenderResources()
-        os_log(.info, log: log, "after super.deallocateRenderResources")
+        os_log(.debug, log: log, "after super.deallocateRenderResources")
+    }
+
+    public override var internalRenderBlock: AUInternalRenderBlock {
+        os_log(.info, log: log, "internalRenderBlock")
+
+        // Local values to capture in the closure that will be returned
+        let maximumFramesToRender = self.maximumFramesToRender
+        let kernel = self.kernel
+
+        return { _, timestamp, frameCount, outputBusNumber, outputData, events, pullInputBlock in
+            os_log(.debug, log: Self.log, "render - frameCount: %d  outputBusNumber: %d", frameCount, outputBusNumber)
+            guard outputBusNumber == 0 else { return kAudioUnitErr_InvalidParameterValue }
+            guard frameCount <= maximumFramesToRender else { return kAudioUnitErr_TooManyFramesToProcess }
+            guard let pullInputBlock = pullInputBlock else { return kAudioUnitErr_NoConnection }
+            return kernel.process(UnsafeMutablePointer(mutating: timestamp), frameCount: frameCount, output: outputData,
+                                  events: UnsafeMutablePointer(mutating: events), pullInputBlock: pullInputBlock)
+        }
     }
 
     public override func parametersForOverview(withCount: Int) -> [NSNumber] {
         Array([parameterDefinitions.cutoff, parameterDefinitions.resonance].map {
-                NSNumber(value: $0.address)
+            NSNumber(value: $0.address)
         }[0..<withCount])
     }
 
     public override func supportedViewConfigurations(_ availableViewConfigurations: [AUAudioUnitViewConfiguration]) ->
     IndexSet {
-        var indexSet = IndexSet()
-
-        let min = CGSize(width: 400, height: 100)
-        let max = CGSize(width: 800, height: 500)
-
-        for (index, config) in availableViewConfigurations.enumerated() {
-
-            let size = CGSize(width: config.width, height: config.height)
-
-            if size.width <= min.width && size.height <= min.height ||
-                size.width >= max.width && size.height >= max.height ||
-                size == .zero {
-
-                indexSet.insert(index)
-            }
-        }
-        return indexSet
+        IndexSet(integersIn: 0..<availableViewConfigurations.count)
     }
 
     public override func select(_ viewConfiguration: AUAudioUnitViewConfiguration) {
@@ -232,7 +230,8 @@ public final class FilterAudioUnit: AUAudioUnit {
 extension FilterAudioUnit {
 
     /**
-     Obtain the magnitudes at given frequencies (frequency response) for the current filter settings.
+     Obtain the magnitudes at given frequencies (frequency response) for the current filter settings. This just
+     forwards the request to the internal kernel.
 
      - parameter frequencies: the frequencies to evaluate
      - returns: the filter responses at the given frequencies

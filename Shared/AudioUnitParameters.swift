@@ -15,10 +15,24 @@ public final class AudioUnitParameters: NSObject {
     private let log = Logging.logger("FilterParameters")
 
     /// Definition of the cutoff parameter. Range is 12 - 20kHz.
-    public let cutoff: AUParameter
+    public let cutoff = AUParameterTree.createParameter(withIdentifier: "cutoff", name: "Cutoff",
+                                                        address: FilterParameterAddress.cutoff.rawValue,
+                                                        min: 12.0, max: 20_000.0,
+                                                        unit: .hertz, unitName: nil,
+                                                        flags: [.flag_IsReadable, .flag_IsWritable,
+                                                                .flag_DisplayLogarithmic],
+                                                        valueStrings: nil,
+                                                        dependentParameters: nil)
+
 
     /// Definition of the resonance parameter. Range is -20dB - +40dB
-    public let resonance: AUParameter
+    public let resonance = AUParameterTree.createParameter(withIdentifier: "resonance", name: "Resonance",
+                                                           address: FilterParameterAddress.resonance.rawValue,
+                                                           min: -20.0, max: 40.0,
+                                                           unit: .decibels, unitName: nil,
+                                                           flags: [.flag_IsReadable, .flag_IsWritable],
+                                                           valueStrings: nil,
+                                                           dependentParameters: nil)
 
     /// AUParameterTree created with the parameter definitions for the audio unit
     public let parameterTree: AUParameterTree
@@ -34,34 +48,13 @@ public final class AudioUnitParameters: NSObject {
      - parameter parameterHandler the object to use to handle the AUParameterTree requests
      */
     init(parameterHandler: AUParameterHandler) {
-        cutoff = AUParameterTree.createParameter(withIdentifier: "cutoff", name: "Cutoff",
-                                                 address: FilterParameterAddress.cutoff.rawValue,
-                                                 min: 12.0, max: 20_000.0,
-                                                 unit: .hertz, unitName: nil,
-                                                 flags: [.flag_IsReadable, .flag_IsWritable, .flag_DisplayLogarithmic],
-                                                 valueStrings: nil,
-                                                 dependentParameters: nil)
-        cutoff.value = 440.0
-
-        resonance = AUParameterTree.createParameter(withIdentifier: "resonance", name: "Resonance",
-                                                    address: FilterParameterAddress.resonance.rawValue,
-                                                    min: -20.0, max: 40.0,
-                                                    unit: .decibels, unitName: nil,
-                                                    flags: [.flag_IsReadable, .flag_IsWritable], valueStrings: nil,
-                                                    dependentParameters: nil)
-        resonance.value = 5.0
-
-        // Define a new parameter tree with the parameter definitions
         parameterTree = AUParameterTree.createTree(withChildren: [cutoff, resonance])
+        cutoff.value = 440.0
+        resonance.value = 5.0
         super.init()
 
-        // Provide a way for the tree to change values in the AudioUnit
         parameterTree.implementorValueObserver = { parameterHandler.set($0, value: $1) }
-
-        // Provide a way for the tree to obtain the current value of a parameter from the AudioUnit
         parameterTree.implementorValueProvider = { parameterHandler.get($0) }
-
-        // Provide a way to obtain String values for the current settings.
         parameterTree.implementorStringFromValueCallback = { param, value in
             let formatted: String = {
                 switch param.address {
@@ -70,7 +63,7 @@ public final class AudioUnitParameters: NSObject {
                 default: return "?"
                 }
             }()
-            os_log(.info, log: self.log, "parameter %d as string: %d %f %{public}s",
+            os_log(.debug, log: self.log, "parameter %d as string: %d %f %{public}s",
                    param.address, param.value, formatted)
             return formatted
         }

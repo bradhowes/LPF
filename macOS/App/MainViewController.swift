@@ -6,25 +6,22 @@ import os
 
 final class MainViewController: NSViewController {
 
-    private let cutoffSliderMinValue = 0.0
-    private let cutoffSliderMaxValue = 9.0
+    private let cutoffSliderMinValue: Double = 0.0
+    private let cutoffSliderMaxValue: Double = 9.0
     private lazy var cutoffSliderMaxValuePower2Minus1 = Float(pow(2, cutoffSliderMaxValue) - 1)
 
-    private let audioUnitManager = AudioUnitManager(componentDescription: FilterAudioUnit.componentDescription, appExtension: "LPF")
-    private var cutoff: AUParameter? { audioUnitManager.viewController.audioUnit?.parameterDefinitions.cutoff }
-    private var resonance: AUParameter? { audioUnitManager.viewController.audioUnit?.parameterDefinitions.resonance }
+    private let audioUnitManager = AudioUnitManager(componentDescription: FilterAudioUnit.componentDescription,
+                                                    appExtension: "LPF")
+    private var cutoff: AUParameter? { audioUnitManager.audioUnit?.parameterDefinitions.cutoff }
+    private var resonance: AUParameter? { audioUnitManager.audioUnit?.parameterDefinitions.resonance }
 
     private var playButton: NSButton?
     private var playMenuItem: NSMenuItem?
-
     private var savePresetMenuItem: NSMenuItem?
-
     @IBOutlet var cutoffSlider: NSSlider!
     @IBOutlet var cutoffTextField: NSTextField!
-
     @IBOutlet var resonanceSlider: NSSlider!
     @IBOutlet var resonanceTextField: NSTextField!
-
     @IBOutlet var containerView: NSView!
 
     private var windowController: MainWindowController? { view.window?.windowController as? MainWindowController }
@@ -53,8 +50,7 @@ extension MainViewController {
 
     override func viewDidLayout() {
         super.viewDidLayout()
-        guard let filterView = filterView else { return }
-        filterView.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: containerView.frame.size)
+        filterView?.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: containerView.frame.size)
     }
 }
 
@@ -77,9 +73,13 @@ extension MainViewController {
         playMenuItem?.title = audioUnitManager.isPlaying ? "Stop" : "Play"
     }
 
-    @IBAction private func cutoffSliderValueChanged(_ sender: NSSlider) { cutoff?.value = frequencyValueForSliderLocation(sender.floatValue) }
+    @IBAction private func cutoffSliderValueChanged(_ sender: NSSlider) {
+        cutoff?.value = frequencyValueForSliderLocation(sender.floatValue)
+    }
 
-    @IBAction private func resonanceSliderValueChanged(_ sender: NSSlider) { resonance?.value = sender.floatValue }
+    @IBAction private func resonanceSliderValueChanged(_ sender: NSSlider) {
+        resonance?.value = sender.floatValue
+    }
 
     @objc private func handleSavePresetMenuSelection(_ sender: NSMenuItem) throws {
         guard let audioUnit = audioUnitManager.viewController.audioUnit else { return }
@@ -117,7 +117,6 @@ extension MainViewController {
     }
 }
 
-// MARK: NSWindowDelegate
 extension MainViewController: NSWindowDelegate {
     func windowWillClose(_ notification: Notification) {
         audioUnitManager.cleanup()
@@ -127,14 +126,14 @@ extension MainViewController: NSWindowDelegate {
     }
 }
 
-// MARK: - Private
 extension MainViewController {
 
     private func connectFilterView() {
         let viewController = audioUnitManager.viewController
-        filterView = viewController.view
-        containerView.addSubview(filterView!)
-        filterView?.pinToSuperviewEdges()
+        let filterView = viewController.view
+        containerView.addSubview(filterView)
+        filterView.pinToSuperviewEdges()
+        self.filterView = filterView
 
         addChild(viewController)
         view.setNeedsLayout()
@@ -142,10 +141,18 @@ extension MainViewController {
     }
 
     private func connectParametersToControls() {
-        guard let auAudioUnit = audioUnitManager.viewController.audioUnit else { fatalError("Couldn't locate FilterAudioUnit") }
-        guard let parameterTree = auAudioUnit.parameterTree else { fatalError("FilterAudioUnit does not define any parameters.") }
-        guard let _ = parameterTree.parameter(withAddress: .cutoff) else { fatalError("Undefined cutoff parameter") }
-        guard let resonanceParameter = parameterTree.parameter(withAddress: .resonance) else { fatalError("Undefined resonance parameter") }
+        guard let auAudioUnit = audioUnitManager.viewController.audioUnit else {
+            fatalError("Couldn't locate FilterAudioUnit")
+        }
+        guard let parameterTree = auAudioUnit.parameterTree else {
+            fatalError("FilterAudioUnit does not define any parameters.")
+        }
+        guard let _ = parameterTree.parameter(withAddress: .cutoff) else {
+            fatalError("Undefined cutoff parameter")
+        }
+        guard let resonanceParameter = parameterTree.parameter(withAddress: .resonance) else {
+            fatalError("Undefined resonance parameter")
+        }
 
         resonanceSlider.minValue = Double(resonanceParameter.minValue)
         resonanceSlider.maxValue = Double(resonanceParameter.maxValue)

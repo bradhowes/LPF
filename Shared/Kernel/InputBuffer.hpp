@@ -25,7 +25,7 @@ struct InputBuffer {
     /**
      Forget any allocated buffer.
      */
-    void deallocateRenderResources() {
+    void reset() {
         buffer_ = nullptr;
         audioBufferList_ = nullptr;
         mutableAudioBufferList_ = nullptr;

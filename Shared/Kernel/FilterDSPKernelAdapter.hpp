@@ -11,12 +11,12 @@
 /**
  Set an AUParameter to a new value
  */
-- (void)set:(nonnull AUParameter *)parameter value:(AUValue)value;
+ - (void)set:(nonnull AUParameter *)parameter value:(AUValue)value;
 
 /**
  Get the current value of an AUParameter
  */
-- (AUValue)get:(nonnull AUParameter *)parameter;
+ - (AUValue)get:(nonnull AUParameter *)parameter;
 
 @end
 
@@ -34,12 +34,32 @@ typedef NS_ENUM(AUParameterAddress, FilterParameterAddress) {
  */
 @interface FilterDSPKernelAdapter : NSObject <AUParameterHandler>
 
-- (void)configureInput:(nonnull AVAudioFormat*)inputFormat output:(nonnull AVAudioFormat*)outputFormat
+/**
+ Configure the kernel for new format and max frame in preparation to begin rendering
+
+ @param inputFormat the current format of the input bus
+ @param outputFormat the current format of the output bus
+ @param maxFramesToRender the max frames to expect in a render request
+ */
+- (void)startProcessing:(nonnull AVAudioFormat*)inputFormat output:(nonnull AVAudioFormat*)outputFormat
      maxFramesToRender:(AUAudioFrameCount)maxFramesToRender;
 
-- (AUAudioUnitStatus)process:(nonnull AudioTimeStamp*)timeStamp
+/**
+ Stop processing, releasing any resources used to support rendering.
+ */
+- (void)stopProcessing;
+
+/**
+ Process upstream input
+
+ @param timestamp the timestamp for the rendering
+ @param frameCount the number of frames to render
+ @param output the buffer to hold the rendered samples
+ @param realtimeEventListHead the first AURenderEvent to process (may be null)
+ @param pullInputBlock the closure to invoke to fetch upstream samples
+ */
+- (AUAudioUnitStatus)process:(nonnull AudioTimeStamp*)timestamp
                   frameCount:(UInt32)frameCount
-                    inputBus:(NSInteger)inputBusNumber
                       output:(nonnull AudioBufferList*)output
                       events:(nullable AURenderEvent*)realtimeEventListHead
               pullInputBlock:(nonnull AURenderPullInputBlock)pullInputBlock;

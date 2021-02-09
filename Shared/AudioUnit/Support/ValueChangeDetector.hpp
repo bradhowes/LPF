@@ -11,10 +11,6 @@
  Template class which provides a way to passively determine if a value changes. Useful in threaded environments where
  the value is changed in one thread, and detected and used in another. Uses a std::atomic counter to record when a
  change happened.
-
- Note that theoretically this is only safe for types that are small enough to be changed atomically when set without
- any assistance from locking, since one thread could be updating the value at the same time as another thread is
- reading it.
  */
 template <typename T>
 class ValueChangeDetector : NonCopyable {
