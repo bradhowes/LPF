@@ -6,20 +6,23 @@
 #include "FilterDSPKernel.hpp"
 #include "FilterDSPKernelAdapter.hpp"
 
-static auto logger = os_log_create("LPF", "FilterDSPKernel");
-
-FilterDSPKernel::FilterDSPKernel() : KernelEventProcessor(), cutoff_{float(400.0)}, resonance_{20.0}
+FilterDSPKernel::FilterDSPKernel()
+: KernelEventProcessor(os_log_create("LPF", "FilterDSPKernel")), cutoff_{float(400.0)}, resonance_{20.0}
 {
     filter_.calculateParams(cutoff_.value(), resonance_.value(), nyquistPeriod_, 2);
 }
 
 void
-FilterDSPKernel::setFormat(AVAudioFormat* format)
+FilterDSPKernel::setFormat(AVAudioFormat* format, AVAudioChannelCount channelCount,
+                           AUAudioFrameCount maxFramesToRender)
 {
+    os_log_with_type(logger_, OS_LOG_TYPE_INFO, "setFormat: sampleRate: %f channelCount: %d", format.sampleRate,
+                     format.channelCount);
+    KernelEventProcessor::setFormat(format, channelCount, maxFramesToRender);
+    
     sampleRate_ = format.sampleRate;
     nyquistFrequency_ = 0.5 * sampleRate_;
     nyquistPeriod_ = 1.0 / nyquistFrequency_;
-    channelCount_ = format.channelCount;
     reset();
 }
 
@@ -35,12 +38,12 @@ FilterDSPKernel::setParameterValue(AUParameterAddress address, AUValue value)
 {
     switch (address) {
         case FilterParameterAddressCutoff:
-            os_log_with_type(logger, OS_LOG_TYPE_INFO, "set cutoff: %f", value);
+            os_log_with_type(logger_, OS_LOG_TYPE_INFO, "set cutoff: %f", value);
             cutoff_ = value;
             break;
 
         case FilterParameterAddressResonance:
-            os_log_with_type(logger, OS_LOG_TYPE_INFO, "set resonance: %f", value);
+            os_log_with_type(logger_, OS_LOG_TYPE_INFO, "set resonance: %f", value);
             resonance_ = value;
             break;
     }
@@ -51,11 +54,11 @@ FilterDSPKernel::getParameterValue(AUParameterAddress address) const
 {
     switch (address) {
         case FilterParameterAddressCutoff:
-            os_log_with_type(logger, OS_LOG_TYPE_INFO, "get cutoff: %f", cutoff_.value());
+            os_log_with_type(logger_, OS_LOG_TYPE_INFO, "get cutoff: %f", cutoff_.value());
             return cutoff_.value();
 
         case FilterParameterAddressResonance:
-            os_log_with_type(logger, OS_LOG_TYPE_INFO, "get resonance: %f", resonance_.value());
+            os_log_with_type(logger_, OS_LOG_TYPE_INFO, "get resonance: %f", resonance_.value());
             return resonance_.value();
 
         default: return 0.0;
@@ -63,43 +66,11 @@ FilterDSPKernel::getParameterValue(AUParameterAddress address) const
 }
 
 void
-FilterDSPKernel::setBuffers(AudioBufferList const* inputs, AudioBufferList* outputs)
+FilterDSPKernel::doRenderFrames(std::vector<float const*> const& ins, std::vector<float*>& outs,
+                                AUAudioFrameCount frameCount)
 {
-    if (inputs == inputs_ && outputs_ == outputs) return;
-    inputs_ = inputs;
-    outputs_ = outputs;
-    ins_.clear();
-    outs_.clear();
-    for (size_t channel = 0; channel < channelCount(); ++channel) {
-        ins_.emplace_back(static_cast<float*>(inputs_->mBuffers[channel].mData));
-        outs_.emplace_back(static_cast<float*>(outputs_->mBuffers[channel].mData));
-    }
-}
-
-void
-FilterDSPKernel::doRenderFrames(AUAudioFrameCount frameCount, AUAudioFrameCount bufferOffset)
-{
-    if (bypassed) {
-        for (size_t channel = 0; channel < channelCount(); ++channel) {
-            if (inputs_->mBuffers[channel].mData == outputs_->mBuffers[channel].mData) {
-                continue;
-            }
-
-            auto in = (float*)inputs_->mBuffers[channel].mData + bufferOffset;
-            auto out = (float*)outputs_->mBuffers[channel].mData + bufferOffset;
-            memcpy(out, in, frameCount);
-        }
-        return;
-    }
-
-    for (size_t channel = 0; channel < channelCount(); ++channel) {
-        ins_[channel] = static_cast<float*>(inputs_->mBuffers[channel].mData) + bufferOffset;
-        outs_[channel] = static_cast<float*>(outputs_->mBuffers[channel].mData) + bufferOffset;
-    }
-
-    // Rely on the filter doing the right thing and only recalculating when needed. NOTE: this is not suitable if the
-    // cutoff and/or resonance parameters are ramped. In that case we would want to recalculate the filter on every
-    // sample.
-    filter_.calculateParams(cutoff_, resonance_, nyquistPeriod_, channelCount());
-    filter_.apply(ins_, outs_, frameCount);
+    assert(ins.size() == outs.size() && ins.size() > 0);
+    os_log_with_type(logger_, OS_LOG_TYPE_INFO, "doRenderFrames: %d", frameCount);
+    filter_.calculateParams(cutoff_, resonance_, nyquistPeriod_, ins.size());
+    filter_.apply(ins, outs, frameCount);
 }

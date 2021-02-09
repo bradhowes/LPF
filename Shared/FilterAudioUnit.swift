@@ -75,6 +75,10 @@ public final class FilterAudioUnit: AUAudioUnit {
         set { fatalError("attempted to set new parameterTree") }
     }
 
+    public override var maximumFramesToRender: AUAudioFrameCount {
+        didSet { os_log(.info, log: log, "new maximumFramesToRender: %d", maximumFramesToRender) }
+    }
+
     public override var factoryPresets: [AUAudioUnitPreset] { _factoryPresets }
 
     public override var supportsUserPresets: Bool { true }
@@ -115,8 +119,9 @@ public final class FilterAudioUnit: AUAudioUnit {
             os_log(.debug, log: Self.log, "render - frameCount: %d  outputBusNumber: %d", frameCount, outputBusNumber)
             guard frameCount <= maximumFramesToRender else { return kAudioUnitErr_TooManyFramesToProcess }
             guard let pullInputBlock = pullInputBlock else { return kAudioUnitErr_NoConnection }
-            return kernel.process(timestamp, frameCount: frameCount, inputBus: 0, output: outputData,
-                                  events: UnsafeMutablePointer(mutating: events), pullInputBlock: pullInputBlock)
+            return kernel.process(UnsafeMutablePointer(mutating: timestamp), frameCount: frameCount, inputBus: 0,
+                                  output: outputData, events: UnsafeMutablePointer(mutating: events),
+                                  pullInputBlock: pullInputBlock)
         }
     }
 

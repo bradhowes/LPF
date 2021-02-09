@@ -49,13 +49,17 @@ extension AudioUnitManager {
     private func createAudioUnit(componentDescription: AudioComponentDescription) {
         AUAudioUnit.registerSubclass(FilterAudioUnit.self, as: componentDescription, name: "Demo", version: UInt32.max)
         AVAudioUnit.instantiate(with: componentDescription) { avAudioUnit, error in
-            guard error == nil, let avAudioUnit = avAudioUnit else { fatalError("Could not instantiate audio unit: \(String(describing: error))") }
+            guard error == nil, let avAudioUnit = avAudioUnit else {
+                fatalError("Could not instantiate audio unit: \(String(describing: error))")
+            }
             self.wireAudioUnit(avAudioUnit)
         }
     }
 
     private func wireAudioUnit(_ avAudioUnit: AVAudioUnit) {
-        guard let auAudioUnit = avAudioUnit.auAudioUnit as? FilterAudioUnit else { fatalError("avAudioUnit.auAudioUnit is nil or wrong type") }
+        guard let auAudioUnit = avAudioUnit.auAudioUnit as? FilterAudioUnit else {
+            fatalError("avAudioUnit.auAudioUnit is nil or wrong type")
+        }
         auAudioUnit.viewController = viewController
         viewController.audioUnit = auAudioUnit
         playEngine.connectEffect(audioUnit: avAudioUnit)
@@ -66,13 +70,17 @@ extension AudioUnitManager {
     }
 
     private static func loadViewController(appExtension: String) -> FilterViewController {
-        guard let url = Bundle.main.builtInPlugInsURL?.appendingPathComponent(appExtension + ".appex") else { fatalError("Could not obtain extension bundle URL") }
+        guard let url = Bundle.main.builtInPlugInsURL?.appendingPathComponent(appExtension + ".appex") else {
+            fatalError("Could not obtain extension bundle URL")
+        }
         guard let extensionBundle = Bundle(url: url) else { fatalError("Could not get app extension bundle") }
 
         #if os(iOS)
 
         let storyboard = Storyboard(name: "MainInterface", bundle: extensionBundle)
-        guard let controller = storyboard.instantiateInitialViewController() as? FilterViewController else { fatalError("Unable to instantiate FilterViewController") }
+        guard let controller = storyboard.instantiateInitialViewController() as? FilterViewController else {
+            fatalError("Unable to instantiate FilterViewController")
+        }
         return controller
 
         #elseif os(macOS)

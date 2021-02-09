@@ -30,14 +30,14 @@ typedef NS_ENUM(AUParameterAddress, FilterParameterAddress) {
 
 /**
  Small Obj-C wrapper around the FilterDSPKernel C++ class. Handles AUParameter get/set requests by forwarding them to
- the kernel. Provides the API for Swift (UI) access.
+ the kernel.
  */
 @interface FilterDSPKernelAdapter : NSObject <AUParameterHandler>
 
 - (void)configureInput:(nonnull AVAudioFormat*)inputFormat output:(nonnull AVAudioFormat*)outputFormat
      maxFramesToRender:(AUAudioFrameCount)maxFramesToRender;
 
-- (AUAudioUnitStatus)process:(nonnull AudioTimeStamp const*)timeStamp
+- (AUAudioUnitStatus)process:(nonnull AudioTimeStamp*)timeStamp
                   frameCount:(UInt32)frameCount
                     inputBus:(NSInteger)inputBusNumber
                       output:(nonnull AudioBufferList*)output

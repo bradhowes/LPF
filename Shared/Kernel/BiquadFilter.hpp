@@ -45,6 +45,7 @@ public:
      */
     void apply(std::vector<float const*> const& ins, std::vector<float*>& outs, size_t frameCount) const
     {
+        assert(lastNumChannels_ == ins.size() && lastNumChannels_ == outs.size());
         vDSP_biquadm(setup_, (float const* __nonnull* __nonnull)ins.data(), vDSP_Stride(1),
                      (float * __nonnull * __nonnull)outs.data(), vDSP_Stride(1),
                      vDSP_Length(frameCount));
