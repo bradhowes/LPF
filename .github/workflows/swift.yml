@@ -11,7 +11,5 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Run macOS build
-      run: xcodebuild clean build -scheme 'macOS App' -showBuildTimingSummary -allowProvisioningUpdates -allowProvisioningDeviceRegistration
     - name: Run iOS build
       run: xcodebuild clean build -scheme 'iOS App' -destination 'name=iPhone 12' -showBuildTimingSummary -allowProvisioningUpdates
