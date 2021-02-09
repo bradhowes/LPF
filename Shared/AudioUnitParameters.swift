@@ -34,13 +34,21 @@ public final class AudioUnitParameters: NSObject {
      - parameter parameterHandler the object to use to handle the AUParameterTree requests
      */
     init(parameterHandler: AUParameterHandler) {
-        cutoff = AUParameterTree.createParameter(withIdentifier: "cutoff", name: "Cutoff", address: FilterParameterAddress.cutoff.rawValue, min: 12.0, max: 20_000.0,
-                                                 unit: .hertz, unitName: nil, flags: [.flag_IsReadable, .flag_IsWritable, .flag_DisplayLogarithmic], valueStrings: nil,
+        cutoff = AUParameterTree.createParameter(withIdentifier: "cutoff", name: "Cutoff",
+                                                 address: FilterParameterAddress.cutoff.rawValue,
+                                                 min: 12.0, max: 20_000.0,
+                                                 unit: .hertz, unitName: nil,
+                                                 flags: [.flag_IsReadable, .flag_IsWritable, .flag_DisplayLogarithmic],
+                                                 valueStrings: nil,
                                                  dependentParameters: nil)
         cutoff.value = 440.0
 
-        resonance = AUParameterTree.createParameter(withIdentifier: "resonance", name: "Resonance", address: FilterParameterAddress.resonance.rawValue, min: -20.0, max: 40.0,
-                                                    unit: .decibels, unitName: nil, flags: [.flag_IsReadable, .flag_IsWritable], valueStrings: nil, dependentParameters: nil)
+        resonance = AUParameterTree.createParameter(withIdentifier: "resonance", name: "Resonance",
+                                                    address: FilterParameterAddress.resonance.rawValue,
+                                                    min: -20.0, max: 40.0,
+                                                    unit: .decibels, unitName: nil,
+                                                    flags: [.flag_IsReadable, .flag_IsWritable], valueStrings: nil,
+                                                    dependentParameters: nil)
         resonance.value = 5.0
 
         // Define a new parameter tree with the parameter definitions

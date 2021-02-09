@@ -34,28 +34,15 @@ typedef NS_ENUM(AUParameterAddress, FilterParameterAddress) {
  */
 @interface FilterDSPKernelAdapter : NSObject <AUParameterHandler>
 
-/// Maximum number of frames (samples) to handle in a render call.
-@property (nonatomic) AUAudioFrameCount maximumFramesToRender;
-/// The input bus to use for fetching samples to process
-@property (nonnull, nonatomic, readonly) AUAudioUnitBus *inputBus;
-/// The output bus to use for sending filtered samples
-@property (nonnull, nonatomic, readonly) AUAudioUnitBus *outputBus;
+- (void)configureInput:(nonnull AVAudioFormat*)inputFormat output:(nonnull AVAudioFormat*)outputFormat
+     maxFramesToRender:(AUAudioFrameCount)maxFramesToRender;
 
-/**
- Request by the audio framework to allocate all necessary resources to handle audio rendering requests.
- */
-- (void)allocateRenderResources;
-
-/**
- Notification by the audio framework that no more rendering requests will be received, thus any allocated resources
- for rendering should be released.
- */
-- (void)deallocateRenderResources;
-
-/**
- Request by the audio framework to get a render block for processing samples
- */
-- (nonnull AUInternalRenderBlock)internalRenderBlock;
+- (AUAudioUnitStatus)process:(nonnull AudioTimeStamp const*)timeStamp
+                  frameCount:(UInt32)frameCount
+                    inputBus:(NSInteger)inputBusNumber
+                      output:(nonnull AudioBufferList*)output
+                      events:(nullable AURenderEvent*)realtimeEventListHead
+              pullInputBlock:(nonnull AURenderPullInputBlock)pullInputBlock;
 
 /**
  Request by the FilterViewController to fetch the frequency responses of the low-pass filter.

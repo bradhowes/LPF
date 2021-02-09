@@ -8,6 +8,11 @@
 
 static auto logger = os_log_create("LPF", "FilterDSPKernel");
 
+FilterDSPKernel::FilterDSPKernel() : KernelEventProcessor(), cutoff_{float(400.0)}, resonance_{20.0}
+{
+    filter_.calculateParams(cutoff_.value(), resonance_.value(), nyquistPeriod_, 2);
+}
+
 void
 FilterDSPKernel::setFormat(AVAudioFormat* format)
 {
@@ -22,6 +27,7 @@ void
 FilterDSPKernel::reset() {
     cutoff_.reset();
     resonance_.reset();
+    filter_.calculateParams(cutoff_.value(), resonance_.value(), nyquistPeriod_, 2);
 }
 
 void
@@ -57,7 +63,7 @@ FilterDSPKernel::getParameterValue(AUParameterAddress address) const
 }
 
 void
-FilterDSPKernel::setBuffers(AudioBufferList* inputs, AudioBufferList* outputs)
+FilterDSPKernel::setBuffers(AudioBufferList const* inputs, AudioBufferList* outputs)
 {
     if (inputs == inputs_ && outputs_ == outputs) return;
     inputs_ = inputs;
@@ -71,19 +77,17 @@ FilterDSPKernel::setBuffers(AudioBufferList* inputs, AudioBufferList* outputs)
 }
 
 void
-FilterDSPKernel::renderFrames(AUAudioFrameCount frameCount, AUAudioFrameCount bufferOffset)
+FilterDSPKernel::doRenderFrames(AUAudioFrameCount frameCount, AUAudioFrameCount bufferOffset)
 {
     if (bypassed) {
         for (size_t channel = 0; channel < channelCount(); ++channel) {
             if (inputs_->mBuffers[channel].mData == outputs_->mBuffers[channel].mData) {
                 continue;
             }
-            for (int frameIndex = 0; frameIndex < frameCount; ++frameIndex) {
-                int frameOffset = int(frameIndex + bufferOffset);
-                auto in = (float*)inputs_->mBuffers[channel].mData  + frameOffset;
-                auto out = (float*)outputs_->mBuffers[channel].mData + frameOffset;
-                *out = *in;
-            }
+
+            auto in = (float*)inputs_->mBuffers[channel].mData + bufferOffset;
+            auto out = (float*)outputs_->mBuffers[channel].mData + bufferOffset;
+            memcpy(out, in, frameCount);
         }
         return;
     }
@@ -97,6 +101,5 @@ FilterDSPKernel::renderFrames(AUAudioFrameCount frameCount, AUAudioFrameCount bu
     // cutoff and/or resonance parameters are ramped. In that case we would want to recalculate the filter on every
     // sample.
     filter_.calculateParams(cutoff_, resonance_, nyquistPeriod_, channelCount());
-
     filter_.apply(ins_, outs_, frameCount);
 }

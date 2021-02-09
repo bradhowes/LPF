@@ -33,7 +33,8 @@ BiquadFilter::calculateParams(float frequency, float resonance, float nyquistPer
         vDSP_biquadm_SetTargetsDouble(setup_, F_.data(), updateRate_, threshold_, 0, 0, 1, numChannels);
     }
     else {
-        // Otherwise, we need to deallocate and create new storage for the filter definition. NOTE: this should never be done from within the audio render thread.
+        // Otherwise, we need to deallocate and create new storage for the filter definition. NOTE: this should never
+        // be done from within the audio render thread.
         if (setup_ != nullptr) vDSP_biquadm_DestroySetup(setup_);
         setup_ = vDSP_biquadm_CreateSetup(F_.data(), 1, numChannels);
     }

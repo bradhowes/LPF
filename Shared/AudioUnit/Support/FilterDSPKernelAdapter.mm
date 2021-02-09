@@ -1,35 +1,30 @@
 // Changes: Copyright © 2020 Brad Howes. All rights reserved.
 // Original: See LICENSE folder for this sample’s licensing information.
 
+#include <Accelerate/Accelerate.h>
+
 #import "AudioUnitBusBufferManager.hpp"
 #import "BiquadFilter.hpp"
 #import "FilterDSPKernel.hpp"
 #import "FilterDSPKernelAdapter.hpp"
+#import "BufferedAudioBus.hpp"
 
 @implementation FilterDSPKernelAdapter {
     FilterDSPKernel _kernel;
-    AudioUnitBusInputBufferManager* _inputBus;
+    BufferedInputBus _buffer;
 }
 
 - (instancetype)init {
     if (self = [super init]) {
-        AVAudioFormat *format = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:44100 channels:2];
-        _kernel.setFormat(format);
-
-        AUAudioUnitBus* bus = [[AUAudioUnitBus alloc] initWithFormat:format error:nil];
-        _inputBus = new AudioUnitBusInputBufferManager(bus, 8);
-        _outputBus = [[AUAudioUnitBus alloc] initWithFormat:format error:nil];
+        ;
     }
-
     return self;
 }
 
-- (void)dealloc {
-    delete _inputBus;
-}
-
-- (AUAudioUnitBus *)inputBus {
-    return _inputBus->bus();
+- (void) configureInput:(AVAudioFormat*)inputFormat output:(AVAudioFormat*)outputFormat
+      maxFramesToRender:(AUAudioFrameCount)maxFramesToRender {
+    _kernel.setFormat(inputFormat);
+    _buffer.setFormat(inputFormat, outputFormat.channelCount, maxFramesToRender);
 }
 
 - (void)magnitudes:(nonnull const float*)frequencies count:(NSInteger)count output:(nonnull float*)output {
@@ -49,59 +44,31 @@
     return _kernel.getParameterValue(parameter.address);
 }
 
-- (AUAudioFrameCount)maximumFramesToRender {
-    return _kernel.maximumFramesToRender();
-}
+- (AUAudioUnitStatus) process:(AudioTimeStamp const*)timestamp
+                   frameCount:(UInt32)frameCount
+                     inputBus:(NSInteger)inputBusNumber
+                       output:(AudioBufferList*)output
+                       events:(AURenderEvent*)realtimeEventListHead
+               pullInputBlock:(AURenderPullInputBlock)pullInputBlock
+{
+    // Pull samples from upstream node and place in our internal buffer
+    AudioUnitRenderActionFlags actionFlags = 0;
+    auto status = _buffer.pullInput(&actionFlags, timestamp, frameCount, inputBusNumber, pullInputBlock);
+    if (status != noErr) return status;
 
-- (void)setMaximumFramesToRender:(AUAudioFrameCount)maximumFramesToRender {
-    _kernel.setMaximumFramesToRender(maximumFramesToRender);
-}
-
-- (void)allocateRenderResources {
-    _inputBus->allocateRenderResources(self.maximumFramesToRender);
-    _kernel.setFormat(self.outputBus.format);
-}
-
-- (void)deallocateRenderResources {
-    _inputBus->deallocateRenderResources();
-}
-
-#pragma mark - AUAudioUnit (AUAudioUnitImplementation)
-
-- (AUInternalRenderBlock)internalRenderBlock {
-
-    // References to capture for use within the block.
-    FilterDSPKernel& kernel = _kernel;
-    AudioUnitBusInputBufferManager& inputBus = *_inputBus;
-
-    return ^AUAudioUnitStatus(AudioUnitRenderActionFlags* actionFlags, const AudioTimeStamp* timestamp,
-                              AVAudioFrameCount frameCount, NSInteger outputBusNumber, AudioBufferList* outputData,
-                              const AURenderEvent* realtimeEventListHead, AURenderPullInputBlock pullInputBlock) {
-        if (frameCount > kernel.maximumFramesToRender()) return kAudioUnitErr_TooManyFramesToProcess;
-
-        // Fetch samples from upstream
-        AudioUnitRenderActionFlags pullFlags = 0;
-        AUAudioUnitStatus err = inputBus.pullInput(&pullFlags, timestamp, frameCount, 0, pullInputBlock);
-        if (err != 0) return err;
-
-        // Obtain the sample buffers to use for rendering
-        AudioBufferList* inAudioBufferList = inputBus.mutableAudioBufferList();
-        AudioBufferList* outAudioBufferList = outputData;
-        if (outAudioBufferList->mBuffers[0].mData == nullptr) {
-
-            // Use the input buffers for the output buffers
-            for (UInt32 index = 0; index < outAudioBufferList->mNumberBuffers; ++index) {
-                outAudioBufferList->mBuffers[index].mData = inAudioBufferList->mBuffers[index].mData;
-            }
+    // If performing in-place operation, set output to use input buffers
+    auto inPlace = output->mBuffers[0].mData == nullptr;
+    if (inPlace) {
+        AudioBufferList* input = _buffer.mutableAudioBufferList;
+        for (auto i = 0; i < output->mNumberBuffers; ++i) {
+            output->mBuffers[i].mData = input->mBuffers[i].mData;
         }
+    }
 
-        kernel.setBuffers(inAudioBufferList, outAudioBufferList);
+    _kernel.setBuffers(_buffer.originalAudioBufferList, output);
+    _kernel.render(timestamp, frameCount, realtimeEventListHead);
 
-        // Do the rendering
-        kernel.render(timestamp, frameCount, realtimeEventListHead);
-
-        return noErr;
-    };
+    return noErr;
 }
 
 @end

@@ -7,36 +7,24 @@
 #import <vector>
 
 #import "BiquadFilter.hpp"
-#import "DSPKernel.hpp"
+#import "KernelEventProcessor.hpp"
 #import "ValueChangeDetector.hpp"
 
-class FilterDSPKernel : public DSPKernel {
+class FilterDSPKernel : public KernelEventProcessor<FilterDSPKernel> {
 public:
 
-    FilterDSPKernel() : DSPKernel(), cutoff_{float(400.0)}, resonance_{20.0}
-    {
-        filter_.calculateParams(cutoff_.value(), resonance_.value(), nyquistPeriod_, 2);
-    }
+    FilterDSPKernel();
 
     void setFormat(AVAudioFormat* format);
-
     void reset();
 
     bool isBypassed() { return bypassed; }
     void setBypass(bool shouldBypass) { bypassed = shouldBypass; }
 
     void setParameterValue(AUParameterAddress address, AUValue value);
-
     AUValue getParameterValue(AUParameterAddress address) const;
 
-    void handleParameterEvent(AUParameterEvent const& event) override
-    {
-        setParameterValue(event.parameterAddress, event.value);
-    }
-
-    void setBuffers(AudioBufferList* inputs, AudioBufferList* outputs);
-
-    void renderFrames(AUAudioFrameCount frameCount, AUAudioFrameCount bufferOffset) override;
+    void setBuffers(AudioBufferList const* inputs, AudioBufferList* outputs);
 
     float sampleRate() const { return sampleRate_; }
     size_t channelCount() const { return channelCount_; }
@@ -48,6 +36,10 @@ public:
     float resonance() const { return resonance_; }
 
 private:
+    void doParameterEvent(AUParameterEvent const& event) { setParameterValue(event.parameterAddress, event.value); }
+    void doMIDIEvent(AUMIDIEvent const& midiEvent) {}
+    void doRenderFrames(AUAudioFrameCount frameCount, AUAudioFrameCount bufferOffset);
+
     BiquadFilter filter_;
 
     float sampleRate_ = 44100.0;
@@ -58,11 +50,13 @@ private:
     ValueChangeDetector<float> cutoff_;
     ValueChangeDetector<float> resonance_;
 
-    AudioBufferList* inputs_ = nullptr;
+    AudioBufferList const* inputs_ = nullptr;
     AudioBufferList* outputs_ = nullptr;
 
     std::vector<float const*> ins_;
     std::vector<float*> outs_;
 
     bool bypassed = false;
+
+    friend class KernelEventProcessor<FilterDSPKernel>;
 };
