@@ -23,6 +23,8 @@ The code was developed in Xcode 11.5 on macOS 10.15.5. I have tested on both mac
 GarageBand, but also using test hosts on both devices as well as the excellent
 [AUM](https://apps.apple.com/us/app/aum-audio-mixer/id1055636344) app on iOS.
 
+Finally, it passes all `auval` tests.
+
 ## Code Layout
 
 Each OS (macOS and iOS) have the same code layout:
