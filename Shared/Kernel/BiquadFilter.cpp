@@ -45,8 +45,8 @@ BiquadFilter::calculateParams(float frequency, float resonance, float nyquistPer
 }
 
 /**
- Convert "bad" values (NaNs, very small, and very large values to 1.0. This is not mandatory, but it will get rid
- of the pesky warnings from CoreGraphics when they appear in the Bezier path. Set CG_NUMERICS_SHOW_BACKTRACE to
+ Convert "bad" values (NaNs, very small, and very large values to 1.0. This is not mandatory, but it will remove the
+ pesky warnings from CoreGraphics when they appear in the Bezier path. Set CG_NUMERICS_SHOW_BACKTRACE to
  "YES" in the Run scheme to see where they happen.
 
  - parameter x: value to check

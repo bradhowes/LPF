@@ -141,7 +141,9 @@ extension FilterViewController {
         self.resonanceParam = resonanceParam
 
         // Observe major state changes like a user selecting a user preset.
-        keyValueObserverToken = audioUnit.observe(\.allParameterValues) { _, _ in self.performOnMain { self.updateDisplay() } }
+        keyValueObserverToken = audioUnit.observe(\.allParameterValues) { _, _ in
+            self.performOnMain { self.updateDisplay() }
+        }
 
         parameterObserverToken = paramTree.token(byAddingParameterObserver: { [weak self] address, value in
             guard let self = self else { return }

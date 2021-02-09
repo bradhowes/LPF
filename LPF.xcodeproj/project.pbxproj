@@ -34,8 +34,6 @@
 		BD78FDC224C2F6530091A854 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD78FDC124C2F6530091A854 /* MainWindowController.swift */; };
 		BD938B5024A6BC1F00892358 /* BiquadFilterTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD938B4F24A6BC1F00892358 /* BiquadFilterTests.mm */; };
 		BD938B5724A781C200892358 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
-		BD95146B24A028E700D8024C /* AudioUnitBusBufferManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */; };
-		BD95146C24A028E800D8024C /* AudioUnitBusBufferManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */; };
 		BD95147824A08BB600D8024C /* NewSwiftTestTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD95147724A08BB600D8024C /* NewSwiftTestTemplate.swift */; };
 		BD95147A24A08BB600D8024C /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */; };
 		BD95148324A090E400D8024C /* ValueChangeDetectorTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95148224A090E400D8024C /* ValueChangeDetectorTests.mm */; };
@@ -91,11 +89,9 @@
 		C4BEE7EE22236F24001E6B6D /* FilterDSPKernel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E322236E99001E6B6D /* FilterDSPKernel.hpp */; };
 		C4BEE7EF22236F24001E6B6D /* RampingValueChangeDetector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E522236E99001E6B6D /* RampingValueChangeDetector.hpp */; };
 		C4BEE7F022236F24001E6B6D /* KernelEventProcessor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E622236E99001E6B6D /* KernelEventProcessor.hpp */; };
-		C4BEE7F122236F24001E6B6D /* AudioUnitBusBufferManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E822236E99001E6B6D /* AudioUnitBusBufferManager.hpp */; };
 		C4BEE7F222236F27001E6B6D /* FilterDSPKernel.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E322236E99001E6B6D /* FilterDSPKernel.hpp */; };
 		C4BEE7F322236F27001E6B6D /* RampingValueChangeDetector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E522236E99001E6B6D /* RampingValueChangeDetector.hpp */; };
 		C4BEE7F422236F27001E6B6D /* KernelEventProcessor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E622236E99001E6B6D /* KernelEventProcessor.hpp */; };
-		C4BEE7F522236F27001E6B6D /* AudioUnitBusBufferManager.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE7E822236E99001E6B6D /* AudioUnitBusBufferManager.hpp */; };
 		C4BEE7FF22236F6E001E6B6D /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE7D922236E99001E6B6D /* FilterView.swift */; };
 		C4BEE80022236F6E001E6B6D /* TypeAliases.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE7DB22236E99001E6B6D /* TypeAliases.swift */; };
 		C4BEE80122236F6E001E6B6D /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BEE7D722236E99001E6B6D /* View+Extensions.swift */; };
@@ -231,11 +227,11 @@
 		BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FourCharCode+Extensions.swift"; sourceTree = "<group>"; };
 		BD49661924A3605800A81F0B /* LICENSE.md */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = LICENSE.md; sourceTree = "<group>"; };
 		BD578EEC25D278490040D83D /* AudioUnitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioUnitManager.swift; sourceTree = "<group>"; };
+		BD578F0D25D2C4720040D83D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BD63B15824AE26D40015236D /* LFOTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LFOTests.mm; sourceTree = "<group>"; };
 		BD72F2E425D1D4CE0031E422 /* InputBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputBuffer.hpp; sourceTree = "<group>"; };
 		BD78FDC124C2F6530091A854 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		BD938B4F24A6BC1F00892358 /* BiquadFilterTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BiquadFilterTests.mm; sourceTree = "<group>"; };
-		BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AudioUnitBusBufferManager.mm; sourceTree = "<group>"; };
 		BD95147524A08BB600D8024C /* macOSFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = macOSFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD95147724A08BB600D8024C /* NewSwiftTestTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSwiftTestTemplate.swift; sourceTree = "<group>"; };
 		BD95147924A08BB600D8024C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -293,7 +289,6 @@
 		C4BEE7E322236E99001E6B6D /* FilterDSPKernel.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = FilterDSPKernel.hpp; sourceTree = "<group>"; };
 		C4BEE7E522236E99001E6B6D /* RampingValueChangeDetector.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RampingValueChangeDetector.hpp; sourceTree = "<group>"; };
 		C4BEE7E622236E99001E6B6D /* KernelEventProcessor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KernelEventProcessor.hpp; sourceTree = "<group>"; };
-		C4BEE7E822236E99001E6B6D /* AudioUnitBusBufferManager.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; path = AudioUnitBusBufferManager.hpp; sourceTree = "<group>"; };
 		C4BEE80822237078001E6B6D /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		C4BEE80A222370B2001E6B6D /* App.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		C4BEE80D2223713E001E6B6D /* LowPassFilterFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LowPassFilterFramework.h; sourceTree = "<group>"; };
@@ -413,6 +408,7 @@
 		BDB11A5124A114D700DD8EF9 /* Kernel */ = {
 			isa = PBXGroup;
 			children = (
+				BD578F0D25D2C4720040D83D /* README.md */,
 				BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */,
 				BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */,
 				C4BEE7E322236E99001E6B6D /* FilterDSPKernel.hpp */,
@@ -556,7 +552,6 @@
 			children = (
 				BD18B39E24CB31B200B7CB1E /* AudioUnitParameters.swift */,
 				C4F004A52239B2070014E248 /* FilterAudioUnit.swift */,
-				C4F07730223AC4F5008FFF06 /* FilterViewController.swift */,
 				BDB11A5124A114D700DD8EF9 /* Kernel */,
 				C4DCBAD6223ADE85000D9CB3 /* User Interface */,
 				C4BEE7E422236E99001E6B6D /* Support */,
@@ -569,8 +564,6 @@
 			isa = PBXGroup;
 			children = (
 				BD578EEC25D278490040D83D /* AudioUnitManager.swift */,
-				C4BEE7E822236E99001E6B6D /* AudioUnitBusBufferManager.hpp */,
-				BD95146924A0288100D8024C /* AudioUnitBusBufferManager.mm */,
 				BDE2CDEF24A3DE9F004AC8FA /* Logging.swift */,
 				BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */,
 				C4BEE7E522236E99001E6B6D /* RampingValueChangeDetector.hpp */,
@@ -608,6 +601,7 @@
 		C4DCBAD6223ADE85000D9CB3 /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
+				C4F07730223AC4F5008FFF06 /* FilterViewController.swift */,
 				C4BEE7D922236E99001E6B6D /* FilterView.swift */,
 				C4BEE7DB22236E99001E6B6D /* TypeAliases.swift */,
 			);
@@ -645,7 +639,6 @@
 				BD1F7BAE249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */,
 				BDB7CE97249F7694009580D5 /* ValueChangeDetector.hpp in Headers */,
 				C4BEE7EF22236F24001E6B6D /* RampingValueChangeDetector.hpp in Headers */,
-				C4BEE7F122236F24001E6B6D /* AudioUnitBusBufferManager.hpp in Headers */,
 				BDB7CE90249D3C00009580D5 /* NonCopyable.hpp in Headers */,
 				C4BEE7EE22236F24001E6B6D /* FilterDSPKernel.hpp in Headers */,
 				C4BEE7F022236F24001E6B6D /* KernelEventProcessor.hpp in Headers */,
@@ -661,7 +654,6 @@
 				BD1F7BAF249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */,
 				BDB7CE98249F7694009580D5 /* ValueChangeDetector.hpp in Headers */,
 				C4BEE7F322236F27001E6B6D /* RampingValueChangeDetector.hpp in Headers */,
-				C4BEE7F522236F27001E6B6D /* AudioUnitBusBufferManager.hpp in Headers */,
 				BDB7CE91249D3C00009580D5 /* NonCopyable.hpp in Headers */,
 				C4BEE7F222236F27001E6B6D /* FilterDSPKernel.hpp in Headers */,
 				C4BEE7F422236F27001E6B6D /* KernelEventProcessor.hpp in Headers */,
@@ -990,7 +982,6 @@
 				BD06772C24CF9FA00039F161 /* Optional+Extensions.swift in Sources */,
 				C4BEE80322236F6F001E6B6D /* FilterView.swift in Sources */,
 				C4BEE80422236F6F001E6B6D /* TypeAliases.swift in Sources */,
-				BD95146B24A028E700D8024C /* AudioUnitBusBufferManager.mm in Sources */,
 				BD18B39D24CB248200B7CB1E /* AudioComponentDescription+Extensions.swift in Sources */,
 				BDB11A5524A13C4B00DD8EF9 /* Comparble+Extensions.swift in Sources */,
 				BDB11A5C24A13F8700DD8EF9 /* Color+Extensions.swift in Sources */,
@@ -1048,7 +1039,6 @@
 				C4A3D65C223FF12A002784D4 /* SimplePlayEngine.swift in Sources */,
 				BD49661724A35D8900A81F0B /* FourCharCode+Extensions.swift in Sources */,
 				BDB11A6124A13FD000DD8EF9 /* CATransaction+Extensions.swift in Sources */,
-				BD95146C24A028E800D8024C /* AudioUnitBusBufferManager.mm in Sources */,
 				C4F004A42239B1E10014E248 /* FilterDSPKernelAdapter.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

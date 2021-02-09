@@ -68,8 +68,8 @@ public:
     operator T() const { return value_; }
 
     /**
-     Determine if the parameter was changed since the last time it was checked. Note that this is a mutating operation: it will only return true
-     once if there are no changes between calls.
+     Determine if the parameter was changed since the last time it was checked. Note that this is a mutating operation:
+     it will only return true once if there are no changes between calls.
 
      @returns true if so
      */

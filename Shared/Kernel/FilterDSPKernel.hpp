@@ -10,6 +10,9 @@
 #import "KernelEventProcessor.hpp"
 #import "ValueChangeDetector.hpp"
 
+/**
+ Applies a low-pass filtering to input samples.
+ */
 class FilterDSPKernel : public KernelEventProcessor<FilterDSPKernel> {
 public:
     FilterDSPKernel();
@@ -28,10 +31,10 @@ public:
     float resonance() const { return resonance_; }
 
 private:
+
     void doParameterEvent(AUParameterEvent const& event) { setParameterValue(event.parameterAddress, event.value); }
     void doMIDIEvent(AUMIDIEvent const& midiEvent) {}
-    void doRenderFrames(std::vector<float const*> const& ins, std::vector<float*>& outs,
-                        AUAudioFrameCount frameCount);
+    void doRenderFrames(std::vector<float const*> const& ins, std::vector<float*>& outs, AUAudioFrameCount frameCount);
 
     BiquadFilter filter_;
 
