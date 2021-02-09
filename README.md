@@ -1,3 +1,5 @@
+![CI](https://github.com/bradhowes/LPF/workflows/CI/badge.svg?branch=main)
+
 ![](Shared/Resources/LPF/256px.png)
 
 # About LPF (Low-pass Filter)
