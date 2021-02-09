@@ -30,15 +30,15 @@ public:
     /**
      Update a filter setting using the AUParameter infrastructure
 
-     - parameter address: the address of the parameter to set
-     - parameter value: the new value to set
+     @param address the address of the parameter to set
+     @param value the new value to set
      */
     void setParameterValue(AUParameterAddress address, AUValue value);
 
     /**
      Get the current filter setting using the AUParameter infrastructure
 
-     -parameter address: the address of the parameter to get
+     @param address the address of the parameter to get
      */
     AUValue getParameterValue(AUParameterAddress address) const;
 

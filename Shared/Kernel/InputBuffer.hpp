@@ -10,9 +10,9 @@ struct InputBuffer {
     /**
      Set the format of the buffer to use.
 
-     - parameter format: the format of the samples
-     - parameter channelCount: the number of channels in the upstream output
-     - parameter maxFrames: the maximum number of frames to be found in the upstream output
+     @param format the format of the samples
+     @param channelCount the number of channels in the upstream output
+     @param maxFrames the maximum number of frames to be found in the upstream output
      */
     void setFormat(AVAudioFormat* format, AVAudioChannelCount channelCount, AUAudioFrameCount maxFrames) {
         maxFramesToRender_ = maxFrames;
@@ -34,11 +34,11 @@ struct InputBuffer {
     /**
      Obtain samples from an upstream node. Output is stored in internal buffer.
 
-     - parameter actionFlags: render flags from the host
-     - parameter timestamp: the current transport time of the samples
-     - parameter frameCount: the number of frames to process
-     - parameter inputBusNumber: the bus to pull from
-     - parameter pullInputBlock: the function to call to do the pulling
+     @param actionFlags render flags from the host
+     @param timestamp the current transport time of the samples
+     @param frameCount the number of frames to process
+     @param inputBusNumber the bus to pull from
+     @param pullInputBlock the function to call to do the pulling
      */
     AUAudioUnitStatus pullInput(AudioUnitRenderActionFlags* actionFlags, AudioTimeStamp const* timestamp,
                                 AVAudioFrameCount frameCount, NSInteger inputBusNumber,
@@ -56,6 +56,8 @@ struct InputBuffer {
 
     /**
      Update the input buffer to reflect current format.
+
+     @param frameCount the number of frames to expect to place in the buffer
      */
     void prepareInputBufferList(AVAudioFrameCount frameCount) {
         UInt32 byteSize = frameCount * sizeof(float);

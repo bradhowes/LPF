@@ -121,19 +121,16 @@ extension FilterViewController {
         guard parameterObserverToken == nil else { return }
 
         guard let audioUnit = audioUnit else {
-            os_log(.error, log: log, "logic error -- nil audioUnit value")
             fatalError("logic error -- nil audioUnit value")
         }
 
         guard let paramTree = audioUnit.parameterTree else {
-            os_log(.error, log: log, "logic error -- nil parameterTree")
             fatalError("logic error -- nil parameterTree")
         }
 
         let defs = audioUnit.parameterDefinitions
         guard let cutoffParam = paramTree.value(forKey: defs.cutoff.identifier) as? AUParameter,
               let resonanceParam = paramTree.value(forKey: defs.resonance.identifier) as? AUParameter else {
-            os_log(.error, log: log, "logic error -- missing parameter(s)")
             fatalError("logic error -- missing parameter(s)")
         }
 

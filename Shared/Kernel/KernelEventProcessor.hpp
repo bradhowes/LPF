@@ -21,18 +21,52 @@
 template <typename T> class KernelEventProcessor {
 public:
 
+    /**
+     Construct new instance.
+
+     @param logger the log identifier to use for our logging statements
+     */
     KernelEventProcessor(os_log_t logger) : logger_{logger} {}
 
+    /**
+     Begin processing with the given format and channel count.
+
+     @param format the sample format to expect
+     @param channelCount the number of channels to expect on input
+     @param maxFramesToRender the maximum number of frames to expect on input
+     */
     void startProcessing(AVAudioFormat* format, AVAudioChannelCount channelCount, AUAudioFrameCount maxFramesToRender) {
         inputBuffer_.setFormat(format, channelCount, maxFramesToRender);
     }
 
+    /**
+     Stop processing. Free up any resources that were used during rendering.
+     */
     void stopProcessing() { inputBuffer_.reset(); }
 
+    /**
+     Set the bypass mode
+
+     @param bypass if true disable filter processing and just copy samples from input to output
+     */
     void setBypass(bool bypass) { bypassed_ = bypass; }
 
+    /**
+     Get current bypass mode
+     */
     bool isBypassed() { return bypassed_; }
 
+    /**
+     Process events and render a given number of frames. Events and rendering are interleaved if necessary so that
+     event times align with samples.
+
+     @param timestamp the timestamp of the first sample or the first event
+     @param frameCount the number of frames to process
+     @param inputBusNumber the bus to pull samples from
+     @param output the buffer to hold the rendered samples
+     @param realtimeEventListHead pointer to the first AURenderEvent (may be null)
+     @param pullInputBlock the closure to call to obtain upstream samples
+     */
     AUAudioUnitStatus processAndRender(AudioTimeStamp* timestamp, UInt32 frameCount, NSInteger inputBusNumber,
                                        AudioBufferList* output, AURenderEvent* realtimeEventListHead,
                                        AURenderPullInputBlock pullInputBlock) {
@@ -59,15 +93,9 @@ public:
 
         return noErr;
     }
-    
-    bool isProcessingInPlace() const {
-        return inputs_ && outputs_ && inputs_->mBuffers[0].mData == outputs_->mBuffers[0].mData;
-    }
 
     /**
-     Perform sample rendering. NOTE: the lack of any input/output buffers here. Everything is expected to be managed
-     by the injected T class instance. There can be multiple calls to the T::doRenderFrames method from this one
-     depending on the presence of any AURenderEvent objects.s
+     Perform sample rendering using samples found in the internal input buffer.
 
      @param timestamp the times of events being rendered
      @param frameCount the number of frames (samples) to render
@@ -80,8 +108,6 @@ public:
         auto now = AUEventSampleTime(timestamp->mSampleTime);
         auto framesRemaining = frameCount;
 
-        // Process events and samples together. First process samples up to an event time and then do the event to
-        // update render parameters. Continue until all frames (samples) are rendered.
         while (framesRemaining > 0) {
             if (events == nullptr) {
                 renderFrames(framesRemaining, frameCount - framesRemaining);

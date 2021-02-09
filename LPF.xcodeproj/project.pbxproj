@@ -376,8 +376,8 @@
 			isa = PBXGroup;
 			children = (
 				BDB7CE99249FC026009580D5 /* AUAudioUnitPreset+Extensions.swift */,
-				BD2FD3EC259B5104004A3196 /* AUParameterTree+Extensions.swift */,
 				BD2FD3F4259B512F004A3196 /* AUParameterAddress+Extensions.swift */,
+				BD2FD3EC259B5104004A3196 /* AUParameterTree+Extensions.swift */,
 				BD18B39A24CB247400B7CB1E /* AudioComponentDescription+Extensions.swift */,
 				BDE2CDF324A3DF13004AC8FA /* Bundle+Extensions.swift */,
 				BDB11A5624A13C8900DD8EF9 /* CALayer+Extensions.swift */,
