@@ -2,10 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AU_BASE_NAME</key>
+	<string>$(AU_BASE_NAME)</string>
+	<key>AU_COMPONENT_NAME</key>
+	<string>$(AU_COMPONENT_NAME)</string>
+	<key>AU_COMPONENT_TYPE</key>
+	<string>$(AU_COMPONENT_TYPE)</string>
+	<key>AU_COMPONENT_SUBTYPE</key>
+	<string>$(AU_COMPONENT_SUBTYPE)</string>
+	<key>AU_COMPONENT_MANUFACTURER</key>
+	<string>$(AU_COMPONENT_MANUFACTURER)</string>
+	<key>AU_FACTORY_FUNCTION</key>
+	<string>$(AU_FACTORY_FUNCTION)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>LPF</string>
+	<string>$(AU_BASE_NAME)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -32,32 +44,32 @@
 			<array>
 				<dict>
 					<key>description</key>
-					<string>LPF</string>
+					<string>$(AU_BASE_NAME)</string>
 					<key>factoryFunction</key>
-					<string>LowPassFilterFramework.FilterViewController</string>
+					<string>$(AU_FACTORY_FUNCTION)</string>
 					<key>manufacturer</key>
-					<string>BRay</string>
+					<string>$(AU_COMPONENT_MANUFACTURER)</string>
 					<key>name</key>
-					<string>B-Ray: Low-pass</string>
+					<string>$(AU_COMPONENT_NAME)</string>
 					<key>sandboxSafe</key>
 					<true/>
 					<key>subtype</key>
-					<string>lpas</string>
+					<string>$(AU_COMPONENT_SUBTYPE)</string>
 					<key>tags</key>
 					<array>
 						<string>Effects</string>
 					</array>
 					<key>type</key>
-					<string>aufx</string>
+					<string>$(AU_COMPONENT_TYPE)</string>
 					<key>version</key>
-					<integer>67072</integer>
+					<real>67072</real>
 				</dict>
 			</array>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.AudioUnit-UI</string>
 		<key>NSExtensionPrincipalClass</key>
-		<string>LowPassFilterFramework.FilterViewController</string>
+		<string>$(AU_FACTORY_FUNCTION)</string>
 	</dict>
 </dict>
 </plist>
