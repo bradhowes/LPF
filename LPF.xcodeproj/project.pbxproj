@@ -13,6 +13,7 @@
 		BD18B39D24CB248200B7CB1E /* AudioComponentDescription+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD18B39A24CB247400B7CB1E /* AudioComponentDescription+Extensions.swift */; };
 		BD18B39F24CB31B200B7CB1E /* AudioUnitParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD18B39E24CB31B200B7CB1E /* AudioUnitParameters.swift */; };
 		BD18B3A024CB31B200B7CB1E /* AudioUnitParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD18B39E24CB31B200B7CB1E /* AudioUnitParameters.swift */; };
+		BD1D249525D4831B00523748 /* BundlePropertiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1D249425D4831B00523748 /* BundlePropertiesTests.swift */; };
 		BD1F7BAC249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */; };
 		BD1F7BAD249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */; };
 		BD1F7BAE249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */; };
@@ -220,6 +221,7 @@
 		BD06772B24CF9FA00039F161 /* Optional+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Optional+Extensions.swift"; sourceTree = "<group>"; };
 		BD18B39A24CB247400B7CB1E /* AudioComponentDescription+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AudioComponentDescription+Extensions.swift"; sourceTree = "<group>"; };
 		BD18B39E24CB31B200B7CB1E /* AudioUnitParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioUnitParameters.swift; sourceTree = "<group>"; };
+		BD1D249425D4831B00523748 /* BundlePropertiesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundlePropertiesTests.swift; sourceTree = "<group>"; };
 		BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BiquadFilter.cpp; sourceTree = "<group>"; };
 		BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BiquadFilter.hpp; sourceTree = "<group>"; };
 		BD2FD3EC259B5104004A3196 /* AUParameterTree+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AUParameterTree+Extensions.swift"; sourceTree = "<group>"; };
@@ -228,7 +230,6 @@
 		BD49661924A3605800A81F0B /* LICENSE.md */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = LICENSE.md; sourceTree = "<group>"; };
 		BD578EEC25D278490040D83D /* AudioUnitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioUnitManager.swift; sourceTree = "<group>"; };
 		BD578F0D25D2C4720040D83D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		BD63B15824AE26D40015236D /* LFOTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LFOTests.mm; sourceTree = "<group>"; };
 		BD72F2E425D1D4CE0031E422 /* InputBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputBuffer.hpp; sourceTree = "<group>"; };
 		BD78FDC124C2F6530091A854 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		BD938B4F24A6BC1F00892358 /* BiquadFilterTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BiquadFilterTests.mm; sourceTree = "<group>"; };
@@ -395,8 +396,8 @@
 			isa = PBXGroup;
 			children = (
 				BD95147724A08BB600D8024C /* NewSwiftTestTemplate.swift */,
+				BD1D249425D4831B00523748 /* BundlePropertiesTests.swift */,
 				BD938B4F24A6BC1F00892358 /* BiquadFilterTests.mm */,
-				BD63B15824AE26D40015236D /* LFOTests.mm */,
 				BDB11A6224A1530D00DD8EF9 /* LogScaling.swift */,
 				BD95148424A092E800D8024C /* RampingValueChangeDetectorTests.mm */,
 				BD95148224A090E400D8024C /* ValueChangeDetectorTests.mm */,
@@ -949,6 +950,7 @@
 				BD938B5024A6BC1F00892358 /* BiquadFilterTests.mm in Sources */,
 				BD95148524A092E800D8024C /* RampingValueChangeDetectorTests.mm in Sources */,
 				BDB11A6324A1530D00DD8EF9 /* LogScaling.swift in Sources */,
+				BD1D249525D4831B00523748 /* BundlePropertiesTests.swift in Sources */,
 				BD95148324A090E400D8024C /* ValueChangeDetectorTests.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
