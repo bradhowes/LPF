@@ -51,6 +51,16 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BD1D24A825D486A700523748"
+               BuildableName = "iOSFrameworkTests.xctest"
+               BlueprintName = "iOSFrameworkTests"
+               ReferencedContainer = "container:LPF.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
