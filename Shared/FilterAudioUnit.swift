@@ -22,16 +22,19 @@ public final class FilterAudioUnit: AUAudioUnit {
 
     /// Component description that matches this AudioUnit. The values must match those found in the Info.plist
     /// Used by the app hosts to load the right component.
-    public static let componentDescription = AudioComponentDescription(
-        componentType: kAudioUnitType_Effect,
-        componentSubType: FourCharCode(stringLiteral: "lpas"),
-        componentManufacturer: FourCharCode(stringLiteral: "BRay"),
-        componentFlags: 0,
-        componentFlagsMask: 0
-    )
+    public static let componentDescription: AudioComponentDescription = {
+        let bundle = Bundle(for: FilterAudioUnit.self)
+        return AudioComponentDescription(
+            componentType: FourCharCode(stringLiteral: bundle.auComponentType),
+            componentSubType: FourCharCode(stringLiteral: bundle.auComponentSubtype),
+            componentManufacturer: FourCharCode(stringLiteral: bundle.auComponentManufacturer),
+            componentFlags: 0,
+            componentFlagsMask: 0
+        )
+    }()
 
     /// Name of the component
-    public static let componentName = "B-Ray: Low-pass"
+    public static let componentName = Bundle(for: FilterAudioUnit.self).auComponentName
     /// The associated view controller for the audio unit that shows the controls
     public weak var viewController: FilterViewController?
     /// Runtime parameter definitions for the audio unit
@@ -52,27 +55,71 @@ public final class FilterAudioUnit: AUAudioUnit {
     public override var supportsUserPresets: Bool { true }
     /// Preset get/set
     public override var currentPreset: AUAudioUnitPreset? {
-        get { _currentPreset }
+        get {
+            os_log(.info, log: log, "get currentPreset - %{public}s", _currentPreset.descriptionOrNil)
+            return _currentPreset
+        }
         set {
+            os_log(.info, log: log, "set currentPreset - %{public}s", newValue.descriptionOrNil)
             guard let preset = newValue else {
                 _currentPreset = nil
                 return
             }
 
             if preset.number >= 0 {
+                os_log(.info, log: log, "factoryPreset %d", preset.number)
                 let values = factoryPresetValues[preset.number]
                 _currentPreset = preset
+                os_log(.info, log: log, "updating parameters")
                 parameterDefinitions.setValues(cutoff: values.cutoff, resonance: values.resonance)
             }
             else {
-                do {
-                    fullStateForDocument = try presetState(for: preset)
+                os_log(.info, log: log, "userPreset %d", preset.number)
+                if let state = try? presetState(for: preset) {
+                    os_log(.info, log: log, "state: %{public}s", state.debugDescription)
+                    fullState = state
                     _currentPreset = preset
-                } catch {
-                    os_log(.error, log: log, "Unable to restore from preset '%{public}s'", preset.name)
                 }
             }
         }
+    }
+
+    public override var fullState: [String : Any]? {
+        get {
+            os_log(.info, log: log, "fullState GET")
+            var value = super.fullState ?? [String: Any]()
+            if let preset = _currentPreset {
+                value[kAUPresetNameKey] = preset.name
+                value[kAUPresetNumberKey] = preset.number
+            }
+            os_log(.info, log: log, "value: %{public}s", value.description)
+            return value
+        }
+        set {
+            os_log(.info, log: log, "fullState SET")
+            os_log(.info, log: log, "value: %{public}s", newValue.descriptionOrNil)
+            super.fullState = newValue
+            if let newValue = newValue,
+               let name = newValue[kAUPresetNameKey] as? String,
+               let number = newValue[kAUPresetNumberKey] as? NSNumber {
+                os_log(.info, log: log, "name %{public}s number %d", name, number.intValue)
+                currentPreset = AUAudioUnitPreset(number: number.intValue, name: name)
+            }
+        }
+    }
+
+    override public var fullStateForDocument: [String : Any]? {
+        get {
+            os_log(.info, log: log, "fullStateForDocument GET")
+            let value = super.fullStateForDocument
+            os_log(.info, log: log, "value: %{public}s", value.descriptionOrNil)
+            return value
+        }
+        set {
+            os_log(.info, log: log, "fullStateForDocument SET")
+            os_log(.info, log: log, "value: %{public}s", newValue.descriptionOrNil)
+            super.fullStateForDocument = newValue
+       }
     }
 
     /// Announce that the filter can work directly on upstream sample buffers
