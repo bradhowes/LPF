@@ -1,3 +1,7 @@
+// Copyright © 2020 Brad Howes. All rights reserved.
+
+#pragma once
+
 #import <AudioToolbox/AudioToolbox.h>
 #import <AudioUnit/AudioUnit.h>
 #import <AVFoundation/AVFoundation.h>
