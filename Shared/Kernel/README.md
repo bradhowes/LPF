@@ -9,7 +9,7 @@ This directory contains the files involved in filtering.
 - [FilterDSPKernel](FilterDSPKernel.hpp) -- holds parameters that define the filter (cutoff and resonance) and applies the filter to
   samples during audio unit rendering.
 
-- [FilterDSPKernelAdapter](FilterDSPKernelAdapter.h) -- tiny Objective-C wrapper for the [FilterDSPKernel](FilterDSPKernel.hpp) so that 
+- [FilterDSPKernelAdapter](FilterDSPKernelAdapter.hpp) -- tiny Objective-C wrapper for the [FilterDSPKernel](FilterDSPKernel.hpp) so that 
   Swift can work with it
 
 - [InputBuffer](InputBuffer.hpp) -- manages an [AVAudioPCMBuffer](https://developer.apple.com/documentation/avfaudio/avaudiopcmbuffer)
