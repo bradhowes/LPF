@@ -29,7 +29,7 @@ tests.
 
 ## Code Layout
 
-Each OS ([macOS](tree/main/macOS) and [iOS](tree/main/iOS)) have the same code layout:
+Each OS ([macOS](macOS) and [iOS](iOS)) have the same code layout:
 
 * `App` -- code and configury for the application that hosts the AUv3 app extension
 * `Extension` -- code and configury for the extension itself
