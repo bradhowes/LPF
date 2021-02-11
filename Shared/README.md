@@ -1,15 +1,16 @@
-# Shared Directory
+# About
 
-Contains code common to both iOS and macOS AUv3 extensions.
+Contains code common to both iOS and macOS AUv3 extensions, and thus files here belong to both iOS and macOS
+framework targets.
 
-- AudioUnitParameters -- contains the AUParameter definitions for the runtime AU parameters.
+- `AudioUnitParameters` -- Contains the AUParameter definitions for the runtime AU parameters.
 
-- FilterAudioUnit -- the actual AUv3 component, derived from `AUAudioUnit` class. Implements presets and
+- `FilterAudioUnit` -- The actual AUv3 component, derived from `AUAudioUnit` class. Implements presets and
   configures the audio unit but the actual audio processing is done in `Kernel/FilterDSPKernel`.
 
-- Kernel -- contains the files involved in audio filtering
+- `Kernel` -- Contains the files involved in audio filtering.
 
-- User Interface -- controller and graphical view that shows the filter settings and its frequency response
+- `User Interface` -- Controller and graphical view that shows the filter settings and its frequency response
   curve.
 
-- Support -- sundry files used elsewhere
+- `Support` -- Sundry files used elsewhere, including various class extensions.

@@ -85,7 +85,6 @@
 		C4660A602225F9A0007BE3B1 /* LPF.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = C437FEA0222368B7008D6C09 /* LPF.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C46B8B8122418B6000E00B1E /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C4C9EAAB2227D79D003FEE1C /* FilterViewController.xib */; };
 		C4737B0B2231D930002CAD0B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4737B0A2231D930002CAD0B /* AudioToolbox.framework */; };
-		C496341222238CDD001D1F5B /* NSTextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C496341022238CDD001D1F5B /* NSTextFieldExtensions.swift */; };
 		C496341422238CFA001D1F5B /* LowPassFilterFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE80D2223713E001E6B6D /* LowPassFilterFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C4A3D65B223FF12A002784D4 /* SimplePlayEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A3D65A223FF12A002784D4 /* SimplePlayEngine.swift */; };
 		C4A3D65C223FF12A002784D4 /* SimplePlayEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4A3D65A223FF12A002784D4 /* SimplePlayEngine.swift */; };
@@ -226,6 +225,9 @@
 		BD1D24A925D486A700523748 /* iOSFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD1D24AD25D486A800523748 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BD1D250525D515B100523748 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = Configuration/README.md; sourceTree = "<group>"; };
+		BD1D250625D5178900523748 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		BD1D250E25D517D000523748 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		BD1D252E25D51AD600523748 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BiquadFilter.cpp; sourceTree = "<group>"; };
 		BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BiquadFilter.hpp; sourceTree = "<group>"; };
 		BD2FD3EC259B5104004A3196 /* AUParameterTree+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AUParameterTree+Extensions.swift"; sourceTree = "<group>"; };
@@ -273,7 +275,6 @@
 		C44F544622260E2C00484B67 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
 		C4737B092231D918002CAD0B /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		C4737B0A2231D930002CAD0B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
-		C496341022238CDD001D1F5B /* NSTextFieldExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSTextFieldExtensions.swift; sourceTree = "<group>"; };
 		C4A3D65A223FF12A002784D4 /* SimplePlayEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplePlayEngine.swift; sourceTree = "<group>"; };
 		C4BEE79C22236A29001E6B6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4BEE7A122236A29001E6B6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -475,17 +476,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C496340F22238947001D1F5B /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				C496341022238CDD001D1F5B /* NSTextFieldExtensions.swift */,
-			);
-			path = Support;
-			sourceTree = "<group>";
-		};
 		C4BEE79622236A29001E6B6D /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				BD1D250625D5178900523748 /* README.md */,
 				C4BEE7A222236A29001E6B6D /* App */,
 				C4BEE79722236A29001E6B6D /* Extension */,
 				C4BEE79F22236A29001E6B6D /* Framework */,
@@ -529,6 +523,7 @@
 		C4BEE7B622236A58001E6B6D /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				BD1D250E25D517D000523748 /* README.md */,
 				C4BEE7C322236A58001E6B6D /* App */,
 				C4BEE7B722236A58001E6B6D /* Extension */,
 				C4BEE7C022236A58001E6B6D /* Framework */,
@@ -552,7 +547,6 @@
 			children = (
 				C4BEE80D2223713E001E6B6D /* LowPassFilterFramework.h */,
 				C4BEE7C222236A58001E6B6D /* Info.plist */,
-				C496340F22238947001D1F5B /* Support */,
 			);
 			path = Framework;
 			sourceTree = "<group>";
@@ -574,6 +568,7 @@
 		C4BEE7D522236E99001E6B6D /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				BD1D252E25D51AD600523748 /* README.md */,
 				BD18B39E24CB31B200B7CB1E /* AudioUnitParameters.swift */,
 				C4F004A52239B2070014E248 /* FilterAudioUnit.swift */,
 				BDB11A5124A114D700DD8EF9 /* Kernel */,
@@ -1090,7 +1085,6 @@
 				C4BEE80122236F6E001E6B6D /* View+Extensions.swift in Sources */,
 				BDB11A5424A13C4A00DD8EF9 /* Comparble+Extensions.swift in Sources */,
 				BDB7CE9C249FC0AC009580D5 /* AUAudioUnitPreset+Extensions.swift in Sources */,
-				C496341222238CDD001D1F5B /* NSTextFieldExtensions.swift in Sources */,
 				BD72F2E625D1D4CE0031E422 /* InputBuffer.hpp in Sources */,
 				C4BEE7FF22236F6E001E6B6D /* FilterView.swift in Sources */,
 				BDE2CDF224A3DEE5004AC8FA /* Logging.swift in Sources */,
