@@ -112,8 +112,8 @@
 		C4BEE8172223736F001E6B6D /* LowPassFilterFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE8162223736F001E6B6D /* LowPassFilterFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C4BEE81922237394001E6B6D /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */; };
 		C4BEE81A222373A6001E6B6D /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */; };
-		C4F004A12239B1E10014E248 /* FilterDSPKernelAdapter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
-		C4F004A22239B1E10014E248 /* FilterDSPKernelAdapter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		C4F004A12239B1E10014E248 /* FilterDSPKernelAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C4F004A22239B1E10014E248 /* FilterDSPKernelAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C4F004A32239B1E10014E248 /* FilterDSPKernelAdapter.mm in Sources */ = {isa = PBXBuildFile; fileRef = C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */; };
 		C4F004A42239B1E10014E248 /* FilterDSPKernelAdapter.mm in Sources */ = {isa = PBXBuildFile; fileRef = C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */; };
 		C4F004A62239B2070014E248 /* FilterAudioUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F004A52239B2070014E248 /* FilterAudioUnit.swift */; };
@@ -304,7 +304,7 @@
 		C4BEE81B22237772001E6B6D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
 		C4C9EAAB2227D79D003FEE1C /* FilterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
 		C4CE62D8222601070055FE6B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = FilterDSPKernelAdapter.hpp; sourceTree = "<group>"; };
+		C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = FilterDSPKernelAdapter.h; sourceTree = "<group>"; };
 		C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FilterDSPKernelAdapter.mm; sourceTree = "<group>"; };
 		C4F004A52239B2070014E248 /* FilterAudioUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterAudioUnit.swift; sourceTree = "<group>"; };
 		C4F07730223AC4F5008FFF06 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
@@ -436,7 +436,7 @@
 				BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */,
 				C4BEE7E322236E99001E6B6D /* FilterDSPKernel.hpp */,
 				BD95149024A0A63300D8024C /* FilterDSPKernel.mm */,
-				C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.hpp */,
+				C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.h */,
 				C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */,
 				BD72F2E425D1D4CE0031E422 /* InputBuffer.hpp */,
 				C4BEE7E622236E99001E6B6D /* KernelEventProcessor.hpp */,
@@ -590,8 +590,7 @@
 				BD49661824A35F3900A81F0B /* Class Extensions */,
 				C4DCBAD5223ADE79000D9CB3 /* Audio */,
 			);
-			name = Support;
-			path = AudioUnit/Support;
+			path = Support;
 			sourceTree = "<group>";
 		};
 		C4BEE81822237394001E6B6D /* Frameworks */ = {
@@ -654,7 +653,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4F004A12239B1E10014E248 /* FilterDSPKernelAdapter.hpp in Headers */,
+				C4F004A12239B1E10014E248 /* FilterDSPKernelAdapter.h in Headers */,
 				C4BEE8172223736F001E6B6D /* LowPassFilterFramework.h in Headers */,
 				BD1F7BAE249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */,
 				BDB7CE97249F7694009580D5 /* ValueChangeDetector.hpp in Headers */,
@@ -669,7 +668,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4F004A22239B1E10014E248 /* FilterDSPKernelAdapter.hpp in Headers */,
+				C4F004A22239B1E10014E248 /* FilterDSPKernelAdapter.h in Headers */,
 				C496341422238CFA001D1F5B /* LowPassFilterFramework.h in Headers */,
 				BD1F7BAF249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */,
 				BDB7CE98249F7694009580D5 /* ValueChangeDetector.hpp in Headers */,

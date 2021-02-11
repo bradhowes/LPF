@@ -4,7 +4,7 @@
 #import <os/log.h>
 
 #include "FilterDSPKernel.hpp"
-#include "FilterDSPKernelAdapter.hpp"
+#include "FilterDSPKernelAdapter.h"
 
 FilterDSPKernel::FilterDSPKernel()
 : KernelEventProcessor(os_log_create("LPF", "FilterDSPKernel")), cutoff_{float(400.0)}, resonance_{20.0}

@@ -4,7 +4,7 @@
 #include <Accelerate/Accelerate.h>
 
 #import "FilterDSPKernel.hpp"
-#import "FilterDSPKernelAdapter.hpp"
+#import "FilterDSPKernelAdapter.h"
 
 @implementation FilterDSPKernelAdapter {
     os_log_t logger_;
