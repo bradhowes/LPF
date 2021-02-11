@@ -6,14 +6,14 @@
 
 This project is an adaptation of Apple's [Creating Custom Audio
 Effects](https://developer.apple.com/documentation/audiotoolbox/audio_unit_v3_plug-ins/creating_custom_audio_effects)
-project. Much has been retooled for a better experience and code understanding, as well as various bug fixes. You can find Apple's original
-README [here](Documentation/APPLE_README.md)
+project. Much has been retooled for a better experience and code understanding, as well as various bug fixes.
+You can find Apple's original README [here](Documentation/APPLE_README.md)
 
 The gist is still the same:
 
 * use a C++ kernel for audio sample manipulation in the render thread
-* provide a light Obj-C interface for Swift access
-* perform UI work in Swift (on the main thread)
+* provide a tiny Obj-C interface to the kernel for Swift access
+* perform all UI and most audio unit work in Swift (usually on the main thread)
 
 Unlike Apple's example, this one uses the [Accelerate](https://developer.apple.com/documentation/accelerate)
 framework to perform the filtering (Apple's code clearly shows you what the Biquadratic IIR filter does, just in
@@ -23,11 +23,13 @@ The code was developed in Xcode 11.5 on macOS 10.15.5. I have tested on both mac
 GarageBand, but also using test hosts on both devices as well as the excellent
 [AUM](https://apps.apple.com/us/app/aum-audio-mixer/id1055636344) app on iOS.
 
-Finally, it passes all `auval` tests.
+Finally, it passes all
+[auval](https://developer.apple.com/library/archive/documentation/MusicAudio/Conceptual/AudioUnitProgrammingGuide/AudioUnitDevelopmentFundamentals/AudioUnitDevelopmentFundamentals.html)
+tests.
 
 ## Code Layout
 
-Each OS (macOS and iOS) have the same code layout:
+Each OS ([macOS](tree/main/macOS) and [iOS](tree/main/iOS)) have the same code layout:
 
 * `App` -- code and configury for the application that hosts the AUv3 app extension
 * `Extension` -- code and configury for the extension itself
