@@ -45,7 +45,7 @@ settings. It also allows for dynamically changing the filter settings by touch (
 * [FilterViewController](Shared/User%20Interface/FilterViewController.swift) -- a custom `AUViewController` that creates new `FilterAudioUnit` instances for 
 the host application.
 
-Additional supporting files can be found in `Support`.
+Additional supporting files can be found in [Support](Shared/Support).
 
 # Examples
 Here is LPF shown running in GarageBand on macOS:
