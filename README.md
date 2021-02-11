@@ -35,15 +35,15 @@ Each OS ([macOS](macOS) and [iOS](iOS)) have the same code layout:
 * `Extension` -- code and configury for the extension itself
 * `Framework` -- code configury for the framework that contains the shared code by the app and the extension
 
-The `Shared` folder hold all of the code that is used by the above products. In it you will find
+The [Shared](Shared) folder holds all of the code that is used by the above products. In it you will find
 
-* `BiquadFilter` -- the C++ class that manages the filter state.
-* `FilterDSPKernel` -- another C++ class that does the rendering of audio samples by sending them through the filter.
-* `FilterView` -- a custom view (UIView and NSView) that draws the frequency response curve for the current filter
+* [BiquadFilter](Shared/Kernel/BiquadFilter.hpp) -- the C++ class that manages the filter state.
+* [FilterDSPKernel](Shared/Kernel/FilterDSPKernel.hpp) -- another C++ class that does the rendering of audio samples by sending them through the filter.
+* [FilterAudioUnit](Shared/FilterAudioUnit.swift) -- the actual AUv3 AudioUnit written in Swift.
+* [FilterView](Shared/User Interface/FilterView.swift) -- a custom view (UIView and NSView) that draws the frequency response curve for the current filter
 settings. It also allows for dynamically changing the filter settings by touch (UIView) or mouse (NSView).
-* `FilterAudioUnit` -- the actual AUv3 AudioUnit.
-* `FilterViewController` -- a custom `AUViewController` that creates new `FilterAudioUnit` instances for the host
-application.
+* [FilterViewController](Shared/User Interface/FilterViewController.swift) -- a custom `AUViewController` that creates new `FilterAudioUnit` instances for 
+the host application.
 
 Additional supporting files can be found in `Support`.
 
