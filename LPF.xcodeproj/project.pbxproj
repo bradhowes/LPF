@@ -33,6 +33,8 @@
 		BD2FD3F6259B5130004A3196 /* AUParameterAddress+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FD3F4259B512F004A3196 /* AUParameterAddress+Extensions.swift */; };
 		BD49661624A35D8700A81F0B /* FourCharCode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */; };
 		BD49661724A35D8900A81F0B /* FourCharCode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */; };
+		BD50D29A25D6D76E00375455 /* FilterDSPKernelAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = BD50D29225D6D76E00375455 /* FilterDSPKernelAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BD50D29B25D6D76E00375455 /* FilterDSPKernelAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = BD50D29225D6D76E00375455 /* FilterDSPKernelAdapter.h */; };
 		BD578EED25D278490040D83D /* AudioUnitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD578EEC25D278490040D83D /* AudioUnitManager.swift */; };
 		BD578EEE25D278490040D83D /* AudioUnitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD578EEC25D278490040D83D /* AudioUnitManager.swift */; };
 		BD63B15424AE25F80015236D /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = BD49661924A3605800A81F0B /* LICENSE.md */; };
@@ -112,8 +114,6 @@
 		C4BEE8172223736F001E6B6D /* LowPassFilterFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = C4BEE8162223736F001E6B6D /* LowPassFilterFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C4BEE81922237394001E6B6D /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */; };
 		C4BEE81A222373A6001E6B6D /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */; };
-		C4F004A12239B1E10014E248 /* FilterDSPKernelAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C4F004A22239B1E10014E248 /* FilterDSPKernelAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C4F004A32239B1E10014E248 /* FilterDSPKernelAdapter.mm in Sources */ = {isa = PBXBuildFile; fileRef = C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */; };
 		C4F004A42239B1E10014E248 /* FilterDSPKernelAdapter.mm in Sources */ = {isa = PBXBuildFile; fileRef = C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */; };
 		C4F004A62239B2070014E248 /* FilterAudioUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F004A52239B2070014E248 /* FilterAudioUnit.swift */; };
@@ -234,6 +234,7 @@
 		BD2FD3F4259B512F004A3196 /* AUParameterAddress+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AUParameterAddress+Extensions.swift"; sourceTree = "<group>"; };
 		BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FourCharCode+Extensions.swift"; sourceTree = "<group>"; };
 		BD49661924A3605800A81F0B /* LICENSE.md */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = LICENSE.md; sourceTree = "<group>"; };
+		BD50D29225D6D76E00375455 /* FilterDSPKernelAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterDSPKernelAdapter.h; sourceTree = "<group>"; };
 		BD578EEC25D278490040D83D /* AudioUnitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioUnitManager.swift; sourceTree = "<group>"; };
 		BD578F0D25D2C4720040D83D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BD72F2E425D1D4CE0031E422 /* InputBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputBuffer.hpp; sourceTree = "<group>"; };
@@ -304,7 +305,6 @@
 		C4BEE81B22237772001E6B6D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
 		C4C9EAAB2227D79D003FEE1C /* FilterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
 		C4CE62D8222601070055FE6B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; path = FilterDSPKernelAdapter.h; sourceTree = "<group>"; };
 		C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FilterDSPKernelAdapter.mm; sourceTree = "<group>"; };
 		C4F004A52239B2070014E248 /* FilterAudioUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterAudioUnit.swift; sourceTree = "<group>"; };
 		C4F07730223AC4F5008FFF06 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
@@ -436,7 +436,7 @@
 				BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */,
 				C4BEE7E322236E99001E6B6D /* FilterDSPKernel.hpp */,
 				BD95149024A0A63300D8024C /* FilterDSPKernel.mm */,
-				C4F0049F2239B1E10014E248 /* FilterDSPKernelAdapter.h */,
+				BD50D29225D6D76E00375455 /* FilterDSPKernelAdapter.h */,
 				C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */,
 				BD72F2E425D1D4CE0031E422 /* InputBuffer.hpp */,
 				C4BEE7E622236E99001E6B6D /* KernelEventProcessor.hpp */,
@@ -653,8 +653,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4F004A12239B1E10014E248 /* FilterDSPKernelAdapter.h in Headers */,
 				C4BEE8172223736F001E6B6D /* LowPassFilterFramework.h in Headers */,
+				BD50D29A25D6D76E00375455 /* FilterDSPKernelAdapter.h in Headers */,
 				BD1F7BAE249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */,
 				BDB7CE97249F7694009580D5 /* ValueChangeDetector.hpp in Headers */,
 				C4BEE7EF22236F24001E6B6D /* RampingValueChangeDetector.hpp in Headers */,
@@ -668,12 +668,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4F004A22239B1E10014E248 /* FilterDSPKernelAdapter.h in Headers */,
 				C496341422238CFA001D1F5B /* LowPassFilterFramework.h in Headers */,
 				BD1F7BAF249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */,
 				BDB7CE98249F7694009580D5 /* ValueChangeDetector.hpp in Headers */,
 				C4BEE7F322236F27001E6B6D /* RampingValueChangeDetector.hpp in Headers */,
 				BDB7CE91249D3C00009580D5 /* NonCopyable.hpp in Headers */,
+				BD50D29B25D6D76E00375455 /* FilterDSPKernelAdapter.h in Headers */,
 				C4BEE7F222236F27001E6B6D /* FilterDSPKernel.hpp in Headers */,
 				C4BEE7F422236F27001E6B6D /* KernelEventProcessor.hpp in Headers */,
 			);

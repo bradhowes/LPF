@@ -207,6 +207,10 @@ public final class FilterAudioUnit: AUAudioUnit {
 
         maximumFramesToRender = maxFramesToRender
         currentPreset = factoryPresets.first
+
+        // This really should be postponed until allocateRenderResources is called. However, for some weird reason
+        // internalRenderBlock is fetched before allocateRenderResources() gets called, so we need to preflight here.
+        kernel.startProcessing(format, maxFramesToRender: maxFramesToRender)
     }
 
     /**
@@ -226,7 +230,7 @@ public final class FilterAudioUnit: AUAudioUnit {
         }
 
         // Communicate to the kernel the new formats being used
-        kernel.startProcessing(inputBus.format, output: outputBus.format, maxFramesToRender: maximumFramesToRender)
+        kernel.startProcessing(inputBus.format, maxFramesToRender: maximumFramesToRender)
 
         try super.allocateRenderResources()
     }

@@ -1,7 +1,7 @@
-// Copyright © 2020 Brad Howes. All rights reserved.
+// Changes: Copyright © 2020 Brad Howes. All rights reserved.
+// Original: See LICENSE folder for this sample’s licensing information.
 
-#include <Accelerate/Accelerate.h>
-
+#import "BiquadFilter.hpp"
 #import "FilterDSPKernel.hpp"
 #import "FilterDSPKernelAdapter.h"
 
@@ -17,9 +17,8 @@
     return self;
 }
 
-- (void)startProcessing:(AVAudioFormat*)inputFormat output:(AVAudioFormat*)outputFormat
-     maxFramesToRender:(AUAudioFrameCount)maxFramesToRender {
-    kernel_.startProcessing(inputFormat, outputFormat.channelCount, maxFramesToRender);
+- (void)startProcessing:(AVAudioFormat*)inputFormat maxFramesToRender:(AUAudioFrameCount)maxFramesToRender {
+    kernel_.startProcessing(inputFormat, maxFramesToRender);
 }
 
 - (void)stopProcessing {
@@ -49,5 +48,42 @@
     auto inputBus = 0;
     return kernel_.processAndRender(timestamp, frameCount, inputBus, output, realtimeEventListHead, pullInputBlock);
 }
+
+//- (AUInternalRenderBlock)internalRenderBlock {
+//
+//    // References to capture for use within the block.
+//    FilterDSPKernel& kernel = kernel_;
+//    InputBuffer& inputBuffer = kernel.inputBuffer();
+//    assert(inputBuffer.mutableAudioBufferList() != nullptr);
+//
+//    return ^AUAudioUnitStatus(AudioUnitRenderActionFlags* actionFlags, const AudioTimeStamp* timestamp,
+//                              AVAudioFrameCount frameCount, NSInteger outputBusNumber, AudioBufferList* outputData,
+//                              const AURenderEvent* realtimeEventListHead, AURenderPullInputBlock pullInputBlock) {
+////        if (frameCount > kernel.maximumFramesToRender()) return kAudioUnitErr_TooManyFramesToProcess;
+//
+//        // Fetch samples from upstream
+//        AudioUnitRenderActionFlags pullFlags = 0;
+//        AUAudioUnitStatus err = inputBuffer.pullInput(&pullFlags, timestamp, frameCount, 0, pullInputBlock);
+//        if (err != 0) return err;
+//
+//        // Obtain the sample buffers to use for rendering
+//        AudioBufferList* inAudioBufferList = inputBuffer.mutableAudioBufferList();
+//        AudioBufferList* outAudioBufferList = outputData;
+//        if (outAudioBufferList->mBuffers[0].mData == nullptr) {
+//
+//            // Use the input buffers for the output buffers
+//            for (UInt32 index = 0; index < outAudioBufferList->mNumberBuffers; ++index) {
+//                outAudioBufferList->mBuffers[index].mData = inAudioBufferList->mBuffers[index].mData;
+//            }
+//        }
+//
+//        kernel.setBuffers(inAudioBufferList, outAudioBufferList);
+//
+//        // Do the rendering
+//        kernel.render(timestamp, frameCount, realtimeEventListHead);
+//
+//        return noErr;
+//    };
+//}
 
 @end

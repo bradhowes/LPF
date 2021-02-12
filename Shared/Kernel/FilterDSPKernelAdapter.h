@@ -39,11 +39,9 @@ typedef NS_ENUM(AUParameterAddress, FilterParameterAddress) {
  Configure the kernel for new format and max frame in preparation to begin rendering
 
  @param inputFormat the current format of the input bus
- @param outputFormat the current format of the output bus
  @param maxFramesToRender the max frames to expect in a render request
  */
-- (void)startProcessing:(nonnull AVAudioFormat*)inputFormat output:(nonnull AVAudioFormat*)outputFormat
-     maxFramesToRender:(AUAudioFrameCount)maxFramesToRender;
+- (void)startProcessing:(nonnull AVAudioFormat*)inputFormat maxFramesToRender:(AUAudioFrameCount)maxFramesToRender;
 
 /**
  Stop processing, releasing any resources used to support rendering.
@@ -64,6 +62,8 @@ typedef NS_ENUM(AUParameterAddress, FilterParameterAddress) {
                       output:(nonnull AudioBufferList*)output
                       events:(nullable AURenderEvent*)realtimeEventListHead
               pullInputBlock:(nonnull AURenderPullInputBlock)pullInputBlock;
+
+// - (nonnull AUInternalRenderBlock)internalRenderBlock;
 
 /**
  Request by the FilterViewController to fetch the frequency responses of the low-pass filter.
