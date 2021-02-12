@@ -7,6 +7,7 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var playMenuItem: NSMenuItem!
+    @IBOutlet weak var savePresetMenuItem: NSMenuItem!
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { true }
 }

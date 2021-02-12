@@ -16,9 +16,10 @@ final class MainViewController: NSViewController {
     private var cutoff: AUParameter? { audioUnitManager.audioUnit?.parameterDefinitions.cutoff }
     private var resonance: AUParameter? { audioUnitManager.audioUnit?.parameterDefinitions.resonance }
 
-    private var playButton: NSButton?
-    private var playMenuItem: NSMenuItem?
-    private var savePresetMenuItem: NSMenuItem?
+    private var playButton: NSButton!
+    private var playMenuItem: NSMenuItem!
+    private var savePresetMenuItem: NSMenuItem!
+
     @IBOutlet var cutoffSlider: NSSlider!
     @IBOutlet var cutoffTextField: NSTextField!
     @IBOutlet var resonanceSlider: NSSlider!
@@ -44,9 +45,22 @@ extension MainViewController {
 
     override func viewWillAppear() {
         super.viewWillAppear()
+        guard let appDelegate = appDelegate,
+              let windowController = windowController else {
+            fatalError()
+        }
+
         view.window?.delegate = self
-        playButton = windowController?.playButton
-        playMenuItem = appDelegate?.playMenuItem
+        savePresetMenuItem = appDelegate.savePresetMenuItem
+        guard savePresetMenuItem != nil else { fatalError() }
+
+        playButton = windowController.playButton
+        playMenuItem = appDelegate.playMenuItem
+
+        savePresetMenuItem.isHidden = true
+        savePresetMenuItem.isEnabled = false
+        savePresetMenuItem.target = self
+        savePresetMenuItem.action = #selector(handleSavePresetMenuSelection(_:))
     }
 
     override func viewDidLayout() {
@@ -182,19 +196,11 @@ extension MainViewController {
 
     private func populatePresetMenu(_ audioUnit: FilterAudioUnit) {
         guard let presetMenu = NSApplication.shared.mainMenu?.item(withTag: 666)?.submenu else { return }
-
-        savePresetMenuItem = presetMenu.items[0]
-        savePresetMenuItem?.isEnabled = true
-        savePresetMenuItem?.target = self
-        savePresetMenuItem?.action = #selector(handleSavePresetMenuSelection(_:))
-
         for preset in audioUnit.factoryPresets {
             let keyEquivalent = "\(preset.number + 1)"
-            let menuItem = NSMenuItem(title: preset.name,
-                                      action: #selector(handlePresetMenuSelection(_:)),
+            let menuItem = NSMenuItem(title: preset.name, action: #selector(handlePresetMenuSelection(_:)),
                                       keyEquivalent: keyEquivalent)
             menuItem.tag = preset.number
-            print(preset.number)
             presetMenu.addItem(menuItem)
         }
 

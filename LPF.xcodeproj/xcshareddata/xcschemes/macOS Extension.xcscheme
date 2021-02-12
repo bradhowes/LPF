@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C437FE792223688D008D6C09"
-               BuildableName = "LPF Host.app"
+               BuildableName = "SimplyLowPass.app"
                BlueprintName = "macOS App"
                ReferencedContainer = "container:LPF.xcodeproj">
             </BuildableReference>
@@ -95,7 +95,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE792223688D008D6C09"
-            BuildableName = "LPF Host.app"
+            BuildableName = "SimplyLowPass.app"
             BlueprintName = "macOS App"
             ReferencedContainer = "container:LPF.xcodeproj">
          </BuildableReference>

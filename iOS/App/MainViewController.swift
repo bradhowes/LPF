@@ -17,9 +17,9 @@ final class MainViewController: UIViewController {
 
     @IBOutlet var playButton: UIButton!
     @IBOutlet var cutoffSlider: UISlider!
-    @IBOutlet var cutoffTextField: UITextField!
+    @IBOutlet var cutoffValue: UILabel!
     @IBOutlet var resonanceSlider: UISlider!
-    @IBOutlet var resonanceTextField: UITextField!
+    @IBOutlet var resonanceValue: UILabel!
     @IBOutlet var containerView: UIView!
 
     private var parameterObserverToken: AUParameterObserverToken?
@@ -35,6 +35,7 @@ final class MainViewController: UIViewController {
         let isPlaying = audioUnitManager.togglePlayback()
         let titleText = isPlaying ? "Stop" : "Play"
         playButton.setTitle(titleText, for: .normal)
+        playButton.setTitleColor(isPlaying ? .systemRed : .systemTeal, for: .normal)
     }
 
     @IBAction private func cutoffSliderValueChanged(_ sender: UISlider) {
@@ -96,12 +97,12 @@ extension MainViewController {
 
     private func cutoffValueDidChange(_ value: Float) {
         cutoffSlider.value = sliderLocationForFrequencyValue(value)
-        cutoffTextField.text = String(format: "%.f", value)
+        cutoffValue.text = String(format: "%.f", value)
     }
 
     private func resonanceValueDidChange(_ value: Float) {
         resonanceSlider.value = value
-        resonanceTextField.text = String(format: "%.2f", value)
+        resonanceValue.text = String(format: "%.2f", value)
     }
 
     func sliderLocationForFrequencyValue(_ frequency: Float) -> Float {

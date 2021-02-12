@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C437FE39222367A6008D6C09"
-               BuildableName = "LPF Host.app"
+               BuildableName = "SimplyLowPass.app"
                BlueprintName = "iOS App"
                ReferencedContainer = "container:LPF.xcodeproj">
             </BuildableReference>
@@ -56,8 +56,18 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BD1D24A825D486A700523748"
-               BuildableName = "iOSFrameworkTests.xctest"
-               BlueprintName = "iOSFrameworkTests"
+               BuildableName = "iOS Tests.xctest"
+               BlueprintName = "iOS Tests"
+               ReferencedContainer = "container:LPF.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BD1D257525D5AAB000523748"
+               BuildableName = "Snapshots.xctest"
+               BlueprintName = "Snapshots"
                ReferencedContainer = "container:LPF.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -78,7 +88,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE39222367A6008D6C09"
-            BuildableName = "LPF Host.app"
+            BuildableName = "SimplyLowPass.app"
             BlueprintName = "iOS App"
             ReferencedContainer = "container:LPF.xcodeproj">
          </BuildableReference>
@@ -95,7 +105,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE39222367A6008D6C09"
-            BuildableName = "LPF Host.app"
+            BuildableName = "SimplyLowPass.app"
             BlueprintName = "iOS App"
             ReferencedContainer = "container:LPF.xcodeproj">
          </BuildableReference>

@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C437FE792223688D008D6C09"
-               BuildableName = "LPF Host.app"
+               BuildableName = "SimplyLowPass.app"
                BlueprintName = "macOS App"
                ReferencedContainer = "container:LPF.xcodeproj">
             </BuildableReference>
@@ -31,7 +31,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE792223688D008D6C09"
-            BuildableName = "LPF Host.app"
+            BuildableName = "SimplyLowPass.app"
             BlueprintName = "macOS App"
             ReferencedContainer = "container:LPF.xcodeproj">
          </BuildableReference>
@@ -42,8 +42,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BD95147424A08BB600D8024C"
-               BuildableName = "macOSFrameworkTests.xctest"
-               BlueprintName = "macOSFrameworkTests"
+               BuildableName = "macOS Tests.xctest"
+               BlueprintName = "macOS Tests"
                ReferencedContainer = "container:LPF.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE792223688D008D6C09"
-            BuildableName = "LPF Host.app"
+            BuildableName = "SimplyLowPass.app"
             BlueprintName = "macOS App"
             ReferencedContainer = "container:LPF.xcodeproj">
          </BuildableReference>
@@ -88,7 +88,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE792223688D008D6C09"
-            BuildableName = "LPF Host.app"
+            BuildableName = "SimplyLowPass.app"
             BlueprintName = "macOS App"
             ReferencedContainer = "container:LPF.xcodeproj">
          </BuildableReference>

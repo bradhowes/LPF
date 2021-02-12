@@ -23,6 +23,10 @@
 		BD1D24E925D48BA800523748 /* NewSwiftTestTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD95147724A08BB600D8024C /* NewSwiftTestTemplate.swift */; };
 		BD1D24F625D48D8100523748 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
 		BD1D24FE25D48DB700523748 /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */; };
+		BD1D255E25D5A39700523748 /* WhisperingDroneClip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BD1D255D25D5A39700523748 /* WhisperingDroneClip.mp3 */; };
+		BD1D255F25D5A39700523748 /* WhisperingDroneClip.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = BD1D255D25D5A39700523748 /* WhisperingDroneClip.mp3 */; };
+		BD1D257925D5AAB000523748 /* Snapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1D257825D5AAB000523748 /* Snapshots.swift */; };
+		BD1D258825D5AAE300523748 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1D258725D5AAE300523748 /* SnapshotHelper.swift */; };
 		BD1F7BAC249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */; };
 		BD1F7BAD249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */; };
 		BD1F7BAE249FF7EF00960DA3 /* BiquadFilter.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */; };
@@ -38,9 +42,7 @@
 		BD578EED25D278490040D83D /* AudioUnitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD578EEC25D278490040D83D /* AudioUnitManager.swift */; };
 		BD578EEE25D278490040D83D /* AudioUnitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD578EEC25D278490040D83D /* AudioUnitManager.swift */; };
 		BD63B15424AE25F80015236D /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = BD49661924A3605800A81F0B /* LICENSE.md */; };
-		BD63B15524AE25F80015236D /* APPLE_LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = F14BFD10F14BCC1000000001 /* APPLE_LICENSE.txt */; };
 		BD63B15624AE26020015236D /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = BD49661924A3605800A81F0B /* LICENSE.md */; };
-		BD63B15724AE26020015236D /* APPLE_LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = F14BFD10F14BCC1000000001 /* APPLE_LICENSE.txt */; };
 		BD72F2E525D1D4CE0031E422 /* InputBuffer.hpp in Sources */ = {isa = PBXBuildFile; fileRef = BD72F2E425D1D4CE0031E422 /* InputBuffer.hpp */; };
 		BD72F2E625D1D4CE0031E422 /* InputBuffer.hpp in Sources */ = {isa = PBXBuildFile; fileRef = BD72F2E425D1D4CE0031E422 /* InputBuffer.hpp */; };
 		BD78FDC224C2F6530091A854 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD78FDC124C2F6530091A854 /* MainWindowController.swift */; };
@@ -120,8 +122,6 @@
 		C4F004A72239B2070014E248 /* FilterAudioUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F004A52239B2070014E248 /* FilterAudioUnit.swift */; };
 		C4F07731223AC4F5008FFF06 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F07730223AC4F5008FFF06 /* FilterViewController.swift */; };
 		C4F07732223AC4F5008FFF06 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F07730223AC4F5008FFF06 /* FilterViewController.swift */; };
-		C4F07735223ACB91008FFF06 /* Synth.aif in Resources */ = {isa = PBXBuildFile; fileRef = C4F07734223ACB91008FFF06 /* Synth.aif */; };
-		C4F07736223ACB91008FFF06 /* Synth.aif in Resources */ = {isa = PBXBuildFile; fileRef = C4F07734223ACB91008FFF06 /* Synth.aif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +131,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = C437FE51222367CD008D6C09;
 			remoteInfo = "iOS Framework";
+		};
+		BD1D257B25D5AAB000523748 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C437FE302223672C008D6C09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C437FE39222367A6008D6C09;
+			remoteInfo = "iOS App";
 		};
 		BD95147B24A08BB600D8024C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -222,12 +229,17 @@
 		BD18B39A24CB247400B7CB1E /* AudioComponentDescription+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AudioComponentDescription+Extensions.swift"; sourceTree = "<group>"; };
 		BD18B39E24CB31B200B7CB1E /* AudioUnitParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioUnitParameters.swift; sourceTree = "<group>"; };
 		BD1D249425D4831B00523748 /* BundlePropertiesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundlePropertiesTests.swift; sourceTree = "<group>"; };
-		BD1D24A925D486A700523748 /* iOSFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD1D24A925D486A700523748 /* iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD1D24AD25D486A800523748 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BD1D250525D515B100523748 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = Configuration/README.md; sourceTree = "<group>"; };
 		BD1D250625D5178900523748 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BD1D250E25D517D000523748 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BD1D252E25D51AD600523748 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		BD1D255D25D5A39700523748 /* WhisperingDroneClip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = WhisperingDroneClip.mp3; sourceTree = "<group>"; };
+		BD1D257625D5AAB000523748 /* Snapshots.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Snapshots.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD1D257825D5AAB000523748 /* Snapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshots.swift; sourceTree = "<group>"; };
+		BD1D257A25D5AAB000523748 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BD1D258725D5AAE300523748 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BiquadFilter.cpp; sourceTree = "<group>"; };
 		BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = BiquadFilter.hpp; sourceTree = "<group>"; };
 		BD2FD3EC259B5104004A3196 /* AUParameterTree+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AUParameterTree+Extensions.swift"; sourceTree = "<group>"; };
@@ -240,7 +252,7 @@
 		BD72F2E425D1D4CE0031E422 /* InputBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputBuffer.hpp; sourceTree = "<group>"; };
 		BD78FDC124C2F6530091A854 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		BD938B4F24A6BC1F00892358 /* BiquadFilterTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BiquadFilterTests.mm; sourceTree = "<group>"; };
-		BD95147524A08BB600D8024C /* macOSFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = macOSFrameworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD95147524A08BB600D8024C /* macOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "macOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD95147724A08BB600D8024C /* NewSwiftTestTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSwiftTestTemplate.swift; sourceTree = "<group>"; };
 		BD95147924A08BB600D8024C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BD95148224A090E400D8024C /* ValueChangeDetectorTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ValueChangeDetectorTests.mm; sourceTree = "<group>"; };
@@ -266,10 +278,10 @@
 		BDE2CE1924A3EBD1004AC8FA /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = Configuration/Common.xcconfig; sourceTree = "<group>"; };
 		C4201A2822403120006E4333 /* FilterViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewControllerExtension.swift; sourceTree = "<group>"; };
 		C433F56022404C7C00F1B750 /* FilterViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewControllerExtension.swift; sourceTree = "<group>"; };
-		C437FE3A222367A6008D6C09 /* LPF Host.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LPF Host.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C437FE3A222367A6008D6C09 /* SimplyLowPass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimplyLowPass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LowPassFilterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C437FE632223686D008D6C09 /* LPF.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LPF.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		C437FE7A2223688D008D6C09 /* LPF Host.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LPF Host.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C437FE7A2223688D008D6C09 /* SimplyLowPass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimplyLowPass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LowPassFilterFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C437FEA0222368B7008D6C09 /* LPF.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LPF.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C44F544422260E2500484B67 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -308,8 +320,7 @@
 		C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FilterDSPKernelAdapter.mm; sourceTree = "<group>"; };
 		C4F004A52239B2070014E248 /* FilterAudioUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterAudioUnit.swift; sourceTree = "<group>"; };
 		C4F07730223AC4F5008FFF06 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
-		C4F07734223ACB91008FFF06 /* Synth.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = Synth.aif; sourceTree = "<group>"; };
-		F14BFD10F14BCC1000000001 /* APPLE_LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = APPLE_LICENSE.txt; sourceTree = "<group>"; };
+		F14BFD10F14BCC1000000001 /* APPLE_LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = APPLE_LICENSE.txt; path = Documentation/APPLE_LICENSE.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -319,6 +330,13 @@
 			files = (
 				BD1D24F625D48D8100523748 /* Accelerate.framework in Frameworks */,
 				BD1D24AE25D486A800523748 /* LowPassFilterFramework.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BD1D257325D5AAB000523748 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +413,16 @@
 			path = iOSFrameworkTests;
 			sourceTree = "<group>";
 		};
+		BD1D257725D5AAB000523748 /* Snapshots */ = {
+			isa = PBXGroup;
+			children = (
+				BD1D258725D5AAE300523748 /* SnapshotHelper.swift */,
+				BD1D257825D5AAB000523748 /* Snapshots.swift */,
+				BD1D257A25D5AAB000523748 /* Info.plist */,
+			);
+			path = Snapshots;
+			sourceTree = "<group>";
+		};
 		BD49661824A35F3900A81F0B /* Class Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -456,6 +484,7 @@
 				C4BEE7D522236E99001E6B6D /* Shared */,
 				BD95147624A08BB600D8024C /* macOSFrameworkTests */,
 				BD1D24AA25D486A800523748 /* iOSFrameworkTests */,
+				BD1D257725D5AAB000523748 /* Snapshots */,
 				C437FE3B222367A6008D6C09 /* Products */,
 				C4BEE81822237394001E6B6D /* Frameworks */,
 			);
@@ -464,14 +493,15 @@
 		C437FE3B222367A6008D6C09 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C437FE3A222367A6008D6C09 /* LPF Host.app */,
+				C437FE3A222367A6008D6C09 /* SimplyLowPass.app */,
 				C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */,
 				C437FE632223686D008D6C09 /* LPF.appex */,
-				C437FE7A2223688D008D6C09 /* LPF Host.app */,
+				C437FE7A2223688D008D6C09 /* SimplyLowPass.app */,
 				C437FE8F222368A1008D6C09 /* LowPassFilterFramework.framework */,
 				C437FEA0222368B7008D6C09 /* LPF.appex */,
-				BD95147524A08BB600D8024C /* macOSFrameworkTests.xctest */,
-				BD1D24A925D486A700523748 /* iOSFrameworkTests.xctest */,
+				BD95147524A08BB600D8024C /* macOS Tests.xctest */,
+				BD1D24A925D486A700523748 /* iOS Tests.xctest */,
+				BD1D257625D5AAB000523748 /* Snapshots.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -610,7 +640,7 @@
 		C4DCBAD5223ADE79000D9CB3 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				C4F07734223ACB91008FFF06 /* Synth.aif */,
+				BD1D255D25D5A39700523748 /* WhisperingDroneClip.mp3 */,
 				C4A3D65A223FF12A002784D4 /* SimplePlayEngine.swift */,
 			);
 			path = Audio;
@@ -682,9 +712,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		BD1D24A825D486A700523748 /* iOSFrameworkTests */ = {
+		BD1D24A825D486A700523748 /* iOS Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BD1D24B325D486A800523748 /* Build configuration list for PBXNativeTarget "iOSFrameworkTests" */;
+			buildConfigurationList = BD1D24B325D486A800523748 /* Build configuration list for PBXNativeTarget "iOS Tests" */;
 			buildPhases = (
 				BD1D24A525D486A700523748 /* Sources */,
 				BD1D24A625D486A700523748 /* Frameworks */,
@@ -695,14 +725,32 @@
 			dependencies = (
 				BD1D24B025D486A800523748 /* PBXTargetDependency */,
 			);
-			name = iOSFrameworkTests;
+			name = "iOS Tests";
 			productName = iOSFrameworkTests;
-			productReference = BD1D24A925D486A700523748 /* iOSFrameworkTests.xctest */;
+			productReference = BD1D24A925D486A700523748 /* iOS Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		BD95147424A08BB600D8024C /* macOSFrameworkTests */ = {
+		BD1D257525D5AAB000523748 /* Snapshots */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BD95147D24A08BB600D8024C /* Build configuration list for PBXNativeTarget "macOSFrameworkTests" */;
+			buildConfigurationList = BD1D257D25D5AAB000523748 /* Build configuration list for PBXNativeTarget "Snapshots" */;
+			buildPhases = (
+				BD1D257225D5AAB000523748 /* Sources */,
+				BD1D257325D5AAB000523748 /* Frameworks */,
+				BD1D257425D5AAB000523748 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BD1D257C25D5AAB000523748 /* PBXTargetDependency */,
+			);
+			name = Snapshots;
+			productName = Snapshots;
+			productReference = BD1D257625D5AAB000523748 /* Snapshots.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		BD95147424A08BB600D8024C /* macOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BD95147D24A08BB600D8024C /* Build configuration list for PBXNativeTarget "macOS Tests" */;
 			buildPhases = (
 				BD95147124A08BB600D8024C /* Sources */,
 				BD95147224A08BB600D8024C /* Frameworks */,
@@ -713,9 +761,9 @@
 			dependencies = (
 				BD95147C24A08BB600D8024C /* PBXTargetDependency */,
 			);
-			name = macOSFrameworkTests;
+			name = "macOS Tests";
 			productName = macOSFrameworkTests;
-			productReference = BD95147524A08BB600D8024C /* macOSFrameworkTests.xctest */;
+			productReference = BD95147524A08BB600D8024C /* macOS Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		C437FE39222367A6008D6C09 /* iOS App */ = {
@@ -736,7 +784,7 @@
 			);
 			name = "iOS App";
 			productName = "AUv3Filter iOS";
-			productReference = C437FE3A222367A6008D6C09 /* LPF Host.app */;
+			productReference = C437FE3A222367A6008D6C09 /* SimplyLowPass.app */;
 			productType = "com.apple.product-type.application";
 		};
 		C437FE51222367CD008D6C09 /* iOS Framework */ = {
@@ -792,7 +840,7 @@
 			);
 			name = "macOS App";
 			productName = "AUv3Filter macOS";
-			productReference = C437FE7A2223688D008D6C09 /* LPF Host.app */;
+			productReference = C437FE7A2223688D008D6C09 /* SimplyLowPass.app */;
 			productType = "com.apple.product-type.application";
 		};
 		C437FE8E222368A1008D6C09 /* macOS Framework */ = {
@@ -843,6 +891,10 @@
 				TargetAttributes = {
 					BD1D24A825D486A700523748 = {
 						CreatedOnToolsVersion = 12.4;
+					};
+					BD1D257525D5AAB000523748 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = C437FE39222367A6008D6C09;
 					};
 					BD95147424A08BB600D8024C = {
 						CreatedOnToolsVersion = 11.5;
@@ -905,17 +957,25 @@
 				C437FE39222367A6008D6C09 /* iOS App */,
 				C437FE622223686D008D6C09 /* iOS Extension */,
 				C437FE51222367CD008D6C09 /* iOS Framework */,
-				BD1D24A825D486A700523748 /* iOSFrameworkTests */,
+				BD1D24A825D486A700523748 /* iOS Tests */,
 				C437FE792223688D008D6C09 /* macOS App */,
 				C437FE9F222368B7008D6C09 /* macOS Extension */,
 				C437FE8E222368A1008D6C09 /* macOS Framework */,
-				BD95147424A08BB600D8024C /* macOSFrameworkTests */,
+				BD95147424A08BB600D8024C /* macOS Tests */,
+				BD1D257525D5AAB000523748 /* Snapshots */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		BD1D24A725D486A700523748 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BD1D257425D5AAB000523748 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -934,7 +994,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD63B15624AE26020015236D /* LICENSE.md in Resources */,
-				BD63B15724AE26020015236D /* APPLE_LICENSE.txt in Resources */,
 				C4BEE7B122236A29001E6B6D /* Assets.xcassets in Resources */,
 				C4BEE7B322236A29001E6B6D /* Main.storyboard in Resources */,
 				BD9FA81B24A9505300FA9940 /* Default-568h@2x.png in Resources */,
@@ -945,7 +1004,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4F07735223ACB91008FFF06 /* Synth.aif in Resources */,
+				BD1D255E25D5A39700523748 /* WhisperingDroneClip.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -962,7 +1021,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD63B15424AE25F80015236D /* LICENSE.md in Resources */,
-				BD63B15524AE25F80015236D /* APPLE_LICENSE.txt in Resources */,
 				C4BEE7D222236A58001E6B6D /* Main.storyboard in Resources */,
 				C4BEE7D122236A58001E6B6D /* Assets.xcassets in Resources */,
 			);
@@ -973,7 +1031,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C46B8B8122418B6000E00B1E /* FilterViewController.xib in Resources */,
-				C4F07736223ACB91008FFF06 /* Synth.aif in Resources */,
+				BD1D255F25D5A39700523748 /* WhisperingDroneClip.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -997,6 +1055,15 @@
 				BD1D24C625D48B8500523748 /* ValueChangeDetectorTests.mm in Sources */,
 				BD1D24E225D48BA200523748 /* BundlePropertiesTests.swift in Sources */,
 				BD1D24DB25D48B9C00523748 /* BiquadFilterTests.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BD1D257225D5AAB000523748 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD1D257925D5AAB000523748 /* Snapshots.swift in Sources */,
+				BD1D258825D5AAE300523748 /* SnapshotHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1118,6 +1185,11 @@
 			platformFilter = ios;
 			target = C437FE51222367CD008D6C09 /* iOS Framework */;
 			targetProxy = BD1D24AF25D486A800523748 /* PBXContainerItemProxy */;
+		};
+		BD1D257C25D5AAB000523748 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C437FE39222367A6008D6C09 /* iOS App */;
+			targetProxy = BD1D257B25D5AAB000523748 /* PBXContainerItemProxy */;
 		};
 		BD95147C24A08BB600D8024C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1264,6 +1336,98 @@
 			};
 			name = Release;
 		};
+		BD1D257E25D5AAB000523748 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = UP6SS5ES7E;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = Snapshots/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.Snapshots;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "iOS App";
+			};
+			name = Debug;
+		};
+		BD1D257F25D5AAB000523748 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = UP6SS5ES7E;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = Snapshots/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.Snapshots;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "iOS App";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		BD95147E24A08BB600D8024C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BDE2CE1724A3E887004AC8FA /* Dev.xcconfig */;
@@ -1386,7 +1550,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210212005124;
+				CURRENT_PROJECT_VERSION = 20210211183904;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1408,7 +1572,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
-				PRODUCT_NAME = "LPF Host";
+				PRODUCT_NAME = SimplyLowPass;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1456,7 +1620,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210212005124;
+				CURRENT_PROJECT_VERSION = 20210211183904;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1528,7 +1692,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210212005124;
+				CURRENT_PROJECT_VERSION = 20210211183904;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
@@ -1610,7 +1774,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210212005124;
+				CURRENT_PROJECT_VERSION = 20210211183904;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1633,7 +1797,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
-				PRODUCT_NAME = "LPF Host";
+				PRODUCT_NAME = SimplyLowPass;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -1680,7 +1844,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210212005124;
+				CURRENT_PROJECT_VERSION = 20210211183904;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1752,7 +1916,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210212005124;
+				CURRENT_PROJECT_VERSION = 20210211183904;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -1913,7 +2077,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210212005124;
+				CURRENT_PROJECT_VERSION = 20210211183904;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1942,7 +2106,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
-				PRODUCT_NAME = "LPF Host";
+				PRODUCT_NAME = SimplyLowPass;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1989,7 +2153,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210212005124;
+				CURRENT_PROJECT_VERSION = 20210211183904;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2075,7 +2239,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210212005124;
+				CURRENT_PROJECT_VERSION = 20210211183904;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2155,7 +2319,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210212005124;
+				CURRENT_PROJECT_VERSION = 20210211183904;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -2185,7 +2349,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
-				PRODUCT_NAME = "LPF Host";
+				PRODUCT_NAME = SimplyLowPass;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -2232,7 +2396,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210212005124;
+				CURRENT_PROJECT_VERSION = 20210211183904;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2319,7 +2483,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210212005124;
+				CURRENT_PROJECT_VERSION = 20210211183904;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -2363,7 +2527,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BD1D24B325D486A800523748 /* Build configuration list for PBXNativeTarget "iOSFrameworkTests" */ = {
+		BD1D24B325D486A800523748 /* Build configuration list for PBXNativeTarget "iOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BD1D24B125D486A800523748 /* Debug */,
@@ -2372,7 +2536,16 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		BD95147D24A08BB600D8024C /* Build configuration list for PBXNativeTarget "macOSFrameworkTests" */ = {
+		BD1D257D25D5AAB000523748 /* Build configuration list for PBXNativeTarget "Snapshots" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD1D257E25D5AAB000523748 /* Debug */,
+				BD1D257F25D5AAB000523748 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BD95147D24A08BB600D8024C /* Build configuration list for PBXNativeTarget "macOS Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BD95147E24A08BB600D8024C /* Debug */,

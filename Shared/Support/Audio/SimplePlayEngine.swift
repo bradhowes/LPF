@@ -14,8 +14,10 @@ final class SimplePlayEngine {
     private var activeAVAudioUnit: AVAudioUnit?
 
     private lazy var file: AVAudioFile = {
-        guard let url = bundle.url(forResource: "Synth", withExtension: "aif") else {
-            fatalError("\"Synth.aif\" file not found.")
+        let filename = "WhisperingDroneClip"
+        let ext = "mp3"
+        guard let url = bundle.url(forResource: filename, withExtension: ext) else {
+            fatalError("\(filename).\(ext) missing from bundle")
         }
         return try! AVAudioFile(forReading: url)
     }()

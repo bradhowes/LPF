@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.2"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -11,18 +12,18 @@
                 <application id="hnw-xV-0zn" sceneMemberID="viewController">
                     <menu key="mainMenu" title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
                         <items>
-                            <menuItem title="LPF Host" id="1Xt-HY-uBw" userLabel="LPF Host">
+                            <menuItem title="SimplyLowPass" id="1Xt-HY-uBw" userLabel="LPF Host">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="LPF Host" systemMenu="apple" id="uQy-DD-JDr">
+                                <menu key="submenu" title="SimplyLowPass" systemMenu="apple" id="uQy-DD-JDr">
                                     <items>
-                                        <menuItem title="About LPF Host" id="5kV-Vb-QxS">
+                                        <menuItem title="About SimplyLowPass" id="5kV-Vb-QxS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="kCx-OE-vgT"/>
-                                        <menuItem title="Quit LPF Host" keyEquivalent="q" id="4sb-4s-VLi">
+                                        <menuItem title="Quit SimplyLowPass" keyEquivalent="q" id="4sb-4s-VLi">
                                             <connections>
                                                 <action selector="terminate:" target="Ady-hI-5gd" id="Te7-pn-YzF"/>
                                             </connections>
@@ -51,7 +52,7 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Presets" id="GEO-Iw-cKr">
                                     <items>
-                                        <menuItem title="Save" id="9NY-AS-9aU">
+                                        <menuItem title="Save" enabled="NO" id="9NY-AS-9aU">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="gsf-1N-Qsg"/>
@@ -87,7 +88,7 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
                                     <items>
-                                        <menuItem title="LPF Host Help" keyEquivalent="?" id="FKE-Sm-Kum">
+                                        <menuItem title="SimplyLowPass Help" keyEquivalent="?" id="FKE-Sm-Kum">
                                             <connections>
                                                 <action selector="showHelp:" target="Ady-hI-5gd" id="y7X-2Q-9no"/>
                                             </connections>
@@ -101,9 +102,10 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="LPF_Host" customModuleProvider="target">
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="SimplyLowPass" customModuleProvider="target">
                     <connections>
                         <outlet property="playMenuItem" destination="Flz-EE-5KD" id="5E5-IR-Gxn"/>
+                        <outlet property="savePresetMenuItem" destination="9NY-AS-9aU" id="H1m-5w-gvK"/>
                     </connections>
                 </customObject>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -113,8 +115,8 @@
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" customClass="MainWindowController" customModule="LPF_Host" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="AUv3Filter" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="AUv3Filter" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="IQv-IB-iLA">
+                <windowController id="B8D-0N-5wS" customClass="MainWindowController" customModule="SimplyLowPass" customModuleProvider="target" sceneMemberID="viewController">
+                    <window key="window" title="SimplyLowPass" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="SimplyLowPass" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="IQv-IB-iLA" userLabel="SimplyLowPass">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" topStrut="YES"/>
                         <rect key="contentRect" x="106" y="256" width="900" height="560"/>
@@ -126,8 +128,8 @@
                                 <toolbarItem implicitItemIdentifier="290CDF7D-A4F5-4CB1-8BAB-065BEAC4FDC3" label="Play" paletteLabel="Play Button" sizingBehavior="auto" id="gZY-Pi-OZc">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="ogO-fI-sF4">
-                                        <rect key="frame" x="0.0" y="14" width="68" height="32"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <rect key="frame" x="4" y="14" width="60" height="32"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="push" title="Play" alternateTitle="Stop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7Br-57-RWg">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -160,19 +162,19 @@
         <!--Main View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="XfG-lQ-9wD" customClass="MainViewController" customModule="LPF_Host" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XfG-lQ-9wD" customClass="MainViewController" customModule="SimplyLowPass" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="467" height="414"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <box borderType="none" titlePosition="noTitle" transparent="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rfi-rJ-PdE" userLabel="Parameters Box">
-                                <rect key="frame" x="17" y="294" width="433" height="102"/>
+                                <rect key="frame" x="17" y="318" width="433" height="78"/>
                                 <view key="contentView" id="b4b-Oa-AOn">
-                                    <rect key="frame" x="0.0" y="0.0" width="433" height="102"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="433" height="78"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="95k-cc-122">
-                                            <rect key="frame" x="47" y="72" width="46" height="16"/>
+                                            <rect key="frame" x="47" y="48" width="46" height="16"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Cutoff:" id="LoT-h2-3bE">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -180,7 +182,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R8U-qk-iuM">
-                                            <rect key="frame" x="99" y="70" width="71" height="21"/>
+                                            <rect key="frame" x="99" y="46" width="71" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="71" id="I4M-w8-4Kb"/>
                                             </constraints>
@@ -191,15 +193,15 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="78S-15-HAR">
-                                            <rect key="frame" x="176" y="72" width="21" height="16"/>
+                                            <rect key="frame" x="176" y="48" width="21" height="16"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Hz" id="IXh-ZG-FGJ">
                                                 <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                         <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="veU-X7-Bd9">
-                                            <rect key="frame" x="205" y="71" width="210" height="19"/>
+                                            <rect key="frame" x="205" y="40" width="210" height="28"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="9" doubleValue="5" tickMarkPosition="above" sliderType="linear" id="JtD-C5-MRg"/>
                                             <connections>
                                                 <action selector="cutoffSliderValueChanged:" target="XfG-lQ-9wD" id="ru5-Mu-YlM"/>
@@ -225,12 +227,12 @@
                                             <rect key="frame" x="176" y="16" width="21" height="16"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="dB" id="Emn-Z0-4G7">
                                                 <font key="font" metaFont="system"/>
-                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
                                         <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MX2-fm-3rT">
-                                            <rect key="frame" x="205" y="15" width="210" height="19"/>
+                                            <rect key="frame" x="205" y="8" width="210" height="28"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="-20" maxValue="20" tickMarkPosition="above" sliderType="linear" id="UiK-7l-PXj"/>
                                             <connections>
                                                 <action selector="resonanceSliderValueChanged:" target="XfG-lQ-9wD" id="LlT-VI-6f7"/>
@@ -261,14 +263,14 @@
                                     </constraints>
                                 </view>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="96" id="hFo-DE-nr4"/>
+                                    <constraint firstAttribute="height" constant="72" id="hFo-DE-nr4"/>
                                 </constraints>
                             </box>
                             <customView autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AVM-k6-jTo" userLabel="Content View">
-                                <rect key="frame" x="10" y="10" width="447" height="268"/>
+                                <rect key="frame" x="10" y="10" width="447" height="292"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iO5-GT-K4x">
-                                        <rect key="frame" x="171" y="120" width="105" height="28"/>
+                                        <rect key="frame" x="172" y="132" width="103" height="28"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Loading…" id="fyr-Jd-O0Q">
                                             <font key="font" metaFont="system" size="24"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -281,23 +283,12 @@
                                     <constraint firstItem="iO5-GT-K4x" firstAttribute="centerY" secondItem="AVM-k6-jTo" secondAttribute="centerY" id="pn7-zq-qTJ"/>
                                 </constraints>
                             </customView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jzG-Lt-RF2">
-                                <rect key="frame" x="6" y="392" width="33" height="14"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="v1.2.1" id="0K1-pt-DFp" userLabel="APP_VERSION">
-                                    <font key="font" metaFont="message" size="11"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="AVM-k6-jTo" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="10" id="3f5-lk-ZZb"/>
-                            <constraint firstItem="jzG-Lt-RF2" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="8" id="Bzc-ue-cgC"/>
                             <constraint firstAttribute="bottom" secondItem="AVM-k6-jTo" secondAttribute="bottom" constant="10" id="Lno-1a-N0L"/>
                             <constraint firstAttribute="trailing" secondItem="AVM-k6-jTo" secondAttribute="trailing" constant="10" id="Nud-sn-hDf"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="jzG-Lt-RF2" secondAttribute="trailing" constant="20" symbolic="YES" id="OSP-cr-9Sg"/>
                             <constraint firstItem="rfi-rJ-PdE" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="mGv-Rv-Zr0"/>
-                            <constraint firstItem="jzG-Lt-RF2" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="8" id="ph0-St-zC1"/>
                             <constraint firstItem="AVM-k6-jTo" firstAttribute="top" secondItem="rfi-rJ-PdE" secondAttribute="bottom" constant="20" id="r5b-fw-3E1"/>
                             <constraint firstAttribute="trailing" secondItem="rfi-rJ-PdE" secondAttribute="trailing" constant="20" id="xgr-zl-iDR"/>
                             <constraint firstItem="rfi-rJ-PdE" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="xxy-DI-ZcZ"/>
