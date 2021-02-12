@@ -70,7 +70,6 @@ public:
     AUAudioUnitStatus processAndRender(AudioTimeStamp* timestamp, UInt32 frameCount, NSInteger inputBusNumber,
                                        AudioBufferList* output, AURenderEvent* realtimeEventListHead,
                                        AURenderPullInputBlock pullInputBlock) {
-        // Pull samples from upstream node and place in our internal buffer
         AudioUnitRenderActionFlags actionFlags = 0;
         auto status = inputBuffer_.pullInput(&actionFlags, timestamp, frameCount, inputBusNumber, pullInputBlock);
         if (status != noErr) {
@@ -124,7 +123,6 @@ private:
 
     void setBuffers(AudioBufferList const* inputs, AudioBufferList* outputs)
     {
-        os_log_with_type(log_, OS_LOG_TYPE_INFO, "setBuffers");
         if (inputs == inputs_ && outputs_ == outputs) return;
         inputs_ = inputs;
         outputs_ = outputs;
@@ -164,8 +162,6 @@ private:
     }
 
     void renderFrames(AUAudioFrameCount frameCount, AUAudioFrameCount processedFrameCount) {
-        os_log_with_type(log_, OS_LOG_TYPE_INFO, "renderFrames - frameCount: %d processed: %d", frameCount,
-                         processedFrameCount);
         if (isBypassed()) {
             for (size_t channel = 0; channel < inputs_->mNumberBuffers; ++channel) {
                 if (inputs_->mBuffers[channel].mData == outputs_->mBuffers[channel].mData) {

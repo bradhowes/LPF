@@ -36,12 +36,12 @@ public:
     {
         switch (address) {
             case FilterParameterAddressCutoff:
-                os_log_with_type(log_, OS_LOG_TYPE_INFO, "set cutoff: %f", value);
+                os_log_with_type(log_, OS_LOG_TYPE_DEBUG, "set cutoff: %f", value);
                 cutoff_ = value;
                 break;
 
             case FilterParameterAddressResonance:
-                os_log_with_type(log_, OS_LOG_TYPE_INFO, "set resonance: %f", value);
+                os_log_with_type(log_, OS_LOG_TYPE_DEBUG, "set resonance: %f", value);
                 resonance_ = value;
                 break;
         }
@@ -51,11 +51,11 @@ public:
     {
         switch (address) {
             case FilterParameterAddressCutoff:
-                os_log_with_type(log_, OS_LOG_TYPE_INFO, "get cutoff: %f", cutoff_);
+                os_log_with_type(log_, OS_LOG_TYPE_DEBUG, "get cutoff: %f", cutoff_);
                 return cutoff_;
 
             case FilterParameterAddressResonance:
-                os_log_with_type(log_, OS_LOG_TYPE_INFO, "get resonance: %f", resonance_);
+                os_log_with_type(log_, OS_LOG_TYPE_DEBUG, "get resonance: %f", resonance_);
                 return resonance_;
 
             default: return 0.0;

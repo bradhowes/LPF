@@ -253,7 +253,6 @@ public final class FilterAudioUnit: AUAudioUnit {
         let kernel = self.kernel
 
         return { _, timestamp, frameCount, outputBusNumber, outputData, events, pullInputBlock in
-            os_log(.debug, log: Self.log, "render - frameCount: %d  outputBusNumber: %d", frameCount, outputBusNumber)
             guard outputBusNumber == 0 else { return kAudioUnitErr_InvalidParameterValue }
             guard frameCount <= maximumFramesToRender else { return kAudioUnitErr_TooManyFramesToProcess }
             guard let pullInputBlock = pullInputBlock else { return kAudioUnitErr_NoConnection }
