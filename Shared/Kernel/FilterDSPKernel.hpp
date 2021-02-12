@@ -15,6 +15,7 @@ public:
 
     FilterDSPKernel() : super(os_log_create("LPF", "FilterDSPKernel")), cutoff_{float(400.0)}, resonance_{20.0}
     {
+        setSampleRate(44100.0);
         filter_.calculateParams(cutoff_, resonance_, nyquistPeriod_, 2);
     }
 
@@ -24,11 +25,7 @@ public:
     void startProcessing(AVAudioFormat* format, AUAudioFrameCount maxFramesToRender)
     {
         super::startProcessing(format, maxFramesToRender);
-
-        sampleRate_ = format.sampleRate;
-        nyquistFrequency_ = 0.5 * sampleRate_;
-        nyquistPeriod_ = 1.0 / nyquistFrequency_;
-        channelCount_ = format.channelCount;
+        setSampleRate(format.sampleRate);
     }
 
     void stopProcessing() {
@@ -82,12 +79,18 @@ public:
     float resonance() const { return resonance_; }
 
 private:
+
+    void setSampleRate(float value) {
+        sampleRate_ = value;
+        nyquistFrequency_ = 0.5 * sampleRate_;
+        nyquistPeriod_ = 1.0 / nyquistFrequency_;
+    }
+
     BiquadFilter filter_;
 
-    float sampleRate_ = 44100.0;
-    size_t channelCount_ = 1;
-    float nyquistFrequency_ = 0.5 * sampleRate_;
-    float nyquistPeriod_ = 1.0 / nyquistFrequency_;
+    float sampleRate_;
+    float nyquistFrequency_;
+    float nyquistPeriod_;
 
     float cutoff_;
     float resonance_;
