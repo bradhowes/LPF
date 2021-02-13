@@ -23,3 +23,8 @@ xcuserdata/
 DerivedData/
 
 **/*.old
+
+Gemfile
+Gemfile.lock
+
+fastlane
