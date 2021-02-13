@@ -9,10 +9,10 @@ Effects](https://developer.apple.com/documentation/audiotoolbox/audio_unit_v3_pl
 project. Much has been retooled for a better experience and code understanding, as well as various bug fixes.
 You can find Apple's original README [here](Documentation/APPLE_README.md)
 
-The gist is still the same:
+The gist is still the same as in the original:
 
-* use a C++ kernel for audio sample manipulation in the render thread
-* provide a tiny Obj-C interface to the kernel for Swift access
+* use an Objective-C/C++ kernel for audio sample manipulation in the render thread
+* provide a tiny Objective-C interface to the kernel for Swift access
 * perform all UI and most audio unit work in Swift (usually on the main thread)
 
 Unlike Apple's example, this one uses the [Accelerate](https://developer.apple.com/documentation/accelerate)
