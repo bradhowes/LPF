@@ -25,7 +25,7 @@ GarageBand, but also using test hosts on both devices as well as the excellent
 
 Finally, it passes all
 [auval](https://developer.apple.com/library/archive/documentation/MusicAudio/Conceptual/AudioUnitProgrammingGuide/AudioUnitDevelopmentFundamentals/AudioUnitDevelopmentFundamentals.html)
-tests.
+tests. (`auval -v aufx lpas BRay`)
 
 ## Code Layout
 
