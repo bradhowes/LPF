@@ -11,10 +11,9 @@ final class MainViewController: NSViewController {
     private let cutoffSliderMaxValue: Double = 9.0
     private lazy var cutoffSliderMaxValuePower2Minus1 = Float(pow(2, cutoffSliderMaxValue) - 1)
 
-    private let audioUnitManager = AudioUnitManager(componentDescription: FilterAudioUnit.componentDescription,
-                                                    appExtension: "LPF")
-    private var cutoff: AUParameter? { audioUnitManager.audioUnit?.parameterDefinitions.cutoff }
-    private var resonance: AUParameter? { audioUnitManager.audioUnit?.parameterDefinitions.resonance }
+    private var audioUnitManager: AudioUnitManager!
+    private var cutoff: AUParameter? { audioUnitManager?.audioUnit?.parameterDefinitions.cutoff }
+    private var resonance: AUParameter? { audioUnitManager?.audioUnit?.parameterDefinitions.resonance }
 
     private var playButton: NSButton!
     private var playMenuItem: NSMenuItem!
@@ -38,7 +37,11 @@ extension MainViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        audioUnitManager = AudioUnitManager(componentDescription: FilterAudioUnit.componentDescription,
+                                            appExtension: Bundle.main.auBaseName)
         audioUnitManager.delegate = self
+
         cutoffSlider.minValue = cutoffSliderMinValue
         cutoffSlider.maxValue = cutoffSliderMaxValue
     }

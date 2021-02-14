@@ -35,6 +35,8 @@ typedef NS_ENUM(AUParameterAddress, FilterParameterAddress) {
  */
 @interface FilterDSPKernelAdapter : NSObject <AUParameterHandler>
 
+- (nonnull id)init:(nonnull NSString*)appExtensionName;
+
 /**
  Configure the kernel for new format and max frame in preparation to begin rendering
 

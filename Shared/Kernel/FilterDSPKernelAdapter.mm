@@ -6,35 +6,34 @@
 #import "FilterDSPKernelAdapter.h"
 
 @implementation FilterDSPKernelAdapter {
-    os_log_t logger_;
-    FilterDSPKernel kernel_;
+    FilterDSPKernel* kernel_;
 }
 
-- (instancetype)init {
+- (instancetype)init:(NSString*)appExtensionName {
     if (self = [super init]) {
-        logger_ = os_log_create("LPF", "FilterDSPKernelAdapter");
+        self->kernel_ = new FilterDSPKernel(std::string(appExtensionName.UTF8String));
     }
     return self;
 }
 
 - (void)startProcessing:(AVAudioFormat*)inputFormat maxFramesToRender:(AUAudioFrameCount)maxFramesToRender {
-    kernel_.startProcessing(inputFormat, maxFramesToRender);
+    kernel_->startProcessing(inputFormat, maxFramesToRender);
 }
 
 - (void)stopProcessing {
-    kernel_.stopProcessing();
+    kernel_->stopProcessing();
 }
 
 - (void)magnitudes:(nonnull const float*)frequencies count:(NSInteger)count output:(nonnull float*)output {
 
     BiquadFilter filter;
-    filter.calculateParams(kernel_.cutoff(), kernel_.resonance(), kernel_.nyquistPeriod(), 1);
-    filter.magnitudes(frequencies, count, kernel_.nyquistPeriod(), output);
+    filter.calculateParams(kernel_->cutoff(), kernel_->resonance(), kernel_->nyquistPeriod(), 1);
+    filter.magnitudes(frequencies, count, kernel_->nyquistPeriod(), output);
 }
 
-- (void)set:(AUParameter *)parameter value:(AUValue)value { kernel_.setParameterValue(parameter.address, value); }
+- (void)set:(AUParameter *)parameter value:(AUValue)value { kernel_->setParameterValue(parameter.address, value); }
 
-- (AUValue)get:(AUParameter *)parameter { return kernel_.getParameterValue(parameter.address); }
+- (AUValue)get:(AUParameter *)parameter { return kernel_->getParameterValue(parameter.address); }
 
 - (AUAudioUnitStatus) process:(AudioTimeStamp*)timestamp
                    frameCount:(UInt32)frameCount
@@ -43,11 +42,11 @@
                pullInputBlock:(AURenderPullInputBlock)pullInputBlock
 {
     auto inputBus = 0;
-    return kernel_.processAndRender(timestamp, frameCount, inputBus, output, realtimeEventListHead, pullInputBlock);
+    return kernel_->processAndRender(timestamp, frameCount, inputBus, output, realtimeEventListHead, pullInputBlock);
 }
 
 - (void)setBypass:(BOOL)state {
-    kernel_.setBypass(state);
+    kernel_->setBypass(state);
 }
 
 @end

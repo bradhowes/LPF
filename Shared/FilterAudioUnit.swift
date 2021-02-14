@@ -134,7 +134,7 @@ public final class FilterAudioUnit: AUAudioUnit {
     /// Maximum frames to render
     private let maxFramesToRender: UInt32 = 512
     /// Objective-C bridge into the C++ kernel
-    private let kernel = FilterDSPKernelAdapter()
+    private let kernel = FilterDSPKernelAdapter(Bundle.main.auBaseName)
 
     private let factoryPresetValues:[(name: String, cutoff: AUValue, resonance: AUValue)] = [
         ("Prominent", 2500.0, 5.0),

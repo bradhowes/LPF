@@ -2,6 +2,7 @@
 // Original: See LICENSE folder for this sample’s licensing information.
 
 import AVFoundation
+import os
 
 /**
  Delegation protocol for AudioUnitManager class.
@@ -47,7 +48,11 @@ public final class AudioUnitManager {
 extension AudioUnitManager {
 
     private func createAudioUnit(componentDescription: AudioComponentDescription) {
-        AUAudioUnit.registerSubclass(FilterAudioUnit.self, as: componentDescription, name: "Demo", version: UInt32.max)
+        os_log(.info, log: log, "createAudioUnit")
+        componentDescription.log(log, type: .info)
+        let bundle = Bundle(for: AudioUnitManager.self)
+        AUAudioUnit.registerSubclass(FilterAudioUnit.self, as: componentDescription, name: bundle.auBaseName,
+                                     version: UInt32.max)
         AVAudioUnit.instantiate(with: componentDescription) { avAudioUnit, error in
             guard error == nil, let avAudioUnit = avAudioUnit else {
                 fatalError("Could not instantiate audio unit: \(String(describing: error))")

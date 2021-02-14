@@ -14,7 +14,8 @@ public:
     using super = KernelEventProcessor<FilterDSPKernel>;
     friend super;
 
-    FilterDSPKernel() : super(os_log_create("LPF", "FilterDSPKernel")), cutoff_{float(400.0)}, resonance_{20.0}
+    FilterDSPKernel(std::string const& name)
+    : super(os_log_create(name.c_str(), "FilterDSPKernel")), cutoff_{float(400.0)}, resonance_{20.0}
     {
         setSampleRate(44100.0);
         filter_.calculateParams(cutoff_, resonance_, nyquistPeriod_, 2);
