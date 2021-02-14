@@ -40,21 +40,21 @@ public final class FilterAudioUnit: AUAudioUnit {
     /// Runtime parameter definitions for the audio unit
     public lazy var parameterDefinitions: AudioUnitParameters = AudioUnitParameters(parameterHandler: kernel)
     /// Support one input bus
-    public override var inputBusses: AUAudioUnitBusArray { _inputBusses }
+    override public var inputBusses: AUAudioUnitBusArray { _inputBusses }
     /// Support one output bus
-    public override var outputBusses: AUAudioUnitBusArray { _outputBusses }
+    override public var outputBusses: AUAudioUnitBusArray { _outputBusses }
     /// Parameter tree containing filter parameter values
-    public override var parameterTree: AUParameterTree? {
+    override public var parameterTree: AUParameterTree? {
         get { parameterDefinitions.parameterTree }
         set { fatalError("attempted to set new parameterTree") }
     }
 
     /// Factory presets for the filter
-    public override var factoryPresets: [AUAudioUnitPreset] { _factoryPresets }
+    override public var factoryPresets: [AUAudioUnitPreset] { _factoryPresets }
     /// Announce support for user presets as well
-    public override var supportsUserPresets: Bool { true }
+    override public var supportsUserPresets: Bool { true }
     /// Preset get/set
-    public override var currentPreset: AUAudioUnitPreset? {
+    override public var currentPreset: AUAudioUnitPreset? {
         get {
             os_log(.info, log: log, "get currentPreset - %{public}s", _currentPreset.descriptionOrNil)
             return _currentPreset
@@ -84,7 +84,7 @@ public final class FilterAudioUnit: AUAudioUnit {
         }
     }
 
-    public override var fullState: [String : Any]? {
+    override public var fullState: [String : Any]? {
         get {
             os_log(.info, log: log, "fullState GET")
             var value = super.fullState ?? [String: Any]()
@@ -108,6 +108,8 @@ public final class FilterAudioUnit: AUAudioUnit {
         }
     }
 
+    override public var shouldBypassEffect: Bool { didSet { kernel.setBypass(shouldBypassEffect); }}
+
     override public var fullStateForDocument: [String : Any]? {
         get {
             os_log(.info, log: log, "fullStateForDocument GET")
@@ -123,7 +125,7 @@ public final class FilterAudioUnit: AUAudioUnit {
     }
 
     /// Announce that the filter can work directly on upstream sample buffers
-    public override var canProcessInPlace: Bool { true }
+    override public var canProcessInPlace: Bool { true }
 
     /// Initial sample rate
     private let sampleRate: Double = 44100.0
@@ -162,7 +164,7 @@ public final class FilterAudioUnit: AUAudioUnit {
      - parameter options: options for instantiation
      - parameter completionHandler: closure to invoke upon creation or error
      */
-    public override class func instantiate(with componentDescription: AudioComponentDescription,
+    override public class func instantiate(with componentDescription: AudioComponentDescription,
                                            options: AudioComponentInstantiationOptions = [],
                                            completionHandler: @escaping (AUAudioUnit?, Error?) -> Void) {
         do {
@@ -179,7 +181,7 @@ public final class FilterAudioUnit: AUAudioUnit {
      - parameter componentDescription: the component to instantiate
      - parameter options: options for instantiation
      */
-    public override init(componentDescription: AudioComponentDescription,
+    override public init(componentDescription: AudioComponentDescription,
                          options: AudioComponentInstantiationOptions = []) throws {
 
         // Start with the default format. Host or downstream AudioUnit can change the format of the input/output bus
@@ -217,7 +219,7 @@ public final class FilterAudioUnit: AUAudioUnit {
      Take notice of input/output bus formats and prepare for rendering. If there are any errors getting things ready,
      routine should `setRenderResourcesAllocated(false)`.
      */
-    public override func allocateRenderResources() throws {
+    override public func allocateRenderResources() throws {
         os_log(.info, log: log, "allocateRenderResources")
         os_log(.debug, log: log, "inputBus format: %{public}s", inputBus.format.description)
         os_log(.debug, log: log, "outputBus format: %{public}s", outputBus.format.description)
@@ -238,14 +240,14 @@ public final class FilterAudioUnit: AUAudioUnit {
     /**
      Rendering has stopped -- tear down stuff that was supporting it.
      */
-    public override func deallocateRenderResources() {
+    override public func deallocateRenderResources() {
         os_log(.debug, log: log, "before super.deallocateRenderResources")
         kernel.stopProcessing()
         super.deallocateRenderResources()
         os_log(.debug, log: log, "after super.deallocateRenderResources")
     }
 
-    public override var internalRenderBlock: AUInternalRenderBlock {
+    override public var internalRenderBlock: AUInternalRenderBlock {
         os_log(.info, log: log, "internalRenderBlock")
 
         // Local values to capture in the closure that will be returned
@@ -261,18 +263,18 @@ public final class FilterAudioUnit: AUAudioUnit {
         }
     }
 
-    public override func parametersForOverview(withCount: Int) -> [NSNumber] {
+    override public func parametersForOverview(withCount: Int) -> [NSNumber] {
         Array([parameterDefinitions.cutoff, parameterDefinitions.resonance].map {
             NSNumber(value: $0.address)
         }[0..<withCount])
     }
 
-    public override func supportedViewConfigurations(_ availableViewConfigurations: [AUAudioUnitViewConfiguration]) ->
+    override public func supportedViewConfigurations(_ availableViewConfigurations: [AUAudioUnitViewConfiguration]) ->
     IndexSet {
         IndexSet(integersIn: 0..<availableViewConfigurations.count)
     }
 
-    public override func select(_ viewConfiguration: AUAudioUnitViewConfiguration) {
+    override public func select(_ viewConfiguration: AUAudioUnitViewConfiguration) {
         viewController?.selectViewConfiguration(viewConfiguration)
     }
 }

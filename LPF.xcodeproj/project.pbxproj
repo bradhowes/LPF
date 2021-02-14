@@ -51,8 +51,6 @@
 		BD95147824A08BB600D8024C /* NewSwiftTestTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD95147724A08BB600D8024C /* NewSwiftTestTemplate.swift */; };
 		BD95148324A090E400D8024C /* ValueChangeDetectorTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95148224A090E400D8024C /* ValueChangeDetectorTests.mm */; };
 		BD95148524A092E800D8024C /* RampingValueChangeDetectorTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95148424A092E800D8024C /* RampingValueChangeDetectorTests.mm */; };
-		BD95149124A0A63300D8024C /* FilterDSPKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95149024A0A63300D8024C /* FilterDSPKernel.mm */; };
-		BD95149224A0A63300D8024C /* FilterDSPKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = BD95149024A0A63300D8024C /* FilterDSPKernel.mm */; };
 		BD95149624A0C57E00D8024C /* FilterViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4201A2822403120006E4333 /* FilterViewControllerExtension.swift */; };
 		BD9FA81B24A9505300FA9940 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD9FA81A24A9505300FA9940 /* Default-568h@2x.png */; };
 		BDB11A5424A13C4A00DD8EF9 /* Comparble+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB11A5224A13BFA00DD8EF9 /* Comparble+Extensions.swift */; };
@@ -247,6 +245,7 @@
 		BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FourCharCode+Extensions.swift"; sourceTree = "<group>"; };
 		BD49661924A3605800A81F0B /* LICENSE.md */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = LICENSE.md; sourceTree = "<group>"; };
 		BD50D29225D6D76E00375455 /* FilterDSPKernelAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterDSPKernelAdapter.h; sourceTree = "<group>"; };
+		BD50D32425D75B7900375455 /* SimplyLowPass.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SimplyLowPass.entitlements; sourceTree = "<group>"; };
 		BD578EEC25D278490040D83D /* AudioUnitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioUnitManager.swift; sourceTree = "<group>"; };
 		BD578F0D25D2C4720040D83D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BD72F2E425D1D4CE0031E422 /* InputBuffer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InputBuffer.hpp; sourceTree = "<group>"; };
@@ -257,7 +256,6 @@
 		BD95147924A08BB600D8024C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BD95148224A090E400D8024C /* ValueChangeDetectorTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ValueChangeDetectorTests.mm; sourceTree = "<group>"; };
 		BD95148424A092E800D8024C /* RampingValueChangeDetectorTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RampingValueChangeDetectorTests.mm; sourceTree = "<group>"; };
-		BD95149024A0A63300D8024C /* FilterDSPKernel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FilterDSPKernel.mm; sourceTree = "<group>"; };
 		BD9FA80F24A938F800FA9940 /* Documentation */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Documentation; sourceTree = "<group>"; };
 		BD9FA81224A94BA100FA9940 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 		BD9FA81A24A9505300FA9940 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -463,7 +461,6 @@
 				BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.hpp */,
 				BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */,
 				C4BEE7E322236E99001E6B6D /* FilterDSPKernel.hpp */,
-				BD95149024A0A63300D8024C /* FilterDSPKernel.mm */,
 				BD50D29225D6D76E00375455 /* FilterDSPKernelAdapter.h */,
 				C4F004A02239B1E10014E248 /* FilterDSPKernelAdapter.mm */,
 				BD72F2E425D1D4CE0031E422 /* InputBuffer.hpp */,
@@ -475,6 +472,7 @@
 		C437FE2F2223672C008D6C09 = {
 			isa = PBXGroup;
 			children = (
+				BD50D32425D75B7900375455 /* SimplyLowPass.entitlements */,
 				7E56CF207E56CEE000000001 /* README.md */,
 				D153B980F14C7C7000000001 /* LICENSE */,
 				BD9FA80F24A938F800FA9940 /* Documentation */,
@@ -822,9 +820,9 @@
 			productReference = C437FE632223686D008D6C09 /* LPF.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		C437FE792223688D008D6C09 /* macOS App */ = {
+		C437FE792223688D008D6C09 /* SimplyLowPass */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C437FE872223688E008D6C09 /* Build configuration list for PBXNativeTarget "macOS App" */;
+			buildConfigurationList = C437FE872223688E008D6C09 /* Build configuration list for PBXNativeTarget "SimplyLowPass" */;
 			buildPhases = (
 				C437FE762223688D008D6C09 /* Sources */,
 				C437FE772223688D008D6C09 /* Frameworks */,
@@ -838,7 +836,7 @@
 				C4660A5F2225F9A0007BE3B1 /* PBXTargetDependency */,
 				C4660A622225F9A0007BE3B1 /* PBXTargetDependency */,
 			);
-			name = "macOS App";
+			name = SimplyLowPass;
 			productName = "AUv3Filter macOS";
 			productReference = C437FE7A2223688D008D6C09 /* SimplyLowPass.app */;
 			productType = "com.apple.product-type.application";
@@ -958,7 +956,7 @@
 				C437FE622223686D008D6C09 /* iOS Extension */,
 				C437FE51222367CD008D6C09 /* iOS Framework */,
 				BD1D24A825D486A700523748 /* iOS Tests */,
-				C437FE792223688D008D6C09 /* macOS App */,
+				C437FE792223688D008D6C09 /* SimplyLowPass */,
 				C437FE9F222368B7008D6C09 /* macOS Extension */,
 				C437FE8E222368A1008D6C09 /* macOS Framework */,
 				BD95147424A08BB600D8024C /* macOS Tests */,
@@ -1095,7 +1093,6 @@
 			files = (
 				BD49661624A35D8700A81F0B /* FourCharCode+Extensions.swift in Sources */,
 				BD1F7BAC249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */,
-				BD95149124A0A63300D8024C /* FilterDSPKernel.mm in Sources */,
 				C4BEE80522236F6F001E6B6D /* View+Extensions.swift in Sources */,
 				C4F07731223AC4F5008FFF06 /* FilterViewController.swift in Sources */,
 				BDE2CDF524A3DF24004AC8FA /* Bundle+Extensions.swift in Sources */,
@@ -1146,7 +1143,6 @@
 				BD18B39C24CB248100B7CB1E /* AudioComponentDescription+Extensions.swift in Sources */,
 				BD18B39F24CB31B200B7CB1E /* AudioUnitParameters.swift in Sources */,
 				BD578EEE25D278490040D83D /* AudioUnitManager.swift in Sources */,
-				BD95149224A0A63300D8024C /* FilterDSPKernel.mm in Sources */,
 				C4F07732223AC4F5008FFF06 /* FilterViewController.swift in Sources */,
 				C4BEE80122236F6E001E6B6D /* View+Extensions.swift in Sources */,
 				BDB11A5424A13C4A00DD8EF9 /* Comparble+Extensions.swift in Sources */,
@@ -1550,7 +1546,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210213004808;
+				CURRENT_PROJECT_VERSION = 20210213015845;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1620,7 +1616,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210213004808;
+				CURRENT_PROJECT_VERSION = 20210213015845;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1692,7 +1688,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210213004808;
+				CURRENT_PROJECT_VERSION = 20210213015845;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
@@ -1770,11 +1766,12 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = SimplyLowPass.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210213004808;
+				CURRENT_PROJECT_VERSION = 20210213015845;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1844,7 +1841,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210213004808;
+				CURRENT_PROJECT_VERSION = 20210213015845;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1916,7 +1913,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210213004808;
+				CURRENT_PROJECT_VERSION = 20210213015845;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2077,7 +2074,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210213004808;
+				CURRENT_PROJECT_VERSION = 20210213015845;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2153,7 +2150,7 @@
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210213004808;
+				CURRENT_PROJECT_VERSION = 20210213015845;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2239,7 +2236,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210213004808;
+				CURRENT_PROJECT_VERSION = 20210213015845;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2315,11 +2312,12 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = SimplyLowPass.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210213004808;
+				CURRENT_PROJECT_VERSION = 20210213015845;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -2396,7 +2394,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210213004808;
+				CURRENT_PROJECT_VERSION = 20210213015845;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
@@ -2483,7 +2481,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20210213004808;
+				CURRENT_PROJECT_VERSION = 20210213015845;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -2590,7 +2588,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		C437FE872223688E008D6C09 /* Build configuration list for PBXNativeTarget "macOS App" */ = {
+		C437FE872223688E008D6C09 /* Build configuration list for PBXNativeTarget "SimplyLowPass" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C437FE882223688E008D6C09 /* Debug */,

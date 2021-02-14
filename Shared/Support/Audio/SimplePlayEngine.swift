@@ -11,7 +11,7 @@ final class SimplePlayEngine {
 
     private let engine = AVAudioEngine()
     private let player = AVAudioPlayerNode()
-    private var activeAVAudioUnit: AVAudioUnit?
+    private var activeEffect: AVAudioUnit?
 
     private lazy var file: AVAudioFile = {
         let filename = "WhisperingDroneClip"
@@ -22,8 +22,6 @@ final class SimplePlayEngine {
         return try! AVAudioFile(forReading: url)
     }()
     
-    private let midiOutBlock: AUMIDIOutputEventBlock = { sampleTime, cable, length, data in return noErr }
-
     public var isPlaying: Bool { player.isPlaying }
 
     /**
@@ -87,13 +85,7 @@ extension SimplePlayEngine {
         defer { completion() }
         pauseWhile {
             disconnectEffect()
-            activeAVAudioUnit = audioUnit
-
-            let auAudioUnit = audioUnit.auAudioUnit
-            if !auAudioUnit.midiOutputNames.isEmpty {
-                auAudioUnit.midiOutputEventBlock = midiOutBlock
-            }
-
+            activeEffect = audioUnit
             engine.attach(audioUnit)
             engine.connect(player, to: audioUnit, format: file.processingFormat)
             engine.connect(audioUnit, to: engine.mainMixerNode, format: file.processingFormat)
@@ -104,7 +96,8 @@ extension SimplePlayEngine {
      Uninstall a previously-installed effect AudioUnit.
      */
     public func disconnectEffect() {
-        guard let previous = activeAVAudioUnit else { return }
+        guard let previous = activeEffect else { return }
+        activeEffect = nil
         pauseWhile {
             engine.disconnectNodeInput(previous)
             engine.disconnectNodeInput(engine.mainMixerNode)

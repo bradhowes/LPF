@@ -69,7 +69,8 @@ public:
      */
     AUAudioUnitStatus processAndRender(AudioTimeStamp* timestamp, UInt32 frameCount, NSInteger inputBusNumber,
                                        AudioBufferList* output, AURenderEvent* realtimeEventListHead,
-                                       AURenderPullInputBlock pullInputBlock) {
+                                       AURenderPullInputBlock pullInputBlock)
+    {
         AudioUnitRenderActionFlags actionFlags = 0;
         auto status = inputBuffer_.pullInput(&actionFlags, timestamp, frameCount, inputBusNumber, pullInputBlock);
         if (status != noErr) {
@@ -168,10 +169,9 @@ private:
                     continue;
                 }
 
-                auto in = (float*)inputs_->mBuffers[channel].mData + processedFrameCount;
-                auto out = (float*)outputs_->mBuffers[channel].mData + processedFrameCount;
-                memcpy(out, in, frameCount);
-                outputs_->mBuffers[channel].mDataByteSize = sizeof(float) * (processedFrameCount + frameCount);
+                auto in = reinterpret_cast<float*>(inputs_->mBuffers[channel].mData) + processedFrameCount;
+                auto out = reinterpret_cast<float*>(outputs_->mBuffers[channel].mData) + processedFrameCount;
+                memcpy(out, in, frameCount * sizeof(float));
             }
             return;
         }

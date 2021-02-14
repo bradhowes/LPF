@@ -46,4 +46,8 @@
     return kernel_.processAndRender(timestamp, frameCount, inputBus, output, realtimeEventListHead, pullInputBlock);
 }
 
+- (void)setBypass:(BOOL)state {
+    kernel_.setBypass(state);
+}
+
 @end

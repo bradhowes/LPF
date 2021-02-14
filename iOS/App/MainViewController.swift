@@ -15,12 +15,13 @@ final class MainViewController: UIViewController {
     private var cutoff: AUParameter? { audioUnitManager.audioUnit?.parameterDefinitions.cutoff }
     private var resonance: AUParameter? { audioUnitManager.audioUnit?.parameterDefinitions.resonance }
 
-    @IBOutlet var playButton: UIButton!
-    @IBOutlet var cutoffSlider: UISlider!
-    @IBOutlet var cutoffValue: UILabel!
-    @IBOutlet var resonanceSlider: UISlider!
-    @IBOutlet var resonanceValue: UILabel!
-    @IBOutlet var containerView: UIView!
+    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var bypassButton: UIButton!
+    @IBOutlet weak var cutoffSlider: UISlider!
+    @IBOutlet weak var cutoffValue: UILabel!
+    @IBOutlet weak var resonanceSlider: UISlider!
+    @IBOutlet weak var resonanceValue: UILabel!
+    @IBOutlet weak var containerView: UIView!
 
     private var parameterObserverToken: AUParameterObserverToken?
 
@@ -36,6 +37,16 @@ final class MainViewController: UIViewController {
         let titleText = isPlaying ? "Stop" : "Play"
         playButton.setTitle(titleText, for: .normal)
         playButton.setTitleColor(isPlaying ? .systemRed : .systemTeal, for: .normal)
+    }
+
+    @IBAction private func toggleBypass(_ sender: UIButton) {
+        let wasBypassed = audioUnitManager.audioUnit?.shouldBypassEffect ?? false
+        let isBypassed = !wasBypassed
+        audioUnitManager.audioUnit?.shouldBypassEffect = isBypassed
+
+        let titleText = isBypassed ? "Resume" : "Bypass"
+        bypassButton.setTitle(titleText, for: .normal)
+        bypassButton.setTitleColor(isBypassed ? .systemYellow : .systemTeal, for: .normal)
     }
 
     @IBAction private func cutoffSliderValueChanged(_ sender: UISlider) {

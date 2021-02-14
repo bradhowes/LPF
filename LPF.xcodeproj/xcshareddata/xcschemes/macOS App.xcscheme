@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C437FE792223688D008D6C09"
                BuildableName = "SimplyLowPass.app"
-               BlueprintName = "macOS App"
+               BlueprintName = "SimplyLowPass"
                ReferencedContainer = "container:LPF.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,7 +32,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE792223688D008D6C09"
             BuildableName = "SimplyLowPass.app"
-            BlueprintName = "macOS App"
+            BlueprintName = "SimplyLowPass"
             ReferencedContainer = "container:LPF.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -65,7 +65,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE792223688D008D6C09"
             BuildableName = "SimplyLowPass.app"
-            BlueprintName = "macOS App"
+            BlueprintName = "SimplyLowPass"
             ReferencedContainer = "container:LPF.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -89,7 +89,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE792223688D008D6C09"
             BuildableName = "SimplyLowPass.app"
-            BlueprintName = "macOS App"
+            BlueprintName = "SimplyLowPass"
             ReferencedContainer = "container:LPF.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

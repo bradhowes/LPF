@@ -74,4 +74,11 @@ typedef NS_ENUM(AUParameterAddress, FilterParameterAddress) {
  */
 - (void)magnitudes:(nonnull const float*)frequencies count:(NSInteger)count output:(nonnull float*)output;
 
+/**
+ Set the bypass state.
+
+ @param state new bypass value
+ */
+- (void)setBypass:(BOOL)state;
+
 @end
