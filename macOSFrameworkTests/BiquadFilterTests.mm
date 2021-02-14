@@ -3,7 +3,7 @@
 #import <XCTest/XCTest.h>
 #import <vector>
 
-#import "BiquadFilter.hpp"
+#import "BiquadFilter.h"
 
 @interface BiquadFilterTests : XCTestCase
 

@@ -33,11 +33,16 @@
                             </menuItem>
                             <menuItem title="File" id="dMs-cI-mzQ">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="File" id="bib-Uj-vzu">
+                                <menu key="submenu" title="File" autoenablesItems="NO" id="bib-Uj-vzu">
                                     <items>
                                         <menuItem title="Play" keyEquivalent="p" id="Flz-EE-5KD">
                                             <connections>
                                                 <action selector="togglePlay:" target="Ady-hI-5gd" id="bOw-DI-TIr"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Bypass" keyEquivalent="b" id="Bvy-ud-WPR" userLabel="Bypass">
+                                            <connections>
+                                                <action selector="toggleBypass:" target="Ady-hI-5gd" id="8j1-Gh-MqW"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Close" keyEquivalent="w" id="DVo-aG-piG">
@@ -104,6 +109,7 @@
                 </application>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="SimplyLowPass" customModuleProvider="target">
                     <connections>
+                        <outlet property="bypassMenuItem" destination="Bvy-ud-WPR" id="TDv-X8-WS4"/>
                         <outlet property="playMenuItem" destination="Flz-EE-5KD" id="5E5-IR-Gxn"/>
                         <outlet property="savePresetMenuItem" destination="9NY-AS-9aU" id="H1m-5w-gvK"/>
                     </connections>
@@ -120,7 +126,7 @@
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" topStrut="YES"/>
                         <rect key="contentRect" x="106" y="256" width="900" height="560"/>
-                        <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1175"/>
                         <value key="minSize" type="size" width="900" height="560"/>
                         <toolbar key="toolbar" implicitIdentifier="5207E1E8-A93F-4F10-9C18-0E48AC0FF7E7" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="BM6-k9-grP">
                             <allowedToolbarItems>
@@ -139,11 +145,26 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="2AC2063E-880F-4AEB-A2B8-5747B89394F6" label="Bypass" paletteLabel="Bypass Button" sizingBehavior="auto" id="3w5-Pk-Kuc" userLabel="Bypass Button">
+                                    <nil key="toolTip"/>
+                                    <button key="view" verticalHuggingPriority="750" id="WpS-Vu-loZ" userLabel="Bypass">
+                                        <rect key="frame" x="3" y="14" width="78" height="32"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <buttonCell key="cell" type="push" title="Bypass" alternateTitle="Resume" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="W6e-XW-QNj">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="toggleBypass:" target="Oky-zY-oP4" id="S6c-ZS-53j"/>
+                                        </connections>
+                                    </button>
+                                </toolbarItem>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="fUX-bF-tWt"/>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="Rub-ZQ-gKo"/>
                                 <toolbarItem reference="gZY-Pi-OZc"/>
+                                <toolbarItem reference="3w5-Pk-Kuc"/>
                             </defaultToolbarItems>
                         </toolbar>
                         <connections>
@@ -151,6 +172,7 @@
                         </connections>
                     </window>
                     <connections>
+                        <outlet property="bypassButton" destination="WpS-Vu-loZ" id="vss-i2-oQd"/>
                         <outlet property="playButton" destination="ogO-fI-sF4" id="mnc-aK-30h"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="4gy-rt-TT0"/>
                     </connections>

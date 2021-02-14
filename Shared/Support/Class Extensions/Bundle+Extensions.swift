@@ -10,7 +10,11 @@ extension Bundle {
      - parameter key: what to fetch
      - returns: the value found or an empty string
      */
-    private func info(for key: String) -> String { infoDictionary?[key] as! String }
+    private func info(for key: String) -> String {
+        guard let dict = infoDictionary else { return "" }
+        guard let value = dict[key] as? String else { return "" }
+        return value
+    }
 
     /// Obtain the release version number associated with the bundle or "" if none found
     public var releaseVersionNumber: String { info(for: "CFBundleShortVersionString") }

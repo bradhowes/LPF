@@ -16,7 +16,9 @@ final class MainViewController: NSViewController {
     private var resonance: AUParameter? { audioUnitManager?.audioUnit?.parameterDefinitions.resonance }
 
     private var playButton: NSButton!
+    private var bypassButton: NSButton!
     private var playMenuItem: NSMenuItem!
+    private var bypassMenuItem: NSMenuItem!
     private var savePresetMenuItem: NSMenuItem!
 
     @IBOutlet var cutoffSlider: NSSlider!
@@ -60,6 +62,11 @@ extension MainViewController {
         playButton = windowController.playButton
         playMenuItem = appDelegate.playMenuItem
 
+        bypassButton = windowController.bypassButton
+        bypassMenuItem = appDelegate.bypassMenuItem
+        bypassButton.isEnabled = false
+        bypassMenuItem.isEnabled = false
+
         savePresetMenuItem.isHidden = true
         savePresetMenuItem.isEnabled = false
         savePresetMenuItem.target = self
@@ -70,9 +77,23 @@ extension MainViewController {
         super.viewDidLayout()
         filterView?.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: containerView.frame.size)
     }
+
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        let alert = NSAlert()
+        alert.alertStyle = .informational
+        alert.messageText = "AUv3 Component Installed"
+        alert.informativeText =
+"""
+The AUv3 component 'SimplyLowPass' is now available on your system.
+
+This app uses the same component to demonstrate how it works and sounds.
+"""
+        alert.addButton(withTitle: "OK")
+        alert.beginSheetModal(for: view.window!){ _ in }
+    }
 }
 
-// MARK: - AudioUnitManagerDelegate
 extension MainViewController: AudioUnitManagerDelegate {
 
     func connected() {
@@ -89,6 +110,17 @@ extension MainViewController {
         playButton?.state = audioUnitManager.isPlaying ? .on : .off
         playButton?.title = audioUnitManager.isPlaying ? "Stop" : "Play"
         playMenuItem?.title = audioUnitManager.isPlaying ? "Stop" : "Play"
+        bypassButton?.isEnabled = audioUnitManager.isPlaying
+        bypassMenuItem?.isEnabled = audioUnitManager.isPlaying
+    }
+
+    @IBAction private func toggleBypass(_ sender: NSButton) {
+        let wasBypassed = audioUnitManager.audioUnit?.shouldBypassEffect ?? false
+        let isBypassed = !wasBypassed
+        audioUnitManager.audioUnit?.shouldBypassEffect = isBypassed
+        bypassButton?.state = isBypassed ? .on : .off
+        bypassButton?.title = isBypassed ? "Resume" : "Bypass"
+        bypassMenuItem?.title = isBypassed ? "Resume" : "Bypass"
     }
 
     @IBAction private func cutoffSliderValueChanged(_ sender: NSSlider) {

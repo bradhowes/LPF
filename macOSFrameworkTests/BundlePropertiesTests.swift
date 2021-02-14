@@ -18,7 +18,7 @@ class BundlePropertiesTests: XCTestCase {
     func testComponentAttributes() throws {
         let bundle = Bundle(for: LowPassFilterFramework.FilterAudioUnit.self)
         XCTAssertEqual("LPF", bundle.auBaseName)
-        XCTAssertEqual("B-Ray: Low-pass", bundle.auComponentName)
+        XCTAssertEqual("B-Ray: SimplyLowPass", bundle.auComponentName)
         XCTAssertEqual("aufx", bundle.auComponentType)
         XCTAssertEqual("lpas", bundle.auComponentSubtype)
         XCTAssertEqual("BRay", bundle.auComponentManufacturer)

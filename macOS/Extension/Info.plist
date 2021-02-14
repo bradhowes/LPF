@@ -4,14 +4,14 @@
 <dict>
 	<key>AU_BASE_NAME</key>
 	<string>$(AU_BASE_NAME)</string>
-	<key>AU_COMPONENT_NAME</key>
-	<string>$(AU_COMPONENT_NAME)</string>
-	<key>AU_COMPONENT_TYPE</key>
-	<string>$(AU_COMPONENT_TYPE)</string>
-	<key>AU_COMPONENT_SUBTYPE</key>
-	<string>$(AU_COMPONENT_SUBTYPE)</string>
 	<key>AU_COMPONENT_MANUFACTURER</key>
 	<string>$(AU_COMPONENT_MANUFACTURER)</string>
+	<key>AU_COMPONENT_NAME</key>
+	<string>$(AU_COMPONENT_NAME)</string>
+	<key>AU_COMPONENT_SUBTYPE</key>
+	<string>$(AU_COMPONENT_SUBTYPE)</string>
+	<key>AU_COMPONENT_TYPE</key>
+	<string>$(AU_COMPONENT_TYPE)</string>
 	<key>AU_FACTORY_FUNCTION</key>
 	<string>$(AU_FACTORY_FUNCTION)</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -62,7 +62,7 @@
 					<key>type</key>
 					<string>$(AU_COMPONENT_TYPE)</string>
 					<key>version</key>
-					<real>67072</real>
+					<integer>65536</integer>
 				</dict>
 			</array>
 		</dict>
