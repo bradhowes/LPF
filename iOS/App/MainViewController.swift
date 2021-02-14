@@ -36,6 +36,22 @@ final class MainViewController: UIViewController {
         cutoffSlider.maximumValue = cutoffSliderMaxValue
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let alert = UIAlertController(title: "AUv3 Component Installed",
+                                      message: nil, preferredStyle: .alert)
+        alert.message =
+"""
+The AUv3 component 'SimplyLowPass' is now available on your device.
+
+This app uses the component to demonstrate how it works and sounds.
+"""
+        alert.addAction(
+            UIAlertAction(title: "OK", style: .default, handler: { _ in })
+        )
+        present(alert, animated: true)
+    }
+
     public func stopPlaying() {
         audioUnitManager.cleanup()
     }

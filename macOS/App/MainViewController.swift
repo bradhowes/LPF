@@ -87,7 +87,7 @@ extension MainViewController {
 """
 The AUv3 component 'SimplyLowPass' is now available on your system.
 
-This app uses the same component to demonstrate how it works and sounds.
+This app uses the component to demonstrate how it works and sounds.
 """
         alert.addButton(withTitle: "OK")
         alert.beginSheetModal(for: view.window!){ _ in }
