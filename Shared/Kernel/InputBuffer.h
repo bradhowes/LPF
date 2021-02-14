@@ -17,7 +17,8 @@ struct InputBuffer {
      @param format the format of the samples
      @param maxFrames the maximum number of frames to be found in the upstream output
      */
-    void allocateBuffers(AVAudioFormat* format, AUAudioFrameCount maxFrames) {
+    void allocateBuffers(AVAudioFormat* format, AUAudioFrameCount maxFrames)
+    {
         maxFramesToRender_ = maxFrames;
         buffer_ = [[AVAudioPCMBuffer alloc] initWithPCMFormat: format frameCapacity: maxFrames];
         mutableAudioBufferList_ = buffer_.mutableAudioBufferList;
@@ -26,7 +27,8 @@ struct InputBuffer {
     /**
      Forget any allocated buffer.
      */
-    void releaseBuffers() {
+    void releaseBuffers()
+    {
         buffer_ = nullptr;
         mutableAudioBufferList_ = nullptr;
     }
@@ -42,7 +44,8 @@ struct InputBuffer {
      */
     AUAudioUnitStatus pullInput(AudioUnitRenderActionFlags* actionFlags, AudioTimeStamp const* timestamp,
                                 AVAudioFrameCount frameCount, NSInteger inputBusNumber,
-                                AURenderPullInputBlock pullInputBlock) {
+                                AURenderPullInputBlock pullInputBlock)
+    {
         if (pullInputBlock == nullptr) return kAudioUnitErr_NoConnection;
         prepareInputBufferList(frameCount);
         return pullInputBlock(actionFlags, timestamp, frameCount, inputBusNumber, mutableAudioBufferList_);
@@ -53,7 +56,8 @@ struct InputBuffer {
 
      @param frameCount the number of frames to expect to place in the buffer
      */
-    void prepareInputBufferList(AVAudioFrameCount frameCount) {
+    void prepareInputBufferList(AVAudioFrameCount frameCount)
+    {
         UInt32 byteSize = frameCount * sizeof(float);
         for (UInt32 i = 0; i < mutableAudioBufferList_->mNumberBuffers; ++i) {
             mutableAudioBufferList_->mBuffers[i].mDataByteSize = byteSize;

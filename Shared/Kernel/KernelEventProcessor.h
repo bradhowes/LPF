@@ -7,7 +7,7 @@
 #import <vector>
 #import <AudioToolbox/AudioToolbox.h>
 
-#include "InputBuffer.hpp"
+#include "InputBuffer.h"
 
 /**
  Base template class for DSP kernels that provides common functionality. It properly interleaves render events with
@@ -107,13 +107,13 @@ private:
 
         while (framesRemaining > 0) {
             if (events == nullptr) {
-                injected()->renderFrames(framesRemaining, frameCount - framesRemaining);
+                renderFrames(framesRemaining, frameCount - framesRemaining);
                 return;
             }
 
             auto framesThisSegment = AUAudioFrameCount(std::max(events->head.eventSampleTime - now, zero));
             if (framesThisSegment > 0) {
-                injected()->renderFrames(framesThisSegment, frameCount - framesRemaining);
+                renderFrames(framesThisSegment, frameCount - framesRemaining);
                 framesRemaining -= framesThisSegment;
                 now += AUEventSampleTime(framesThisSegment);
             }
@@ -135,23 +135,25 @@ private:
         }
     }
 
-    void clearBuffers() {
+    void clearBuffers()
+    {
         inputs_ = nullptr;
         outputs_ = nullptr;
         ins_.clear();
         outs_.clear();
     }
 
-    AURenderEvent const* renderEventsUntil(AUEventSampleTime now, AURenderEvent const* event) {
+    AURenderEvent const* renderEventsUntil(AUEventSampleTime now, AURenderEvent const* event)
+    {
         while (event != nullptr && event->head.eventSampleTime <= now) {
             switch (event->head.eventType) {
                 case AURenderEventParameter:
                 case AURenderEventParameterRamp:
-                    injected()->handleParameterEvent(event->parameter);
+                    injected()->doParameterEvent(event->parameter);
                     break;
 
                 case AURenderEventMIDI:
-                    injected()->handleMIDIEvent(event->MIDI);
+                    injected()->doMIDIEvent(event->MIDI);
                     break;
 
                 default:
@@ -162,7 +164,8 @@ private:
         return event;
     }
 
-    void renderFrames(AUAudioFrameCount frameCount, AUAudioFrameCount processedFrameCount) {
+    void renderFrames(AUAudioFrameCount frameCount, AUAudioFrameCount processedFrameCount)
+    {
         if (isBypassed()) {
             for (size_t channel = 0; channel < inputs_->mNumberBuffers; ++channel) {
                 if (inputs_->mBuffers[channel].mData == outputs_->mBuffers[channel].mData) {
@@ -182,7 +185,7 @@ private:
             outputs_->mBuffers[channel].mDataByteSize = sizeof(float) * (processedFrameCount + frameCount);
         }
 
-        injected()->handleRendering(ins_, outs_, frameCount);
+        injected()->doRendering(ins_, outs_, frameCount);
     }
 
     T* injected() { return static_cast<T*>(this); }

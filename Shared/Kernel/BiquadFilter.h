@@ -3,7 +3,6 @@
 #pragma once
 
 #include <Accelerate/Accelerate.h>
-
 #include <cmath>
 #include <vector>
 

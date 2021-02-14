@@ -5,13 +5,14 @@
 
 #import <AVFoundation/AVFoundation.h>
 
-#import "BiquadFilter.hpp"
+#import "BiquadFilter.h"
 #import "FilterDSPKernelAdapter.h"
-#import "KernelEventProcessor.hpp"
+#import "KernelEventProcessor.h"
 
 class FilterDSPKernel : public KernelEventProcessor<FilterDSPKernel> {
 public:
     using super = KernelEventProcessor<FilterDSPKernel>;
+    friend super;
 
     FilterDSPKernel() : super(os_log_create("LPF", "FilterDSPKernel")), cutoff_{float(400.0)}, resonance_{20.0}
     {
@@ -28,9 +29,7 @@ public:
         setSampleRate(format.sampleRate);
     }
 
-    void stopProcessing() {
-        super::stopProcessing();
-    }
+    void stopProcessing() { super::stopProcessing(); }
 
     void setParameterValue(AUParameterAddress address, AUValue value)
     {
@@ -62,23 +61,20 @@ public:
         }
     }
 
-    void handleParameterEvent(AUParameterEvent const& event)
-    {
-        setParameterValue(event.parameterAddress, event.value);
-    }
-
-    void handleRendering(std::vector<float const*> ins, std::vector<float*> outs, AUAudioFrameCount frameCount) {
-        filter_.calculateParams(cutoff_, resonance_, nyquistPeriod_, ins.size());
-        filter_.apply(ins, outs, frameCount);
-    }
-
-    void handleMIDIEvent(AUMIDIEvent const& midiEvent) {}
-
     float nyquistPeriod() const { return nyquistPeriod_; }
     float cutoff() const { return cutoff_; }
     float resonance() const { return resonance_; }
 
 private:
+
+    void doParameterEvent(AUParameterEvent const& event) { setParameterValue(event.parameterAddress, event.value); }
+
+    void doRendering(std::vector<float const*> ins, std::vector<float*> outs, AUAudioFrameCount frameCount) {
+        filter_.calculateParams(cutoff_, resonance_, nyquistPeriod_, ins.size());
+        filter_.apply(ins, outs, frameCount);
+    }
+
+    void doMIDIEvent(AUMIDIEvent const& midiEvent) {}
 
     void setSampleRate(float value) {
         sampleRate_ = value;

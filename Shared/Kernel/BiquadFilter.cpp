@@ -2,7 +2,7 @@
 
 #include <Accelerate/../Frameworks/vecLib.framework/Headers/vForce.h>
 
-#include "BiquadFilter.hpp"
+#include "BiquadFilter.h"
 
 void
 BiquadFilter::calculateParams(float frequency, float resonance, float nyquistPeriod, size_t numChannels)

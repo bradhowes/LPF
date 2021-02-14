@@ -63,8 +63,6 @@ typedef NS_ENUM(AUParameterAddress, FilterParameterAddress) {
                       events:(nullable AURenderEvent*)realtimeEventListHead
               pullInputBlock:(nonnull AURenderPullInputBlock)pullInputBlock;
 
-// - (nonnull AUInternalRenderBlock)internalRenderBlock;
-
 /**
  Request by the FilterViewController to fetch the frequency responses of the low-pass filter.
 
