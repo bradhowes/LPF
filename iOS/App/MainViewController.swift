@@ -32,6 +32,9 @@ final class MainViewController: UIViewController {
         guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
         delegate.setMainViewController(self)
 
+        let version = Bundle.main.releaseVersionNumber
+        reviewButton.setTitle(version, for: .normal)
+
         audioUnitManager.delegate = self
         cutoffSlider.minimumValue = cutoffSliderMinValue
         cutoffSlider.maximumValue = cutoffSliderMaxValue
