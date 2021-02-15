@@ -80,6 +80,9 @@ extension MainViewController {
 
     override func viewDidAppear() {
         super.viewDidAppear()
+        let showedAlertKey = "showedInitialAlert"
+        guard UserDefaults.standard.bool(forKey: showedAlertKey) == false else { return }
+        UserDefaults.standard.set(true, forKey: showedAlertKey)
         let alert = NSAlert()
         alert.alertStyle = .informational
         alert.messageText = "AUv3 Component Installed"
@@ -97,6 +100,7 @@ This app uses the component to demonstrate how it works and sounds.
 extension MainViewController: AudioUnitManagerDelegate {
 
     func connected() {
+        guard filterView == nil else { return }
         connectFilterView()
         connectParametersToControls()
     }

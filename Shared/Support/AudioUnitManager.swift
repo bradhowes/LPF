@@ -50,10 +50,25 @@ extension AudioUnitManager {
     private func createAudioUnit(componentDescription: AudioComponentDescription) {
         os_log(.info, log: log, "createAudioUnit")
         componentDescription.log(log, type: .info)
+
+        // Uff. So for iOS we need to register the AUv3 so we can see it now. But we do NOT want to do so if we are
+        // running in macOS
+        //
+        #if os(iOS)
         let bundle = Bundle(for: AudioUnitManager.self)
         AUAudioUnit.registerSubclass(FilterAudioUnit.self, as: componentDescription, name: bundle.auBaseName,
                                      version: UInt32.max)
-        AVAudioUnit.instantiate(with: componentDescription) { avAudioUnit, error in
+        let options = AudioComponentInstantiationOptions()
+        #endif
+
+        // If we are running in macOS we must load the AUv3 in-process in order to be able to use it from within the
+        // app sandbox.
+        //
+        #if os(macOS)
+        let options: AudioComponentInstantiationOptions = .loadInProcess
+        #endif
+
+        AVAudioUnit.instantiate(with: componentDescription, options: options) { avAudioUnit, error in
             guard error == nil, let avAudioUnit = avAudioUnit else {
                 fatalError("Could not instantiate audio unit: \(String(describing: error))")
             }
@@ -68,10 +83,13 @@ extension AudioUnitManager {
         auAudioUnit.viewController = viewController
         viewController.audioUnit = auAudioUnit
         playEngine.connectEffect(audioUnit: avAudioUnit)
+        signalConnected()
     }
 
     private func signalConnected() {
-        DispatchQueue.main.async { self.delegate?.connected() }
+        if viewController.audioUnit != nil {
+            DispatchQueue.main.async { self.delegate?.connected() }
+        }
     }
 
     private static func loadViewController(appExtension: String) -> FilterViewController {

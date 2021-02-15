@@ -38,6 +38,9 @@ final class MainViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        let showedAlertKey = "showedInitialAlert"
+        guard UserDefaults.standard.bool(forKey: showedAlertKey) == false else { return }
+        UserDefaults.standard.set(true, forKey: showedAlertKey)
         let alert = UIAlertController(title: "AUv3 Component Installed",
                                       message: nil, preferredStyle: .alert)
         alert.message =
