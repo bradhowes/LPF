@@ -27,6 +27,18 @@ Finally, it passes all
 [auval](https://developer.apple.com/library/archive/documentation/MusicAudio/Conceptual/AudioUnitProgrammingGuide/AudioUnitDevelopmentFundamentals/AudioUnitDevelopmentFundamentals.html)
 tests. (`auval -v aufx lpas BRay`)
 
+## Demo Targets
+
+The macOS and iOS apps are simple hosts that demonstrate the functionality of the AUv3 component. In the AUv3 world,
+an app serves as a delivery mechanism for an app extension like AUv3. When the app is installed, the operating system will
+also install and register any app extensions found in the app.
+
+The `SimplyLowPass` apps attempt to instantiate the AUv3 component and wire it up to an audio file player and the output speaker.
+When it runs, you can play the sample file and manipulate the filter settings -- cutoff frequency in the horizontal direction and 
+resonance in the vertical. You can control these settings either by touching on the graph and moving the point or by using the sliders
+to change their associated values. The sliders are somewhat superfluous but they act on the AUv3 component via the AUPropertyTree much
+like an external MIDI controller might do.
+
 ## Code Layout
 
 Each OS ([macOS](macOS) and [iOS](iOS)) have the same code layout:
