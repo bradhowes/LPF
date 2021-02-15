@@ -41,4 +41,5 @@ extension Bundle {
     public var auComponentType: String { info(for: "AU_COMPONENT_TYPE") }
     public var auComponentSubtype: String { info(for: "AU_COMPONENT_SUBTYPE") }
     public var auComponentManufacturer: String { info(for: "AU_COMPONENT_MANUFACTURER") }
+    public var appStoreId: String { info(for: "APP_STORE_ID") }
 }

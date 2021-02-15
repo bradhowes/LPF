@@ -15,6 +15,7 @@ final class MainViewController: UIViewController {
     private var cutoff: AUParameter? { audioUnitManager.audioUnit?.parameterDefinitions.cutoff }
     private var resonance: AUParameter? { audioUnitManager.audioUnit?.parameterDefinitions.resonance }
 
+    @IBOutlet weak var reviewButton: UIButton!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var bypassButton: UIButton!
     @IBOutlet weak var cutoffSlider: UISlider!
@@ -82,6 +83,18 @@ This app uses the component to demonstrate how it works and sounds.
 
     @IBAction private func resonanceSliderValueChanged(_ sender: UISlider) {
         resonance?.value = sender.value
+    }
+
+    @IBAction private func visitAppStore(_ sender: UIButton) {
+        let appStoreId = Bundle.main.appStoreId
+        guard let url = URL(string: "https://itunes.apple.com/app/id\(appStoreId)") else {
+            fatalError("Expected a valid URL")
+        }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+
+    @IBAction private func reviewApp(_ sender: UIButton) {
+        AppStore.visitAppStore()
     }
 }
 
