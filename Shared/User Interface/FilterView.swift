@@ -368,12 +368,7 @@ extension FilterView {
 // MARK: - Axis Management
 extension FilterView {
 
-    private func frequencyString(_ value: Float) -> String {
-        "\(Int(round(value >= 1000 ? value / 1000 : value)))"
-            + (value == Self.hertzMin ? "Hz" : (value >= 1000 ? "k" : ""))
-    }
-
-    private func dbString(_ value: Float) -> String { "\(Int(round(value)))dB" }
+    private func dbLabel(_ value: Float) -> String { "\(Int(round(value)))dB" }
 
     private func makeLabelLayer(_ content: String, frame: CGRect, alignment: CATextLayerAlignmentMode) -> CATextLayer {
         let labelLayer = CATextLayer()
@@ -403,10 +398,10 @@ extension FilterView {
         let width = gridLayer.bounds.width
 
         for index in 0..<numTicks {
-            // First and last albels have special offsets to align with the top/bottom of the graph
+            // First and last labels have special offsets to align with the top/bottom of the graph
             let offset = CGFloat(index == 0 ? 0 : (index == (numTicks - 1) ? -10 : -6))
             let pos = CGFloat(index) * spacing
-            let label = makeLabelLayer(dbString(locationToDb(pos)),
+            let label = makeLabelLayer(dbLabel(locationToDb(pos)),
                                        frame: CGRect(x: 0, y: pos + offset, width: yAxisWidth - 4, height: 16.0),
                                        alignment: .right)
             axisElements.append(label)
@@ -433,6 +428,11 @@ extension FilterView {
         return numTicks
     }
 
+    private func frequencyLabel(_ value: Float) -> String {
+        "\(Int(round(value >= 1000 ? value / 1000 : value)))"
+            + (value == Self.hertzMin ? "Hz" : (value >= 1000 ? "k" : ""))
+    }
+
     private func createHorizontalAxisElements() {
         let numTicks = numHorizontalTicks
         let spacing = gridLayer.bounds.width / CGFloat(numTicks - 1)
@@ -442,7 +442,7 @@ extension FilterView {
             // First and last labels have special offsets to align with the left/right of the graph
             let offset = CGFloat(index == 0 ? 32 : (index == (numTicks - 1) ? 10 : 20))
             let pos = CGFloat(index) * spacing
-            let labelLayer = makeLabelLayer(frequencyString(locationToFrequency(pos)),
+            let labelLayer = makeLabelLayer(frequencyLabel(locationToFrequency(pos)),
                                             frame: CGRect(x: pos + offset, y: height + 4.0, width: 40, height: 16.0),
                                             alignment: .center)
             axisElements.append(labelLayer)
@@ -461,6 +461,31 @@ extension FilterView {
 // MARK: - Filter Setting Indicator
 extension FilterView {
 
+    enum LayerKind: String {
+        case verticalLine
+        case horizontalLine
+        case position
+        case verticalDot
+        case horizontalDot
+        case cutoffLabel
+        case resonanceLabel
+    }
+
+    private func makeValueLayer(_ alignment: CATextLayerAlignmentMode) -> CATextLayer {
+        let labelLayer = CATextLayer()
+        let fontSize = CGFloat(15)
+        let font = CTFontCreateUIFontForLanguage(.label, fontSize, nil)
+        labelLayer.font = font
+        labelLayer.fontSize = fontSize
+        labelLayer.contentsScale = screenScale
+        labelLayer.foregroundColor = Color.white.cgColor
+        labelLayer.alignmentMode = alignment
+        labelLayer.anchorPoint = .zero
+        labelLayer.string = ""
+        labelLayer.frame = frame
+        return labelLayer
+    }
+
     private func createIndicatorPoint() {
         indicatorLayer.sublayers?.removeAll()
 
@@ -468,50 +493,85 @@ extension FilterView {
         let height = graphLayer.bounds.height
 
         let vline = CALayer(color: controlColor, frame: CGRect(x: controlPoint.x, y: 0.0, width: 1.0,  height: height))
-        vline.name = "vline"
+        vline.layerKind = .verticalLine
         indicatorLayer.addSublayer(vline)
 
         let hline = CALayer(color: controlColor, frame: CGRect(x: 0, y: controlPoint.y, width: width, height: 1.0))
-        hline.name = "hline"
+        hline.layerKind = .horizontalLine
         indicatorLayer.addSublayer(hline)
 
         let pos = CALayer(color: controlColor, frame: .zero)
         pos.cornerRadius = controlRadius
-        pos.name = "pos"
+        pos.layerKind = .position
         indicatorLayer.addSublayer(pos)
 
         let vdot = CALayer(color: controlColor, frame: .zero)
         vdot.cornerRadius = controlRadius
-        vdot.name = "vdot"
+        vdot.layerKind = .verticalDot
         indicatorLayer.addSublayer(vdot)
 
         let hdot = CALayer(color: controlColor, frame: .zero)
         hdot.cornerRadius = controlRadius
-        hdot.name = "hdot"
+        hdot.layerKind = .horizontalDot
         indicatorLayer.addSublayer(hdot)
+
+        let cutoffLabel = makeValueLayer(.center)
+        cutoffLabel.layerKind = .cutoffLabel
+        indicatorLayer.addSublayer(cutoffLabel)
+
+        let resonanceLabel = makeValueLayer(.left)
+        resonanceLabel.layerKind = .resonanceLabel
+        indicatorLayer.addSublayer(resonanceLabel)
+    }
+
+    private func frequencyValue(_ value: Float) -> String {
+        String(format: "%.02f ", value >= 1000 ? value / 1000 : value) + (value >= 1000 ? "kHz" : "Hz")
+    }
+
+    private func dbValue(_ value: Float) -> String {
+        String(format: "%.02f dB", value)
     }
 
     private func updateIndicator() {
         guard let layers = indicatorLayer.sublayers else { return }
         let height = graphLayer.bounds.height
+        let halfWidth = graphLayer.bounds.width / 2
         let diameter = 2 * controlRadius
         let pos = controlPoint
         CATransaction.noAnimation {
             layers.forEach {
                 $0.frame = {
-                    switch $0 {
-                    case "pos": return CGRect(x: pos.x - controlRadius, y: pos.y - controlRadius,
-                                              width: diameter, height: diameter)
-                    case "hdot": return CGRect(x: pos.x - controlRadius, y: height - controlRadius,
-                                               width: diameter, height: diameter)
-                    case "vdot": return CGRect(x: -3, y: pos.y - controlRadius,
-                                               width: diameter,  height: diameter)
-                    case "hline": return CGRect(x: 0, y: controlPoint.y, width: pos.x, height: 1.0)
-                    case "vline": return CGRect(x: pos.x, y: pos.y, width: 1.0,
-                                                height: height - pos.y)
-                    default: return .zero
+                    switch $0.layerKind {
+                    case .position: return CGRect(x: pos.x - controlRadius, y: pos.y - controlRadius,
+                                                  width: diameter, height: diameter)
+                    case .horizontalDot: return CGRect(x: pos.x - controlRadius, y: height - controlRadius,
+                                                       width: diameter, height: diameter)
+                    case .verticalDot: return CGRect(x: -3, y: pos.y - controlRadius,
+                                                     width: diameter,  height: diameter)
+                    case .horizontalLine: return CGRect(x: 0, y: pos.y, width: pos.x, height: 1.0)
+                    case .verticalLine: return CGRect(x: pos.x, y: pos.y, width: 1.0,
+                                                      height: height - pos.y)
+                    case .cutoffLabel:
+                        guard let label = $0 as? CATextLayer else { fatalError() }
+                        label.string = self.frequencyValue(_cutoff)
+                        if pos.x < halfWidth {
+                            label.alignmentMode = .left
+                            return CGRect(x: pos.x + 10, y: height - 20.0, width: 100.0, height: 30.0)
+                        } else {
+                            label.alignmentMode = .right
+                            return CGRect(x: pos.x - 110, y: height - 20.0, width: 100.0, height: 30.0)
+                        }
+
+                    case .resonanceLabel:
+                        guard let label = $0 as? CATextLayer else { fatalError() }
+                        label.string = self.dbValue(_resonance)
+                        if _resonance < 30 {
+                            return CGRect(x: 10, y: pos.y - 20.0, width: 100.0, height: 30.0)
+                        } else {
+                            return CGRect(x: 10, y: pos.y + 4, width: 100.0, height: 30.0)
+                        }
                     }
-                }($0.name)
+                }($0)
             }
         }
     }
@@ -535,5 +595,16 @@ extension FilterView {
         updateIndicator()
         frequencies = nil
         delegate?.filterViewDataDidChange(self)
+    }
+}
+
+extension CALayer {
+    var layerKind: FilterView.LayerKind {
+        get {
+            FilterView.LayerKind(rawValue: self.name!)!
+        }
+        set {
+            self.name = newValue.rawValue
+        }
     }
 }

@@ -151,7 +151,7 @@ extension MainViewController {
 
     private func cutoffValueDidChange(_ value: Float) {
         cutoffSlider.value = sliderLocationForFrequencyValue(value)
-        cutoffValue.text = String(format: "%.f", value)
+        cutoffValue.text = String(format: "%.2f", value)
     }
 
     private func resonanceValueDidChange(_ value: Float) {
