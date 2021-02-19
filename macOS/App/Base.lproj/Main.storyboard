@@ -124,10 +124,9 @@
                 <windowController id="B8D-0N-5wS" customClass="MainWindowController" customModule="SimplyLowPass" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="SimplyLowPass" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="SimplyLowPass" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="IQv-IB-iLA" userLabel="SimplyLowPass">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
-                        <windowPositionMask key="initialPositionMask" topStrut="YES"/>
-                        <rect key="contentRect" x="106" y="256" width="900" height="560"/>
+                        <rect key="contentRect" x="81" y="580" width="960" height="540"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1175"/>
-                        <value key="minSize" type="size" width="900" height="560"/>
+                        <value key="minSize" type="size" width="800" height="400"/>
                         <toolbar key="toolbar" implicitIdentifier="5207E1E8-A93F-4F10-9C18-0E48AC0FF7E7" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="BM6-k9-grP">
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Rub-ZQ-gKo"/>

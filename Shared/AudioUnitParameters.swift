@@ -24,7 +24,6 @@ public final class AudioUnitParameters: NSObject {
                                                         valueStrings: nil,
                                                         dependentParameters: nil)
 
-
     /// Definition of the resonance parameter. Range is -20dB - +40dB
     public let resonance = AUParameterTree.createParameter(withIdentifier: "resonance", name: "Resonance",
                                                            address: FilterParameterAddress.resonance.rawValue,

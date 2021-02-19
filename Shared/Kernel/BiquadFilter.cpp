@@ -79,4 +79,3 @@ BiquadFilter::magnitudes(float const* frequencies, size_t count, float inverseNy
         *magnitudes++ = 20.0 * ::log10(filterBadValues(value));
     }
 }
-

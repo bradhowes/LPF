@@ -161,12 +161,6 @@ extension FilterViewController {
         updateFilterViewFrequencyAndMagnitudes()
     }
 
-    private func update(parameter: AUParameter, with textField: TextField) {
-        guard let value = (textField.text as NSString?)?.floatValue else { return }
-        parameter.value = value
-        textField.text = parameter.string(fromValue: nil)
-    }
-
     private func performOnMain(_ operation: @escaping () -> Void) {
         (Thread.isMainThread ? operation : { DispatchQueue.main.async { operation() } })()
     }

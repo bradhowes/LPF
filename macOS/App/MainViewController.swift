@@ -190,8 +190,8 @@ extension MainViewController {
         self.filterView = filterView
 
         addChild(viewController)
-        view.setNeedsLayout()
-        containerView.setNeedsLayout()
+        view.needsLayout = true
+        containerView.needsLayout = true
     }
 
     private func connectParametersToControls() {
@@ -225,12 +225,12 @@ extension MainViewController {
 
     public func cutoffValueDidChange(_ value: AUValue) {
         cutoffSlider.floatValue = sliderLocationForFrequencyValue(value)
-        cutoffTextField.text = String(format: "%.f", value)
+        cutoffTextField.stringValue = String(format: "%.f", value)
     }
 
     public func resonanceValueDidChange(_ value: AUValue) {
         resonanceSlider.floatValue = value
-        resonanceTextField.text = String(format: "%.2f", value)
+        resonanceTextField.stringValue = String(format: "%.2f", value)
     }
 
     private func populatePresetMenu(_ audioUnit: FilterAudioUnit) {
