@@ -129,7 +129,7 @@ extension MainViewController {
         guard let parameterTree = audioUnit.parameterTree else {
             fatalError("FilterAudioUnit does not define any parameters.")
         }
-        guard let _ = parameterTree.parameter(withAddress: .cutoff) else {
+        guard let cutoffParameter = parameterTree.parameter(withAddress: .cutoff) else {
             fatalError("Undefined cutoff parameter")
         }
         guard let resonanceParameter = parameterTree.parameter(withAddress: .resonance) else {
@@ -147,6 +147,9 @@ extension MainViewController {
             default: break
             }
         })
+
+        cutoffValueDidChange(cutoffParameter.value)
+        resonanceValueDidChange(resonanceParameter.value)
     }
 
     private func cutoffValueDidChange(_ value: Float) {

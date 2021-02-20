@@ -75,18 +75,6 @@ extension FilterViewController: FilterViewDelegate {
         cutoffParam.setValue(view.cutoff, originator: parameterObserverToken, atHostTime: 0, eventType: .touch)
         resonanceParam.setValue(view.resonance, originator: parameterObserverToken, atHostTime: 0, eventType: .touch)
     }
-    
-    public func filterView(_ view: FilterView, didChangeResonance resonance: Float) {
-        os_log(.debug, log: log, "resonance changed: %f", resonance)
-        resonanceParam.setValue(resonance, originator: parameterObserverToken, atHostTime: 0, eventType: .value)
-        updateFilterViewFrequencyAndMagnitudes()
-    }
-
-    public func filterView(_ view: FilterView, didChangeCutoff cutoff: Float) {
-        os_log(.debug, log: log, "cutoff changed: %f", cutoff)
-        cutoffParam.setValue(cutoff, originator: parameterObserverToken, atHostTime: 0, eventType: .value)
-        updateFilterViewFrequencyAndMagnitudes()
-    }
 
     public func filterView(_ view: FilterView, didChangeCutoff cutoff: Float, andResonance resonance: Float) {
         os_log(.debug, log: log, "changed cutoff: %f resonance: %f", cutoff, resonance)

@@ -22,22 +22,6 @@ public protocol FilterViewDelegate: class {
     func filterViewTouchEnded(_ filterView: FilterView)
 
     /**
-     Notification that the resonance setting has changed.
-
-     - parameter filterView: the source of the notification
-     - parameter resonance: the new value
-     */
-    func filterView(_ filterView: FilterView, didChangeResonance resonance: Float)
-
-    /**
-     Notification that the frequency setting has changed.
-
-     - parameter filterView: the source of the notification
-     - parameter cutoff: the new value
-     */
-    func filterView(_ filterView: FilterView, didChangeCutoff cutoff: Float)
-
-    /**
      Notification that the frequency and resonance settings have changed.
 
      - parameter filterView: the source of the notification
@@ -45,6 +29,7 @@ public protocol FilterViewDelegate: class {
      - parameter resonance: the new resonance value
      */
     func filterView(_ filterView: FilterView, didChangeCutoff cutoff: Float, andResonance resonance: Float)
+
     func filterViewDataDidChange(_ filterView: FilterView)
 }
 
@@ -89,7 +74,6 @@ public final class FilterView: View {
             if newValue != _cutoff {
                 _cutoff = newValue
                 updateIndicator()
-                delegate?.filterView(self, didChangeCutoff: cutoff)
             }
         }
     }
@@ -102,7 +86,6 @@ public final class FilterView: View {
             if newValue != _resonance {
                 _resonance = newValue
                 updateIndicator()
-                delegate?.filterView(self, didChangeResonance: resonance)
             }
         }
     }
@@ -582,6 +565,7 @@ extension FilterView {
     private func performLayout(of layer: CALayer) {
         // Resize layers and remake the response curve
         guard layer === rootLayer else { return }
+
         CATransaction.noAnimation {
             plotLayer.bounds = rootLayer.bounds
             graphLayer.bounds = CGRect(x: 0, y: 0, width: layer.bounds.width - yAxisWidth,
