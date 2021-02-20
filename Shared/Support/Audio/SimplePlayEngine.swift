@@ -45,7 +45,6 @@ extension SimplePlayEngine {
             guard !player.isPlaying else { return }
             updateAudioSession(active: true)
             beginLoop()
-            beginLoop()
             try! engine.start()
             player.play()
         }
