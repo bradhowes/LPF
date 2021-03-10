@@ -4,6 +4,8 @@
 
 #include "BiquadFilter.h"
 
+enum Index { B0 = 0, B1, B2, A1, A2 };
+
 void
 BiquadFilter::calculateParams(float frequency, float resonance, float nyquistPeriod, size_t numChannels)
 {

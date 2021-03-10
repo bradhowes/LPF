@@ -12,8 +12,6 @@
  */
 class BiquadFilter {
 public:
-    enum Index { B0 = 0, B1, B2, A1, A2 };
-
     /**
      Calculate the parameters for a low-pass filter with the given frequency and resonance values.
 

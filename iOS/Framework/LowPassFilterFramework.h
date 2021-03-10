@@ -6,7 +6,7 @@
 FOUNDATION_EXPORT double LowPassFilterFramework_iOSVersionNumber;
 FOUNDATION_EXPORT const unsigned char LowPassFilterFramework_iOSVersionString[];
 
-#import <LowPassFilterFramework/FilterDSPKernelAdapter.h>
+#import <LowPassFilterFramework/SimplyLowPassKernelAdapter.h>
 
 @class FilterAudioUnit;
 @class FilterViewController;

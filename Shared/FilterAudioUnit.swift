@@ -7,9 +7,9 @@ import CoreAudioKit
 import os
 
 /**
- Derivation of AUAudioUnit that provides a Swift container for the C++ FilterDSPKernel (by way of the Obj-C
- FilterDSPKernelAdapter). Also provides for factory presets and preset management. The actual filtering logic
- resides in the FilterDSPKernel class.
+ Derivation of AUAudioUnit that provides a Swift container for the C++ SimplyLowPassKernel (by way of the Obj-C
+ SimplyLowPassKernelAdapter). Also provides for factory presets and preset management. The actual filtering logic
+ resides in the SimplyLowPassKernel class.
  */
 public final class FilterAudioUnit: AUAudioUnit {
     private static let log = Logging.logger("FilterAudioUnit")
@@ -134,7 +134,7 @@ public final class FilterAudioUnit: AUAudioUnit {
     /// Maximum frames to render
     private let maxFramesToRender: UInt32 = 512
     /// Objective-C bridge into the C++ kernel
-    private let kernel = FilterDSPKernelAdapter(Bundle.main.auBaseName)
+    private let kernel = SimplyLowPassKernelAdapter(Bundle.main.auBaseName)
 
     private let factoryPresetValues:[(name: String, cutoff: AUValue, resonance: AUValue)] = [
         ("Prominent", 2500.0, 5.0),

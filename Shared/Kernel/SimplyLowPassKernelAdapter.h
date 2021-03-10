@@ -30,10 +30,10 @@ typedef NS_ENUM(AUParameterAddress, FilterParameterAddress) {
 };
 
 /**
- Small Obj-C wrapper around the FilterDSPKernel C++ class. Handles AUParameter get/set requests by forwarding them to
+ Small Obj-C wrapper around the SimplyLowPassKernel C++ class. Handles AUParameter get/set requests by forwarding them to
  the kernel.
  */
-@interface FilterDSPKernelAdapter : NSObject <AUParameterHandler>
+@interface SimplyLowPassKernelAdapter : NSObject <AUParameterHandler>
 
 - (nonnull id)init:(nonnull NSString*)appExtensionName;
 

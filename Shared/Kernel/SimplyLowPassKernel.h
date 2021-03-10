@@ -6,16 +6,16 @@
 #import <AVFoundation/AVFoundation.h>
 
 #import "BiquadFilter.h"
-#import "FilterDSPKernelAdapter.h"
+#import "SimplyLowPassKernelAdapter.h"
 #import "KernelEventProcessor.h"
 
-class FilterDSPKernel : public KernelEventProcessor<FilterDSPKernel> {
+class SimplyLowPassKernel : public KernelEventProcessor<SimplyLowPassKernel> {
 public:
-    using super = KernelEventProcessor<FilterDSPKernel>;
+    using super = KernelEventProcessor<SimplyLowPassKernel>;
     friend super;
 
-    FilterDSPKernel(std::string const& name)
-    : super(os_log_create(name.c_str(), "FilterDSPKernel")), cutoff_{float(400.0)}, resonance_{20.0}
+    SimplyLowPassKernel(std::string const& name)
+    : super(os_log_create(name.c_str(), "SimplyLowPassKernel")), cutoff_{float(400.0)}, resonance_{20.0}
     {
         setSampleRate(44100.0);
         filter_.calculateParams(cutoff_, resonance_, nyquistPeriod_, 2);
