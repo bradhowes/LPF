@@ -49,9 +49,11 @@ final class MainViewController: UIViewController {
                                       message: nil, preferredStyle: .alert)
         alert.message =
 """
-The AUv3 component 'SimplyLowPass' is now available on your device.
+The AUv3 component 'SimplyLowPass' is now available on your device and can be used in other AUv3 host apps such as GarageBand and AUM.
 
-This app uses the component to demonstrate how it works and sounds.
+You can continue to use this app to experiment, but you do not need to have it running in order to access the AUv3 component in other apps.
+
+If you delete this app from your device, the AUv3 component will no longer be available for use in other host applications.
 """
         alert.addAction(
             UIAlertAction(title: "OK", style: .default, handler: { _ in })
