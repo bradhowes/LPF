@@ -1,5 +1,4 @@
-// Changes: Copyright © 2020 Brad Howes. All rights reserved.
-// Original: See LICENSE folder for this sample’s licensing information.
+// Changes: Copyright © 2021 Brad Howes. All rights reserved.
 
 /**
  Delegation protocol for the FilterView. Reports out touch/mouse events and changes to the runtime

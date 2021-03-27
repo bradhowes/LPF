@@ -70,7 +70,7 @@ private:
 
     void doParameterEvent(AUParameterEvent const& event) { setParameterValue(event.parameterAddress, event.value); }
 
-    void doRendering(std::vector<float const*> ins, std::vector<float*> outs, AUAudioFrameCount frameCount) {
+    void doRendering(const std::vector<float const*>& ins, std::vector<float*>& outs, AUAudioFrameCount frameCount) {
         filter_.calculateParams(cutoff_, resonance_, nyquistPeriod_, ins.size());
         filter_.apply(ins, outs, frameCount);
     }
