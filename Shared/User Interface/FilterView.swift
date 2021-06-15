@@ -4,7 +4,7 @@
  Delegation protocol for the FilterView. Reports out touch/mouse events and changes to the runtime
  parameters.
  */
-public protocol FilterViewDelegate: class {
+public protocol FilterViewDelegate: AnyObject {
 
     /**
      Notification that a touch/mouse event has begun
