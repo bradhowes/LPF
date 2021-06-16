@@ -3,7 +3,7 @@
 import AVFoundation
 
 public extension AUParameterTree {
-    func parameter(withAddress address: FilterParameterAddress) -> AUParameter? {
-        return parameter(withAddress: address.rawValue)
-    }
+  func parameter(withAddress address: FilterParameterAddress) -> AUParameter? {
+    return parameter(withAddress: address.rawValue)
+  }
 }

@@ -6,29 +6,29 @@
 #import "SimplyLowPassKernelAdapter.h"
 
 @implementation SimplyLowPassKernelAdapter {
-    SimplyLowPassKernel* kernel_;
+  SimplyLowPassKernel* kernel_;
 }
 
 - (instancetype)init:(NSString*)appExtensionName {
-    if (self = [super init]) {
-        self->kernel_ = new SimplyLowPassKernel(std::string(appExtensionName.UTF8String));
-    }
-    return self;
+  if (self = [super init]) {
+    self->kernel_ = new SimplyLowPassKernel(std::string(appExtensionName.UTF8String));
+  }
+  return self;
 }
 
 - (void)startProcessing:(AVAudioFormat*)inputFormat maxFramesToRender:(AUAudioFrameCount)maxFramesToRender {
-    kernel_->startProcessing(inputFormat, maxFramesToRender);
+  kernel_->startProcessing(inputFormat, maxFramesToRender);
 }
 
 - (void)stopProcessing {
-    kernel_->stopProcessing();
+  kernel_->stopProcessing();
 }
 
 - (void)magnitudes:(nonnull const float*)frequencies count:(NSInteger)count output:(nonnull float*)output {
-
-    BiquadFilter filter;
-    filter.calculateParams(kernel_->cutoff(), kernel_->resonance(), kernel_->nyquistPeriod(), 1);
-    filter.magnitudes(frequencies, count, kernel_->nyquistPeriod(), output);
+  
+  BiquadFilter filter;
+  filter.calculateParams(kernel_->cutoff(), kernel_->resonance(), kernel_->nyquistPeriod(), 1);
+  filter.magnitudes(frequencies, count, kernel_->nyquistPeriod(), output);
 }
 
 - (void)set:(AUParameter *)parameter value:(AUValue)value { kernel_->setParameterValue(parameter.address, value); }
@@ -41,12 +41,12 @@
                        events:(AURenderEvent*)realtimeEventListHead
                pullInputBlock:(AURenderPullInputBlock)pullInputBlock
 {
-    auto inputBus = 0;
-    return kernel_->processAndRender(timestamp, frameCount, inputBus, output, realtimeEventListHead, pullInputBlock);
+  auto inputBus = 0;
+  return kernel_->processAndRender(timestamp, frameCount, inputBus, output, realtimeEventListHead, pullInputBlock);
 }
 
 - (void)setBypass:(BOOL)state {
-    kernel_->setBypass(state);
+  kernel_->setBypass(state);
 }
 
 @end

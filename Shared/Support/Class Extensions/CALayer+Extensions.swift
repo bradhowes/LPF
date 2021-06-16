@@ -4,10 +4,10 @@
 import Foundation
 
 public extension CALayer {
-
-    convenience init(color: Color, frame: CGRect) {
-        self.init()
-        backgroundColor = color.cgColor
-        self.frame = frame
-    }
+  
+  convenience init(color: Color, frame: CGRect) {
+    self.init()
+    backgroundColor = color.cgColor
+    self.frame = frame
+  }
 }
