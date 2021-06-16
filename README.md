@@ -37,29 +37,40 @@ The `SimplyLowPass` apps attempt to instantiate the AUv3 component and wire it u
 When it runs, you can play the sample file and manipulate the filter settings -- cutoff frequency in the horizontal direction and 
 resonance in the vertical. You can control these settings either by touching on the graph and moving the point or by using the sliders
 to change their associated values. The sliders are somewhat superfluous but they act on the AUv3 component via the AUPropertyTree much
-like an external MIDI controller might do.
+like an external MIDI controller might do. There are also a collection of three "factory" presets that you can choose which will apply canned 
+settings. On macOS these are available via the `Presets` menu; on iOS there is a 
 
 ## Code Layout
 
 Each OS ([macOS](macOS) and [iOS](iOS)) have the same code layout:
 
-* `App` -- code and configury for the application that hosts the AUv3 app extension
+* `App` -- code and configury for the application that hosts the AUv3 app extension. Again, the app serves as a demo host for the AUv3 app
+extension.
 * `Extension` -- code and configury for the extension itself
-* `Framework` -- code configury for the framework that contains the shared code by the app and the extension
+* `Framework` -- code configury for the framework that contains the shared code by the app and the extension. Note that the framework is
+made up of files that are common to both platforms, but these files are found in the `Shared` folder.
 
-The [Shared](Shared) folder holds all of the code that is used by the above products. In it you will find
+The [Shared](Shared) folder holds all of the code that is used by the above products. In it you will find:
 
 * [BiquadFilter](Shared/Kernel/BiquadFilter.hpp) -- the C++ class that manages the filter state.
-* [FilterDSPKernel](Shared/Kernel/FilterDSPKernel.hpp) -- another C++ class that does the rendering of audio samples by sending them through the filter.
-* [FilterAudioUnit](Shared/FilterAudioUnit.swift) -- the actual AUv3 AudioUnit written in Swift.
-* [FilterView](Shared/User%20Interface/FilterView.swift) -- a custom view (UIView and NSView) that draws the frequency response curve for the current filter
-settings. It also allows for dynamically changing the filter settings by touch (UIView) or mouse (NSView).
-* [FilterViewController](Shared/User%20Interface/FilterViewController.swift) -- a custom `AUViewController` that creates new `FilterAudioUnit` instances for 
-the host application.
+* [SimplyLowPassKernel](Shared/Kernel/SimplyLowPassKernel.hpp) -- a C++ class that does the rendering of audio samples by sending them
+the through the biquad filter.
+* [SimplyLowPassKernelAdapter](Shared/Kernel/SimplyLowPassKernelAdapter.hpp) -- an Objective C class that acts as a bridge between the
+Swift and the C++ world.
+* [FilterAudioUnit](Shared/FilterAudioUnit.swift) -- the actual AUv3 AudioUnit written in Swift. Most of the AUv3 state management is done in
+Swift. When it is asked for the render block by Audio Units, it returns a method from the adapter.
+* [FilterView](Shared/User%20Interface/FilterView.swift) -- a custom view (UIView and NSView) that draws the frequency response curve for
+the current filter settings. It also allows for dynamically changing the filter settings by touch (UIView) or mouse (NSView).
+* [FilterViewController](Shared/User%20Interface/FilterViewController.swift) -- a custom `AUViewController` that creates
+new `FilterAudioUnit` instances for the host application.
 
-Additional supporting files can be found in [Support](Shared/Support).
+Additional supporting files can be found in [Support](Shared/Support). Notable is the 
+[SimplePlayEngine](Shared/Support/Audio/SimplePlayEngine.swift) Swift class that controls an `AVAudioEngine` instance for playing an audio
+file through the AUv3 filter component. This is what the apps use to demonstrate the filter component. It is not used by the AUv3 app 
+extensions themselves.
 
 # Examples
+
 Here is LPF shown running in GarageBand on macOS:
 
 ![](Documentation/GarageBand1.png)

@@ -23,6 +23,7 @@ final class MainViewController: UIViewController {
     @IBOutlet weak var resonanceSlider: UISlider!
     @IBOutlet weak var resonanceValue: UILabel!
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var presetSelection: UISegmentedControl!
 
     private var parameterObserverToken: AUParameterObserverToken?
 
@@ -38,10 +39,17 @@ final class MainViewController: UIViewController {
         audioUnitManager.delegate = self
         cutoffSlider.minimumValue = cutoffSliderMinValue
         cutoffSlider.maximumValue = cutoffSliderMaxValue
+
+        presetSelection.setTitleTextAttributes([.foregroundColor : UIColor.white], for: .normal)
+        presetSelection.setTitleTextAttributes([.foregroundColor : UIColor.black], for: .selected)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
+        presetSelection.selectedSegmentIndex = 0
+        usePreset()
+
         let showedAlertKey = "showedInitialAlert"
         guard UserDefaults.standard.bool(forKey: showedAlertKey) == false else { return }
         UserDefaults.standard.set(true, forKey: showedAlertKey)
@@ -96,6 +104,11 @@ If you delete this app from your device, the AUv3 component will no longer be av
             fatalError("Expected a valid URL")
         }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+
+    @IBAction func usePreset(_ sender: UISegmentedControl? = nil) {
+        audioUnitManager.audioUnit?.currentPreset =
+          audioUnitManager.audioUnit?.factoryPresets[presetSelection.selectedSegmentIndex]
     }
 
     @IBAction private func reviewApp(_ sender: UIButton) {
