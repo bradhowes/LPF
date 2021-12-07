@@ -10,45 +10,37 @@ import os
 public final class FilterViewController: AUViewController {
   
   private let log = Logging.logger("FilterViewController")
-  
-  private var viewConfig: AUAudioUnitViewConfiguration!
+
   private var cutoffParam: AUParameter!
   private var resonanceParam: AUParameter!
-  private var parameterObserverToken: AUParameterObserverToken?
-  private var keyValueObserverToken: NSKeyValueObservation?
-  
+  private var allParameterValuesObserverToken: NSKeyValueObservation?
+  private var parameterTreeObserverToken: AUParameterObserverToken?
+
   @IBOutlet private weak var filterView: FilterView!
+
+  /// The audio unit being managed by the view controller. This is set during a call to `createAudioUnit` which can
+  /// happen on a non-main thread.
+  public var audioUnit: FilterAudioUnit? { didSet { DispatchQueue.performOnMain { self.connectViewToAU() } } }
   
-  public var audioUnit: FilterAudioUnit? {
-    didSet {
-      performOnMain {
-        if self.isViewLoaded {
-          self.connectViewToAU()
-        }
-      }
-    }
-  }
-  
-  #if os(macOS)
+#if os(macOS)
   public override init(nibName: NSNib.Name?, bundle: Bundle?) {
     super.init(nibName: nibName, bundle: Bundle(for: type(of: self)))
   }
-  #endif
+#endif
   
   required init?(coder: NSCoder) {
     super.init(coder: coder)
   }
   
   public override func viewDidLoad() {
+    os_log(.info, log: log, "viewDidLoad")
     super.viewDidLoad()
     filterView.delegate = self
-    guard audioUnit != nil else { return }
+    guard audioUnit != nil else {
+      os_log(.info, log: log, "viewDidLoad - no audioUnit created yet")
+      return
+    }
     connectViewToAU()
-  }
-  
-  public func selectViewConfiguration(_ viewConfig: AUAudioUnitViewConfiguration) {
-    guard self.viewConfig != viewConfig else { return }
-    self.viewConfig = viewConfig
   }
 }
 
@@ -61,10 +53,11 @@ extension FilterViewController: AUAudioUnitFactory {
    - returns: new FilterAudioUnit
    */
   public func createAudioUnit(with componentDescription: AudioComponentDescription) throws -> AUAudioUnit {
-    os_log(.info, log: log, "creating new audio unit")
+    os_log(.info, log: log, "createAudioUnit")
     componentDescription.log(log, type: .debug)
-    audioUnit = try FilterAudioUnit(componentDescription: componentDescription, options: [.loadOutOfProcess])
-    return audioUnit!
+    let audioUnit = try FilterAudioUnit(componentDescription: componentDescription, options: [.loadOutOfProcess])
+    self.audioUnit = audioUnit
+    return audioUnit
   }
 }
 
@@ -72,21 +65,22 @@ extension FilterViewController: FilterViewDelegate {
   
   public func filterViewTouchBegan(_ view: FilterView) {
     os_log(.debug, log: log, "touch began")
-    cutoffParam.setValue(view.cutoff, originator: parameterObserverToken, atHostTime: 0, eventType: .touch)
-    resonanceParam.setValue(view.resonance, originator: parameterObserverToken, atHostTime: 0, eventType: .touch)
+    cutoffParam.setValue(view.cutoff, originator: parameterTreeObserverToken, atHostTime: 0, eventType: .touch)
+    resonanceParam.setValue(view.resonance, originator: parameterTreeObserverToken, atHostTime: 0, eventType: .touch)
   }
   
   public func filterView(_ view: FilterView, didChangeCutoff cutoff: Float, andResonance resonance: Float) {
     os_log(.debug, log: log, "changed cutoff: %f resonance: %f", cutoff, resonance)
-    cutoffParam.setValue(cutoff, originator: parameterObserverToken, atHostTime: 0, eventType: .value)
-    resonanceParam.setValue(resonance, originator: parameterObserverToken, atHostTime: 0, eventType: .value)
+    cutoffParam.setValue(cutoff, originator: parameterTreeObserverToken, atHostTime: 0, eventType: .value)
+    resonanceParam.setValue(resonance, originator: parameterTreeObserverToken, atHostTime: 0, eventType: .value)
     updateFilterViewFrequencyAndMagnitudes()
+    audioUnit?.currentPreset = nil
   }
   
   public func filterViewTouchEnded(_ view: FilterView) {
     os_log(.debug, log: log, "touch ended")
-    cutoffParam.setValue(filterView.cutoff, originator: nil, atHostTime: 0, eventType: .release)
-    resonanceParam.setValue(filterView.resonance, originator: nil, atHostTime: 0, eventType: .release)
+    cutoffParam.setValue(filterView.cutoff, originator: parameterTreeObserverToken, atHostTime: 0, eventType: .release)
+    resonanceParam.setValue(filterView.resonance, originator: parameterTreeObserverToken, atHostTime: 0, eventType: .release)
   }
   
   public func filterViewDataDidChange(_ view: FilterView) {
@@ -96,49 +90,47 @@ extension FilterViewController: FilterViewDelegate {
 }
 
 extension FilterViewController {
-  
-  private func updateFilterViewFrequencyAndMagnitudes() {
-    guard let audioUnit = audioUnit else { return }
-    filterView.makeFilterResponseCurve(audioUnit.magnitudes(forFrequencies: filterView.responseCurveFrequencies))
-    filterView.setNeedsDisplay()
-  }
-  
+
   private func connectViewToAU() {
     os_log(.info, log: log, "connectViewToAU")
-    
-    guard parameterObserverToken == nil else { return }
-    
-    guard let audioUnit = audioUnit else {
-      fatalError("logic error -- nil audioUnit value")
+
+    // See if we are ready to connect and have not already done so. We do this check here because there are two paths
+    // that can lead to this method being invoked:
+    //   1. `createAudioUnit` runs after the view controller has been loaded
+    //   2. the view controller finished loading after the `createAudioUnit` has been run
+    guard isViewLoaded && parameterTreeObserverToken == nil else {
+      os_log(.info, log: log, "connectViewToAU - skipping: %d %d", isViewLoaded, parameterTreeObserverToken == nil)
+      return
     }
-    
-    guard let paramTree = audioUnit.parameterTree else {
-      fatalError("logic error -- nil parameterTree")
-    }
-    
+
+    guard let audioUnit = audioUnit else { fatalError("logic error -- nil audioUnit") }
+    guard let paramTree = audioUnit.parameterTree else { fatalError("logic error -- nil parameterTree") }
     let defs = audioUnit.parameterDefinitions
+
+    // Validate parameter tree contents
     guard let cutoffParam = paramTree.value(forKey: defs.cutoff.identifier) as? AUParameter,
           let resonanceParam = paramTree.value(forKey: defs.resonance.identifier) as? AUParameter else {
       fatalError("logic error -- missing parameter(s)")
     }
-    
+
     self.cutoffParam = cutoffParam
     self.resonanceParam = resonanceParam
-    
+
     // Observe major state changes like a user selecting a user preset.
-    keyValueObserverToken = audioUnit.observe(\.allParameterValues) { _, _ in
-      self.performOnMain { self.updateDisplay() }
+    allParameterValuesObserverToken = audioUnit.observe(\.allParameterValues) { _, _ in
+      os_log(.info, log: self.log, "FilterViewController - allParameterValues changed")
+      DispatchQueue.performOnMain { self.updateDisplay() }
     }
-    
-    parameterObserverToken = paramTree.token(byAddingParameterObserver: { [weak self] address, value in
+
+    parameterTreeObserverToken = paramTree.token(byAddingParameterObserver: { [weak self] address, value in
       guard let self = self else { return }
-      os_log(.info, log: self.log, "- parameter value changed: %d %f", address, value)
-      self.performOnMain { self.updateDisplay() }
+      os_log(.info, log: self.log, "FilterViewController - parameter tree changed: %d %f", address, value)
+      DispatchQueue.performOnMain { self.updateDisplay() }
     })
-    
+
     updateDisplay()
   }
-  
+
   private func updateKernelParameters() {
     filterView.cutoff = cutoffParam.value
     filterView.resonance = resonanceParam.value
@@ -148,9 +140,11 @@ extension FilterViewController {
     updateKernelParameters()
     updateFilterViewFrequencyAndMagnitudes()
   }
-  
-  private func performOnMain(_ operation: @escaping () -> Void) {
-    (Thread.isMainThread ? operation : { DispatchQueue.main.async { operation() } })()
+
+  private func updateFilterViewFrequencyAndMagnitudes() {
+    guard let audioUnit = audioUnit else { return }
+    filterView.makeFilterResponseCurve(audioUnit.magnitudes(forFrequencies: filterView.responseCurveFrequencies))
+    filterView.setNeedsDisplay()
   }
 }
 

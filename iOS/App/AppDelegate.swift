@@ -27,15 +27,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     do {
       try audioSession.setPreferredSampleRate(preferredSampleRate)
     } catch let error as NSError {
-      os_log(.error, log: log, "Failed to set the preferred sample rate: %{public}s",
-             error.localizedDescription)
+      os_log(.error, log: log, "Failed to set preferred sample rate: %{public}s", error.localizedDescription)
     }
     let preferredBufferSize = 512.0
     do {
       try audioSession.setPreferredIOBufferDuration(preferredBufferSize / preferredSampleRate)
     } catch let error as NSError {
-      os_log(.error, log: log, "Failed to set the preferred IO buffer duration: %{public}s",
-             error.localizedDescription)
+      os_log(.error, log: log, "Failed to set preferred IO buffer duration: %{public}s", error.localizedDescription)
     }
     return true
   }

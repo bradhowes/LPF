@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -111,6 +111,7 @@
                     <connections>
                         <outlet property="bypassMenuItem" destination="Bvy-ud-WPR" id="TDv-X8-WS4"/>
                         <outlet property="playMenuItem" destination="Flz-EE-5KD" id="5E5-IR-Gxn"/>
+                        <outlet property="presetsMenu" destination="GEO-Iw-cKr" id="aFr-fu-agd"/>
                         <outlet property="savePresetMenuItem" destination="9NY-AS-9aU" id="H1m-5w-gvK"/>
                     </connections>
                 </customObject>
@@ -130,7 +131,7 @@
                         <toolbar key="toolbar" implicitIdentifier="5207E1E8-A93F-4F10-9C18-0E48AC0FF7E7" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="BM6-k9-grP">
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Rub-ZQ-gKo"/>
-                                <toolbarItem implicitItemIdentifier="290CDF7D-A4F5-4CB1-8BAB-065BEAC4FDC3" label="Play" paletteLabel="Play Button" sizingBehavior="auto" id="gZY-Pi-OZc">
+                                <toolbarItem implicitItemIdentifier="290CDF7D-A4F5-4CB1-8BAB-065BEAC4FDC3" label="Play" paletteLabel="Play Button" title="Play" sizingBehavior="auto" id="gZY-Pi-OZc">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="ogO-fI-sF4">
                                         <rect key="frame" x="4" y="14" width="60" height="32"/>
@@ -144,7 +145,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="2AC2063E-880F-4AEB-A2B8-5747B89394F6" label="Bypass" paletteLabel="Bypass Button" sizingBehavior="auto" id="3w5-Pk-Kuc" userLabel="Bypass Button">
+                                <toolbarItem implicitItemIdentifier="2AC2063E-880F-4AEB-A2B8-5747B89394F6" label="Bypass" paletteLabel="Bypass Button" title="Bypass" sizingBehavior="auto" id="3w5-Pk-Kuc" userLabel="Bypass Button">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="WpS-Vu-loZ" userLabel="Bypass">
                                         <rect key="frame" x="3" y="14" width="78" height="32"/>

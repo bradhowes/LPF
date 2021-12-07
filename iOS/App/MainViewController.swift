@@ -10,10 +10,9 @@ final class MainViewController: UIViewController {
   private let cutoffSliderMaxValue: Float = 9.0
   private lazy var cutoffSliderMaxValuePower2Minus1 = Float(pow(2, cutoffSliderMaxValue) - 1)
   
-  private let audioUnitManager = AudioUnitManager(componentDescription: FilterAudioUnit.componentDescription,
-                                                  appExtension: Bundle.main.auBaseName)
-  private var cutoff: AUParameter? { audioUnitManager.audioUnit?.parameterDefinitions.cutoff }
-  private var resonance: AUParameter? { audioUnitManager.audioUnit?.parameterDefinitions.resonance }
+  private var audioUnitHost: AudioUnitHost<FilterViewController>!
+  private var cutoff: AUParameter? { audioUnitHost.audioUnit?.parameterDefinitions.cutoff }
+  private var resonance: AUParameter? { audioUnitHost.audioUnit?.parameterDefinitions.resonance }
   
   @IBOutlet weak var reviewButton: UIButton!
   @IBOutlet weak var playButton: UIButton!
@@ -29,27 +28,30 @@ final class MainViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+
+    audioUnitHost = AudioUnitHost(componentDescription: FilterAudioUnit.componentDescription,
+                                  appExtension: Bundle.main.auBaseName)
     guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
     delegate.setMainViewController(self)
     
     let version = Bundle.main.releaseVersionNumber
     reviewButton.setTitle(version, for: .normal)
     
-    audioUnitManager.delegate = self
     cutoffSlider.minimumValue = cutoffSliderMinValue
     cutoffSlider.maximumValue = cutoffSliderMaxValue
     
     presetSelection.setTitleTextAttributes([.foregroundColor : UIColor.white], for: .normal)
     presetSelection.setTitleTextAttributes([.foregroundColor : UIColor.black], for: .selected)
+
+    audioUnitHost.delegate = self
   }
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     
-    presetSelection.selectedSegmentIndex = 0
-    usePreset()
-    
+    // presetSelection.selectedSegmentIndex = 0
+    // usePreset()
+
     let showedAlertKey = "showedInitialAlert"
     guard UserDefaults.standard.bool(forKey: showedAlertKey) == false else { return }
     UserDefaults.standard.set(true, forKey: showedAlertKey)
@@ -57,11 +59,10 @@ final class MainViewController: UIViewController {
                                   message: nil, preferredStyle: .alert)
     alert.message =
       """
-The AUv3 component 'SimplyLowPass' is now available on your device and can be used in other AUv3 host apps such as GarageBand and AUM.
-
-You can continue to use this app to experiment, but you do not need to have it running in order to access the AUv3 component in other apps.
-
-If you delete this app from your device, the AUv3 component will no longer be available for use in other host applications.
+The AUv3 component 'SimplyLowPass' is now available on your device and can be used in other AUv3 host apps such as
+GarageBand and AUM.You can continue to use this app to experiment, but you do not need to have it running in order to
+access the AUv3 component in other apps. If you delete this app from your device, the AUv3 component will no longer be
+available for use in other host applications.
 """
     alert.addAction(
       UIAlertAction(title: "OK", style: .default, handler: { _ in })
@@ -70,20 +71,20 @@ If you delete this app from your device, the AUv3 component will no longer be av
   }
   
   public func stopPlaying() {
-    audioUnitManager.cleanup()
+    audioUnitHost.cleanup()
   }
   
   @IBAction private func togglePlay(_ sender: UIButton) {
-    let isPlaying = audioUnitManager.togglePlayback()
+    let isPlaying = audioUnitHost.togglePlayback()
     let titleText = isPlaying ? "Stop" : "Play"
     playButton.setTitle(titleText, for: .normal)
     playButton.setTitleColor(isPlaying ? .systemRed : .systemTeal, for: .normal)
   }
   
   @IBAction private func toggleBypass(_ sender: UIButton) {
-    let wasBypassed = audioUnitManager.audioUnit?.shouldBypassEffect ?? false
+    let wasBypassed = audioUnitHost.audioUnit?.shouldBypassEffect ?? false
     let isBypassed = !wasBypassed
-    audioUnitManager.audioUnit?.shouldBypassEffect = isBypassed
+    audioUnitHost.audioUnit?.shouldBypassEffect = isBypassed
     
     let titleText = isBypassed ? "Resume" : "Bypass"
     bypassButton.setTitle(titleText, for: .normal)
@@ -107,8 +108,8 @@ If you delete this app from your device, the AUv3 component will no longer be av
   }
   
   @IBAction func usePreset(_ sender: UISegmentedControl? = nil) {
-    audioUnitManager.audioUnit?.currentPreset =
-      audioUnitManager.audioUnit?.factoryPresets[presetSelection.selectedSegmentIndex]
+    audioUnitHost.audioUnit?.currentPreset =
+    audioUnitHost.audioUnit?.factoryPresets[presetSelection.selectedSegmentIndex]
   }
   
   @IBAction private func reviewApp(_ sender: UIButton) {
@@ -116,7 +117,7 @@ If you delete this app from your device, the AUv3 component will no longer be av
   }
 }
 
-extension MainViewController: AudioUnitManagerDelegate {
+extension MainViewController: AudioUnitHostDelegate {
   
   func connected() {
     connectFilterView()
@@ -127,8 +128,8 @@ extension MainViewController: AudioUnitManagerDelegate {
 extension MainViewController {
   
   private func connectFilterView() {
-    let viewController = audioUnitManager.viewController
-    guard let filterView = viewController.view else { fatalError("no view found from audio unit") }
+    guard let viewController = audioUnitHost.viewController else { fatalError() }
+    let filterView = viewController.view!
     containerView.addSubview(filterView)
     filterView.pinToSuperviewEdges()
     
@@ -138,7 +139,7 @@ extension MainViewController {
   }
   
   private func connectParametersToControls() {
-    guard let audioUnit = audioUnitManager.audioUnit else {
+    guard let audioUnit = audioUnitHost.audioUnit else {
       fatalError("Couldn't locate FilterAudioUnit")
     }
     guard let parameterTree = audioUnit.parameterTree else {
@@ -157,8 +158,8 @@ extension MainViewController {
     parameterObserverToken = parameterTree.token(byAddingParameterObserver: { [weak self] address, value in
       guard let self = self else { return }
       switch address.filterParameter {
-      case .cutoff: DispatchQueue.main.async { self.cutoffValueDidChange(value) }
-      case .resonance: DispatchQueue.main.async { self.resonanceValueDidChange(value) }
+      case .cutoff: DispatchQueue.performOnMain { self.cutoffValueDidChange(value) }
+      case .resonance: DispatchQueue.performOnMain { self.resonanceValueDidChange(value) }
       default: break
       }
     })

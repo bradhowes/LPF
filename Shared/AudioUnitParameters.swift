@@ -77,7 +77,7 @@ public final class AudioUnitParameters: NSObject {
    */
   public func setValues(cutoff: AUValue, resonance: AUValue) {
     os_log(.info, log: log, "cutoff: %f resonance: %f", cutoff, resonance)
-    self.cutoff.value = cutoff
-    self.resonance.value = resonance
+    self.cutoff.setValue(cutoff, originator: nil)
+    self.resonance.setValue(resonance, originator: nil)
   }
 }

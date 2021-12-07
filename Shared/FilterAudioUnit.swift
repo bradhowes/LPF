@@ -19,7 +19,7 @@ public final class FilterAudioUnit: AUAudioUnit {
     case statusError(OSStatus)
     case unableToInitialize(String)
   }
-  
+
   /// Component description that matches this AudioUnit. The values must match those found in the Info.plist
   /// Used by the app hosts to load the right component.
   public static let componentDescription: AudioComponentDescription = {
@@ -35,104 +35,103 @@ public final class FilterAudioUnit: AUAudioUnit {
   
   /// Name of the component
   public static let componentName = Bundle(for: FilterAudioUnit.self).auComponentName
-  /// The associated view controller for the audio unit that shows the controls
-  public weak var viewController: FilterViewController?
+
   /// Runtime parameter definitions for the audio unit
   public lazy var parameterDefinitions: AudioUnitParameters = AudioUnitParameters(parameterHandler: kernel)
+
   /// Support one input bus
   override public var inputBusses: AUAudioUnitBusArray { _inputBusses }
+
   /// Support one output bus
   override public var outputBusses: AUAudioUnitBusArray { _outputBusses }
+
   /// Parameter tree containing filter parameter values
   override public var parameterTree: AUParameterTree? {
     get { parameterDefinitions.parameterTree }
     set { fatalError("attempted to set new parameterTree") }
   }
-  
+
   /// Factory presets for the filter
   override public var factoryPresets: [AUAudioUnitPreset] { _factoryPresets }
+
   /// Announce support for user presets as well
   override public var supportsUserPresets: Bool { true }
-  /// Preset get/set
-  override public var currentPreset: AUAudioUnitPreset? {
-    get {
-      os_log(.info, log: log, "get currentPreset - %{public}s", _currentPreset.descriptionOrNil)
-      return _currentPreset
-    }
-    set {
-      os_log(.info, log: log, "set currentPreset - %{public}s", newValue.descriptionOrNil)
-      guard let preset = newValue else {
-        _currentPreset = nil
-        return
-      }
-      
-      if preset.number >= 0 {
-        os_log(.info, log: log, "factoryPreset %d", preset.number)
-        let values = factoryPresetValues[preset.number]
-        _currentPreset = preset
-        os_log(.info, log: log, "updating parameters")
-        parameterDefinitions.setValues(cutoff: values.cutoff, resonance: values.resonance)
-      }
-      else {
-        os_log(.info, log: log, "userPreset %d", preset.number)
-        if let state = try? presetState(for: preset) {
-          os_log(.info, log: log, "state: %{public}s", state.debugDescription)
-          fullState = state
-          _currentPreset = preset
-        }
-      }
-    }
-  }
-  
+
+//  override public var fullState: [String : Any]? {
+//    get {
+//      os_log(.info, log: log, "fullState GET")
+//      var value = super.fullState ?? [String: Any]()
+//      if let preset = currentPreset, usingCurrentPreset {
+//        value[kAUPresetNameKey] = preset.name
+//        value[kAUPresetNumberKey] = preset.number
+//      }
+//      os_log(.info, log: log, "value: %{public}s", value.description)
+//      return value
+//    }
+//    set {
+//      os_log(.info, log: log, "fullState SET")
+//      os_log(.info, log: log, "value: %{public}s", newValue.descriptionOrNil)
+//      super.fullState = newValue
+//      guard let newValue = newValue,
+//            let name = newValue[kAUPresetNameKey] as? String,
+//            let number = newValue[kAUPresetNumberKey] as? NSNumber
+//      else {
+//        currentPreset = nil
+//        return
+//      }
+//
+//      let index = number.intValue
+//      if index >= 0 && index < factoryPresetValues.count {
+//        let values = factoryPresetValues[number.intValue]
+//        guard parameterDefinitions.cutoff.value == values.cutoff,
+//              parameterDefinitions.resonance.value == values.resonance
+//        else {
+//          currentPreset = nil
+//          return
+//        }
+//        currentPreset = AUAudioUnitPreset(number: number.intValue, name: name)
+//      }
+//    }
+//  }
+
   override public var fullState: [String : Any]? {
     get {
-      os_log(.info, log: log, "fullState GET")
-      var value = super.fullState ?? [String: Any]()
-      if let preset = _currentPreset {
-        value[kAUPresetNameKey] = preset.name
-        value[kAUPresetNumberKey] = preset.number
-      }
-      os_log(.info, log: log, "value: %{public}s", value.description)
+      let value = super.fullState
+      os_log(.info, log: log, "fullState GET: %{public}s", value.descriptionOrNil)
       return value
     }
     set {
-      os_log(.info, log: log, "fullState SET")
-      os_log(.info, log: log, "value: %{public}s", newValue.descriptionOrNil)
+      os_log(.info, log: log, "fullState SET: %{public}s", newValue.descriptionOrNil)
       super.fullState = newValue
-      if let newValue = newValue,
-         let name = newValue[kAUPresetNameKey] as? String,
-         let number = newValue[kAUPresetNumberKey] as? NSNumber {
-        os_log(.info, log: log, "name %{public}s number %d", name, number.intValue)
-        _currentPreset = AUAudioUnitPreset(number: number.intValue, name: name)
-      }
     }
   }
-  
+
   override public var shouldBypassEffect: Bool { didSet { kernel.setBypass(shouldBypassEffect); }}
   
   override public var fullStateForDocument: [String : Any]? {
     get {
-      os_log(.info, log: log, "fullStateForDocument GET")
       let value = super.fullStateForDocument
-      os_log(.info, log: log, "value: %{public}s", value.descriptionOrNil)
+      os_log(.info, log: log, "fullStateForDocument GET: %{public}s", value.descriptionOrNil)
       return value
     }
     set {
-      os_log(.info, log: log, "fullStateForDocument SET")
-      os_log(.info, log: log, "value: %{public}s", newValue.descriptionOrNil)
+      os_log(.info, log: log, "fullStateForDocument SET: %{public}s", newValue.descriptionOrNil)
       super.fullStateForDocument = newValue
     }
   }
-  
+
   /// Announce that the filter can work directly on upstream sample buffers
   override public var canProcessInPlace: Bool { true }
   
   /// Initial sample rate
   private let sampleRate: Double = 44100.0
+
   /// Maximum number of channels to support
   private let maxNumberOfChannels: UInt32 = 8
+
   /// Maximum frames to render
   private let maxFramesToRender: UInt32 = 512
+
   /// Objective-C bridge into the C++ kernel
   private let kernel = SimplyLowPassKernelAdapter(Bundle.main.auBaseName)
   
@@ -141,10 +140,6 @@ public final class FilterAudioUnit: AUAudioUnit {
     ("Bright", 14_000.0, 12.0),
     ("Warm", 384.0, -3.0)
   ]
-  
-  private var _currentPreset: AUAudioUnitPreset? {
-    didSet { os_log(.debug, log: log, "* _currentPreset name: %{public}s", _currentPreset.descriptionOrNil) }
-  }
   
   private lazy var _factoryPresets = factoryPresetValues.enumerated().map {
     AUAudioUnitPreset(number: $0, name: $1.name)
@@ -174,7 +169,10 @@ public final class FilterAudioUnit: AUAudioUnit {
       completionHandler(nil, error)
     }
   }
-  
+
+  private var currentPresetObserver: NSKeyValueObservation?
+  private var parameterTreeObserver: NSKeyValueObservation?
+
   /**
    Construct new instance, throwing exception if there is an error doing so.
    
@@ -209,10 +207,42 @@ public final class FilterAudioUnit: AUAudioUnit {
     
     maximumFramesToRender = maxFramesToRender
     currentPreset = factoryPresets.first
-    
+
+    currentPresetObserver = observe(\.currentPreset, options: [.new]) { obj, change in
+      self.presetChanged(change.newValue!)
+    }
+
+    parameterTreeObserver = observe(\.parameterTree, options: [.new]) { obj, change in
+      os_log(.info, log: self.log, "parameter tree changed")
+    }
+
     // This really should be postponed until allocateRenderResources is called. However, for some weird reason
     // internalRenderBlock is fetched before allocateRenderResources() gets called, so we need to preflight here.
     kernel.startProcessing(format, maxFramesToRender: maxFramesToRender)
+  }
+
+  deinit {
+    self.currentPresetObserver?.invalidate()
+    self.parameterTreeObserver?.invalidate()
+  }
+
+  private func presetChanged(_ preset: AUAudioUnitPreset?) {
+    os_log(.info, log: log, "presetChanged %{public}s", preset.descriptionOrNil)
+    guard let preset = preset else { return }
+    if preset.number >= 0 {
+      os_log(.info, log: log, "factoryPreset %d", preset.number)
+      let values = factoryPresetValues[preset.number]
+      super.currentPreset = preset
+      os_log(.info, log: log, "updating parameters")
+      parameterDefinitions.setValues(cutoff: values.cutoff, resonance: values.resonance)
+    }
+    else {
+      os_log(.info, log: log, "userPreset %d", preset.number)
+      if let state = try? presetState(for: preset) {
+        os_log(.info, log: log, "state: %{public}s", state.debugDescription)
+        fullState = state
+      }
+    }
   }
   
   /**
@@ -265,25 +295,28 @@ public final class FilterAudioUnit: AUAudioUnit {
                             events: UnsafeMutablePointer(mutating: events), pullInputBlock: pullInputBlock)
     }
   }
-  
+}
+
+extension FilterAudioUnit {
+
   override public func parametersForOverview(withCount: Int) -> [NSNumber] {
     Array([parameterDefinitions.cutoff, parameterDefinitions.resonance].map {
       NSNumber(value: $0.address)
     }[0..<withCount])
   }
-  
+
   override public func supportedViewConfigurations(_ availableViewConfigurations: [AUAudioUnitViewConfiguration]) ->
   IndexSet {
     IndexSet(integersIn: 0..<availableViewConfigurations.count)
   }
   
   override public func select(_ viewConfiguration: AUAudioUnitViewConfiguration) {
-    viewController?.selectViewConfiguration(viewConfiguration)
+    os_log(.info, log: log, "select:viewConfiguration - %{public}s", viewConfiguration.description)
   }
 }
 
 extension FilterAudioUnit {
-  
+
   /**
    Obtain the magnitudes at given frequencies (frequency response) for the current filter settings. This just
    forwards the request to the internal kernel.

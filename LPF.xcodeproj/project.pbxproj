@@ -31,6 +31,8 @@
 		BD1F7BAD249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */; };
 		BD1F7BAE249FF7EF00960DA3 /* BiquadFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.h */; };
 		BD1F7BAF249FF7EF00960DA3 /* BiquadFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.h */; };
+		BD25C700275F859100DEA8F5 /* DispatchQueue+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25C6FF275F859100DEA8F5 /* DispatchQueue+Extensions.swift */; };
+		BD25C701275F859100DEA8F5 /* DispatchQueue+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25C6FF275F859100DEA8F5 /* DispatchQueue+Extensions.swift */; };
 		BD2FD3ED259B5104004A3196 /* AUParameterTree+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FD3EC259B5104004A3196 /* AUParameterTree+Extensions.swift */; };
 		BD2FD3EE259B5104004A3196 /* AUParameterTree+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FD3EC259B5104004A3196 /* AUParameterTree+Extensions.swift */; };
 		BD2FD3F5259B5130004A3196 /* AUParameterAddress+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FD3F4259B512F004A3196 /* AUParameterAddress+Extensions.swift */; };
@@ -39,8 +41,8 @@
 		BD49661724A35D8900A81F0B /* FourCharCode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */; };
 		BD50D29A25D6D76E00375455 /* SimplyLowPassKernelAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = BD50D29225D6D76E00375455 /* SimplyLowPassKernelAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BD50D29B25D6D76E00375455 /* SimplyLowPassKernelAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = BD50D29225D6D76E00375455 /* SimplyLowPassKernelAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BD578EED25D278490040D83D /* AudioUnitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD578EEC25D278490040D83D /* AudioUnitManager.swift */; };
-		BD578EEE25D278490040D83D /* AudioUnitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD578EEC25D278490040D83D /* AudioUnitManager.swift */; };
+		BD578EED25D278490040D83D /* AudioUnitHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD578EEC25D278490040D83D /* AudioUnitHost.swift */; };
+		BD578EEE25D278490040D83D /* AudioUnitHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD578EEC25D278490040D83D /* AudioUnitHost.swift */; };
 		BD63B15424AE25F80015236D /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = BD49661924A3605800A81F0B /* LICENSE.md */; };
 		BD63B15624AE26020015236D /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = BD49661924A3605800A81F0B /* LICENSE.md */; };
 		BD72F2E525D1D4CE0031E422 /* InputBuffer.h in Sources */ = {isa = PBXBuildFile; fileRef = BD72F2E425D1D4CE0031E422 /* InputBuffer.h */; };
@@ -243,13 +245,14 @@
 		BD1D258725D5AAE300523748 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		BD1F7BAA249FF7EF00960DA3 /* BiquadFilter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BiquadFilter.cpp; sourceTree = "<group>"; };
 		BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BiquadFilter.h; sourceTree = "<group>"; };
+		BD25C6FF275F859100DEA8F5 /* DispatchQueue+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Extensions.swift"; sourceTree = "<group>"; };
 		BD2FD3EC259B5104004A3196 /* AUParameterTree+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AUParameterTree+Extensions.swift"; sourceTree = "<group>"; };
 		BD2FD3F4259B512F004A3196 /* AUParameterAddress+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AUParameterAddress+Extensions.swift"; sourceTree = "<group>"; };
 		BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FourCharCode+Extensions.swift"; sourceTree = "<group>"; };
 		BD49661924A3605800A81F0B /* LICENSE.md */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = LICENSE.md; sourceTree = "<group>"; };
 		BD50D29225D6D76E00375455 /* SimplyLowPassKernelAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplyLowPassKernelAdapter.h; sourceTree = "<group>"; };
 		BD50D32425D75B7900375455 /* SimplyLowPass.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SimplyLowPass.entitlements; sourceTree = "<group>"; };
-		BD578EEC25D278490040D83D /* AudioUnitManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioUnitManager.swift; sourceTree = "<group>"; };
+		BD578EEC25D278490040D83D /* AudioUnitHost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioUnitHost.swift; sourceTree = "<group>"; };
 		BD578F0D25D2C4720040D83D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BD72F2E425D1D4CE0031E422 /* InputBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputBuffer.h; sourceTree = "<group>"; };
 		BD75B67025DA9B7A0071F55E /* AppStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
@@ -439,6 +442,7 @@
 				BDB11A5E24A13FAA00DD8EF9 /* CATransaction+Extensions.swift */,
 				BDB11A5A24A13F2A00DD8EF9 /* Color+Extensions.swift */,
 				BDB11A5224A13BFA00DD8EF9 /* Comparble+Extensions.swift */,
+				BD25C6FF275F859100DEA8F5 /* DispatchQueue+Extensions.swift */,
 				BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */,
 				BD06772B24CF9FA00039F161 /* Optional+Extensions.swift */,
 				C4BEE7D722236E99001E6B6D /* View+Extensions.swift */,
@@ -619,7 +623,7 @@
 		C4BEE7E422236E99001E6B6D /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				BD578EEC25D278490040D83D /* AudioUnitManager.swift */,
+				BD578EEC25D278490040D83D /* AudioUnitHost.swift */,
 				BDE2CDEF24A3DE9F004AC8FA /* Logging.swift */,
 				BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */,
 				C4BEE7E522236E99001E6B6D /* RampingValueChangeDetector.hpp */,
@@ -1111,6 +1115,7 @@
 				BDB11A5824A13CB100DD8EF9 /* CALayer+Extensions.swift in Sources */,
 				BD2FD3ED259B5104004A3196 /* AUParameterTree+Extensions.swift in Sources */,
 				BDB11A6024A13FCF00DD8EF9 /* CATransaction+Extensions.swift in Sources */,
+				BD25C700275F859100DEA8F5 /* DispatchQueue+Extensions.swift in Sources */,
 				C4A3D65B223FF12A002784D4 /* SimplePlayEngine.swift in Sources */,
 				BDE2CDF124A3DEE4004AC8FA /* Logging.swift in Sources */,
 				BD72F2E525D1D4CE0031E422 /* InputBuffer.h in Sources */,
@@ -1123,7 +1128,7 @@
 				BDB7CE9B249FC0AB009580D5 /* AUAudioUnitPreset+Extensions.swift in Sources */,
 				C4F004A32239B1E10014E248 /* SimplyLowPassKernelAdapter.mm in Sources */,
 				BD2FD3F5259B5130004A3196 /* AUParameterAddress+Extensions.swift in Sources */,
-				BD578EED25D278490040D83D /* AudioUnitManager.swift in Sources */,
+				BD578EED25D278490040D83D /* AudioUnitHost.swift in Sources */,
 				BD18B3A024CB31B200B7CB1E /* AudioUnitParameters.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1154,12 +1159,13 @@
 				BD06772D24CF9FA00039F161 /* Optional+Extensions.swift in Sources */,
 				BD18B39C24CB248100B7CB1E /* AudioComponentDescription+Extensions.swift in Sources */,
 				BD18B39F24CB31B200B7CB1E /* AudioUnitParameters.swift in Sources */,
-				BD578EEE25D278490040D83D /* AudioUnitManager.swift in Sources */,
+				BD578EEE25D278490040D83D /* AudioUnitHost.swift in Sources */,
 				C4F07732223AC4F5008FFF06 /* FilterViewController.swift in Sources */,
 				C4BEE80122236F6E001E6B6D /* View+Extensions.swift in Sources */,
 				BDB11A5424A13C4A00DD8EF9 /* Comparble+Extensions.swift in Sources */,
 				BDB7CE9C249FC0AC009580D5 /* AUAudioUnitPreset+Extensions.swift in Sources */,
 				BD72F2E625D1D4CE0031E422 /* InputBuffer.h in Sources */,
+				BD25C701275F859100DEA8F5 /* DispatchQueue+Extensions.swift in Sources */,
 				C4BEE7FF22236F6E001E6B6D /* FilterView.swift in Sources */,
 				BDE2CDF224A3DEE5004AC8FA /* Logging.swift in Sources */,
 				BDB11A5924A13CB200DD8EF9 /* CALayer+Extensions.swift in Sources */,

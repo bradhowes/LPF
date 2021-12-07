@@ -153,9 +153,7 @@ public final class FilterView: View {
     return NSScreen.main?.backingScaleFactor ?? 1.0
     #endif
   }
-  
-  //    public override var intrinsicContentSize: Size { CGSize(width: 600, height: 400) }
-  
+
   override public func awakeFromNib() {
     super.awakeFromNib()
     
