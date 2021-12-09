@@ -131,12 +131,12 @@
                         <toolbar key="toolbar" implicitIdentifier="5207E1E8-A93F-4F10-9C18-0E48AC0FF7E7" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="BM6-k9-grP">
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="Rub-ZQ-gKo"/>
-                                <toolbarItem implicitItemIdentifier="290CDF7D-A4F5-4CB1-8BAB-065BEAC4FDC3" label="Play" paletteLabel="Play Button" title="Play" sizingBehavior="auto" id="gZY-Pi-OZc">
+                                <toolbarItem implicitItemIdentifier="290CDF7D-A4F5-4CB1-8BAB-065BEAC4FDC3" label="Play" paletteLabel="Play Button" image="play" sizingBehavior="auto" id="gZY-Pi-OZc">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="ogO-fI-sF4">
-                                        <rect key="frame" x="4" y="14" width="60" height="32"/>
+                                        <rect key="frame" x="10" y="14" width="48" height="32"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="push" title="Play" alternateTitle="Stop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7Br-57-RWg">
+                                        <buttonCell key="cell" type="push" bezelStyle="rounded" image="play" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7Br-57-RWg">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -145,13 +145,13 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="2AC2063E-880F-4AEB-A2B8-5747B89394F6" label="Bypass" paletteLabel="Bypass Button" title="Bypass" sizingBehavior="auto" id="3w5-Pk-Kuc" userLabel="Bypass Button">
+                                <toolbarItem implicitItemIdentifier="2AC2063E-880F-4AEB-A2B8-5747B89394F6" label="Bypass" paletteLabel="Bypass Button" image="enabled" sizingBehavior="auto" id="3w5-Pk-Kuc" userLabel="Bypass Button">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="WpS-Vu-loZ" userLabel="Bypass">
-                                        <rect key="frame" x="3" y="14" width="78" height="32"/>
+                                        <rect key="frame" x="18" y="14" width="48" height="32"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="push" title="Bypass" alternateTitle="Resume" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="W6e-XW-QNj">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                        <buttonCell key="cell" type="push" bezelStyle="rounded" image="enabled" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="W6e-XW-QNj">
+                                            <behavior key="behavior" lightByContents="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
@@ -329,4 +329,8 @@
             <point key="canvasLocation" x="159.5" y="1122"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="enabled" width="25" height="25"/>
+        <image name="play" width="25" height="25"/>
+    </resources>
 </document>

@@ -163,7 +163,6 @@ extension MainViewController: AudioUnitHostDelegate {
       DispatchQueue.performOnMain { self.updateView() }
     })
   }
-
 }
 
 // MARK: - UI Actions
@@ -173,7 +172,7 @@ extension MainViewController {
   @IBAction private func togglePlay(_ sender: NSButton) {
     audioUnitHost.togglePlayback()
     playButton?.state = audioUnitHost.isPlaying ? .on : .off
-    playButton?.title = audioUnitHost.isPlaying ? "Stop" : "Play"
+    playButton?.image = audioUnitHost.isPlaying ? NSImage(named: "stop") : NSImage(named: "play")
     playMenuItem?.title = audioUnitHost.isPlaying ? "Stop" : "Play"
     bypassButton?.isEnabled = audioUnitHost.isPlaying
     bypassMenuItem?.isEnabled = audioUnitHost.isPlaying
@@ -187,8 +186,8 @@ extension MainViewController {
     let wasBypassed = audioUnitHost.audioUnit?.shouldBypassEffect ?? false
     let isBypassed = !wasBypassed
     audioUnitHost.audioUnit?.shouldBypassEffect = isBypassed
-    bypassButton?.state = isBypassed ? .on : .off
-    bypassButton?.title = isBypassed ? "Resume" : "Bypass"
+    // bypassButton?.state = isBypassed ? .on : .off
+    bypassButton?.image = isBypassed ? NSImage(named: "bypassed") : NSImage(named: "enabled")
     bypassMenuItem?.title = isBypassed ? "Resume" : "Bypass"
   }
   
