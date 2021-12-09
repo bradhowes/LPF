@@ -21,7 +21,12 @@ final class MainViewController: NSViewController {
   
   private var playButton: NSButton!
   private var bypassButton: NSButton!
+
   private var presetsMenu: NSMenu!
+  private var savePresetMenuItem: NSMenuItem!
+  private var renamePresetMenuItem: NSMenuItem!
+  private var deletePresetMenuItem: NSMenuItem!
+
   private var playMenuItem: NSMenuItem!
   private var bypassMenuItem: NSMenuItem!
 
@@ -51,6 +56,19 @@ extension MainViewController {
     guard let appDelegate = NSApplication.shared.delegate as? AppDelegate else { fatalError() }
     presetsMenu = appDelegate.presetsMenu
     guard presetsMenu != nil else { fatalError() }
+    presetsMenu.autoenablesItems = false
+
+    savePresetMenuItem = appDelegate.savePresetMenuItem
+    savePresetMenuItem.target = self
+    savePresetMenuItem.action = #selector(handleSavePresetMenuSelected(_:))
+
+    renamePresetMenuItem = appDelegate.renamePresetMenuItem
+    renamePresetMenuItem.target = self
+    renamePresetMenuItem.action = #selector(handleRenamePresetMenuSelected(_:))
+
+    deletePresetMenuItem = appDelegate.deletePresetMenuItem
+    deletePresetMenuItem.target = self
+    deletePresetMenuItem.action = #selector(handleDeletePresetMenuSelected(_:))
 
     playMenuItem = appDelegate.playMenuItem
     bypassMenuItem = appDelegate.bypassMenuItem
@@ -66,7 +84,7 @@ extension MainViewController {
 
     guard let savePresetMenuItem = appDelegate.savePresetMenuItem else { fatalError() }
     savePresetMenuItem.target = self
-    savePresetMenuItem.action = #selector(handleSavePresetMenuSelection(_:))
+    savePresetMenuItem.action = #selector(handleSavePresetMenuSelected(_:))
 
     // Keep last
     audioUnitHost.delegate = self
@@ -97,6 +115,8 @@ If you delete this app from your device, the AUv3 component will no longer be av
     alert.beginSheetModal(for: view.window!){ _ in }
   }
 }
+
+// MARK: - AudioUnitHostDelegate
 
 extension MainViewController: AudioUnitHostDelegate {
   
@@ -149,7 +169,7 @@ extension MainViewController: AudioUnitHostDelegate {
     cutoffValueDidChange(cutoffParameter.value)
     resonanceValueDidChange(resonanceParameter.value)
 
-    populatePresetMenu(audioUnit)
+    populatePresetMenu()
 
     // Observe major state changes like a user selecting a user preset.
     allParameterValuesObserverToken = audioUnit.observe(\.allParameterValues) { _, _ in
@@ -186,7 +206,6 @@ extension MainViewController {
     let wasBypassed = audioUnitHost.audioUnit?.shouldBypassEffect ?? false
     let isBypassed = !wasBypassed
     audioUnitHost.audioUnit?.shouldBypassEffect = isBypassed
-    // bypassButton?.state = isBypassed ? .on : .off
     bypassButton?.image = isBypassed ? NSImage(named: "bypassed") : NSImage(named: "enabled")
     bypassMenuItem?.title = isBypassed ? "Resume" : "Bypass"
   }
@@ -201,7 +220,7 @@ extension MainViewController {
     userPresetsManager?.clearCurrentPreset()
   }
   
-  @objc private func handleSavePresetMenuSelection(_ sender: NSMenuItem) throws {
+  @objc private func handleSavePresetMenuSelected(_ sender: NSMenuItem) throws {
     guard let audioUnit = audioUnitHost.audioUnit else { return }
 
     let preset = AUAudioUnitPreset()
@@ -216,21 +235,20 @@ extension MainViewController {
       return
     }
 
-    let menuItem = NSMenuItem(title: preset.name, action: #selector(presetMenuSelection(_:)), keyEquivalent: "")
+    let menuItem = NSMenuItem(title: preset.name, action: #selector(presetMenuItemSelected(_:)), keyEquivalent: "")
     menuItem.tag = preset.number
     presetsMenu.addItem(menuItem)
   }
 
-  @objc private func presetMenuSelection(_ sender: NSMenuItem) {
-    guard let audioUnit = audioUnitHost.audioUnit else { return }
-    sender.menu?.items.forEach { $0.state = .off }
-    if sender.tag >= 0 {
-      audioUnit.currentPreset = audioUnit.factoryPresetsArray[sender.tag]
-    }
-    else {
-      audioUnit.currentPreset = audioUnit.userPresets.reversed()[-sender.tag - 1]
-    }
+  @objc private func handleRenamePresetMenuSelected(_ sender: NSMenuItem) throws {
+  }
 
+  @objc private func handleDeletePresetMenuSelected(_ sender: NSMenuItem) throws {
+  }
+
+  @objc private func presetMenuItemSelected(_ sender: NSMenuItem) {
+    guard let userPresetsManager = self.userPresetsManager else { return }
+    userPresetsManager.makeCurrentPreset(number: sender.tag)
     updatePresetMenu()
   }
 }
@@ -249,20 +267,6 @@ extension MainViewController: NSWindowDelegate {
 
 extension MainViewController {
   
-  public func updateView() {
-    guard let audioUnit = audioUnitHost.audioUnit,
-          let parameterTree = audioUnit.parameterTree,
-          let cutoffParameter = parameterTree.parameter(withAddress: .cutoff),
-          let resonanceParameter = parameterTree.parameter(withAddress: .resonance)
-    else {
-      return
-    }
-
-    cutoffValueDidChange(cutoffParameter.value)
-    resonanceValueDidChange(resonanceParameter.value)
-    saveState()
-  }
-
   public func cutoffValueDidChange(_ value: AUValue) {
     cutoffSlider.floatValue = sliderLocationForFrequencyValue(value)
     cutoffTextField.stringValue = String(format: "%.f", value)
@@ -278,13 +282,16 @@ extension MainViewController {
     audioUnitHost.save()
   }
 
-  private func populatePresetMenu(_ audioUnit: AUAudioUnit) {
-    os_log(.info, log: self.log, "populatePresetMenu")
+  private func populatePresetMenu() {
+    guard let userPresetsManager = self.userPresetsManager else { return }
+    let audioUnit = userPresetsManager.audioUnit
 
+    os_log(.info, log: self.log, "populatePresetMenu")
     os_log(.info, log: self.log, "adding %d factory presets", audioUnit.factoryPresetsArray.count)
+
     for preset in audioUnit.factoryPresetsArray {
       let key = "\(preset.number + 1)"
-      let menuItem = NSMenuItem(title: preset.name, action: #selector(presetMenuSelection(_:)), keyEquivalent: key)
+      let menuItem = NSMenuItem(title: preset.name, action: #selector(presetMenuItemSelected(_:)), keyEquivalent: key)
       menuItem.tag = preset.number
       os_log(.info, log: self.log, "adding %d %{public}s", menuItem.tag, preset.name)
       presetsMenu.addItem(menuItem)
@@ -297,9 +304,9 @@ extension MainViewController {
     presetsMenu.addItem(.separator())
 
     os_log(.info, log: self.log, "adding %d user presets", audioUnit.userPresets.count)
-    for preset in audioUnit.userPresets.reversed() {
+    for preset in userPresetsManager.presetsOrderedByName {
       let key = ""
-      let menuItem = NSMenuItem(title: preset.name, action: #selector(presetMenuSelection(_:)), keyEquivalent: key)
+      let menuItem = NSMenuItem(title: preset.name, action: #selector(presetMenuItemSelected(_:)), keyEquivalent: key)
       menuItem.tag = preset.number
       os_log(.info, log: self.log, "adding %d %{public}s", menuItem.tag, preset.name)
       presetsMenu.addItem(menuItem)
@@ -309,13 +316,31 @@ extension MainViewController {
   }
 
   private func updatePresetMenu() {
-    guard let audioUnit = audioUnitHost.audioUnit else { return }
-    presetsMenu.items.forEach { $0.state = .off }
-    if let presetNumber = audioUnit.currentPreset?.number {
-      os_log(.info, log: self.log, "updatePresetMenu: %d", presetNumber)
-      let index = presetNumber >= 0 ? (presetNumber + 2) : audioUnit.factoryPresetsArray.count + 2 - presetNumber
-      presetsMenu.item(at: index)?.state = .on
+    guard let userPresetsManager = self.userPresetsManager else { return }
+    let active = userPresetsManager.audioUnit.currentPreset?.number ?? Int.max
+    os_log(.info, log: log, "updatePresetMenu: active %d", active)
+
+    savePresetMenuItem.isEnabled = true
+    renamePresetMenuItem.isEnabled = active < 0
+    deletePresetMenuItem.isEnabled = active < 0
+
+    for (index, item) in presetsMenu.items.enumerated() {
+      item.state = (index > 3 && item.tag == active) ? .on : .off
     }
+  }
+
+  private func updateView() {
+    guard let audioUnit = audioUnitHost.audioUnit,
+          let parameterTree = audioUnit.parameterTree,
+          let cutoffParameter = parameterTree.parameter(withAddress: .cutoff),
+          let resonanceParameter = parameterTree.parameter(withAddress: .resonance)
+    else {
+      return
+    }
+
+    cutoffValueDidChange(cutoffParameter.value)
+    resonanceValueDidChange(resonanceParameter.value)
+    saveState()
   }
 
   private func sliderLocationForFrequencyValue(_ frequency: Float) -> Float {

@@ -8,8 +8,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   
   @IBOutlet weak var playMenuItem: NSMenuItem!
   @IBOutlet weak var bypassMenuItem: NSMenuItem!
-  @IBOutlet weak var savePresetMenuItem: NSMenuItem!
   @IBOutlet weak var presetsMenu: NSMenu!
+  @IBOutlet weak var savePresetMenuItem: NSMenuItem!
+  @IBOutlet weak var renamePresetMenuItem: NSMenuItem!
+  @IBOutlet weak var deletePresetMenuItem: NSMenuItem!
 
   func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { true }
   

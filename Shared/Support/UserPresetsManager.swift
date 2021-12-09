@@ -32,6 +32,10 @@ public class UserPresetsManager {
     presets.first(where: { $0.name == name })
   }
 
+  public func find(number: Int) -> AUAudioUnitPreset? {
+    presets.first(where: { $0.number == number })
+  }
+
   public func clearCurrentPreset() {
     audioUnit.currentPreset = nil
   }
@@ -40,8 +44,13 @@ public class UserPresetsManager {
     audioUnit.currentPreset = find(name: name)
   }
 
-  public func makeCurrentPreset(factoryIndex: Int) {
-    audioUnit.currentPreset = audioUnit.factoryPresetsArray[validating: factoryIndex]
+  public func makeCurrentPreset(number: Int) {
+    if number >= 0 {
+      audioUnit.currentPreset = audioUnit.factoryPresetsArray[validating: number]
+    }
+    else {
+      audioUnit.currentPreset = find(number: number)
+    }
   }
 
   public func create(name: String) throws {

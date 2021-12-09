@@ -12,7 +12,7 @@
                 <application id="hnw-xV-0zn" sceneMemberID="viewController">
                     <menu key="mainMenu" title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
                         <items>
-                            <menuItem title="SimplyLowPass" id="1Xt-HY-uBw" userLabel="LPF Host">
+                            <menuItem title="SimplyLowPass" tag="1000" id="1Xt-HY-uBw" userLabel="LPF Host">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="SimplyLowPass" systemMenu="apple" id="uQy-DD-JDr">
                                     <items>
@@ -31,7 +31,7 @@
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="File" id="dMs-cI-mzQ">
+                            <menuItem title="File" tag="2000" id="dMs-cI-mzQ">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" autoenablesItems="NO" id="bib-Uj-vzu">
                                     <items>
@@ -53,18 +53,22 @@
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="Presets" tag="666" id="jxT-CU-nIS">
+                            <menuItem title="Presets" tag="3000" id="jxT-CU-nIS">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Presets" id="GEO-Iw-cKr">
                                     <items>
-                                        <menuItem title="Save" enabled="NO" id="9NY-AS-9aU">
+                                        <menuItem title="Save" tag="3001" enabled="NO" keyEquivalent="s" id="9NY-AS-9aU"/>
+                                        <menuItem title="Rename" tag="3002" enabled="NO" id="8SR-cX-fkS" userLabel="Rename">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                        </menuItem>
+                                        <menuItem title="Delete" tag="3003" enabled="NO" id="40h-rt-cJg" userLabel="Delete">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="gsf-1N-Qsg"/>
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="Window" id="aUF-d1-5bR">
+                            <menuItem title="Window" tag="4000" id="aUF-d1-5bR">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Window" systemMenu="window" id="Td7-aD-5lo">
                                     <items>
@@ -89,7 +93,7 @@
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="Help" id="wpr-3q-Mcd">
+                            <menuItem title="Help" tag="5000" id="wpr-3q-Mcd">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
                                     <items>
@@ -110,8 +114,10 @@
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="SimplyLowPass" customModuleProvider="target">
                     <connections>
                         <outlet property="bypassMenuItem" destination="Bvy-ud-WPR" id="TDv-X8-WS4"/>
+                        <outlet property="deletePresetMenuItem" destination="40h-rt-cJg" id="OtZ-T1-JoL"/>
                         <outlet property="playMenuItem" destination="Flz-EE-5KD" id="5E5-IR-Gxn"/>
                         <outlet property="presetsMenu" destination="GEO-Iw-cKr" id="aFr-fu-agd"/>
+                        <outlet property="renamePresetMenuItem" destination="8SR-cX-fkS" id="yIM-3B-Rpa"/>
                         <outlet property="savePresetMenuItem" destination="9NY-AS-9aU" id="H1m-5w-gvK"/>
                     </connections>
                 </customObject>
