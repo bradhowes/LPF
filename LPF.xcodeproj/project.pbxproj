@@ -90,6 +90,9 @@
 		BDF95807276160EE00FF2878 /* DeletePresetAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF95806276160EE00FF2878 /* DeletePresetAction.swift */; };
 		BDF9580927620B9D00FF2878 /* UserPresetsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF9580827620B9D00FF2878 /* UserPresetsManagerTests.swift */; };
 		BDF9580A27620B9D00FF2878 /* UserPresetsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF9580827620B9D00FF2878 /* UserPresetsManagerTests.swift */; };
+		BDFEE9742762B83E001B72A4 /* SavePresetAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFEE9722762B811001B72A4 /* SavePresetAction.swift */; };
+		BDFEE9792762C1B0001B72A4 /* RenamePresetAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFEE9752762C124001B72A4 /* RenamePresetAction.swift */; };
+		BDFEE97A2762C1B5001B72A4 /* DeletePresetAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDFEE9772762C18A001B72A4 /* DeletePresetAction.swift */; };
 		C433F56122404C7C00F1B750 /* FilterViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433F56022404C7C00F1B750 /* FilterViewControllerExtension.swift */; };
 		C437FE59222367CD008D6C09 /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */; };
 		C437FE5A222367CD008D6C09 /* LowPassFilterFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -295,6 +298,9 @@
 		BDF95806276160EE00FF2878 /* DeletePresetAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletePresetAction.swift; sourceTree = "<group>"; };
 		BDF9580827620B9D00FF2878 /* UserPresetsManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPresetsManagerTests.swift; sourceTree = "<group>"; };
 		BDF9580B276221EA00FF2878 /* SimplyLowPass.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SimplyLowPass.entitlements; sourceTree = "<group>"; };
+		BDFEE9722762B811001B72A4 /* SavePresetAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavePresetAction.swift; sourceTree = "<group>"; };
+		BDFEE9752762C124001B72A4 /* RenamePresetAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenamePresetAction.swift; sourceTree = "<group>"; };
+		BDFEE9772762C18A001B72A4 /* DeletePresetAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePresetAction.swift; sourceTree = "<group>"; };
 		C4201A2822403120006E4333 /* FilterViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewControllerExtension.swift; sourceTree = "<group>"; };
 		C433F56022404C7C00F1B750 /* FilterViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewControllerExtension.swift; sourceTree = "<group>"; };
 		C437FE3A222367A6008D6C09 /* SimplyLowPass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimplyLowPass.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -500,6 +506,16 @@
 			path = Actions;
 			sourceTree = "<group>";
 		};
+		BDFEE96F2762B7D1001B72A4 /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+				BDFEE9722762B811001B72A4 /* SavePresetAction.swift */,
+				BDFEE9752762C124001B72A4 /* RenamePresetAction.swift */,
+				BDFEE9772762C18A001B72A4 /* DeletePresetAction.swift */,
+			);
+			path = Actions;
+			sourceTree = "<group>";
+		};
 		C437FE2F2223672C008D6C09 = {
 			isa = PBXGroup;
 			children = (
@@ -618,6 +634,7 @@
 				BD75B68225DA9E420071F55E /* AppStore.swift */,
 				BD78FDC124C2F6530091A854 /* MainWindowController.swift */,
 				C4BEE80822237078001E6B6D /* MainViewController.swift */,
+				BDFEE96F2762B7D1001B72A4 /* Actions */,
 				C4BEE7C722236A58001E6B6D /* Main.storyboard */,
 				C4BEE7C622236A58001E6B6D /* Assets.xcassets */,
 				BDF9580B276221EA00FF2878 /* SimplyLowPass.entitlements */,
@@ -1172,9 +1189,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDFEE9742762B83E001B72A4 /* SavePresetAction.swift in Sources */,
+				BDFEE97A2762C1B5001B72A4 /* DeletePresetAction.swift in Sources */,
 				C4BEE7D322236A58001E6B6D /* AppDelegate.swift in Sources */,
 				C4BEE80922237078001E6B6D /* MainViewController.swift in Sources */,
 				BD78FDC224C2F6530091A854 /* MainWindowController.swift in Sources */,
+				BDFEE9792762C1B0001B72A4 /* RenamePresetAction.swift in Sources */,
 				BD75B68325DA9E420071F55E /* AppStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

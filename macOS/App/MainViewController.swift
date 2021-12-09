@@ -227,29 +227,18 @@ extension MainViewController {
   }
   
   @objc private func handleSavePresetMenuSelected(_ sender: NSMenuItem) throws {
-    guard let audioUnit = audioUnitHost.audioUnit else { return }
-
-    let preset = AUAudioUnitPreset()
-    let index = audioUnit.userPresets.count + 1
-    preset.name = "User Preset \(index)"
-    preset.number = -index
-
-    do {
-      try audioUnit.saveUserPreset(preset)
-    } catch {
-      print(error.localizedDescription)
-      return
-    }
-
-    let menuItem = NSMenuItem(title: preset.name, action: #selector(presetMenuItemSelected(_:)), keyEquivalent: "")
-    menuItem.tag = preset.number
-    presetsMenu.addItem(menuItem)
+    SavePresetAction(self).start(sender)
+    updatePresetMenu()
   }
 
   @objc private func handleRenamePresetMenuSelected(_ sender: NSMenuItem) throws {
+    RenamePresetAction(self).start(sender)
+    updatePresetMenu()
   }
 
   @objc private func handleDeletePresetMenuSelected(_ sender: NSMenuItem) throws {
+    DeletePresetAction(self).start(sender)
+    updatePresetMenu()
   }
 
   @objc private func presetMenuItemSelected(_ sender: NSMenuItem) {
@@ -312,25 +301,10 @@ extension MainViewController {
       presetsMenu.addItem(menuItem)
     }
 
-    if audioUnit.userPresets.isEmpty {
-      return
-    }
-
-    presetsMenu.addItem(.separator())
-
-    os_log(.info, log: self.log, "adding %d user presets", audioUnit.userPresets.count)
-    for preset in userPresetsManager.presetsOrderedByName {
-      let key = ""
-      let menuItem = NSMenuItem(title: preset.name, action: #selector(presetMenuItemSelected(_:)), keyEquivalent: key)
-      menuItem.tag = numberToTag(preset.number)
-      os_log(.info, log: self.log, "adding %d %{public}s", menuItem.tag, preset.name)
-      presetsMenu.addItem(menuItem)
-    }
-
     updatePresetMenu()
   }
 
-  private func updatePresetMenu() {
+  internal func updatePresetMenu() {
     guard let userPresetsManager = self.userPresetsManager else { return }
     let active = userPresetsManager.audioUnit.currentPreset?.number ?? Int.max
     os_log(.info, log: log, "updatePresetMenu: active %d", active)
@@ -339,6 +313,27 @@ extension MainViewController {
     renamePresetMenuItem.isEnabled = active < 0
     deletePresetMenuItem.isEnabled = active < 0
 
+    // Determine number of items to keep: 3 commands + divider + # of factory items
+    let factoryCount = userPresetsManager.audioUnit.factoryPresetsArray.count
+    let stockCount = 3 + 1 + factoryCount
+    presetsMenu.items = presetsMenu.items.dropLast(presetsMenu.items.count - stockCount)
+
+    if factoryCount > 0 && !userPresetsManager.presets.isEmpty {
+      presetsMenu.addItem(.separator())
+    }
+
+    // Recreate the user presets
+    os_log(.info, log: self.log, "adding %d user presets", userPresetsManager.presets.count)
+
+    for preset in userPresetsManager.presetsOrderedByName {
+      let key = ""
+      let menuItem = NSMenuItem(title: preset.name, action: #selector(presetMenuItemSelected(_:)), keyEquivalent: key)
+      menuItem.tag = numberToTag(preset.number)
+      os_log(.info, log: self.log, "adding %d %{public}s", menuItem.tag, preset.name)
+      presetsMenu.addItem(menuItem)
+    }
+
+    // Finally checkmark any item that matches the current preset
     for (index, item) in presetsMenu.items.enumerated() {
       item.state = (index > 3 && tagToNumber(item.tag) == active) ? .on : .off
     }
@@ -366,5 +361,41 @@ extension MainViewController {
   private func frequencyValueForSliderLocation(_ location: Float) -> Float {
     ((pow(2, location) - 1) / cutoffSliderMaxValuePower2Minus1) * (FilterView.hertzMax - FilterView.hertzMin) +
     FilterView.hertzMin
+  }
+}
+
+extension MainViewController {
+
+  func notify(_ title: String, message: String) {
+    let alert = NSAlert()
+    alert.alertStyle = .informational
+    alert.messageText = title
+    alert.informativeText = message
+
+//    func dialogOKCancel(question: String, text: String) -> Bool {
+//      let alert = NSAlert()
+//      alert.messageText = question
+//      alert.informativeText = text
+//      alert.alertStyle = .warning
+//      alert.addButton(withTitle: "OK")
+//      alert.addButton(withTitle: "Cancel")
+//      return alert.runModal() == .alertFirstButtonReturn
+//    }
+//
+//    let answer = dialogOKCancel(question: "Ok?", text: "Choose your answer.")
+
+    alert.addButton(withTitle: "OK")
+    alert.beginSheetModal(for: view.window!){ _ in }
+    alert.runModal()
+  }
+
+  func yesOrNo(_ title: String, message: String) -> Bool {
+    let alert = NSAlert()
+    alert.messageText = title
+    alert.informativeText = message
+    alert.alertStyle = .warning
+    alert.addButton(withTitle: "OK")
+    alert.addButton(withTitle: "Cancel")
+    return alert.runModal() == .alertFirstButtonReturn
   }
 }
