@@ -30,9 +30,6 @@ final class MainViewController: UIViewController {
   @IBOutlet weak var presetSelection: UISegmentedControl!
   @IBOutlet weak var userPresetsMenu: UIButton!
 
-  @IBSegueAction func showAlertSegue(_ coder: NSCoder) -> NSViewController? {
-    return <#NSViewController(coder: coder)#>
-  }
   private lazy var renameAction = UIAction(title: "Rename", handler: RenamePresetAction(self).start(_:))
   private lazy var deleteAction = UIAction(title: "Delete", handler: DeletePresetAction(self).start(_:))
   private lazy var saveAction = UIAction(title: "Save", handler: SavePresetAction(self).start(_:))
@@ -142,8 +139,10 @@ extension MainViewController: AudioUnitHostDelegate {
     connectParametersToControls(audioUnit)
   }
 
-  func failed(error: Error) {
-    notify("AUv3 Error", message: "Failed to create the AUv3 component - \(error.localizedDescription)")
+  func failed(error: AudioUnitHostError) {
+    let message = "Unable to load the AUv3 component. \(error.description)"
+    let controller = UIAlertController(title: "AUv3 Failure", message: message, preferredStyle: .alert)
+    present(controller, animated: true)
   }
 
   private func connectFilterView(_ viewController: ViewController) {
