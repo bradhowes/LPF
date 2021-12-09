@@ -35,8 +35,8 @@
 		BD25C701275F859100DEA8F5 /* DispatchQueue+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD25C6FF275F859100DEA8F5 /* DispatchQueue+Extensions.swift */; };
 		BD2FD3ED259B5104004A3196 /* AUParameterTree+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FD3EC259B5104004A3196 /* AUParameterTree+Extensions.swift */; };
 		BD2FD3EE259B5104004A3196 /* AUParameterTree+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FD3EC259B5104004A3196 /* AUParameterTree+Extensions.swift */; };
-		BD2FD3F5259B5130004A3196 /* AUParameterAddress+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FD3F4259B512F004A3196 /* AUParameterAddress+Extensions.swift */; };
-		BD2FD3F6259B5130004A3196 /* AUParameterAddress+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FD3F4259B512F004A3196 /* AUParameterAddress+Extensions.swift */; };
+		BD2FD3F5259B5130004A3196 /* AUParameterAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FD3F4259B512F004A3196 /* AUParameterAddress.swift */; };
+		BD2FD3F6259B5130004A3196 /* AUParameterAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD2FD3F4259B512F004A3196 /* AUParameterAddress.swift */; };
 		BD49661624A35D8700A81F0B /* FourCharCode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */; };
 		BD49661724A35D8900A81F0B /* FourCharCode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */; };
 		BD50D29A25D6D76E00375455 /* SimplyLowPassKernelAdapter.h in Headers */ = {isa = PBXBuildFile; fileRef = BD50D29225D6D76E00375455 /* SimplyLowPassKernelAdapter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -76,8 +76,8 @@
 		BDB7CE95249EC570009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
 		BDB7CE97249F7694009580D5 /* ValueChangeDetector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE96249F7209009580D5 /* ValueChangeDetector.hpp */; };
 		BDB7CE98249F7694009580D5 /* ValueChangeDetector.hpp in Headers */ = {isa = PBXBuildFile; fileRef = BDB7CE96249F7209009580D5 /* ValueChangeDetector.hpp */; };
-		BDB7CE9B249FC0AB009580D5 /* AUAudioUnitPreset+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB7CE99249FC026009580D5 /* AUAudioUnitPreset+Extensions.swift */; };
-		BDB7CE9C249FC0AC009580D5 /* AUAudioUnitPreset+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB7CE99249FC026009580D5 /* AUAudioUnitPreset+Extensions.swift */; };
+		BDB7CE9B249FC0AB009580D5 /* AUAudioUnitPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB7CE99249FC026009580D5 /* AUAudioUnitPreset.swift */; };
+		BDB7CE9C249FC0AC009580D5 /* AUAudioUnitPreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB7CE99249FC026009580D5 /* AUAudioUnitPreset.swift */; };
 		BDB7CE9E249FC152009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE9D249FC152009580D5 /* Accelerate.framework */; };
 		BDB7CE9F249FC157009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE9D249FC152009580D5 /* Accelerate.framework */; };
 		BDB7CEA0249FC162009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
@@ -254,7 +254,7 @@
 		BD1F7BAB249FF7EF00960DA3 /* BiquadFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BiquadFilter.h; sourceTree = "<group>"; };
 		BD25C6FF275F859100DEA8F5 /* DispatchQueue+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Extensions.swift"; sourceTree = "<group>"; };
 		BD2FD3EC259B5104004A3196 /* AUParameterTree+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AUParameterTree+Extensions.swift"; sourceTree = "<group>"; };
-		BD2FD3F4259B512F004A3196 /* AUParameterAddress+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AUParameterAddress+Extensions.swift"; sourceTree = "<group>"; };
+		BD2FD3F4259B512F004A3196 /* AUParameterAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUParameterAddress.swift; sourceTree = "<group>"; };
 		BD49661424A35D1E00A81F0B /* FourCharCode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FourCharCode+Extensions.swift"; sourceTree = "<group>"; };
 		BD49661924A3605800A81F0B /* LICENSE.md */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = LICENSE.md; sourceTree = "<group>"; };
 		BD50D29225D6D76E00375455 /* SimplyLowPassKernelAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplyLowPassKernelAdapter.h; sourceTree = "<group>"; };
@@ -283,7 +283,7 @@
 		BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NonCopyable.hpp; sourceTree = "<group>"; };
 		BDB7CE92249EC556009580D5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		BDB7CE96249F7209009580D5 /* ValueChangeDetector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ValueChangeDetector.hpp; sourceTree = "<group>"; };
-		BDB7CE99249FC026009580D5 /* AUAudioUnitPreset+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AUAudioUnitPreset+Extensions.swift"; sourceTree = "<group>"; };
+		BDB7CE99249FC026009580D5 /* AUAudioUnitPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AUAudioUnitPreset.swift; sourceTree = "<group>"; };
 		BDB7CE9D249FC152009580D5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.5.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 		BDE2CDEF24A3DE9F004AC8FA /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		BDE2CDF324A3DF13004AC8FA /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
@@ -443,8 +443,8 @@
 		BD49661824A35F3900A81F0B /* Class Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				BDB7CE99249FC026009580D5 /* AUAudioUnitPreset+Extensions.swift */,
-				BD2FD3F4259B512F004A3196 /* AUParameterAddress+Extensions.swift */,
+				BDB7CE99249FC026009580D5 /* AUAudioUnitPreset.swift */,
+				BD2FD3F4259B512F004A3196 /* AUParameterAddress.swift */,
 				BD2FD3EC259B5104004A3196 /* AUParameterTree+Extensions.swift */,
 				BD18B39A24CB247400B7CB1E /* AudioComponentDescription+Extensions.swift */,
 				BDE2CDF324A3DF13004AC8FA /* Bundle+Extensions.swift */,
@@ -1152,9 +1152,9 @@
 				BD778C5B2760E32E006A9E9A /* UserPresetsManager.swift in Sources */,
 				BDB11A5524A13C4B00DD8EF9 /* Comparble+Extensions.swift in Sources */,
 				BDB11A5C24A13F8700DD8EF9 /* Color+Extensions.swift in Sources */,
-				BDB7CE9B249FC0AB009580D5 /* AUAudioUnitPreset+Extensions.swift in Sources */,
+				BDB7CE9B249FC0AB009580D5 /* AUAudioUnitPreset.swift in Sources */,
 				C4F004A32239B1E10014E248 /* SimplyLowPassKernelAdapter.mm in Sources */,
-				BD2FD3F5259B5130004A3196 /* AUParameterAddress+Extensions.swift in Sources */,
+				BD2FD3F5259B5130004A3196 /* AUParameterAddress.swift in Sources */,
 				BD578EED25D278490040D83D /* AudioUnitHost.swift in Sources */,
 				BD18B3A024CB31B200B7CB1E /* AudioUnitParameters.swift in Sources */,
 			);
@@ -1190,7 +1190,7 @@
 				C4F07732223AC4F5008FFF06 /* FilterViewController.swift in Sources */,
 				C4BEE80122236F6E001E6B6D /* View+Extensions.swift in Sources */,
 				BDB11A5424A13C4A00DD8EF9 /* Comparble+Extensions.swift in Sources */,
-				BDB7CE9C249FC0AC009580D5 /* AUAudioUnitPreset+Extensions.swift in Sources */,
+				BDB7CE9C249FC0AC009580D5 /* AUAudioUnitPreset.swift in Sources */,
 				BD72F2E625D1D4CE0031E422 /* InputBuffer.h in Sources */,
 				BD25C701275F859100DEA8F5 /* DispatchQueue+Extensions.swift in Sources */,
 				C4BEE7FF22236F6E001E6B6D /* FilterView.swift in Sources */,
@@ -1201,7 +1201,7 @@
 				BDE2CDF624A3DF25004AC8FA /* Bundle+Extensions.swift in Sources */,
 				C4BEE80022236F6E001E6B6D /* TypeAliases.swift in Sources */,
 				BD778C5C2760E32E006A9E9A /* UserPresetsManager.swift in Sources */,
-				BD2FD3F6259B5130004A3196 /* AUParameterAddress+Extensions.swift in Sources */,
+				BD2FD3F6259B5130004A3196 /* AUParameterAddress.swift in Sources */,
 				BD1F7BAD249FF7EF00960DA3 /* BiquadFilter.cpp in Sources */,
 				C4F004A72239B2070014E248 /* FilterAudioUnit.swift in Sources */,
 				C4A3D65C223FF12A002784D4 /* SimplePlayEngine.swift in Sources */,
