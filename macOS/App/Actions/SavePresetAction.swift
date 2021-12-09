@@ -23,6 +23,9 @@ internal struct PromptForReply {
     textField.stringValue = ""
 
     alert.accessoryView = textField
+    alert.layout()
+    alert.accessoryView?.becomeFirstResponder()
+    
     let response: NSApplication.ModalResponse = alert.runModal()
     if response == NSApplication.ModalResponse.alertFirstButtonReturn {
       return .ok(value: textField.stringValue)

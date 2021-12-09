@@ -372,18 +372,6 @@ extension MainViewController {
     alert.messageText = title
     alert.informativeText = message
 
-//    func dialogOKCancel(question: String, text: String) -> Bool {
-//      let alert = NSAlert()
-//      alert.messageText = question
-//      alert.informativeText = text
-//      alert.alertStyle = .warning
-//      alert.addButton(withTitle: "OK")
-//      alert.addButton(withTitle: "Cancel")
-//      return alert.runModal() == .alertFirstButtonReturn
-//    }
-//
-//    let answer = dialogOKCancel(question: "Ok?", text: "Choose your answer.")
-
     alert.addButton(withTitle: "OK")
     alert.beginSheetModal(for: view.window!){ _ in }
     alert.runModal()
