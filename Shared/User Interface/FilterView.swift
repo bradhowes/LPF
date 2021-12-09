@@ -11,14 +11,14 @@ public protocol FilterViewDelegate: AnyObject {
    
    - parameter filterView: the source of the notification
    */
-  func filterViewTouchBegan(_ filterView: FilterView)
+  func filterViewInteractionStarted(_ filterView: FilterView)
   
   /**
    Notification that a touch/mouse event has finished
    
    - parameter filterView: the source of the notification
    */
-  func filterViewTouchEnded(_ filterView: FilterView)
+  func filterViewInteractionEnded(_ filterView: FilterView)
   
   /**
    Notification that the frequency and resonance settings have changed.
@@ -27,14 +27,15 @@ public protocol FilterViewDelegate: AnyObject {
    - parameter cutoff: the new frequency value
    - parameter resonance: the new resonance value
    */
-  func filterView(_ filterView: FilterView, didChangeCutoff cutoff: Float, andResonance resonance: Float)
-  
-  func filterViewDataDidChange(_ filterView: FilterView)
+  func filterViewInteracted(_ filterView: FilterView, cutoff: Float, resonance: Float)
+
+  func filterViewLayoutChanged(_ filterView: FilterView)
 }
 
 /**
  Custom view that displays a response curve for the low-pass filter. Provides a control for changing the filter
- cutoff and resonance values in real-time.
+ cutoff and resonance values in real-time. Note that there is purely UI -- there is no manipulation of AUParameter
+ values here.
  */
 public final class FilterView: View {
   
@@ -96,7 +97,7 @@ public final class FilterView: View {
       _cutoff = locationToFrequency(newValue.x).clamp(to: Self.hertzRange)
       _resonance = locationToDb(newValue.y).clamp(to: Self.gainRange)
       updateIndicator()
-      delegate?.filterView(self, didChangeCutoff: cutoff, andResonance: resonance)
+      delegate?.filterViewInteracted(self, cutoff: cutoff, resonance: resonance)
     }
   }
   
@@ -256,7 +257,7 @@ extension FilterView {
     guard let pointOfTouch = touches.first?.location(in: self) else { return }
     let convertedPoint = rootLayer.convert(pointOfTouch, to: graphLayer)
     if graphLayer.contains(convertedPoint) {
-      delegate?.filterViewTouchBegan(self)
+      delegate?.filterViewInteractionStarted(self)
       controlPoint = convertedPoint
     }
   }
@@ -270,7 +271,7 @@ extension FilterView {
   }
   
   override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-    delegate?.filterViewTouchEnded(self)
+    delegate?.filterViewInteractionEnded(self)
   }
   
   override public func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {}
@@ -281,7 +282,7 @@ extension FilterView {
     let pointOfTouch = NSPointToCGPoint(convert(event.locationInWindow, from: nil))
     let convertedPoint = graphLayer.convert(pointOfTouch, from: rootLayer)
     if graphLayer.contains(convertedPoint) {
-      delegate?.filterViewTouchBegan(self)
+      delegate?.filterViewInteractionStarted(self)
       controlPoint = convertedPoint
     }
   }
@@ -295,7 +296,7 @@ extension FilterView {
   }
   
   override public func mouseUp(with event: NSEvent) {
-    delegate?.filterViewTouchEnded(self)
+    delegate?.filterViewInteractionEnded(self)
   }
   
   #endif
@@ -575,7 +576,7 @@ extension FilterView {
     
     updateIndicator()
     frequencies = nil
-    delegate?.filterViewDataDidChange(self)
+    delegate?.filterViewLayoutChanged(self)
   }
 }
 

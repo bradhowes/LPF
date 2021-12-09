@@ -3,7 +3,7 @@
 
 import Cocoa
 import LowPassFilterFramework
-import os
+import os.log
 
 final class MainViewController: NSViewController {
   private static let log = Logging.logger("MainViewController")
@@ -26,7 +26,9 @@ final class MainViewController: NSViewController {
   @IBOutlet var cutoffSlider: NSSlider!
   @IBOutlet var cutoffTextField: NSTextField!
   @IBOutlet var resonanceSlider: NSSlider!
+  @IBOutlet weak var userPresets: UIButton!
   @IBOutlet var resonanceTextField: NSTextField!
+  @IBOutlet weak var userPresets: UIButton!
   @IBOutlet var containerView: NSView!
   
   private var filterView: NSView?
@@ -144,7 +146,7 @@ extension MainViewController {
   }
   
   @objc private func handleSavePresetMenuSelection(_ sender: NSMenuItem) throws {
-    guard let audioUnit = audioUnitHost.viewController?.audioUnit else { return }
+    guard let audioUnit = audioUnitHost.audioUnit else { return }
 
     let preset = AUAudioUnitPreset()
     let index = audioUnit.userPresets.count + 1
@@ -164,7 +166,7 @@ extension MainViewController {
   }
 
   @objc private func presetMenuSelection(_ sender: NSMenuItem) {
-    guard let audioUnit = audioUnitHost.viewController?.audioUnit else { return }
+    guard let audioUnit = audioUnitHost.audioUnit else { return }
     sender.menu?.items.forEach { $0.state = .off }
     if sender.tag >= 0 {
       audioUnit.currentPreset = audioUnit.factoryPresets[sender.tag]
@@ -180,7 +182,7 @@ extension MainViewController {
 extension MainViewController: NSWindowDelegate {
   func windowWillClose(_ notification: Notification) {
     audioUnitHost.cleanup()
-    guard let parameterTree = audioUnitHost.viewController?.audioUnit?.parameterTree,
+    guard let parameterTree = audioUnitHost.audioUnit?.parameterTree,
           let parameterTreeObserverToken = parameterTreeObserverToken
     else {
       return
@@ -204,7 +206,7 @@ extension MainViewController {
   }
   
   private func connectParametersToControls() {
-    guard let audioUnit = audioUnitHost.viewController?.audioUnit else {
+    guard let audioUnit = audioUnitHost.audioUnit else {
       fatalError("Couldn't locate FilterAudioUnit")
     }
     guard let parameterTree = audioUnit.parameterTree else {
@@ -233,7 +235,7 @@ extension MainViewController {
       DispatchQueue.performOnMain { self.updateView() }
     }
 
-    parameterTreeObserverToken = parameterTree.token(byAddingParameterObserver: { [weak self] _, address in
+    parameterTreeObserverToken = parameterTree.token(byAddingParameterObserver: { [weak self] address, value in
       guard let self = self else { return }
       os_log(.info, log: self.log, "MainViewController - parameterTree changed - %d", address)
       DispatchQueue.performOnMain { self.updateView() }
@@ -299,7 +301,7 @@ extension MainViewController {
   }
 
   private func updatePresetMenu() {
-    guard let audioUnit = audioUnitHost.viewController?.audioUnit else { return }
+    guard let audioUnit = audioUnitHost.audioUnit else { return }
     presetsMenu.items.forEach { $0.state = .off }
     if let presetNumber = audioUnit.currentPreset?.number {
       os_log(.info, log: self.log, "updatePresetMenu: %d", presetNumber)

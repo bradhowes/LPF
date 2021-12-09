@@ -2,7 +2,7 @@
 // Original: See LICENSE folder for this sample’s licensing information.
 
 import AVFoundation
-import os
+import os.log
 
 /**
  Delegation protocol for AudioUnitHost class.
@@ -10,29 +10,34 @@ import os
 public protocol AudioUnitHostDelegate: AnyObject {
   
   /**
-   Notification that the FilterViewController in the AudioUnitHost has a wired FilterAudioUnit
+   Notification that the UIViewController in the AudioUnitHost has a wired AUAudioUnit
    */
-  func connected()
+  func connected(audioUnit: AUAudioUnit, viewController: ViewController)
+  func failed(error: Error)
 }
 
 /**
  Simple hosting container for the FilterAudioUnit when used in an application. Loads the view controller for the
  AudioUnit and then instantiates the audio unit itself. Finally, it wires the AudioUnit with SimplePlayEngine to
- send audio samples to the AudioUnit.
+ send audio samples to the AudioUnit. Note that this class has no knowledge of any classes other than what Apple
+ provides.
  */
-public final class AudioUnitHost<VC> {
-  private let appExtension: String
+public final class AudioUnitHost {
+  private let log = Logging.logger("AudioUnitHost")
+
   private let lastStateKey = "lastStateKey"
   private let lastPresetIndexKey = "lastPresetIndexKey"
-  private let log = Logging.logger("AudioUnitHost")
+
   private let playEngine = SimplePlayEngine()
   private var isRestoring: Bool = false
+  private let locateQueue = DispatchQueue(label: Bundle.bundleID + ".LocateQueue", qos: .userInitiated)
+  private let componentDescription: AudioComponentDescription
 
   /// AudioUnit controlled by the view controller
-  public private(set) var audioUnit: FilterAudioUnit?
+  public private(set) var audioUnit: AUAudioUnit?
 
   /// View controller for the AudioUnit interface
-  public private(set) var viewController: VC?
+  public private(set) var viewController: ViewController?
 
   /// True if the audio engine is currently playing
   public var isPlaying: Bool { playEngine.isPlaying }
@@ -40,12 +45,110 @@ public final class AudioUnitHost<VC> {
   /// Delegate to signal when everything is wired up.
   public weak var delegate: AudioUnitHostDelegate? { didSet { signalConnected() } }
 
+  private var notificationObserverToken: NSObjectProtocol?
+  private var creationError: Error?
+
   /**
-   Create a new instance. Instantiates new FilterAudioUnit and its view controller.
+   Create a new instance that will hopefully create a new AUAudioUnit and a view controller for its control view.
+
+   - parameter componentDescription: the definition of the AUAudioUnit to create
    */
-  public init(componentDescription: AudioComponentDescription, appExtension: String) {
-    self.appExtension = appExtension
-    self.createAudioUnit(componentDescription: componentDescription)
+  public init(componentDescription: AudioComponentDescription) {
+    self.componentDescription = componentDescription
+    componentDescription.log(log, type: .info)
+    self.locate()
+  }
+
+  /**
+   Use AVAudioUnitComponentManager to locate the AUv3 component we want. This is done asynchronously in the background.
+   If the component we want is not found, start listening for notifications from the AVAudioUnitComponentManager for
+   updates and try again.
+   */
+  private func locate() {
+    os_log(.info, log: log, "locate")
+    locateQueue.async { [weak self] in
+      guard let self = self else { return }
+
+      let components = AVAudioUnitComponentManager.shared().components(matching: self.componentDescription)
+      os_log(.info, log: self.log, "locate: found %d", components.count)
+      if !components.isEmpty {
+        self.createAudioUnit()
+      }
+      else {
+        self.checkAgain()
+      }
+    }
+  }
+
+  /**
+   Begin listening for updates from the AVAudioUnitComponentManager. When we get one, stop listening and attempt to
+   locate the AUv3 component we want.
+   */
+  private func checkAgain() {
+    os_log(.info, log: log, "checkAgain")
+    let center = NotificationCenter.default
+    notificationObserverToken = center.addObserver(
+      forName: AVAudioUnitComponentManager.registrationsChangedNotification, object: nil, queue: nil) { [weak self] _ in
+        guard let self = self else { return }
+        os_log(.info, log: self.log, "checkAgain: notification")
+        let token = self.notificationObserverToken!
+        self.notificationObserverToken = nil
+        center.removeObserver(token)
+        self.locate()
+      }
+  }
+
+  /**
+   Create the AUv3 component.
+   */
+  private func createAudioUnit() {
+    os_log(.info, log: log, "createAudioUnit")
+    guard self.audioUnit == nil else { return }
+
+    let options: AudioComponentInstantiationOptions = .loadOutOfProcess
+
+    AVAudioUnit.instantiate(with: self.componentDescription, options: options) { [weak self] avAudioUnit, error in
+      guard let self = self else { return }
+      if let error = error {
+        os_log(.error, log: self.log, "createAudioUnit: error - %{public}s", error.localizedDescription)
+        self.delegate?.failed(error: error)
+        return
+      }
+
+      guard let avAudioUnit = avAudioUnit else {
+        os_log(.error, log: self.log, "createAudioUnit: nil avAudioUnit")
+        return
+      }
+
+      self.createViewController(avAudioUnit)
+    }
+  }
+
+  private func createViewController(_ avAudioUnit: AVAudioUnit) {
+    os_log(.info, log: log, "createViewController")
+    avAudioUnit.auAudioUnit.requestViewController { [weak self] controller in
+      guard let self = self else { return }
+      guard let controller = controller else { fatalError("view controller is nil") }
+      os_log(.info, log: self.log, "view controller type - %{public}s", String(describing: type(of: controller)))
+      self.wireAudioUnit(avAudioUnit, controller)
+    }
+  }
+
+  private func wireAudioUnit(_ avAudioUnit: AVAudioUnit, _ viewController: UIViewController) {
+    self.audioUnit = avAudioUnit.auAudioUnit
+    self.viewController = viewController
+
+    playEngine.connectEffect(audioUnit: avAudioUnit)
+    signalConnected()
+  }
+
+  private func signalConnected() {
+    if let audioUnit = self.audioUnit, let viewController = self.viewController {
+      DispatchQueue.performOnMain { self.delegate?.connected(audioUnit: audioUnit, viewController: viewController) }
+    }
+    else if let creationError = self.creationError {
+      DispatchQueue.performOnMain { self.delegate?.failed(error: creationError) }
+    }
   }
 }
 
@@ -92,78 +195,21 @@ extension AudioUnitHost {
         audioUnit.currentPreset = nil
       }
       else if presetIndex >= 0 {
+#if os(iOS)
+        audioUnit.currentPreset = audioUnit.factoryPresets?[presetIndex]
+#elseif os(macOS)
         audioUnit.currentPreset = audioUnit.factoryPresets[presetIndex]
+#endif
       }
       else {
-        audioUnit.currentPreset = audioUnit.userPresets[-presetIndex - 1]
+        let index = -presetIndex - 1
+        if index > 0 && index < audioUnit.userPresets.count {
+          audioUnit.currentPreset = audioUnit.userPresets[index]
+        }
+        else {
+          audioUnit.currentPreset = nil
+        }
       }
-    }
-  }
-}
-
-extension AudioUnitHost {
-
-  private func createAudioUnit(componentDescription: AudioComponentDescription) {
-    os_log(.info, log: log, "createAudioUnit")
-    componentDescription.log(log, type: .info)
-
-    // Uff. So for iOS we need to register the AUv3 so we can see it now. But we do NOT want to do so if we are
-    // running in macOS
-    //
-    #if os(iOS)
-    let bundle = Bundle(for: AudioUnitHost.self)
-    AUAudioUnit.registerSubclass(FilterAudioUnit.self, as: componentDescription, name: bundle.auBaseName,
-                                 version: UInt32.max)
-    let options = AudioComponentInstantiationOptions()
-    #endif
-
-    // If we are running in macOS we must load the AUv3 in-process in order to be able to use it from within the
-    // app sandbox.
-    //
-    #if os(macOS)
-    let options: AudioComponentInstantiationOptions = .loadInProcess
-    #endif
-
-    // Create AVAudioUnit that holds the AUAudioUnit we wish to use. If all above is correct, this should invoke the
-    // FilterViewController.createAudioUnit method.
-    AVAudioUnit.instantiate(with: componentDescription, options: options) { avAudioUnit, error in
-      guard error == nil, let avAudioUnit = avAudioUnit else {
-        fatalError("Could not instantiate audio unit: \(String(describing: error))")
-      }
-
-      guard let audioUnit = avAudioUnit.auAudioUnit as? FilterAudioUnit else { fatalError("unexpected auAudioUnit type") }
-      self.audioUnit = audioUnit
-
-      self.createViewController(avAudioUnit)
-    }
-  }
-
-  private func createViewController(_ avAudioUnit: AVAudioUnit) {
-    avAudioUnit.auAudioUnit.requestViewController { controller in
-#if os(iOS)
-      let controller = Self.loadViewController(appExtension: self.appExtension)
-      let auAudioUnit = avAudioUnit.auAudioUnit
-      guard let audioUnit = auAudioUnit as? FilterAudioUnit else { fatalError() }
-      controller.audioUnit = audioUnit
-#else
-      guard let controller = controller as? VC else { fatalError("nil view controller") }
-#endif
-
-      self.wireAudioUnit(avAudioUnit, controller)
-    }
-  }
-
-  private func wireAudioUnit<T>(_ avAudioUnit: AVAudioUnit, _ viewController: T) {
-    guard let viewController = viewController as? VC else { fatalError("unexpected view controller type") }
-    self.viewController = viewController
-
-    playEngine.connectEffect(audioUnit: avAudioUnit)
-    signalConnected()
-  }
-  
-  private func signalConnected() {
-    if viewController != nil {
-      DispatchQueue.performOnMain { self.delegate?.connected() }
     }
   }
 }
@@ -184,29 +230,4 @@ public extension AudioUnitHost {
   func cleanup() {
     playEngine.stop()
   }
-}
-
-private extension AudioUnitHost {
-
-  private static func loadViewController(appExtension: String) -> FilterViewController {
-    guard let url = Bundle.main.builtInPlugInsURL?.appendingPathComponent(appExtension + ".appex") else {
-      fatalError("Could not obtain extension bundle URL")
-    }
-    guard let extensionBundle = Bundle(url: url) else { fatalError("Could not get app extension bundle") }
-
-#if os(iOS)
-
-    let storyboard = Storyboard(name: "MainInterface", bundle: extensionBundle)
-    guard let controller = storyboard.instantiateInitialViewController() as? FilterViewController else {
-      fatalError("Unable to instantiate FilterViewController")
-    }
-    return controller
-
-#elseif os(macOS)
-
-    return FilterViewController(nibName: "FilterViewController", bundle: extensionBundle)
-
-#endif
-  }
-
 }

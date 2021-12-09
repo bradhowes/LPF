@@ -4,7 +4,7 @@
 import AudioToolbox
 import AVFoundation
 import CoreAudioKit
-import os
+import os.log
 
 /**
  Derivation of AUAudioUnit that provides a Swift container for the C++ SimplyLowPassKernel (by way of the Obj-C

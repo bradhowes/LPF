@@ -23,19 +23,19 @@ extension Bundle {
   public var buildVersionNumber: String { info(for: "CFBundleVersion") }
   
   /// Obtain the bundle identifier or "" if there is not one
-  public var bundleID: String { Bundle.main.bundleIdentifier?.lowercased() ?? "" }
+  public static var bundleID: String { Bundle.main.bundleIdentifier ?? "" }
   
   /// Obtain the build scheme that was used to generate the bundle. Returns " Dev" or " Staging" or ""
-  public var scheme: String {
-    if bundleID.contains(".dev") { return " Dev" }
-    if bundleID.contains(".staging") { return " Staging" }
+  public static var scheme: String {
+    if bundleID.lowercased().contains(".dev") { return " Dev" }
+    if bundleID.lowercased().contains(".staging") { return " Staging" }
     return ""
   }
-  
+
   /// Obtain a version string with the following format: "Version V.B[ S]"
   /// where V is the releaseVersionNumber, B is the buildVersionNumber and S is the scheme.
-  public var versionString: String { "Version \(releaseVersionNumber).\(buildVersionNumber)\(scheme)" }
-  
+  public var versionString: String { "Version \(releaseVersionNumber).\(buildVersionNumber)\(Self.scheme)" }
+
   public var auBaseName: String { info(for: "AU_BASE_NAME") }
   public var auComponentName: String { info(for: "AU_COMPONENT_NAME") }
   public var auComponentType: String { info(for: "AU_COMPONENT_TYPE") }

@@ -1,9 +1,9 @@
 // Copyright © 2020 Apple. All rights reserved.
 
 import Foundation
-import os
+import os.log
 
-extension AudioComponentDescription {
+public extension AudioComponentDescription {
   
   func log(_ logger: OSLog, type: OSLogType) {
     os_log(type, log: logger,

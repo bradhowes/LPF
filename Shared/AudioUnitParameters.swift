@@ -1,7 +1,7 @@
 // Copyright © 2020 Brad Howes. All rights reserved.
 
 import Foundation
-import os
+import os.log
 
 /**
  Definitions for the runtime parameters of the filter. There are two:
@@ -19,7 +19,7 @@ public final class AudioUnitParameters: NSObject {
                                                       address: FilterParameterAddress.cutoff.rawValue,
                                                       min: 12.0, max: 20_000.0,
                                                       unit: .hertz, unitName: nil,
-                                                      flags: [.flag_IsReadable, .flag_IsWritable,
+                                                      flags: [.flag_IsReadable, .flag_IsWritable, .flag_CanRamp,
                                                               .flag_DisplayLogarithmic],
                                                       valueStrings: nil,
                                                       dependentParameters: nil)
@@ -29,7 +29,7 @@ public final class AudioUnitParameters: NSObject {
                                                          address: FilterParameterAddress.resonance.rawValue,
                                                          min: -20.0, max: 40.0,
                                                          unit: .decibels, unitName: nil,
-                                                         flags: [.flag_IsReadable, .flag_IsWritable],
+                                                         flags: [.flag_IsReadable, .flag_IsWritable, .flag_CanRamp],
                                                          valueStrings: nil,
                                                          dependentParameters: nil)
   

@@ -3,7 +3,7 @@
 import UIKit
 import AVKit
 import LowPassFilterFramework
-import os
+import os.log
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {

@@ -3,7 +3,7 @@
 
 import AVFoundation
 
-internal extension AUAudioUnitPreset {
+public extension AUAudioUnitPreset {
   
   /**
    Initialize new instance with given values

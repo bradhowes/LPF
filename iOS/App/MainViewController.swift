@@ -3,17 +3,22 @@
 
 import UIKit
 import LowPassFilterFramework
+import os.log
 
 final class MainViewController: UIViewController {
-  
+  private static let log = Logging.logger("MainViewController")
+  private var log: OSLog { Self.log }
+
   private let cutoffSliderMinValue: Float = 0.0
   private let cutoffSliderMaxValue: Float = 9.0
   private lazy var cutoffSliderMaxValuePower2Minus1 = Float(pow(2, cutoffSliderMaxValue) - 1)
   
-  private var audioUnitHost: AudioUnitHost<FilterViewController>!
-  private var cutoff: AUParameter? { audioUnitHost.audioUnit?.parameterDefinitions.cutoff }
-  private var resonance: AUParameter? { audioUnitHost.audioUnit?.parameterDefinitions.resonance }
-  
+  private var audioUnitHost: AudioUnitHost!
+  internal var userPresetsManager: UserPresetsManager?
+
+  private var cutoffParameter: AUParameter?
+  private var resonanceParameter: AUParameter?
+
   @IBOutlet weak var reviewButton: UIButton!
   @IBOutlet weak var playButton: UIButton!
   @IBOutlet weak var bypassButton: UIButton!
@@ -23,14 +28,18 @@ final class MainViewController: UIViewController {
   @IBOutlet weak var resonanceValue: UILabel!
   @IBOutlet weak var containerView: UIView!
   @IBOutlet weak var presetSelection: UISegmentedControl!
-  
-  private var parameterObserverToken: AUParameterObserverToken?
-  
+  @IBOutlet weak var userPresetsMenu: UIButton!
+
+  private lazy var renameAction = UIAction(title: "Rename", handler: RenamePresetAction(self).start(_:))
+  private lazy var deleteAction = UIAction(title: "Delete", handler: DeletePresetAction(self).start(_:))
+  private lazy var saveAction = UIAction(title: "Save", handler: SavePresetAction(self).start(_:))
+
+  private var allParameterValuesObserverToken: NSKeyValueObservation?
+  private var parameterTreeObserverToken: AUParameterObserverToken?
+
   override func viewDidLoad() {
     super.viewDidLoad()
-
-    audioUnitHost = AudioUnitHost(componentDescription: FilterAudioUnit.componentDescription,
-                                  appExtension: Bundle.main.auBaseName)
+    audioUnitHost = AudioUnitHost(componentDescription: FilterAudioUnit.componentDescription)
     guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
     delegate.setMainViewController(self)
     
@@ -42,10 +51,18 @@ final class MainViewController: UIViewController {
     
     presetSelection.setTitleTextAttributes([.foregroundColor : UIColor.white], for: .normal)
     presetSelection.setTitleTextAttributes([.foregroundColor : UIColor.black], for: .selected)
+  }
 
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+
+    playButton.setImage(UIImage(named: "stop"), for: [.highlighted, .selected])
+    bypassButton.setImage(UIImage(named: "bypassed"), for: [.highlighted, .selected])
+
+    // Keep last
     audioUnitHost.delegate = self
   }
-  
+
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     
@@ -76,27 +93,25 @@ available for use in other host applications.
   
   @IBAction private func togglePlay(_ sender: UIButton) {
     let isPlaying = audioUnitHost.togglePlayback()
-    let titleText = isPlaying ? "Stop" : "Play"
-    playButton.setTitle(titleText, for: .normal)
-    playButton.setTitleColor(isPlaying ? .systemRed : .systemTeal, for: .normal)
+    sender.isSelected = isPlaying
+    sender.tintColor = isPlaying ? .systemYellow : .systemTeal
   }
   
   @IBAction private func toggleBypass(_ sender: UIButton) {
     let wasBypassed = audioUnitHost.audioUnit?.shouldBypassEffect ?? false
     let isBypassed = !wasBypassed
     audioUnitHost.audioUnit?.shouldBypassEffect = isBypassed
-    
-    let titleText = isBypassed ? "Resume" : "Bypass"
-    bypassButton.setTitle(titleText, for: .normal)
-    bypassButton.setTitleColor(isBypassed ? .systemYellow : .systemTeal, for: .normal)
+    sender.isSelected = isBypassed
   }
   
   @IBAction private func cutoffSliderValueChanged(_ sender: UISlider) {
-    cutoff?.value = frequencyValueForSliderLocation(sender.value)
+    cutoffParameter?.value = frequencyValueForSliderLocation(sender.value)
+    audioUnitHost.audioUnit?.currentPreset = nil
   }
   
   @IBAction private func resonanceSliderValueChanged(_ sender: UISlider) {
-    resonance?.value = sender.value
+    resonanceParameter?.value = sender.value
+    audioUnitHost.audioUnit?.currentPreset = nil
   }
   
   @IBAction private func visitAppStore(_ sender: UIButton) {
@@ -107,9 +122,9 @@ available for use in other host applications.
     UIApplication.shared.open(url, options: [:], completionHandler: nil)
   }
   
-  @IBAction func usePreset(_ sender: UISegmentedControl? = nil) {
-    audioUnitHost.audioUnit?.currentPreset =
-    audioUnitHost.audioUnit?.factoryPresets[presetSelection.selectedSegmentIndex]
+  @IBAction func useFactoryPreset(_ sender: UISegmentedControl? = nil) {
+    guard let audioUnit = audioUnitHost.audioUnit else { return }
+    audioUnit.currentPreset = audioUnit.factoryPresets?[presetSelection.selectedSegmentIndex]
   }
   
   @IBAction private func reviewApp(_ sender: UIButton) {
@@ -119,29 +134,27 @@ available for use in other host applications.
 
 extension MainViewController: AudioUnitHostDelegate {
   
-  func connected() {
-    connectFilterView()
-    connectParametersToControls()
+  func connected(audioUnit: AUAudioUnit, viewController: ViewController) {
+    userPresetsManager = .init(for: audioUnit)
+    connectFilterView(viewController)
+    connectParametersToControls(audioUnit)
   }
-}
 
-extension MainViewController {
-  
-  private func connectFilterView() {
-    guard let viewController = audioUnitHost.viewController else { fatalError() }
+  func failed(error: Error) {
+    notify("AUv3 Error", message: "Failed to create the AUv3 component - \(error.localizedDescription)")
+  }
+
+  private func connectFilterView(_ viewController: ViewController) {
     let filterView = viewController.view!
     containerView.addSubview(filterView)
     filterView.pinToSuperviewEdges()
-    
+
     addChild(viewController)
     view.setNeedsLayout()
     containerView.setNeedsLayout()
   }
-  
-  private func connectParametersToControls() {
-    guard let audioUnit = audioUnitHost.audioUnit else {
-      fatalError("Couldn't locate FilterAudioUnit")
-    }
+
+  private func connectParametersToControls(_ audioUnit: AUAudioUnit) {
     guard let parameterTree = audioUnit.parameterTree else {
       fatalError("FilterAudioUnit does not define any parameters.")
     }
@@ -151,23 +164,89 @@ extension MainViewController {
     guard let resonanceParameter = parameterTree.parameter(withAddress: .resonance) else {
       fatalError("Undefined resonance parameter")
     }
-    
+
+    self.cutoffParameter = cutoffParameter
+    self.resonanceParameter = resonanceParameter
+
     resonanceSlider.minimumValue = resonanceParameter.minValue
     resonanceSlider.maximumValue = resonanceParameter.maxValue
-    
-    parameterObserverToken = parameterTree.token(byAddingParameterObserver: { [weak self] address, value in
-      guard let self = self else { return }
-      switch address.filterParameter {
-      case .cutoff: DispatchQueue.performOnMain { self.cutoffValueDidChange(value) }
-      case .resonance: DispatchQueue.performOnMain { self.resonanceValueDidChange(value) }
-      default: break
-      }
-    })
-    
+
+    audioUnitHost.restore()
+    updatePresetMenu()
+
     cutoffValueDidChange(cutoffParameter.value)
     resonanceValueDidChange(resonanceParameter.value)
+
+    allParameterValuesObserverToken = audioUnit.observe(\.allParameterValues) { _, _ in
+      os_log(.info, log: self.log, "allParameterValues changed")
+      DispatchQueue.performOnMain { self.updateView() }
+    }
+
+    parameterTreeObserverToken = parameterTree.token(byAddingParameterObserver: { [weak self] address, value in
+      guard let self = self else { return }
+      os_log(.info, log: self.log, "MainViewController - parameterTree changed - %d", address)
+      DispatchQueue.performOnMain { self.updateView() }
+    })
   }
-  
+}
+
+extension MainViewController {
+
+  private func useUserPreset(name: String) {
+    guard let userPresetManager = userPresetsManager else { return }
+    userPresetManager.makeCurrent(name: name)
+    updatePresetMenu()
+  }
+
+  func updatePresetMenu() {
+    guard let userPresetsManager = self.userPresetsManager else { return }
+    let active = userPresetsManager.audioUnit.currentPreset?.number ?? Int.max
+
+    os_log(.info, log: log, "updatePresetMenu: active %d", active)
+    let presets = userPresetsManager.presetsOrderedByName.map { (preset: AUAudioUnitPreset) -> UIAction in
+      os_log(.info, log: log, "preset: %{public}s %d", preset.name, preset.number)
+      let action = UIAction(title: preset.name + " \(preset.number)", handler: { _ in
+        self.useUserPreset(name: preset.name)
+      })
+      action.state = active == preset.number ? .on : .off
+      return action
+    }
+
+    let actionsGroup = UIMenu(title: "Actions", options: [],
+                              children: active != Int.max ? [renameAction, deleteAction] : [saveAction])
+    let menu = UIMenu(title: "Presets", options: [], children: presets + [actionsGroup])
+    userPresetsMenu.menu = menu
+    userPresetsMenu.showsMenuAsPrimaryAction = true
+  }
+
+  private func updateView() {
+    guard let audioUnit = audioUnitHost.audioUnit,
+          let parameterTree = audioUnit.parameterTree,
+          let cutoffParameter = parameterTree.parameter(withAddress: .cutoff),
+          let resonanceParameter = parameterTree.parameter(withAddress: .resonance)
+    else {
+      return
+    }
+
+    cutoffValueDidChange(cutoffParameter.value)
+    resonanceValueDidChange(resonanceParameter.value)
+
+    updatePresetMenu()
+    updatePresetSelection(audioUnit)
+
+    audioUnitHost.save()
+  }
+
+  private func updatePresetSelection(_ audioUnit: AUAudioUnit) {
+    if let presetNumber = audioUnit.currentPreset?.number {
+      os_log(.info, log: self.log, "updatePresetSelection: %d", presetNumber)
+      presetSelection.selectedSegmentIndex = presetNumber
+    }
+    else {
+      presetSelection.selectedSegmentIndex = -1
+    }
+  }
+
   private func cutoffValueDidChange(_ value: Float) {
     cutoffSlider.value = sliderLocationForFrequencyValue(value)
     cutoffValue.text = String(format: "%.2f", value)
@@ -179,12 +258,28 @@ extension MainViewController {
   }
   
   func sliderLocationForFrequencyValue(_ frequency: Float) -> Float {
-    log(((frequency - FilterView.hertzMin) / (FilterView.hertzMax - FilterView.hertzMin)) *
-                cutoffSliderMaxValuePower2Minus1 + 1.0) / log(2)
+    Foundation.log(((frequency - FilterView.hertzMin) / (FilterView.hertzMax - FilterView.hertzMin)) *
+                   cutoffSliderMaxValuePower2Minus1 + 1.0) / Foundation.log(2)
   }
   
   func frequencyValueForSliderLocation(_ location: Float) -> Float {
     ((pow(2, location) - 1) / cutoffSliderMaxValuePower2Minus1) * (FilterView.hertzMax - FilterView.hertzMin) +
       FilterView.hertzMin
+  }
+}
+
+extension MainViewController {
+
+  func notify(_ title: String, message: String) {
+    let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    controller.addAction(UIAlertAction(title: "OK", style: .default))
+    present(controller, animated: true)
+  }
+
+  func yesOrNo(_ title: String, message: String, continuation: @escaping (UIAlertAction)->Void) {
+    let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    controller.addAction(.init(title: "Continue", style: .default, handler: continuation))
+    controller.addAction(.init(title: "Cancel", style: .cancel))
+    present(controller, animated: true)
   }
 }

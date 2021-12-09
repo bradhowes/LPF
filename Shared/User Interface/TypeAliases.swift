@@ -11,6 +11,7 @@ import UIKit
 public typealias Color = UIColor
 public typealias Storyboard = UIStoryboard
 public typealias View = UIView
+public typealias ViewController = UIViewController
 
 #elseif os(macOS)
 
@@ -18,7 +19,7 @@ import AppKit
 public typealias Color = NSColor
 public typealias Storyboard = NSStoryboard
 public typealias View = NSView
-
+public typealias ViewController = NSViewController
 public extension NSView {
   func setNeedsDisplay() { self.needsDisplay = true }
 }
