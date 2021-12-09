@@ -88,6 +88,8 @@
 		BDF9580327615FD200FF2878 /* SavePresetAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF9580227615FD200FF2878 /* SavePresetAction.swift */; };
 		BDF95805276160CA00FF2878 /* RenamePresetAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF95804276160CA00FF2878 /* RenamePresetAction.swift */; };
 		BDF95807276160EE00FF2878 /* DeletePresetAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF95806276160EE00FF2878 /* DeletePresetAction.swift */; };
+		BDF9580927620B9D00FF2878 /* UserPresetsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF9580827620B9D00FF2878 /* UserPresetsManagerTests.swift */; };
+		BDF9580A27620B9D00FF2878 /* UserPresetsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF9580827620B9D00FF2878 /* UserPresetsManagerTests.swift */; };
 		C433F56122404C7C00F1B750 /* FilterViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433F56022404C7C00F1B750 /* FilterViewControllerExtension.swift */; };
 		C437FE59222367CD008D6C09 /* LowPassFilterFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */; };
 		C437FE5A222367CD008D6C09 /* LowPassFilterFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C437FE52222367CD008D6C09 /* LowPassFilterFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -291,6 +293,8 @@
 		BDF9580227615FD200FF2878 /* SavePresetAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavePresetAction.swift; sourceTree = "<group>"; };
 		BDF95804276160CA00FF2878 /* RenamePresetAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RenamePresetAction.swift; sourceTree = "<group>"; };
 		BDF95806276160EE00FF2878 /* DeletePresetAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletePresetAction.swift; sourceTree = "<group>"; };
+		BDF9580827620B9D00FF2878 /* UserPresetsManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPresetsManagerTests.swift; sourceTree = "<group>"; };
+		BDF9580B276221EA00FF2878 /* SimplyLowPass.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SimplyLowPass.entitlements; sourceTree = "<group>"; };
 		C4201A2822403120006E4333 /* FilterViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewControllerExtension.swift; sourceTree = "<group>"; };
 		C433F56022404C7C00F1B750 /* FilterViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewControllerExtension.swift; sourceTree = "<group>"; };
 		C437FE3A222367A6008D6C09 /* SimplyLowPass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimplyLowPass.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -309,7 +313,7 @@
 		C4BEE7A822236A29001E6B6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C4BEE7A922236A29001E6B6D /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4BEE7AA22236A29001E6B6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C4BEE7BD22236A58001E6B6D /* Extension.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Extension.entitlements; sourceTree = "<group>"; };
+		C4BEE7BD22236A58001E6B6D /* LPF.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = LPF.entitlements; sourceTree = "<group>"; };
 		C4BEE7BE22236A58001E6B6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4BEE7C222236A58001E6B6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4BEE7C622236A58001E6B6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -460,6 +464,7 @@
 			isa = PBXGroup;
 			children = (
 				BD95147724A08BB600D8024C /* NewSwiftTestTemplate.swift */,
+				BDF9580827620B9D00FF2878 /* UserPresetsManagerTests.swift */,
 				BD1D249425D4831B00523748 /* BundlePropertiesTests.swift */,
 				BD938B4F24A6BC1F00892358 /* BiquadFilterTests.mm */,
 				BDB11A6224A1530D00DD8EF9 /* LogScaling.swift */,
@@ -591,7 +596,7 @@
 				C4201A2822403120006E4333 /* FilterViewControllerExtension.swift */,
 				C4C9EAAB2227D79D003FEE1C /* FilterViewController.xib */,
 				C4BEE7BE22236A58001E6B6D /* Info.plist */,
-				C4BEE7BD22236A58001E6B6D /* Extension.entitlements */,
+				C4BEE7BD22236A58001E6B6D /* LPF.entitlements */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -615,6 +620,7 @@
 				C4BEE80822237078001E6B6D /* MainViewController.swift */,
 				C4BEE7C722236A58001E6B6D /* Main.storyboard */,
 				C4BEE7C622236A58001E6B6D /* Assets.xcassets */,
+				BDF9580B276221EA00FF2878 /* SimplyLowPass.entitlements */,
 				C4BEE7CA22236A58001E6B6D /* Info.plist */,
 			);
 			path = App;
@@ -1077,6 +1083,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD1D24CD25D48B8E00523748 /* RampingValueChangeDetectorTests.mm in Sources */,
+				BDF9580927620B9D00FF2878 /* UserPresetsManagerTests.swift in Sources */,
 				BD1D24D425D48B9600523748 /* LogScaling.swift in Sources */,
 				BD1D24E925D48BA800523748 /* NewSwiftTestTemplate.swift in Sources */,
 				BD1D24C625D48B8500523748 /* ValueChangeDetectorTests.mm in Sources */,
@@ -1099,6 +1106,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD95147824A08BB600D8024C /* NewSwiftTestTemplate.swift in Sources */,
+				BDF9580A27620B9D00FF2878 /* UserPresetsManagerTests.swift in Sources */,
 				BD938B5024A6BC1F00892358 /* BiquadFilterTests.mm in Sources */,
 				BD95148524A092E800D8024C /* RampingValueChangeDetectorTests.mm in Sources */,
 				BDB11A6324A1530D00DD8EF9 /* LogScaling.swift in Sources */,
@@ -1804,6 +1812,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = macOS/App/SimplyLowPass.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1874,6 +1883,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = macOS/Extension/LPF.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
@@ -2348,6 +2358,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = macOS/App/SimplyLowPass.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -2512,6 +2523,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = macOS/Extension/LPF.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;

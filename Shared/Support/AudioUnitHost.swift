@@ -5,6 +5,29 @@ import AVFoundation
 import os.log
 
 /**
+ Errors that can come from AudioUnitHost.
+ */
+public enum AudioUnitHostError: Error {
+  /// Unexpected nil AUAudioUnit (most likely never can happen)
+  case nilAudioUnit
+  /// Unexpected nil ViewController from AUAudioUnit request
+  case nilViewController
+  /// Failed to locate component matching given AudioComponentDescription
+  case componentNotFound
+  /// Error from Apple framework (CoreAudio, AVFoundation, etc.)
+  case framework(error: Error)
+  /// String describing the error case.
+  public var description: String {
+    switch self {
+    case .nilAudioUnit: return "Failed to obtain a usable audio unit instance."
+    case .nilViewController: return "Failed to obtain a usable view controller from the instantiated audio unit."
+    case .componentNotFound: return "Failed to locate the right AUv3 component to instantiate."
+    case .framework(let err): return "Framework error: \(err.localizedDescription)"
+    }
+  }
+}
+
+/**
  Delegation protocol for AudioUnitHost class.
  */
 public protocol AudioUnitHostDelegate: AnyObject {
@@ -13,7 +36,13 @@ public protocol AudioUnitHostDelegate: AnyObject {
    Notification that the UIViewController in the AudioUnitHost has a wired AUAudioUnit
    */
   func connected(audioUnit: AUAudioUnit, viewController: ViewController)
-  func failed(error: Error)
+
+  /**
+   Notification that there was a problem instantiating the audio unit or its view controller
+
+   - parameter error: the error that was encountered
+   */
+  func failed(error: AudioUnitHostError)
 }
 
 /**
@@ -25,14 +54,6 @@ public protocol AudioUnitHostDelegate: AnyObject {
 public final class AudioUnitHost {
   private let log = Logging.logger("AudioUnitHost")
 
-  private let lastStateKey = "lastStateKey"
-  private let lastPresetIndexKey = "lastPresetIndexKey"
-
-  private let playEngine = SimplePlayEngine()
-  private var isRestoring: Bool = false
-  private let locateQueue = DispatchQueue(label: Bundle.bundleID + ".LocateQueue", qos: .userInitiated)
-  private let componentDescription: AudioComponentDescription
-
   /// AudioUnit controlled by the view controller
   public private(set) var audioUnit: AUAudioUnit?
 
@@ -41,12 +62,21 @@ public final class AudioUnitHost {
 
   /// True if the audio engine is currently playing
   public var isPlaying: Bool { playEngine.isPlaying }
-  
+
   /// Delegate to signal when everything is wired up.
-  public weak var delegate: AudioUnitHostDelegate? { didSet { signalConnected() } }
+  public weak var delegate: AudioUnitHostDelegate? { didSet { notifyDelegate() } }
+
+  private let lastStateKey = "lastStateKey"
+  private let lastPresetNumberKey = "lastPresetNumberKey"
+
+  private let playEngine = SimplePlayEngine()
+  private var isRestoring: Bool = false
+  private let locateQueue = DispatchQueue(label: Bundle.bundleID + ".LocateQueue", qos: .userInitiated)
+  private let componentDescription: AudioComponentDescription
 
   private var notificationObserverToken: NSObjectProtocol?
-  private var creationError: Error?
+  private var creationError: AudioUnitHostError? { didSet { self.notifyDelegate() } }
+  private var detectionTimer: Timer?
 
   /**
    Create a new instance that will hopefully create a new AUAudioUnit and a view controller for its control view.
@@ -69,12 +99,29 @@ public final class AudioUnitHost {
     locateQueue.async { [weak self] in
       guard let self = self else { return }
 
-      let components = AVAudioUnitComponentManager.shared().components(matching: self.componentDescription)
+      let description = AudioComponentDescription(componentType: self.componentDescription.componentType,
+                                                  componentSubType: 0,
+                                                  componentManufacturer: 0,
+                                                  componentFlags: 0,
+                                                  componentFlagsMask: 0)
+
+      let components = AVAudioUnitComponentManager.shared().components(matching: description)
       os_log(.info, log: self.log, "locate: found %d", components.count)
-      if !components.isEmpty {
-        self.createAudioUnit()
+
+      for each in components {
+        each.audioComponentDescription.log(self.log, type: .info)
+        if each.audioComponentDescription.componentManufacturer == self.componentDescription.componentManufacturer &&
+            each.audioComponentDescription.componentType == self.componentDescription.componentType &&
+            each.audioComponentDescription.componentSubType == self.componentDescription.componentSubType {
+          os_log(.info, log: self.log, "found match")
+          DispatchQueue.main.async {
+            self.createAudioUnit(each.audioComponentDescription)
+          }
+          return
+        }
       }
-      else {
+
+      DispatchQueue.performOnMain {
         self.checkAgain()
       }
     }
@@ -87,6 +134,12 @@ public final class AudioUnitHost {
   private func checkAgain() {
     os_log(.info, log: log, "checkAgain")
     let center = NotificationCenter.default
+
+    detectionTimer?.invalidate()
+    self.detectionTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { _ in
+      self.creationError = AudioUnitHostError.componentNotFound
+    }
+
     notificationObserverToken = center.addObserver(
       forName: AVAudioUnitComponentManager.registrationsChangedNotification, object: nil, queue: nil) { [weak self] _ in
         guard let self = self else { return }
@@ -94,67 +147,93 @@ public final class AudioUnitHost {
         let token = self.notificationObserverToken!
         self.notificationObserverToken = nil
         center.removeObserver(token)
+        self.detectionTimer?.invalidate()
         self.locate()
       }
   }
 
   /**
-   Create the AUv3 component.
+   Create the desired component using the AUv3 API
    */
-  private func createAudioUnit() {
+  private func createAudioUnit(_ componentDescription: AudioComponentDescription) {
     os_log(.info, log: log, "createAudioUnit")
     guard self.audioUnit == nil else { return }
 
+#if os(macOS)
+    let options: AudioComponentInstantiationOptions = .loadInProcess
+#else
     let options: AudioComponentInstantiationOptions = .loadOutOfProcess
+#endif
 
-    AVAudioUnit.instantiate(with: self.componentDescription, options: options) { [weak self] avAudioUnit, error in
+    AVAudioUnit.instantiate(with: componentDescription, options: options) { [weak self] avAudioUnit, error in
       guard let self = self else { return }
       if let error = error {
         os_log(.error, log: self.log, "createAudioUnit: error - %{public}s", error.localizedDescription)
-        self.delegate?.failed(error: error)
+        self.creationError = .framework(error: error)
         return
       }
 
       guard let avAudioUnit = avAudioUnit else {
         os_log(.error, log: self.log, "createAudioUnit: nil avAudioUnit")
+        self.creationError = AudioUnitHostError.nilAudioUnit
         return
       }
 
-      self.createViewController(avAudioUnit)
+      DispatchQueue.main.async {
+        self.createViewController(avAudioUnit)
+      }
     }
   }
 
+  /**
+   Create the component's view controller to embed in the host view.
+
+   - parameter avAudioUnit: the AVAudioUnit that was instantiated
+   */
   private func createViewController(_ avAudioUnit: AVAudioUnit) {
     os_log(.info, log: log, "createViewController")
     avAudioUnit.auAudioUnit.requestViewController { [weak self] controller in
       guard let self = self else { return }
-      guard let controller = controller else { fatalError("view controller is nil") }
+      guard let controller = controller else {
+        self.creationError = AudioUnitHostError.nilViewController
+        return
+      }
       os_log(.info, log: self.log, "view controller type - %{public}s", String(describing: type(of: controller)))
       self.wireAudioUnit(avAudioUnit, controller)
     }
   }
 
-  private func wireAudioUnit(_ avAudioUnit: AVAudioUnit, _ viewController: UIViewController) {
+  /**
+   Finalize creation of the AUv3 component. Connect to the audio engine and notify the main view controller that
+   everything is done.
+
+   - parameter avAudioUnit: the audio unit that was created
+   - parameter viewController: the view controller that was created
+   */
+  private func wireAudioUnit(_ avAudioUnit: AVAudioUnit, _ viewController: ViewController) {
     self.audioUnit = avAudioUnit.auAudioUnit
     self.viewController = viewController
 
     playEngine.connectEffect(audioUnit: avAudioUnit)
-    signalConnected()
+    notifyDelegate()
   }
 
-  private func signalConnected() {
-    if let audioUnit = self.audioUnit, let viewController = self.viewController {
-      DispatchQueue.performOnMain { self.delegate?.connected(audioUnit: audioUnit, viewController: viewController) }
-    }
-    else if let creationError = self.creationError {
+  private func notifyDelegate() {
+    os_log(.info, log: log, "notifyDelegate")
+    if let creationError = self.creationError {
+      os_log(.info, log: log, "error: %{public}s", creationError.localizedDescription)
       DispatchQueue.performOnMain { self.delegate?.failed(error: creationError) }
+    }
+    else if let audioUnit = self.audioUnit, let viewController = self.viewController {
+      os_log(.info, log: log, "success")
+      DispatchQueue.performOnMain { self.delegate?.connected(audioUnit: audioUnit, viewController: viewController) }
     }
   }
 }
 
 extension AudioUnitHost {
 
-  private var noCurrentPresetIndex: Int { Int.max }
+  private var noCurrentPresetNumber: Int { Int.max }
 
   /**
    Save the current state of the AudioUnit to UserDefaults for future restoration.
@@ -169,8 +248,8 @@ extension AudioUnitHost {
       UserDefaults.standard.removeObject(forKey: lastStateKey)
     }
 
-    let lastPresetIndex = audioUnit?.currentPreset?.number ?? noCurrentPresetIndex
-    UserDefaults.standard.set(lastPresetIndex, forKey: lastPresetIndexKey)
+    let lastPresetNumber = audioUnit?.currentPreset?.number ?? noCurrentPresetNumber
+    UserDefaults.standard.set(lastPresetNumber, forKey: lastPresetNumberKey)
   }
 
   /**
@@ -189,28 +268,16 @@ extension AudioUnitHost {
       audioUnit.fullStateForDocument = lastState
     }
 
-    if let lastPresetIndex = UserDefaults.standard.object(forKey: lastPresetIndexKey) as? NSNumber {
-      let presetIndex = lastPresetIndex.intValue
-      if presetIndex == noCurrentPresetIndex {
-        audioUnit.currentPreset = nil
-      }
-      else if presetIndex >= 0 {
-#if os(iOS)
-        audioUnit.currentPreset = audioUnit.factoryPresets?[presetIndex]
-#elseif os(macOS)
-        audioUnit.currentPreset = audioUnit.factoryPresets[presetIndex]
-#endif
-      }
-      else {
-        let index = -presetIndex - 1
-        if index > 0 && index < audioUnit.userPresets.count {
-          audioUnit.currentPreset = audioUnit.userPresets[index]
-        }
-        else {
-          audioUnit.currentPreset = nil
-        }
-      }
+    guard let lastPresetNumber = UserDefaults.standard.object(forKey: lastPresetNumberKey) as? NSNumber else { return }
+    let presetNumber = lastPresetNumber.intValue
+    guard presetNumber != noCurrentPresetNumber else {
+      audioUnit.currentPreset = nil
+      return
     }
+
+    audioUnit.currentPreset = (presetNumber >= 0
+                               ? audioUnit.factoryPresetsArray[presetNumber]
+                               : audioUnit.userPresets.first(where: { $0.number == presetNumber }))
   }
 }
 

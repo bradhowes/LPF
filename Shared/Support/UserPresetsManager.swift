@@ -3,16 +3,28 @@
 import Foundation
 import AudioToolbox
 
-public final class UserPresetsManager: NSObject {
+/**
+ Subset of AUAudioUnit functionality that is used by UserPresetsManager.
+ */
+public protocol AUAudioUnitPresetsFacade: AnyObject {
+  var factoryPresetsArray: [AUAudioUnitPreset] {get}
+  var userPresets: [AUAudioUnitPreset] {get}
+  var currentPreset: AUAudioUnitPreset? {get set}
 
-  public let audioUnit: AUAudioUnit
+  func saveUserPreset(_ preset: AUAudioUnitPreset) throws
+  func deleteUserPreset(_ preset: AUAudioUnitPreset) throws
+}
+
+public class UserPresetsManager {
+
+  public let audioUnit: AUAudioUnitPresetsFacade
   public var presets: [AUAudioUnitPreset] { audioUnit.userPresets }
   public var presetsOrderedByNumber: [AUAudioUnitPreset] { presets.sorted { $0.number > $1.number } }
   public var presetsOrderedByName: [AUAudioUnitPreset] {
     presets.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
   }
 
-  public init(for audioUnit: AUAudioUnit) {
+  public init(for audioUnit: AUAudioUnitPresetsFacade) {
     self.audioUnit = audioUnit
   }
 
@@ -20,12 +32,18 @@ public final class UserPresetsManager: NSObject {
     presets.first(where: { $0.name == name })
   }
 
-  public func makeCurrent(name: String) {
-    if let preset = find(name: name) {
-      audioUnit.currentPreset = preset
-    }
+  public func clearCurrentPreset() {
+    audioUnit.currentPreset = nil
   }
-  
+
+  public func makeCurrentPreset(name: String) {
+    audioUnit.currentPreset = find(name: name)
+  }
+
+  public func makeCurrentPreset(factoryIndex: Int) {
+    audioUnit.currentPreset = audioUnit.factoryPresetsArray[validating: factoryIndex]
+  }
+
   public func create(name: String) throws {
     let preset = AUAudioUnitPreset(number: nextNumber, name: name)
     try audioUnit.saveUserPreset(preset)
@@ -52,7 +70,7 @@ public final class UserPresetsManager: NSObject {
     try audioUnit.deleteUserPreset(AUAudioUnitPreset(number: preset.number, name: preset.name))
   }
 
-  private var nextNumber: Int {
+  public var nextNumber: Int {
     let ordered = presetsOrderedByNumber
     var number = ordered.first?.number ?? -1
     for entry in ordered {

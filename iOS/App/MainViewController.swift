@@ -13,7 +13,7 @@ final class MainViewController: UIViewController {
   private let cutoffSliderMaxValue: Float = 9.0
   private lazy var cutoffSliderMaxValuePower2Minus1 = Float(pow(2, cutoffSliderMaxValue) - 1)
   
-  private var audioUnitHost: AudioUnitHost!
+  private let audioUnitHost = AudioUnitHost(componentDescription: FilterAudioUnit.componentDescription)
   internal var userPresetsManager: UserPresetsManager?
 
   private var cutoffParameter: AUParameter?
@@ -30,6 +30,9 @@ final class MainViewController: UIViewController {
   @IBOutlet weak var presetSelection: UISegmentedControl!
   @IBOutlet weak var userPresetsMenu: UIButton!
 
+  @IBSegueAction func showAlertSegue(_ coder: NSCoder) -> NSViewController? {
+    return <#NSViewController(coder: coder)#>
+  }
   private lazy var renameAction = UIAction(title: "Rename", handler: RenamePresetAction(self).start(_:))
   private lazy var deleteAction = UIAction(title: "Delete", handler: DeletePresetAction(self).start(_:))
   private lazy var saveAction = UIAction(title: "Save", handler: SavePresetAction(self).start(_:))
@@ -39,7 +42,7 @@ final class MainViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    audioUnitHost = AudioUnitHost(componentDescription: FilterAudioUnit.componentDescription)
+    // audioUnitHost = AudioUnitHost(componentDescription: FilterAudioUnit.componentDescription)
     guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
     delegate.setMainViewController(self)
     
@@ -106,12 +109,12 @@ available for use in other host applications.
   
   @IBAction private func cutoffSliderValueChanged(_ sender: UISlider) {
     cutoffParameter?.value = frequencyValueForSliderLocation(sender.value)
-    audioUnitHost.audioUnit?.currentPreset = nil
+    userPresetsManager?.clearCurrentPreset()
   }
   
   @IBAction private func resonanceSliderValueChanged(_ sender: UISlider) {
     resonanceParameter?.value = sender.value
-    audioUnitHost.audioUnit?.currentPreset = nil
+    userPresetsManager?.clearCurrentPreset()
   }
   
   @IBAction private func visitAppStore(_ sender: UIButton) {
@@ -123,8 +126,7 @@ available for use in other host applications.
   }
   
   @IBAction func useFactoryPreset(_ sender: UISegmentedControl? = nil) {
-    guard let audioUnit = audioUnitHost.audioUnit else { return }
-    audioUnit.currentPreset = audioUnit.factoryPresets?[presetSelection.selectedSegmentIndex]
+    userPresetsManager?.makeCurrentPreset(factoryIndex: presetSelection.selectedSegmentIndex)
   }
   
   @IBAction private func reviewApp(_ sender: UIButton) {
@@ -194,7 +196,7 @@ extension MainViewController {
 
   private func useUserPreset(name: String) {
     guard let userPresetManager = userPresetsManager else { return }
-    userPresetManager.makeCurrent(name: name)
+    userPresetManager.makeCurrentPreset(name: name)
     updatePresetMenu()
   }
 
@@ -205,16 +207,14 @@ extension MainViewController {
     os_log(.info, log: log, "updatePresetMenu: active %d", active)
     let presets = userPresetsManager.presetsOrderedByName.map { (preset: AUAudioUnitPreset) -> UIAction in
       os_log(.info, log: log, "preset: %{public}s %d", preset.name, preset.number)
-      let action = UIAction(title: preset.name + " \(preset.number)", handler: { _ in
-        self.useUserPreset(name: preset.name)
-      })
+      let action = UIAction(title: preset.name, handler: { _ in self.useUserPreset(name: preset.name) })
       action.state = active == preset.number ? .on : .off
       return action
     }
 
     let actionsGroup = UIMenu(title: "Actions", options: [],
                               children: active != Int.max ? [renameAction, deleteAction] : [saveAction])
-    let menu = UIMenu(title: "Presets", options: [], children: presets + [actionsGroup])
+    let menu = UIMenu(title: "User Presets", options: [], children: presets + [actionsGroup])
     userPresetsMenu.menu = menu
     userPresetsMenu.showsMenuAsPrimaryAction = true
   }
