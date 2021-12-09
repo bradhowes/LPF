@@ -322,20 +322,11 @@
                         <outlet property="cutoffTextField" destination="R8U-qk-iuM" id="i9s-KD-4fg"/>
                         <outlet property="resonanceSlider" destination="MX2-fm-3rT" id="aWP-3P-qKq"/>
                         <outlet property="resonanceTextField" destination="25o-BP-DCr" id="dcx-hL-VLx"/>
-                        <segue destination="Bhx-RI-q5l" kind="modal" identifier="showAlert" id="JvJ-OU-njT"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="159.5" y="1122"/>
-        </scene>
-        <!--Alert-->
-        <scene sceneID="iDv-1S-fnx">
-            <objects>
-                <controllerPlaceholder storyboardName="Alert" id="Bhx-RI-q5l" sceneMemberID="viewController"/>
-                <customObject id="fQp-Wx-HZK" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="560" y="1122"/>
         </scene>
     </scenes>
 </document>
