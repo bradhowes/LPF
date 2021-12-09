@@ -7,4 +7,5 @@ final class MainWindowController: NSWindowController {
   
   @IBOutlet public weak var playButton: NSButton!
   @IBOutlet public weak var bypassButton: NSButton!
+  @IBOutlet public weak var presetsButton: NSButton!
 }

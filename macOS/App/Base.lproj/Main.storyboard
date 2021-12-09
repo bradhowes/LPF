@@ -142,8 +142,8 @@
                                     <button key="view" verticalHuggingPriority="750" id="ogO-fI-sF4">
                                         <rect key="frame" x="10" y="14" width="48" height="32"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <buttonCell key="cell" type="push" bezelStyle="rounded" image="play" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7Br-57-RWg">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                        <buttonCell key="cell" type="push" bezelStyle="rounded" image="play" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7Br-57-RWg">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
@@ -151,17 +151,31 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="2AC2063E-880F-4AEB-A2B8-5747B89394F6" label="Bypass" paletteLabel="Bypass Button" image="enabled" sizingBehavior="auto" id="3w5-Pk-Kuc" userLabel="Bypass Button">
+                                <toolbarItem implicitItemIdentifier="2AC2063E-880F-4AEB-A2B8-5747B89394F6" label="Bypass" paletteLabel="Bypass Button" image="enabled" bordered="YES" sizingBehavior="auto" id="3w5-Pk-Kuc" userLabel="Bypass Button">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="WpS-Vu-loZ" userLabel="Bypass">
                                         <rect key="frame" x="18" y="14" width="48" height="32"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <buttonCell key="cell" type="push" bezelStyle="rounded" image="enabled" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="W6e-XW-QNj">
-                                            <behavior key="behavior" lightByContents="YES"/>
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
                                             <action selector="toggleBypass:" target="Oky-zY-oP4" id="S6c-ZS-53j"/>
+                                        </connections>
+                                    </button>
+                                </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="3E4DB501-F03A-4390-ADF7-9CEE60CB95D5" label="Presets" paletteLabel="Presets Button" image="user" bordered="YES" sizingBehavior="auto" id="d9T-5i-rb0">
+                                    <nil key="toolTip"/>
+                                    <button key="view" verticalHuggingPriority="750" id="oQW-OV-pYD" userLabel="Presets">
+                                        <rect key="frame" x="19" y="14" width="48" height="32"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <buttonCell key="cell" type="push" bezelStyle="rounded" image="user" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZOA-Lq-CrG">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="presetsButton:" target="Oky-zY-oP4" id="cvf-rM-Lzb"/>
                                         </connections>
                                     </button>
                                 </toolbarItem>
@@ -171,6 +185,7 @@
                                 <toolbarItem reference="Rub-ZQ-gKo"/>
                                 <toolbarItem reference="gZY-Pi-OZc"/>
                                 <toolbarItem reference="3w5-Pk-Kuc"/>
+                                <toolbarItem reference="d9T-5i-rb0"/>
                             </defaultToolbarItems>
                         </toolbar>
                         <connections>
@@ -180,6 +195,7 @@
                     <connections>
                         <outlet property="bypassButton" destination="WpS-Vu-loZ" id="vss-i2-oQd"/>
                         <outlet property="playButton" destination="ogO-fI-sF4" id="mnc-aK-30h"/>
+                        <outlet property="presetsButton" destination="oQW-OV-pYD" id="Wuo-UZ-ZhI"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="4gy-rt-TT0"/>
                     </connections>
                 </windowController>
@@ -338,5 +354,6 @@
     <resources>
         <image name="enabled" width="25" height="25"/>
         <image name="play" width="25" height="25"/>
+        <image name="user" width="25" height="25"/>
     </resources>
 </document>

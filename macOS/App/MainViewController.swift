@@ -21,6 +21,7 @@ final class MainViewController: NSViewController {
   
   private var playButton: NSButton!
   private var bypassButton: NSButton!
+  private var presetsButton: NSButton!
 
   private var presetsMenu: NSMenu!
   private var savePresetMenuItem: NSMenuItem!
@@ -81,6 +82,7 @@ extension MainViewController {
     playButton = windowController.playButton
     bypassButton = windowController.bypassButton
     bypassButton.isEnabled = false
+    presetsButton = windowController.presetsButton
 
     guard let savePresetMenuItem = appDelegate.savePresetMenuItem else { fatalError() }
     savePresetMenuItem.target = self
@@ -191,15 +193,14 @@ extension MainViewController {
   
   @IBAction private func togglePlay(_ sender: NSButton) {
     audioUnitHost.togglePlayback()
-    playButton?.state = audioUnitHost.isPlaying ? .on : .off
-    playButton?.image = audioUnitHost.isPlaying ? NSImage(named: "stop") : NSImage(named: "play")
-    playMenuItem?.title = audioUnitHost.isPlaying ? "Stop" : "Play"
-    bypassButton?.isEnabled = audioUnitHost.isPlaying
-    bypassMenuItem?.isEnabled = audioUnitHost.isPlaying
+    let isPlaying = audioUnitHost.isPlaying
 
-    if !audioUnitHost.isPlaying && (audioUnitHost.audioUnit?.shouldBypassEffect ?? false) {
-      toggleBypass(sender)
-    }
+    playButton?.image = isPlaying ? NSImage(named: "stop") : NSImage(named: "play")
+
+    audioUnitHost.audioUnit?.shouldBypassEffect = false
+    bypassButton?.image = NSImage(named: "enabled")
+    bypassButton?.isEnabled = isPlaying
+    bypassMenuItem?.isEnabled = isPlaying
   }
   
   @IBAction private func toggleBypass(_ sender: NSButton) {
@@ -209,7 +210,12 @@ extension MainViewController {
     bypassButton?.image = isBypassed ? NSImage(named: "bypassed") : NSImage(named: "enabled")
     bypassMenuItem?.title = isBypassed ? "Resume" : "Bypass"
   }
-  
+
+  @IBAction private func presetsButton(_ sender: NSButton) {
+    let location = NSPoint(x: 0, y: sender.frame.height + 5)
+    presetsMenu.popUp(positioning: nil, at: location, in: sender)
+  }
+
   @IBAction private func cutoffSliderValueChanged(_ sender: NSSlider) {
     cutoffParameter?.setValue(frequencyValueForSliderLocation(sender.floatValue), originator: parameterTreeObserverToken)
     userPresetsManager?.clearCurrentPreset()
@@ -248,7 +254,8 @@ extension MainViewController {
 
   @objc private func presetMenuItemSelected(_ sender: NSMenuItem) {
     guard let userPresetsManager = self.userPresetsManager else { return }
-    userPresetsManager.makeCurrentPreset(number: sender.tag)
+    let number = tagToNumber(sender.tag)
+    userPresetsManager.makeCurrentPreset(number: number)
     updatePresetMenu()
   }
 }
@@ -282,6 +289,14 @@ extension MainViewController {
     audioUnitHost.save()
   }
 
+  private func numberToTag(_ number: Int) -> Int {
+    number >= 0 ? (number + 10_000) : number
+  }
+
+  private func tagToNumber(_ tag: Int) -> Int {
+    tag >= 10_000 ? (tag - 10_000) : tag
+  }
+
   private func populatePresetMenu() {
     guard let userPresetsManager = self.userPresetsManager else { return }
     let audioUnit = userPresetsManager.audioUnit
@@ -292,7 +307,7 @@ extension MainViewController {
     for preset in audioUnit.factoryPresetsArray {
       let key = "\(preset.number + 1)"
       let menuItem = NSMenuItem(title: preset.name, action: #selector(presetMenuItemSelected(_:)), keyEquivalent: key)
-      menuItem.tag = preset.number
+      menuItem.tag = numberToTag(preset.number)
       os_log(.info, log: self.log, "adding %d %{public}s", menuItem.tag, preset.name)
       presetsMenu.addItem(menuItem)
     }
@@ -307,7 +322,7 @@ extension MainViewController {
     for preset in userPresetsManager.presetsOrderedByName {
       let key = ""
       let menuItem = NSMenuItem(title: preset.name, action: #selector(presetMenuItemSelected(_:)), keyEquivalent: key)
-      menuItem.tag = preset.number
+      menuItem.tag = numberToTag(preset.number)
       os_log(.info, log: self.log, "adding %d %{public}s", menuItem.tag, preset.name)
       presetsMenu.addItem(menuItem)
     }
@@ -325,7 +340,7 @@ extension MainViewController {
     deletePresetMenuItem.isEnabled = active < 0
 
     for (index, item) in presetsMenu.items.enumerated() {
-      item.state = (index > 3 && item.tag == active) ? .on : .off
+      item.state = (index > 3 && tagToNumber(item.tag) == active) ? .on : .off
     }
   }
 
