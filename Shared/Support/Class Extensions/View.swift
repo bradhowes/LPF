@@ -1,7 +1,6 @@
 // Copyright © 2020 Brad Howes. All rights reserved.
 
 public extension View {
-
   /**
    Add layout constraints such that the edges of this view extend to those of the enclosing view.
    */

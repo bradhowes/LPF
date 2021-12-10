@@ -1,10 +1,9 @@
 // Copyright © 2020 Brad Howes. All rights reserved.
 
-import XCTest
 import LowPassFilterFramework
+import XCTest
 
 class BundlePropertiesTests: XCTestCase {
-  
   func testComponentAttributes() throws {
     let bundle = Bundle(for: LowPassFilterFramework.FilterAudioUnit.self)
     XCTAssertEqual("LPF", bundle.auBaseName)

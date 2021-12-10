@@ -2,11 +2,10 @@
 
 import Foundation
 
-extension Bundle {
-  
+public extension Bundle {
   /**
    Attempt to get a String value from the Bundle meta dictionary.
-   
+
    - parameter key: what to fetch
    - returns: the value found or an empty string
    */
@@ -15,18 +14,18 @@ extension Bundle {
     guard let value = dict[key] as? String else { return "" }
     return value
   }
-  
+
   /// Obtain the release version number associated with the bundle or "" if none found
-  public var releaseVersionNumber: String { info(for: "CFBundleShortVersionString") }
-  
+  var releaseVersionNumber: String { info(for: "CFBundleShortVersionString") }
+
   /// Obtain the build version number associated with the bundle or "" if none found
-  public var buildVersionNumber: String { info(for: "CFBundleVersion") }
-  
+  var buildVersionNumber: String { info(for: "CFBundleVersion") }
+
   /// Obtain the bundle identifier or "" if there is not one
-  public static var bundleID: String { Bundle.main.bundleIdentifier ?? "" }
-  
+  static var bundleID: String { Bundle.main.bundleIdentifier ?? "" }
+
   /// Obtain the build scheme that was used to generate the bundle. Returns " Dev" or " Staging" or ""
-  public static var scheme: String {
+  static var scheme: String {
     if bundleID.lowercased().contains(".dev") { return " Dev" }
     if bundleID.lowercased().contains(".staging") { return " Staging" }
     return ""
@@ -34,13 +33,13 @@ extension Bundle {
 
   /// Obtain a version string with the following format: "Version V.B[ S]"
   /// where V is the releaseVersionNumber, B is the buildVersionNumber and S is the scheme.
-  public var versionString: String { "Version \(releaseVersionNumber).\(buildVersionNumber)\(Self.scheme)" }
+  var versionString: String { "Version \(releaseVersionNumber).\(buildVersionNumber)\(Self.scheme)" }
 
-  public var auBaseName: String { info(for: "AU_BASE_NAME") }
-  public var auComponentName: String { info(for: "AU_COMPONENT_NAME") }
-  public var auComponentType: String { info(for: "AU_COMPONENT_TYPE") }
-  public var auComponentSubtype: String { info(for: "AU_COMPONENT_SUBTYPE") }
-  public var auComponentManufacturer: String { info(for: "AU_COMPONENT_MANUFACTURER") }
-  public var auFactoryFunction: String { info(for: "AU_FACTORY_FUNCTION") }
-  public var appStoreId: String { info(for: "APP_STORE_ID") }
+  var auBaseName: String { info(for: "AU_BASE_NAME") }
+  var auComponentName: String { info(for: "AU_COMPONENT_NAME") }
+  var auComponentType: String { info(for: "AU_COMPONENT_TYPE") }
+  var auComponentSubtype: String { info(for: "AU_COMPONENT_SUBTYPE") }
+  var auComponentManufacturer: String { info(for: "AU_COMPONENT_MANUFACTURER") }
+  var auFactoryFunction: String { info(for: "AU_FACTORY_FUNCTION") }
+  var appStoreId: String { info(for: "APP_STORE_ID") }
 }

@@ -1,9 +1,9 @@
 // Changes: Copyright © 2020 Brad Howes. All rights reserved.
 // Original: See LICENSE folder for this sample’s licensing information.
 
-import UIKit
 import LowPassFilterFramework
 import os.log
+import UIKit
 
 final class MainViewController: UIViewController {
   private static let log = Logging.logger("MainViewController")
@@ -12,23 +12,23 @@ final class MainViewController: UIViewController {
   private let cutoffSliderMinValue: Float = 0.0
   private let cutoffSliderMaxValue: Float = 9.0
   private lazy var cutoffSliderMaxValuePower2Minus1 = Float(pow(2, cutoffSliderMaxValue) - 1)
-  
+
   private let audioUnitHost = AudioUnitHost(componentDescription: FilterAudioUnit.componentDescription)
   internal var userPresetsManager: UserPresetsManager?
 
   private var cutoffParameter: AUParameter?
   private var resonanceParameter: AUParameter?
 
-  @IBOutlet weak var reviewButton: UIButton!
-  @IBOutlet weak var playButton: UIButton!
-  @IBOutlet weak var bypassButton: UIButton!
-  @IBOutlet weak var cutoffSlider: UISlider!
-  @IBOutlet weak var cutoffValue: UILabel!
-  @IBOutlet weak var resonanceSlider: UISlider!
-  @IBOutlet weak var resonanceValue: UILabel!
-  @IBOutlet weak var containerView: UIView!
-  @IBOutlet weak var presetSelection: UISegmentedControl!
-  @IBOutlet weak var userPresetsMenu: UIButton!
+  @IBOutlet var reviewButton: UIButton!
+  @IBOutlet var playButton: UIButton!
+  @IBOutlet var bypassButton: UIButton!
+  @IBOutlet var cutoffSlider: UISlider!
+  @IBOutlet var cutoffValue: UILabel!
+  @IBOutlet var resonanceSlider: UISlider!
+  @IBOutlet var resonanceValue: UILabel!
+  @IBOutlet var containerView: UIView!
+  @IBOutlet var presetSelection: UISegmentedControl!
+  @IBOutlet var userPresetsMenu: UIButton!
 
   private lazy var renameAction = UIAction(title: "Rename", handler: RenamePresetAction(self).start(_:))
   private lazy var deleteAction = UIAction(title: "Delete", handler: DeletePresetAction(self).start(_:))
@@ -42,15 +42,15 @@ final class MainViewController: UIViewController {
     // audioUnitHost = AudioUnitHost(componentDescription: FilterAudioUnit.componentDescription)
     guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
     delegate.setMainViewController(self)
-    
+
     let version = Bundle.main.releaseVersionNumber
     reviewButton.setTitle(version, for: .normal)
-    
+
     cutoffSlider.minimumValue = cutoffSliderMinValue
     cutoffSlider.maximumValue = cutoffSliderMaxValue
-    
-    presetSelection.setTitleTextAttributes([.foregroundColor : UIColor.white], for: .normal)
-    presetSelection.setTitleTextAttributes([.foregroundColor : UIColor.black], for: .selected)
+
+    presetSelection.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
+    presetSelection.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
   }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -65,7 +65,7 @@ final class MainViewController: UIViewController {
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    
+
     // presetSelection.selectedSegmentIndex = 0
     // usePreset()
 
@@ -76,44 +76,44 @@ final class MainViewController: UIViewController {
                                   message: nil, preferredStyle: .alert)
     alert.message =
       """
-The AUv3 component 'SimplyLowPass' is now available on your device and can be used in other AUv3 host apps such as
-GarageBand and AUM.You can continue to use this app to experiment, but you do not need to have it running in order to
-access the AUv3 component in other apps. If you delete this app from your device, the AUv3 component will no longer be
-available for use in other host applications.
-"""
+      The AUv3 component 'SimplyLowPass' is now available on your device and can be used in other AUv3 host apps such as
+      GarageBand and AUM.You can continue to use this app to experiment, but you do not need to have it running in order to
+      access the AUv3 component in other apps. If you delete this app from your device, the AUv3 component will no longer be
+      available for use in other host applications.
+      """
     alert.addAction(
       UIAlertAction(title: "OK", style: .default, handler: { _ in })
     )
     present(alert, animated: true)
   }
-  
+
   public func stopPlaying() {
     audioUnitHost.cleanup()
   }
-  
+
   @IBAction private func togglePlay(_ sender: UIButton) {
     let isPlaying = audioUnitHost.togglePlayback()
     sender.isSelected = isPlaying
     sender.tintColor = isPlaying ? .systemYellow : .systemTeal
   }
-  
+
   @IBAction private func toggleBypass(_ sender: UIButton) {
     let wasBypassed = audioUnitHost.audioUnit?.shouldBypassEffect ?? false
     let isBypassed = !wasBypassed
     audioUnitHost.audioUnit?.shouldBypassEffect = isBypassed
     sender.isSelected = isBypassed
   }
-  
+
   @IBAction private func cutoffSliderValueChanged(_ sender: UISlider) {
     cutoffParameter?.value = frequencyValueForSliderLocation(sender.value)
     userPresetsManager?.clearCurrentPreset()
   }
-  
+
   @IBAction private func resonanceSliderValueChanged(_ sender: UISlider) {
     resonanceParameter?.value = sender.value
     userPresetsManager?.clearCurrentPreset()
   }
-  
+
   @IBAction private func visitAppStore(_ sender: UIButton) {
     let appStoreId = Bundle.main.appStoreId
     guard let url = URL(string: "https://itunes.apple.com/app/id\(appStoreId)") else {
@@ -121,18 +121,17 @@ available for use in other host applications.
     }
     UIApplication.shared.open(url, options: [:], completionHandler: nil)
   }
-  
+
   @IBAction func useFactoryPreset(_ sender: UISegmentedControl? = nil) {
     userPresetsManager?.makeCurrentPreset(number: presetSelection.selectedSegmentIndex)
   }
-  
+
   @IBAction private func reviewApp(_ sender: UIButton) {
     AppStore.visitAppStore()
   }
 }
 
 extension MainViewController: AudioUnitHostDelegate {
-  
   func connected(audioUnit: AUAudioUnit, viewController: ViewController) {
     userPresetsManager = .init(for: audioUnit)
     connectFilterView(viewController)
@@ -183,7 +182,7 @@ extension MainViewController: AudioUnitHostDelegate {
       DispatchQueue.performOnMain { self.updateView() }
     }
 
-    parameterTreeObserverToken = parameterTree.token(byAddingParameterObserver: { [weak self] address, value in
+    parameterTreeObserverToken = parameterTree.token(byAddingParameterObserver: { [weak self] address, _ in
       guard let self = self else { return }
       os_log(.info, log: self.log, "MainViewController - parameterTree changed - %d", address)
       DispatchQueue.performOnMain { self.updateView() }
@@ -192,7 +191,6 @@ extension MainViewController: AudioUnitHostDelegate {
 }
 
 extension MainViewController {
-
   private func useUserPreset(name: String) {
     guard let userPresetManager = userPresetsManager else { return }
     userPresetManager.makeCurrentPreset(name: name)
@@ -200,7 +198,7 @@ extension MainViewController {
   }
 
   func updatePresetMenu() {
-    guard let userPresetsManager = self.userPresetsManager else { return }
+    guard let userPresetsManager = userPresetsManager else { return }
     let active = userPresetsManager.audioUnit.currentPreset?.number ?? Int.max
 
     os_log(.info, log: log, "updatePresetMenu: active %d", active)
@@ -238,10 +236,9 @@ extension MainViewController {
 
   private func updatePresetSelection(_ audioUnit: AUAudioUnit) {
     if let presetNumber = audioUnit.currentPreset?.number {
-      os_log(.info, log: self.log, "updatePresetSelection: %d", presetNumber)
+      os_log(.info, log: log, "updatePresetSelection: %d", presetNumber)
       presetSelection.selectedSegmentIndex = presetNumber
-    }
-    else {
+    } else {
       presetSelection.selectedSegmentIndex = -1
     }
   }
@@ -250,17 +247,17 @@ extension MainViewController {
     cutoffSlider.value = sliderLocationForFrequencyValue(value)
     cutoffValue.text = String(format: "%.2f", value)
   }
-  
+
   private func resonanceValueDidChange(_ value: Float) {
     resonanceSlider.value = value
     resonanceValue.text = String(format: "%.2f", value)
   }
-  
+
   func sliderLocationForFrequencyValue(_ frequency: Float) -> Float {
     Foundation.log(((frequency - FilterView.hertzMin) / (FilterView.hertzMax - FilterView.hertzMin)) *
-                   cutoffSliderMaxValuePower2Minus1 + 1.0) / Foundation.log(2)
+      cutoffSliderMaxValuePower2Minus1 + 1.0) / Foundation.log(2)
   }
-  
+
   func frequencyValueForSliderLocation(_ location: Float) -> Float {
     ((pow(2, location) - 1) / cutoffSliderMaxValuePower2Minus1) * (FilterView.hertzMax - FilterView.hertzMin) +
       FilterView.hertzMin
@@ -268,14 +265,13 @@ extension MainViewController {
 }
 
 extension MainViewController {
-
   func notify(_ title: String, message: String) {
     let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
     controller.addAction(UIAlertAction(title: "OK", style: .default))
     present(controller, animated: true)
   }
 
-  func yesOrNo(_ title: String, message: String, continuation: @escaping (UIAlertAction)->Void) {
+  func yesOrNo(_ title: String, message: String, continuation: @escaping (UIAlertAction) -> Void) {
     let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
     controller.addAction(.init(title: "Continue", style: .default, handler: continuation))
     controller.addAction(.init(title: "Cancel", style: .cancel))

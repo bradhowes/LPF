@@ -1,10 +1,9 @@
 // Copyright © 2021 Brad Howes. All rights reserved.
 
-import UIKit
 import LowPassFilterFramework
+import UIKit
 
 extension MainViewController {
-
   struct RenamePresetAction {
     let viewController: MainViewController
     let userPresetsManager: UserPresetsManager
@@ -38,5 +37,4 @@ extension MainViewController {
       viewController.updatePresetMenu()
     }
   }
-
 }

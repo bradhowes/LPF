@@ -31,7 +31,6 @@ public enum AudioUnitHostError: Error {
  Delegation protocol for AudioUnitHost class.
  */
 public protocol AudioUnitHostDelegate: AnyObject {
-  
   /**
    Notification that the UIViewController in the AudioUnitHost has a wired AUAudioUnit
    */
@@ -75,7 +74,7 @@ public final class AudioUnitHost {
   private let componentDescription: AudioComponentDescription
 
   private var notificationObserverToken: NSObjectProtocol?
-  private var creationError: AudioUnitHostError? { didSet { self.notifyDelegate() } }
+  private var creationError: AudioUnitHostError? { didSet { notifyDelegate() } }
   private var detectionTimer: Timer?
 
   /**
@@ -86,7 +85,7 @@ public final class AudioUnitHost {
   public init(componentDescription: AudioComponentDescription) {
     self.componentDescription = componentDescription
     componentDescription.log(log, type: .info)
-    self.locate()
+    locate()
   }
 
   /**
@@ -110,9 +109,10 @@ public final class AudioUnitHost {
 
       for each in components {
         each.audioComponentDescription.log(self.log, type: .info)
-        if each.audioComponentDescription.componentManufacturer == self.componentDescription.componentManufacturer &&
-            each.audioComponentDescription.componentType == self.componentDescription.componentType &&
-            each.audioComponentDescription.componentSubType == self.componentDescription.componentSubType {
+        if each.audioComponentDescription.componentManufacturer == self.componentDescription.componentManufacturer,
+           each.audioComponentDescription.componentType == self.componentDescription.componentType,
+           each.audioComponentDescription.componentSubType == self.componentDescription.componentSubType
+        {
           os_log(.info, log: self.log, "found match")
           DispatchQueue.main.async {
             self.createAudioUnit(each.audioComponentDescription)
@@ -136,20 +136,21 @@ public final class AudioUnitHost {
     let center = NotificationCenter.default
 
     detectionTimer?.invalidate()
-    self.detectionTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { _ in
+    detectionTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { _ in
       self.creationError = AudioUnitHostError.componentNotFound
     }
 
     notificationObserverToken = center.addObserver(
-      forName: AVAudioUnitComponentManager.registrationsChangedNotification, object: nil, queue: nil) { [weak self] _ in
-        guard let self = self else { return }
-        os_log(.info, log: self.log, "checkAgain: notification")
-        let token = self.notificationObserverToken!
-        self.notificationObserverToken = nil
-        center.removeObserver(token)
-        self.detectionTimer?.invalidate()
-        self.locate()
-      }
+      forName: AVAudioUnitComponentManager.registrationsChangedNotification, object: nil, queue: nil
+    ) { [weak self] _ in
+      guard let self = self else { return }
+      os_log(.info, log: self.log, "checkAgain: notification")
+      let token = self.notificationObserverToken!
+      self.notificationObserverToken = nil
+      center.removeObserver(token)
+      self.detectionTimer?.invalidate()
+      self.locate()
+    }
   }
 
   /**
@@ -157,13 +158,13 @@ public final class AudioUnitHost {
    */
   private func createAudioUnit(_ componentDescription: AudioComponentDescription) {
     os_log(.info, log: log, "createAudioUnit")
-    guard self.audioUnit == nil else { return }
+    guard audioUnit == nil else { return }
 
-#if os(macOS)
+    #if os(macOS)
     let options: AudioComponentInstantiationOptions = .loadInProcess
-#else
+    #else
     let options: AudioComponentInstantiationOptions = .loadOutOfProcess
-#endif
+    #endif
 
     AVAudioUnit.instantiate(with: componentDescription, options: options) { [weak self] avAudioUnit, error in
       guard let self = self else { return }
@@ -211,7 +212,7 @@ public final class AudioUnitHost {
    - parameter viewController: the view controller that was created
    */
   private func wireAudioUnit(_ avAudioUnit: AVAudioUnit, _ viewController: ViewController) {
-    self.audioUnit = avAudioUnit.auAudioUnit
+    audioUnit = avAudioUnit.auAudioUnit
     self.viewController = viewController
 
     playEngine.connectEffect(audioUnit: avAudioUnit)
@@ -220,31 +221,28 @@ public final class AudioUnitHost {
 
   private func notifyDelegate() {
     os_log(.info, log: log, "notifyDelegate")
-    if let creationError = self.creationError {
+    if let creationError = creationError {
       os_log(.info, log: log, "error: %{public}s", creationError.localizedDescription)
       DispatchQueue.performOnMain { self.delegate?.failed(error: creationError) }
-    }
-    else if let audioUnit = self.audioUnit, let viewController = self.viewController {
+    } else if let audioUnit = audioUnit, let viewController = viewController {
       os_log(.info, log: log, "success")
       DispatchQueue.performOnMain { self.delegate?.connected(audioUnit: audioUnit, viewController: viewController) }
     }
   }
 }
 
-extension AudioUnitHost {
-
+public extension AudioUnitHost {
   private var noCurrentPresetNumber: Int { Int.max }
 
   /**
    Save the current state of the AudioUnit to UserDefaults for future restoration.
    */
-  public func save() {
+  func save() {
     guard !isRestoring else { return }
 
     if let lastState = audioUnit?.fullStateForDocument {
       UserDefaults.standard.set(lastState, forKey: lastStateKey)
-    }
-    else {
+    } else {
       UserDefaults.standard.removeObject(forKey: lastStateKey)
     }
 
@@ -255,8 +253,8 @@ extension AudioUnitHost {
   /**
    Restore the state of the AudioUnit using values found in UserDefaults.
    */
-  public func restore() {
-    guard let audioUnit = self.audioUnit else { fatalError() }
+  func restore() {
+    guard let audioUnit = audioUnit else { fatalError() }
     guard !isRestoring else { fatalError() }
 
     isRestoring = true
@@ -276,21 +274,20 @@ extension AudioUnitHost {
     }
 
     audioUnit.currentPreset = (presetNumber >= 0
-                               ? audioUnit.factoryPresetsArray[presetNumber]
-                               : audioUnit.userPresets.first(where: { $0.number == presetNumber }))
+      ? audioUnit.factoryPresetsArray[presetNumber]
+      : audioUnit.userPresets.first(where: { $0.number == presetNumber }))
   }
 }
 
 public extension AudioUnitHost {
-  
   /**
    Start/stop audio engine
-   
+
    - returns: true if playing
    */
   @discardableResult
   func togglePlayback() -> Bool { playEngine.startStop() }
-  
+
   /**
    The world is being torn apart. Stop any asynchronous eventing from happening in the future.
    */

@@ -4,10 +4,9 @@
 import AVFoundation
 
 public extension AUAudioUnitPreset {
-  
   /**
    Initialize new instance with given values
-   
+
    - parameter number: the unique number for this preset. Factory presets must be non-negative.
    - parameter name: the display name for the preset.
    */
@@ -18,21 +17,19 @@ public extension AUAudioUnitPreset {
   }
 }
 
-extension AUAudioUnitPreset {
-  override public var description: String { "<AuAudioUnitPreset name: \(name)/\(number)>" }
+public extension AUAudioUnitPreset {
+  override var description: String { "<AuAudioUnitPreset name: \(name)/\(number)>" }
 }
 
 extension AUAudioUnit: AUAudioUnitPresetsFacade {
   public var factoryPresetsArray: [AUAudioUnitPreset] { factoryPresets ?? [] }
-
 }
 
 public extension RandomAccessCollection {
-
   /// Returns the element at the specified index if it is within bounds, otherwise nil.
   /// - complexity: O(1)
   /// https://stackoverflow.com/a/68453929/629836
-  subscript (validating index: Index) -> Element? {
+  subscript(validating index: Index) -> Element? {
     index >= startIndex && index < endIndex ? self[index] : nil
   }
 }

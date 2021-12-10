@@ -12,13 +12,13 @@ final class MainViewController: NSViewController {
   private let cutoffSliderMinValue: Double = 0.0
   private let cutoffSliderMaxValue: Double = 9.0
   private lazy var cutoffSliderMaxValuePower2Minus1 = Float(pow(2, cutoffSliderMaxValue) - 1)
-  
+
   private let audioUnitHost = AudioUnitHost(componentDescription: FilterAudioUnit.componentDescription)
   internal var userPresetsManager: UserPresetsManager?
 
   private var cutoffParameter: AUParameter?
   private var resonanceParameter: AUParameter?
-  
+
   private var playButton: NSButton!
   private var bypassButton: NSButton!
   private var presetsButton: NSButton!
@@ -36,15 +36,15 @@ final class MainViewController: NSViewController {
   @IBOutlet var resonanceSlider: NSSlider!
   @IBOutlet var resonanceTextField: NSTextField!
   @IBOutlet var containerView: NSView!
-  
+
   private var filterView: NSView?
   private var allParameterValuesObserverToken: NSKeyValueObservation?
   private var parameterTreeObserverToken: AUParameterObserverToken?
 }
 
 // MARK: - View Management
+
 extension MainViewController {
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     cutoffSlider.minValue = cutoffSliderMinValue
@@ -107,21 +107,20 @@ extension MainViewController {
     alert.messageText = "AUv3 Component Installed"
     alert.informativeText =
       """
-The AUv3 component 'SimplyLowPass' is now available on your device and can be used in other AUv3 host apps such as GarageBand and Logic.
+      The AUv3 component 'SimplyLowPass' is now available on your device and can be used in other AUv3 host apps such as GarageBand and Logic.
 
-You can continue to use this app to experiment, but you do not need to have it running in order to access the AUv3 component in other apps.
+      You can continue to use this app to experiment, but you do not need to have it running in order to access the AUv3 component in other apps.
 
-If you delete this app from your device, the AUv3 component will no longer be available for use in other host applications.
-"""
+      If you delete this app from your device, the AUv3 component will no longer be available for use in other host applications.
+      """
     alert.addButton(withTitle: "OK")
-    alert.beginSheetModal(for: view.window!){ _ in }
+    alert.beginSheetModal(for: view.window!) { _ in }
   }
 }
 
 // MARK: - AudioUnitHostDelegate
 
 extension MainViewController: AudioUnitHostDelegate {
-  
   func connected(audioUnit: AUAudioUnit, viewController: ViewController) {
     userPresetsManager = .init(for: audioUnit)
     connectFilterView(viewController)
@@ -134,7 +133,7 @@ extension MainViewController: AudioUnitHostDelegate {
     alert.messageText = "AUv3 Failure"
     alert.informativeText = "Unable to load the AUv3 component. \(error.description)"
     alert.addButton(withTitle: "OK")
-    alert.beginSheetModal(for: view.window!){ _ in self.view.window?.close() }
+    alert.beginSheetModal(for: view.window!) { _ in self.view.window?.close() }
   }
 
   private func connectFilterView(_ viewController: NSViewController) {
@@ -179,7 +178,7 @@ extension MainViewController: AudioUnitHostDelegate {
       DispatchQueue.performOnMain { self.updateView() }
     }
 
-    parameterTreeObserverToken = parameterTree.token(byAddingParameterObserver: { [weak self] address, value in
+    parameterTreeObserverToken = parameterTree.token(byAddingParameterObserver: { [weak self] address, _ in
       guard let self = self else { return }
       os_log(.info, log: self.log, "MainViewController - parameterTree changed - %d", address)
       DispatchQueue.performOnMain { self.updateView() }
@@ -190,7 +189,6 @@ extension MainViewController: AudioUnitHostDelegate {
 // MARK: - UI Actions
 
 extension MainViewController {
-  
   @IBAction private func togglePlay(_ sender: NSButton) {
     audioUnitHost.togglePlayback()
     let isPlaying = audioUnitHost.isPlaying
@@ -202,7 +200,7 @@ extension MainViewController {
     bypassButton?.isEnabled = isPlaying
     bypassMenuItem?.isEnabled = isPlaying
   }
-  
+
   @IBAction private func toggleBypass(_ sender: NSButton) {
     let wasBypassed = audioUnitHost.audioUnit?.shouldBypassEffect ?? false
     let isBypassed = !wasBypassed
@@ -220,12 +218,12 @@ extension MainViewController {
     cutoffParameter?.setValue(frequencyValueForSliderLocation(sender.floatValue), originator: parameterTreeObserverToken)
     userPresetsManager?.clearCurrentPreset()
   }
-  
+
   @IBAction private func resonanceSliderValueChanged(_ sender: NSSlider) {
     resonanceParameter?.setValue(sender.floatValue, originator: parameterTreeObserverToken)
     userPresetsManager?.clearCurrentPreset()
   }
-  
+
   @objc private func handleSavePresetMenuSelected(_ sender: NSMenuItem) throws {
     SavePresetAction(self).start(sender)
     updatePresetMenu()
@@ -242,7 +240,7 @@ extension MainViewController {
   }
 
   @objc private func presetMenuItemSelected(_ sender: NSMenuItem) {
-    guard let userPresetsManager = self.userPresetsManager else { return }
+    guard let userPresetsManager = userPresetsManager else { return }
     let number = tagToNumber(sender.tag)
     userPresetsManager.makeCurrentPreset(number: number)
     updatePresetMenu()
@@ -262,7 +260,6 @@ extension MainViewController: NSWindowDelegate {
 }
 
 extension MainViewController {
-  
   public func cutoffValueDidChange(_ value: AUValue) {
     cutoffSlider.floatValue = sliderLocationForFrequencyValue(value)
     cutoffTextField.stringValue = String(format: "%.f", value)
@@ -279,25 +276,25 @@ extension MainViewController {
   }
 
   private func numberToTag(_ number: Int) -> Int {
-    number >= 0 ? (number + 10_000) : number
+    number >= 0 ? (number + 10000) : number
   }
 
   private func tagToNumber(_ tag: Int) -> Int {
-    tag >= 10_000 ? (tag - 10_000) : tag
+    tag >= 10000 ? (tag - 10000) : tag
   }
 
   private func populatePresetMenu() {
-    guard let userPresetsManager = self.userPresetsManager else { return }
+    guard let userPresetsManager = userPresetsManager else { return }
     let audioUnit = userPresetsManager.audioUnit
 
-    os_log(.info, log: self.log, "populatePresetMenu")
-    os_log(.info, log: self.log, "adding %d factory presets", audioUnit.factoryPresetsArray.count)
+    os_log(.info, log: log, "populatePresetMenu")
+    os_log(.info, log: log, "adding %d factory presets", audioUnit.factoryPresetsArray.count)
 
     for preset in audioUnit.factoryPresetsArray {
       let key = "\(preset.number + 1)"
       let menuItem = NSMenuItem(title: preset.name, action: #selector(presetMenuItemSelected(_:)), keyEquivalent: key)
       menuItem.tag = numberToTag(preset.number)
-      os_log(.info, log: self.log, "adding %d %{public}s", menuItem.tag, preset.name)
+      os_log(.info, log: log, "adding %d %{public}s", menuItem.tag, preset.name)
       presetsMenu.addItem(menuItem)
     }
 
@@ -305,7 +302,7 @@ extension MainViewController {
   }
 
   internal func updatePresetMenu() {
-    guard let userPresetsManager = self.userPresetsManager else { return }
+    guard let userPresetsManager = userPresetsManager else { return }
     let active = userPresetsManager.audioUnit.currentPreset?.number ?? Int.max
     os_log(.info, log: log, "updatePresetMenu: active %d", active)
 
@@ -318,18 +315,18 @@ extension MainViewController {
     let stockCount = 3 + 1 + factoryCount
     presetsMenu.items = presetsMenu.items.dropLast(presetsMenu.items.count - stockCount)
 
-    if factoryCount > 0 && !userPresetsManager.presets.isEmpty {
+    if factoryCount > 0, !userPresetsManager.presets.isEmpty {
       presetsMenu.addItem(.separator())
     }
 
     // Recreate the user presets
-    os_log(.info, log: self.log, "adding %d user presets", userPresetsManager.presets.count)
+    os_log(.info, log: log, "adding %d user presets", userPresetsManager.presets.count)
 
     for preset in userPresetsManager.presetsOrderedByName {
       let key = ""
       let menuItem = NSMenuItem(title: preset.name, action: #selector(presetMenuItemSelected(_:)), keyEquivalent: key)
       menuItem.tag = numberToTag(preset.number)
-      os_log(.info, log: self.log, "adding %d %{public}s", menuItem.tag, preset.name)
+      os_log(.info, log: log, "adding %d %{public}s", menuItem.tag, preset.name)
       presetsMenu.addItem(menuItem)
     }
 
@@ -355,17 +352,16 @@ extension MainViewController {
 
   private func sliderLocationForFrequencyValue(_ frequency: Float) -> Float {
     Foundation.log(((frequency - FilterView.hertzMin) / (FilterView.hertzMax - FilterView.hertzMin)) *
-                   cutoffSliderMaxValuePower2Minus1 + 1.0) / Foundation.log(2)
+      cutoffSliderMaxValuePower2Minus1 + 1.0) / Foundation.log(2)
   }
-  
+
   private func frequencyValueForSliderLocation(_ location: Float) -> Float {
     ((pow(2, location) - 1) / cutoffSliderMaxValuePower2Minus1) * (FilterView.hertzMax - FilterView.hertzMin) +
-    FilterView.hertzMin
+      FilterView.hertzMin
   }
 }
 
 extension MainViewController {
-
   func notify(_ title: String, message: String) {
     let alert = NSAlert()
     alert.alertStyle = .informational
@@ -373,7 +369,7 @@ extension MainViewController {
     alert.informativeText = message
 
     alert.addButton(withTitle: "OK")
-    alert.beginSheetModal(for: view.window!){ _ in }
+    alert.beginSheetModal(for: view.window!) { _ in }
     alert.runModal()
   }
 

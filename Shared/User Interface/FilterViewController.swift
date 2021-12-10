@@ -15,23 +15,23 @@ public final class FilterViewController: AUViewController {
   private var allParameterValuesObserverToken: NSKeyValueObservation?
   private var parameterTreeObserverToken: AUParameterObserverToken?
 
-  @IBOutlet private weak var filterView: FilterView!
+  @IBOutlet private var filterView: FilterView!
 
   /// The audio unit being managed by the view controller. This is set during a call to `createAudioUnit` which can
   /// happen on a non-main thread.
   public var audioUnit: FilterAudioUnit? { didSet { DispatchQueue.performOnMain { self.connectViewToAU() } } }
 
-#if os(macOS)
-  public override init(nibName: NSNib.Name?, bundle: Bundle?) {
+  #if os(macOS)
+  override public init(nibName: NSNib.Name?, bundle: Bundle?) {
     super.init(nibName: nibName, bundle: Bundle(for: type(of: self)))
   }
-#endif
+  #endif
 
   required init?(coder: NSCoder) {
     super.init(coder: coder)
   }
 
-  public override func viewDidLoad() {
+  override public func viewDidLoad() {
     os_log(.info, log: log, "viewDidLoad")
     super.viewDidLoad()
     filterView.delegate = self
@@ -44,7 +44,6 @@ public final class FilterViewController: AUViewController {
 }
 
 extension FilterViewController: AUAudioUnitFactory {
-
   /**
    Create a new FilterAudioUnit instance to run in an AVu3 container.
 
@@ -61,7 +60,6 @@ extension FilterViewController: AUAudioUnitFactory {
 }
 
 extension FilterViewController: FilterViewDelegate {
-
   public func filterViewInteractionStarted(_ view: FilterView) {
     os_log(.debug, log: log, "filterViewInteractionStarted")
     cutoffParameter.setValue(view.cutoff, originator: parameterTreeObserverToken, atHostTime: 0,
@@ -82,7 +80,7 @@ extension FilterViewController: FilterViewDelegate {
     os_log(.debug, log: log, "filterViewInteractionEnded")
     cutoffParameter.setValue(filterView.cutoff, originator: parameterTreeObserverToken, atHostTime: 0, eventType: .release)
     resonanceParameter.setValue(filterView.resonance, originator: parameterTreeObserverToken, atHostTime: 0,
-                            eventType: .release)
+                                eventType: .release)
   }
 
   public func filterViewLayoutChanged(_ view: FilterView) {
@@ -92,7 +90,6 @@ extension FilterViewController: FilterViewDelegate {
 }
 
 extension FilterViewController {
-
   private func connectViewToAU() {
     os_log(.info, log: log, "connectViewToAU")
 
@@ -100,7 +97,7 @@ extension FilterViewController {
     // that can lead to this method being invoked:
     //   1. `createAudioUnit` runs after the view controller has been loaded
     //   2. the view controller finished loading after the `createAudioUnit` has been run
-    guard isViewLoaded && parameterTreeObserverToken == nil else {
+    guard isViewLoaded, parameterTreeObserverToken == nil else {
       os_log(.info, log: log, "connectViewToAU - skipping: %d %d", isViewLoaded, parameterTreeObserverToken == nil)
       return
     }

@@ -4,14 +4,13 @@ import os.log
 
 private class Tag {}
 
-public struct Logging {
-  
+public enum Logging {
   /// The top-level identifier to use for logging
   public static let subsystem = "LPF"
-  
+
   /**
    Create a new logger for a subsystem
-   
+
    - parameter category: the subsystem to log under
    - returns: OSLog instance to use for subsystem logging
    */

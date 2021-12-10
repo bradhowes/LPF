@@ -4,15 +4,14 @@
 import AVFoundation
 
 final class SimplePlayEngine {
-  
   private lazy var bundle = Bundle(for: type(of: self))
   private lazy var bundleIdentifier = bundle.bundleIdentifier!
   private lazy var stateChangeQueue = DispatchQueue(label: bundleIdentifier + ".StateChangeQueue")
-  
+
   private let engine = AVAudioEngine()
   private let player = AVAudioPlayerNode()
   private var activeEffect: AVAudioUnit?
-  
+
   private lazy var file: AVAudioFile = {
     let filename = "WhisperingDroneClip"
     let ext = "mp3"
@@ -21,9 +20,9 @@ final class SimplePlayEngine {
     }
     return try! AVAudioFile(forReading: url)
   }()
-  
+
   public var isPlaying: Bool { player.isPlaying }
-  
+
   /**
    Create new audio processing setup, with an audio file player connected directly to the mixer for the main
    output device.
@@ -36,7 +35,6 @@ final class SimplePlayEngine {
 }
 
 extension SimplePlayEngine {
-  
   /**
    Start playback of the audio file player.
    */
@@ -49,7 +47,7 @@ extension SimplePlayEngine {
       player.play()
     }
   }
-  
+
   /**
    Stop playback of the audio file player.
    */
@@ -61,22 +59,22 @@ extension SimplePlayEngine {
       updateAudioSession(active: false)
     }
   }
-  
+
   /**
    Toggle the playback of the audio file player.
-   
+
    @returns state of the player
    */
   public func startStop() -> Bool {
     if player.isPlaying { stop() } else { start() }
     return player.isPlaying
   }
-  
+
   /**
    Install an effect AudioUnit between an audio source and the main output mixer. If there was a previous effect
    installed it is removed from the signal chain. If the sound resource was playing it will be resumed after the
    new effect is installed.
-   
+
    @param audioUnit the audio unit to install
    @param completion closure to call when finished
    */
@@ -90,7 +88,7 @@ extension SimplePlayEngine {
       engine.connect(audioUnit, to: engine.mainMixerNode, format: file.processingFormat)
     }
   }
-  
+
   /**
    Uninstall a previously-installed effect AudioUnit.
    */
@@ -107,11 +105,10 @@ extension SimplePlayEngine {
 }
 
 private extension SimplePlayEngine {
-  
   /**
    If player is currently playing audio pause it the execution of the given block and then resume it after the block
    is done.
-   
+
    - parameter block: closure to execute while player is paused
    */
   private func pauseWhile(_ block: () -> Void) {
@@ -120,7 +117,7 @@ private extension SimplePlayEngine {
     block()
     if wasPlaying { player.play() }
   }
-  
+
   private func updateAudioSession(active: Bool) {
     #if os(iOS)
     let session = AVAudioSession.sharedInstance()
@@ -132,7 +129,7 @@ private extension SimplePlayEngine {
     }
     #endif
   }
-  
+
   /**
    Start playing the audio resource and play it again once it is done.
    */

@@ -4,7 +4,6 @@ import AppKit
 import LowPassFilterFramework
 
 extension MainViewController {
-
   struct RenamePresetAction {
     let viewController: MainViewController
     let userPresetsManager: UserPresetsManager

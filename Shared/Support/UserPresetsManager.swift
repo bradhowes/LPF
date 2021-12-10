@@ -1,22 +1,21 @@
 // Copyright © 2021 Apple. All rights reserved.
 
-import Foundation
 import AudioToolbox
+import Foundation
 
 /**
  Subset of AUAudioUnit functionality that is used by UserPresetsManager.
  */
 public protocol AUAudioUnitPresetsFacade: AnyObject {
-  var factoryPresetsArray: [AUAudioUnitPreset] {get}
-  var userPresets: [AUAudioUnitPreset] {get}
-  var currentPreset: AUAudioUnitPreset? {get set}
+  var factoryPresetsArray: [AUAudioUnitPreset] { get }
+  var userPresets: [AUAudioUnitPreset] { get }
+  var currentPreset: AUAudioUnitPreset? { get set }
 
   func saveUserPreset(_ preset: AUAudioUnitPreset) throws
   func deleteUserPreset(_ preset: AUAudioUnitPreset) throws
 }
 
 public class UserPresetsManager {
-
   public let audioUnit: AUAudioUnitPresetsFacade
   public var presets: [AUAudioUnitPreset] { audioUnit.userPresets }
   public var presetsOrderedByNumber: [AUAudioUnitPreset] { presets.sorted { $0.number > $1.number } }
@@ -47,8 +46,7 @@ public class UserPresetsManager {
   public func makeCurrentPreset(number: Int) {
     if number >= 0 {
       audioUnit.currentPreset = audioUnit.factoryPresetsArray[validating: number]
-    }
-    else {
+    } else {
       audioUnit.currentPreset = find(number: number)
     }
   }

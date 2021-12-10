@@ -1,18 +1,16 @@
 // Copyright © 2020 Brad Howes. All rights reserved.
 
-extension DispatchQueue {
-
+public extension DispatchQueue {
   /**
    Perform an operation synchronously if already on the main thread. Otherwise, dispatch it to a queue to run
    asynchronously on the main thread.
 
    - parameter operation: the block to run
    */
-  public static func performOnMain(_ operation: @escaping () -> Void) {
+  static func performOnMain(_ operation: @escaping () -> Void) {
     if Thread.isMainThread {
       operation()
-    }
-    else {
+    } else {
       DispatchQueue.main.async { operation() }
     }
   }

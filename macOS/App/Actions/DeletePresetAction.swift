@@ -4,7 +4,6 @@ import AppKit
 import LowPassFilterFramework
 
 extension MainViewController {
-
   struct DeletePresetAction {
     let viewController: MainViewController
     let userPresetsManager: UserPresetsManager
@@ -18,7 +17,7 @@ extension MainViewController {
       let response = viewController.yesOrNo("Delete Preset",
                                             message: "Do you wish to delete the preset? This cannot be undone.")
       if response {
-        self.deletePreset()
+        deletePreset()
       }
     }
 
@@ -30,5 +29,4 @@ extension MainViewController {
       }
     }
   }
-
 }

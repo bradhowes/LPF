@@ -2,15 +2,14 @@
 
 import AppKit
 
-internal struct PromptForReply {
-
+internal enum PromptForReply {
   internal enum Response {
     case ok(value: String)
     case cancel
   }
 
   static func ask(title: String, message: String) -> Response {
-    let alert: NSAlert = NSAlert()
+    let alert = NSAlert()
 
     alert.addButton(withTitle: "Save")
     alert.addButton(withTitle: "Cancel")
@@ -33,4 +32,3 @@ internal struct PromptForReply {
     return .cancel
   }
 }
-

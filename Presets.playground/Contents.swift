@@ -1,5 +1,5 @@
-import Foundation
 import AudioUnit
+import Foundation
 
 struct Foo {
   let name: String

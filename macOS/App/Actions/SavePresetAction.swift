@@ -4,7 +4,6 @@ import AppKit
 import LowPassFilterFramework
 
 extension MainViewController {
-
   struct SavePresetAction {
     let viewController: MainViewController
     let userPresetsManager: UserPresetsManager
@@ -26,13 +25,14 @@ extension MainViewController {
 
     func checkIsUniquePreset(named name: String) {
       guard let existing = userPresetsManager.find(name: name) else {
-        self.save(under: name)
+        save(under: name)
         return
       }
 
       if viewController.yesOrNo("Existing Preset",
-                                message: "Do you wish to change the existing preset to have the current settings?") {
-        self.update(preset: existing)
+                                message: "Do you wish to change the existing preset to have the current settings?")
+      {
+        update(preset: existing)
       }
     }
 
@@ -52,5 +52,4 @@ extension MainViewController {
       }
     }
   }
-
 }

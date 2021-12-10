@@ -4,7 +4,6 @@ import Foundation
 import os.log
 
 extension FourCharCode: ExpressibleByStringLiteral {
-
   /**
    Allow creation from a string literal. The literal must consist of 4 ASCII characters.
 
@@ -53,7 +52,6 @@ extension FourCharCode: ExpressibleByStringLiteral {
 }
 
 extension FourCharCode {
-
   private static let bytesSizeForStringValue = MemoryLayout<Self>.size
 
   /// Obtain a 4-character string from our value - based on https://stackoverflow.com/a/60367676/629836

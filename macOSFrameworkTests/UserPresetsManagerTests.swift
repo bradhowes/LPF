@@ -1,7 +1,7 @@
 // Copyright © 2020 Brad Howes. All rights reserved.
 
-import XCTest
 @testable import LowPassFilterFramework
+import XCTest
 
 class MockAUAudioUnit: AUAudioUnitPresetsFacade {
   var factoryPresetsArray = [AUAudioUnitPreset]()
@@ -11,6 +11,7 @@ class MockAUAudioUnit: AUAudioUnitPresetsFacade {
     try deleteUserPreset(preset)
     userPresets.append(preset)
   }
+
   func deleteUserPreset(_ preset: AUAudioUnitPreset) throws {
     if let index = userPresets.firstIndex(where: { $0.number == preset.number }) {
       userPresets.remove(at: index)
@@ -19,7 +20,6 @@ class MockAUAudioUnit: AUAudioUnitPresetsFacade {
 }
 
 class UserPresetsManagerTests: XCTestCase {
-
   var manager: UserPresetsManager!
 
   override func setUp() {
@@ -102,7 +102,7 @@ class UserPresetsManagerTests: XCTestCase {
     try manager.update(preset: preset)
     XCTAssertTrue(preset !== manager.find(name: "Three"))
     XCTAssertEqual(manager.audioUnit.currentPreset, manager.find(name: "Three"))
-    XCTAssertEqual(1, manager.audioUnit.userPresets.filter({ $0.number == -3}).count)
+    XCTAssertEqual(1, manager.audioUnit.userPresets.filter { $0.number == -3 }.count)
   }
 
   func testRenameCurrent() throws {
@@ -112,7 +112,7 @@ class UserPresetsManagerTests: XCTestCase {
     XCTAssertNotNil(manager.find(name: "five-oh"))
     XCTAssertEqual(manager.audioUnit.currentPreset?.name, "five-oh")
     XCTAssertEqual(manager.audioUnit.currentPreset?.number, -5)
-    XCTAssertEqual(1, manager.audioUnit.userPresets.filter({ $0.number == -5}).count)
+    XCTAssertEqual(1, manager.audioUnit.userPresets.filter { $0.number == -5 }.count)
     manager.clearCurrentPreset()
     try manager.renameCurrent(to: "blah")
   }
@@ -122,7 +122,7 @@ class UserPresetsManagerTests: XCTestCase {
     try manager.deleteCurrent()
     XCTAssertNil(manager.find(name: "Three"))
     XCTAssertNil(manager.audioUnit.currentPreset)
-    XCTAssertEqual(0, manager.audioUnit.userPresets.filter({ $0.number == -3}).count)
+    XCTAssertEqual(0, manager.audioUnit.userPresets.filter { $0.number == -3 }.count)
     let count = manager.presets.count
     manager.clearCurrentPreset()
     try manager.deleteCurrent()
