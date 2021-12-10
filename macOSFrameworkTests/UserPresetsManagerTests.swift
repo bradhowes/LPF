@@ -61,11 +61,21 @@ class UserPresetsManagerTests: XCTestCase {
 
   func testMakeCurrentPresetByFactoryIndex() {
     XCTAssertNotEqual(manager.audioUnit.currentPreset?.name, "fac 2")
-    manager.makeCurrentPreset(factoryIndex: 1)
+    manager.makeCurrentPreset(number: 1)
     XCTAssertEqual(manager.audioUnit.currentPreset?.name, "fac 2")
-    manager.makeCurrentPreset(factoryIndex: 2)
+    manager.makeCurrentPreset(number: 2)
     XCTAssertNil(manager.audioUnit.currentPreset)
-    manager.makeCurrentPreset(factoryIndex: -1)
+    manager.makeCurrentPreset(number: 99)
+    XCTAssertNil(manager.audioUnit.currentPreset)
+  }
+
+  func testMakeCurrentPresetByUserIndex() {
+    XCTAssertNotEqual(manager.audioUnit.currentPreset?.name, "fac 2")
+    manager.makeCurrentPreset(number: -1)
+    XCTAssertEqual(manager.audioUnit.currentPreset?.name, "One")
+    manager.makeCurrentPreset(number: -2)
+    XCTAssertEqual(manager.audioUnit.currentPreset?.name, "two")
+    manager.makeCurrentPreset(number: -4)
     XCTAssertNil(manager.audioUnit.currentPreset)
   }
 

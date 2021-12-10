@@ -29,16 +29,23 @@ tests. (`auval -v aufx lpas BRay`)
 
 ## Demo Targets
 
-The macOS and iOS apps are simple hosts that demonstrate the functionality of the AUv3 component. In the AUv3 world,
+The macOS and iOS apps are simple AUv3 hosts that demonstrate the functionality of the AUv3 component. In the AUv3 world,
 an app serves as a delivery mechanism for an app extension like AUv3. When the app is installed, the operating system will
 also install and register any app extensions found in the app.
 
 The `SimplyLowPass` apps attempt to instantiate the AUv3 component and wire it up to an audio file player and the output speaker.
 When it runs, you can play the sample file and manipulate the filter settings -- cutoff frequency in the horizontal direction and 
-resonance in the vertical. You can control these settings either by touching on the graph and moving the point or by using the sliders
-to change their associated values. The sliders are somewhat superfluous but they act on the AUv3 component via the AUPropertyTree much
-like an external MIDI controller might do. There are also a collection of three "factory" presets that you can choose which will apply canned 
-settings. On macOS these are available via the `Presets` menu; on iOS there is a 
+resonance in the vertical. You can control these settings either by touching on the component's view graph and moving 
+the point or by using the host sliders to change their associated values. The sliders are somewhat superfluous but they 
+act on the AUv3 component via the AUPropertyTree much like an external MIDI controller might do. There are also a 
+collection of three "factory" presets that you can choose which will apply canned settings. On macOS these are 
+available via the `Presets` menu; on iOS there is a segment control that you can touch to change to a given factory 
+preset.
+
+Finally, the AUv3 component supports user-defined presets, and the simple host apps offer a way to create, update, 
+rename, and delete them. On macOS, these functions are at the top of the `Presets` menu, followed by the factory
+presets, and then any user-defined presets (there is also a button on the window that shows the same menu). The iOS app
+offers the same functionality in a pop-up menu to the right of the factory presets segmented control.
 
 ## Code Layout
 
@@ -46,8 +53,8 @@ Each OS ([macOS](macOS) and [iOS](iOS)) have the same code layout:
 
 * `App` -- code and configury for the application that hosts the AUv3 app extension. Again, the app serves as a demo host for the AUv3 app
 extension.
-* `Extension` -- code and configury for the extension itself
-* `Framework` -- code configury for the framework that contains the shared code by the app and the extension. Note that the framework is
+* `Extension` -- code and configuration for the extension itself
+* `Framework` -- code for the framework that contains the shared code by the app and the extension. Note that the framework is
 made up of files that are common to both platforms, but these files are found in the `Shared` folder.
 
 The [Shared](Shared) folder holds all of the code that is used by the above products. In it you will find:
@@ -65,9 +72,12 @@ the current filter settings. It also allows for dynamically changing the filter 
 new `FilterAudioUnit` instances for the host application.
 
 Additional supporting files can be found in [Support](Shared/Support). Notable is the 
-[SimplePlayEngine](Shared/Support/Audio/SimplePlayEngine.swift) Swift class that controls an `AVAudioEngine` instance for playing an audio
-file through the AUv3 filter component. This is what the apps use to demonstrate the filter component. It is not used by the AUv3 app 
-extensions themselves.
+[SimplePlayEngine](Shared/Support/Audio/SimplePlayEngine.swift) Swift class that controls an `AVAudioEngine` instance 
+for playing an audio file through the AUv3 filter component. This is what the apps use to demonstrate the filter 
+component. It is not used by the AUv3 app extensions themselves.
+
+Instantiating the AUv3 component and a view controller for its control plane is the responsibility of the 
+[AudioUnitHost](Shared/Support/AudioUnitHost.swift) Swift class.
 
 # Examples
 

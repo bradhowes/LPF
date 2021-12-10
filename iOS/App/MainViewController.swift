@@ -123,7 +123,7 @@ available for use in other host applications.
   }
   
   @IBAction func useFactoryPreset(_ sender: UISegmentedControl? = nil) {
-    userPresetsManager?.makeCurrentPreset(factoryIndex: presetSelection.selectedSegmentIndex)
+    userPresetsManager?.makeCurrentPreset(number: presetSelection.selectedSegmentIndex)
   }
   
   @IBAction private func reviewApp(_ sender: UIButton) {
