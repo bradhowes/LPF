@@ -15,6 +15,10 @@ public protocol AUAudioUnitPresetsFacade: AnyObject {
   func deleteUserPreset(_ preset: AUAudioUnitPreset) throws
 }
 
+extension AUAudioUnit: AUAudioUnitPresetsFacade {
+  public var factoryPresetsArray: [AUAudioUnitPreset] { factoryPresets ?? [] }
+}
+
 public class UserPresetsManager {
   public let audioUnit: AUAudioUnitPresetsFacade
   public var presets: [AUAudioUnitPreset] { audioUnit.userPresets }
@@ -88,5 +92,14 @@ public class UserPresetsManager {
     }
 
     return number
+  }
+}
+
+public extension RandomAccessCollection {
+  /// Returns the element at the specified index if it is within bounds, otherwise nil.
+  /// - complexity: O(1)
+  /// https://stackoverflow.com/a/68453929/629836
+  subscript(validating index: Index) -> Element? {
+    index >= startIndex && index < endIndex ? self[index] : nil
   }
 }
