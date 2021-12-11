@@ -48,7 +48,10 @@ public final class FilterAudioUnit: AUAudioUnit {
   /// Parameter tree containing filter parameter values
   override public var parameterTree: AUParameterTree? {
     get { parameterDefinitions.parameterTree }
-    set { fatalError("attempted to set new parameterTree") }
+    set {
+      fatalError("attempted to set new parameterTree")
+      _ = newValue // to silence swiftlint warning
+    }
   }
 
   /// Factory presets for the filter
@@ -98,11 +101,13 @@ public final class FilterAudioUnit: AUAudioUnit {
   /// Objective-C bridge into the C++ kernel
   private let kernel = SimplyLowPassKernelAdapter(Bundle.main.auBaseName)
 
+  // swiftlint:disable large_tuple
   private let factoryPresetValues: [(name: String, cutoff: AUValue, resonance: AUValue)] = [
     ("Prominent", 2500.0, 5.0),
     ("Bright", 14000.0, 12.0),
     ("Warm", 384.0, -3.0)
   ]
+  // swiftlint:enable large_tuple
 
   private lazy var _factoryPresets = factoryPresetValues.enumerated().map {
     AUAudioUnitPreset(number: $0, name: $1.name)
@@ -124,8 +129,7 @@ public final class FilterAudioUnit: AUAudioUnit {
    */
   override public class func instantiate(with componentDescription: AudioComponentDescription,
                                          options: AudioComponentInstantiationOptions = [],
-                                         completionHandler: @escaping (AUAudioUnit?, Error?) -> Void)
-  {
+                                         completionHandler: @escaping (AUAudioUnit?, Error?) -> Void) {
     do {
       let auAudioUnit = try FilterAudioUnit(componentDescription: componentDescription, options: options)
       completionHandler(auAudioUnit, nil)
@@ -144,8 +148,7 @@ public final class FilterAudioUnit: AUAudioUnit {
    - parameter options: options for instantiation
    */
   override public init(componentDescription: AudioComponentDescription,
-                       options: AudioComponentInstantiationOptions = []) throws
-  {
+                       options: AudioComponentInstantiationOptions = []) throws {
     // Start with the default format. Host or downstream AudioUnit can change the format of the input/output bus
     // objects later between calls to allocateRenderResources().
     guard let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 2) else {
@@ -267,9 +270,8 @@ public extension FilterAudioUnit {
     }[0..<withCount])
   }
 
-  override func supportedViewConfigurations(_ availableViewConfigurations: [AUAudioUnitViewConfiguration]) ->
-    IndexSet
-  {
+  override func supportedViewConfigurations(
+    _ availableViewConfigurations: [AUAudioUnitViewConfiguration]) -> IndexSet {
     IndexSet(integersIn: 0..<availableViewConfigurations.count)
   }
 

@@ -33,9 +33,8 @@ extension MainViewController {
         return
       }
 
-      viewController.yesOrNo("Existing Preset",
-                             message: "Do you wish to change the existing preset to have the current settings?")
-      { _ in
+      viewController.yesOrNo(title: "Existing Preset",
+                             message: "Do you wish to change the existing preset to have the current settings?") { _ in
         self.update(preset: existing)
       }
     }
@@ -44,7 +43,7 @@ extension MainViewController {
       do {
         try userPresetsManager.create(name: name)
       } catch {
-        viewController.notify("Save Error", message: error.localizedDescription)
+        viewController.notify(title: "Save Error", message: error.localizedDescription)
       }
       viewController.updatePresetMenu()
     }
@@ -53,7 +52,7 @@ extension MainViewController {
       do {
         try userPresetsManager.update(preset: preset)
       } catch {
-        viewController.notify("Update Error", message: error.localizedDescription)
+        viewController.notify(title: "Update Error", message: error.localizedDescription)
       }
       viewController.updatePresetMenu()
     }

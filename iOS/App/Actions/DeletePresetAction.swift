@@ -28,7 +28,7 @@ extension MainViewController {
       do {
         try userPresetsManager.deleteCurrent()
       } catch {
-        viewController.notify("Delete Error", message: error.localizedDescription)
+        viewController.notify(title: "Delete Error", message: error.localizedDescription)
       }
       viewController.updatePresetMenu()
     }

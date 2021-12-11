@@ -107,11 +107,10 @@ extension MainViewController {
     alert.messageText = "AUv3 Component Installed"
     alert.informativeText =
       """
-      The AUv3 component 'SimplyLowPass' is now available on your device and can be used in other AUv3 host apps such as GarageBand and Logic.
-
-      You can continue to use this app to experiment, but you do not need to have it running in order to access the AUv3 component in other apps.
-
-      If you delete this app from your device, the AUv3 component will no longer be available for use in other host applications.
+      The AUv3 component 'SimplyLowPass' is now available on your device and can be used in other AUv3 host apps such
+      as GarageBand and Logic. You can continue to use this app to experiment, but you do not need to have it running
+      in order to access the AUv3 component in other apps. If you delete this app from your device, the AUv3 component
+      will no longer be available for use in other host applications.
       """
     alert.addButton(withTitle: "OK")
     alert.beginSheetModal(for: view.window!) { _ in }
@@ -363,7 +362,7 @@ extension MainViewController {
 }
 
 extension MainViewController {
-  func notify(_ title: String, message: String) {
+  func notify(title: String, message: String) {
     let alert = NSAlert()
     alert.alertStyle = .informational
     alert.messageText = title
@@ -374,7 +373,7 @@ extension MainViewController {
     alert.runModal()
   }
 
-  func yesOrNo(_ title: String, message: String) -> Bool {
+  func yesOrNo(title: String, message: String) -> Bool {
     let alert = NSAlert()
     alert.messageText = title
     alert.informativeText = message

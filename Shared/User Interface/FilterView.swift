@@ -106,10 +106,8 @@ public final class FilterView: View {
   private let numVerticalTicks: Int = 7
 
   /// Width of the area to the left of the graph that shows dB labels
-  /// TODO: determine the right size at runtime
   private let yAxisWidth: CGFloat = 40.0
   /// Height of the area below the graph that shows Hz labels
-  /// TODO: not as important, but no reason for having this hard-coded
   private let xAxisHeight: CGFloat = 20.0
   /// Max number of points in the response curve.
   private let maxNumberOfResponseFrequencies = 1024
@@ -224,7 +222,7 @@ public extension FilterView {
    */
   func makeFilterResponseCurve(_ magnitudes: [Float]) {
     guard let frequencies = frequencies else { return }
-    guard magnitudes.count > 0 else { return }
+    guard !magnitudes.isEmpty else { return }
 
     let width = graphLayer.bounds.width
     let scale = width / CGFloat(frequencies.count)
@@ -511,6 +509,7 @@ extension FilterView {
     String(format: "%.02f dB", value)
   }
 
+  // swiftlint:disable cyclomatic_complexity
   private func updateIndicator() {
     guard let layers = indicatorLayer.sublayers else { return }
     let height = graphLayer.bounds.height
@@ -555,6 +554,7 @@ extension FilterView {
     }
   }
 }
+// swiftlint:enable cyclomatic_complexity
 
 extension FilterView {
   private func performLayout(of layer: CALayer) {

@@ -3,4 +3,4 @@
 
 import LowPassFilterFramework
 
-public let FilterViewControllerExtension = 1
+public let filterViewControllerExtension = 1

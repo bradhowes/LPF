@@ -18,7 +18,11 @@ final class SimplePlayEngine {
     guard let url = bundle.url(forResource: filename, withExtension: ext) else {
       fatalError("\(filename).\(ext) missing from bundle")
     }
-    return try! AVAudioFile(forReading: url)
+    do {
+      return try AVAudioFile(forReading: url)
+    } catch {
+      fatalError("failed to create AVAudioFile for url \(url)")
+    }
   }()
 
   public var isPlaying: Bool { player.isPlaying }
@@ -43,7 +47,11 @@ extension SimplePlayEngine {
       guard !player.isPlaying else { return }
       updateAudioSession(active: true)
       beginLoop()
-      try! engine.start()
+      do {
+        try engine.start()
+      } catch {
+        fatalError("failed to start AVAudioEngine")
+      }
       player.play()
     }
   }
