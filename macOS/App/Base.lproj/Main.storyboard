@@ -116,7 +116,7 @@
                         <outlet property="bypassMenuItem" destination="Bvy-ud-WPR" id="TDv-X8-WS4"/>
                         <outlet property="deletePresetMenuItem" destination="40h-rt-cJg" id="OtZ-T1-JoL"/>
                         <outlet property="playMenuItem" destination="Flz-EE-5KD" id="5E5-IR-Gxn"/>
-                        <outlet property="presetsMenu" destination="GEO-Iw-cKr" id="aFr-fu-agd"/>
+                        <outlet property="presetsMenu" destination="GEO-Iw-cKr" id="KUi-4W-IYf"/>
                         <outlet property="renamePresetMenuItem" destination="8SR-cX-fkS" id="yIM-3B-Rpa"/>
                         <outlet property="savePresetMenuItem" destination="9NY-AS-9aU" id="H1m-5w-gvK"/>
                     </connections>

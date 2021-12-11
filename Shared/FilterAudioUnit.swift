@@ -57,43 +57,6 @@ public final class FilterAudioUnit: AUAudioUnit {
   /// Announce support for user presets as well
   override public var supportsUserPresets: Bool { true }
 
-//  override public var fullState: [String : Any]? {
-//    get {
-//      os_log(.info, log: log, "fullState GET")
-//      var value = super.fullState ?? [String: Any]()
-//      if let preset = currentPreset, usingCurrentPreset {
-//        value[kAUPresetNameKey] = preset.name
-//        value[kAUPresetNumberKey] = preset.number
-//      }
-//      os_log(.info, log: log, "value: %{public}s", value.description)
-//      return value
-//    }
-//    set {
-//      os_log(.info, log: log, "fullState SET")
-//      os_log(.info, log: log, "value: %{public}s", newValue.descriptionOrNil)
-//      super.fullState = newValue
-//      guard let newValue = newValue,
-//            let name = newValue[kAUPresetNameKey] as? String,
-//            let number = newValue[kAUPresetNumberKey] as? NSNumber
-//      else {
-//        currentPreset = nil
-//        return
-//      }
-//
-//      let index = number.intValue
-//      if index >= 0 && index < factoryPresetValues.count {
-//        let values = factoryPresetValues[number.intValue]
-//        guard parameterDefinitions.cutoff.value == values.cutoff,
-//              parameterDefinitions.resonance.value == values.resonance
-//        else {
-//          currentPreset = nil
-//          return
-//        }
-//        currentPreset = AUAudioUnitPreset(number: number.intValue, name: name)
-//      }
-//    }
-//  }
-
   override public var fullState: [String: Any]? {
     get {
       let value = super.fullState

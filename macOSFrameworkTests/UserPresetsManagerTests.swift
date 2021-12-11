@@ -4,7 +4,7 @@
 import XCTest
 
 class MockAUAudioUnit: AUAudioUnitPresetsFacade {
-  var factoryPresetsArray = [AUAudioUnitPreset]()
+  var factoryPresetsNonNil = [AUAudioUnitPreset]()
   var userPresets = [AUAudioUnitPreset]()
   var currentPreset: AUAudioUnitPreset?
   func saveUserPreset(_ preset: AUAudioUnitPreset) throws {
@@ -31,11 +31,11 @@ class UserPresetsManagerTests: XCTestCase {
       AUAudioUnitPreset(number: -5, name: "five")
     ]
 
-    audioUnit.factoryPresetsArray = [
+    audioUnit.factoryPresetsNonNil = [
       AUAudioUnitPreset(number: 0, name: "fac 1"),
       AUAudioUnitPreset(number: 1, name: "fac 2")
     ]
-    audioUnit.currentPreset = audioUnit.factoryPresetsArray[0]
+    audioUnit.currentPreset = audioUnit.factoryPresetsNonNil[0]
     manager = UserPresetsManager(for: audioUnit)
   }
 

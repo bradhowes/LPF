@@ -66,9 +66,6 @@ final class MainViewController: UIViewController {
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
 
-    // presetSelection.selectedSegmentIndex = 0
-    // usePreset()
-
     let showedAlertKey = "showedInitialAlert"
     guard UserDefaults.standard.bool(forKey: showedAlertKey) == false else { return }
     UserDefaults.standard.set(true, forKey: showedAlertKey)
@@ -191,6 +188,7 @@ extension MainViewController: AudioUnitHostDelegate {
 }
 
 extension MainViewController {
+
   private func useUserPreset(name: String) {
     guard let userPresetManager = userPresetsManager else { return }
     userPresetManager.makeCurrentPreset(name: name)
@@ -210,7 +208,7 @@ extension MainViewController {
     }
 
     let actionsGroup = UIMenu(title: "Actions", options: [],
-                              children: active != Int.max ? [renameAction, deleteAction] : [saveAction])
+                              children: active < 0 ? [saveAction, renameAction, deleteAction] : [saveAction])
     let menu = UIMenu(title: "User Presets", options: [], children: presets + [actionsGroup])
     userPresetsMenu.menu = menu
     userPresetsMenu.showsMenuAsPrimaryAction = true

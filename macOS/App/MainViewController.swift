@@ -189,6 +189,7 @@ extension MainViewController: AudioUnitHostDelegate {
 // MARK: - UI Actions
 
 extension MainViewController {
+
   @IBAction private func togglePlay(_ sender: NSButton) {
     audioUnitHost.togglePlayback()
     let isPlaying = audioUnitHost.isPlaying
@@ -288,9 +289,9 @@ extension MainViewController {
     let audioUnit = userPresetsManager.audioUnit
 
     os_log(.info, log: log, "populatePresetMenu")
-    os_log(.info, log: log, "adding %d factory presets", audioUnit.factoryPresetsArray.count)
+    os_log(.info, log: log, "adding %d factory presets", audioUnit.factoryPresetsNonNil.count)
 
-    for preset in audioUnit.factoryPresetsArray {
+    for preset in audioUnit.factoryPresetsNonNil {
       let key = "\(preset.number + 1)"
       let menuItem = NSMenuItem(title: preset.name, action: #selector(presetMenuItemSelected(_:)), keyEquivalent: key)
       menuItem.tag = numberToTag(preset.number)
@@ -311,7 +312,7 @@ extension MainViewController {
     deletePresetMenuItem.isEnabled = active < 0
 
     // Determine number of items to keep: 3 commands + divider + # of factory items
-    let factoryCount = userPresetsManager.audioUnit.factoryPresetsArray.count
+    let factoryCount = userPresetsManager.audioUnit.factoryPresetsNonNil.count
     let stockCount = 3 + 1 + factoryCount
     presetsMenu.items = presetsMenu.items.dropLast(presetsMenu.items.count - stockCount)
 

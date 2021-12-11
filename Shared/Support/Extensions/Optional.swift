@@ -1,6 +1,6 @@
 // Copyright © 2020 Brad Howes. All rights reserved.
 
-extension Optional where Wrapped: CustomStringConvertible {
+public extension Optional where Wrapped: CustomStringConvertible {
   /// Obtain the description attribute of the wrapped value or "nil" if none
   var descriptionOrNil: String {
     switch self {
