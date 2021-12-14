@@ -9,6 +9,8 @@ final class MainViewController: UIViewController {
   private static let log = Logging.logger("MainViewController")
   private var log: OSLog { Self.log }
 
+  private let showedInitialAlert = "showedInitialAlert"
+
   private let cutoffSliderMinValue: Float = 0.0
   private let cutoffSliderMaxValue: Float = 9.0
   private lazy var cutoffSliderMaxValuePower2Minus1 = Float(pow(2, cutoffSliderMaxValue) - 1)
@@ -28,18 +30,27 @@ final class MainViewController: UIViewController {
   @IBOutlet var resonanceValue: UILabel!
   @IBOutlet var containerView: UIView!
   @IBOutlet var presetSelection: UISegmentedControl!
-  @IBOutlet var userPresetsMenu: UIButton!
+  @IBOutlet var userPresetsMenuButton: UIButton!
+  @IBOutlet weak var instructions: UIView!
 
-  private lazy var renameAction = UIAction(title: "Rename", handler: RenamePresetAction(self).start(_:))
-  private lazy var deleteAction = UIAction(title: "Delete", handler: DeletePresetAction(self).start(_:))
-  private lazy var saveAction = UIAction(title: "Save", handler: SavePresetAction(self).start(_:))
+  private lazy var renameAction = UIAction(title: "Rename",
+                                           handler: RenamePresetAction(self, completion: updatePresetMenu).start(_:))
+  private lazy var deleteAction = UIAction(title: "Delete",
+                                           handler: DeletePresetAction(self, completion: updatePresetMenu).start(_:))
+  private lazy var saveAction = UIAction(title: "Save",
+                                         handler: SavePresetAction(self, completion: updatePresetMenu).start(_:))
 
   private var allParameterValuesObserverToken: NSKeyValueObservation?
   private var parameterTreeObserverToken: AUParameterObserverToken?
+}
+
+// MARK: - View Management
+
+extension MainViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    // audioUnitHost = AudioUnitHost(componentDescription: FilterAudioUnit.componentDescription)
+
     guard let delegate = UIApplication.shared.delegate as? AppDelegate else { fatalError() }
     delegate.setMainViewController(self)
 
@@ -51,6 +62,10 @@ final class MainViewController: UIViewController {
 
     presetSelection.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .normal)
     presetSelection.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+
+    instructions.layer.borderWidth = 4
+    instructions.layer.borderColor = UIColor.systemOrange.cgColor
+    instructions.layer.cornerRadius = 16
   }
 
   override func viewWillAppear(_ animated: Bool) {
@@ -59,34 +74,17 @@ final class MainViewController: UIViewController {
     playButton.setImage(UIImage(named: "stop"), for: [.highlighted, .selected])
     bypassButton.setImage(UIImage(named: "bypassed"), for: [.highlighted, .selected])
 
-    // Keep last
     audioUnitHost.delegate = self
-  }
-
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-
-    let showedAlertKey = "showedInitialAlert"
-    guard UserDefaults.standard.bool(forKey: showedAlertKey) == false else { return }
-    UserDefaults.standard.set(true, forKey: showedAlertKey)
-    let alert = UIAlertController(title: "AUv3 Component Installed",
-                                  message: nil, preferredStyle: .alert)
-    alert.message =
-      """
-      The AUv3 component 'SimplyLowPass' is now available on your device and can be used in other AUv3 host apps such as
-      GarageBand and AUM.You can continue to use this app to experiment, but you do not need to have it running in order to
-      access the AUv3 component in other apps. If you delete this app from your device, the AUv3 component will no longer be
-      available for use in other host applications.
-      """
-    alert.addAction(
-      UIAlertAction(title: "OK", style: .default, handler: { _ in })
-    )
-    present(alert, animated: true)
   }
 
   public func stopPlaying() {
     audioUnitHost.cleanup()
   }
+}
+
+// MARK: - Actions
+
+extension MainViewController {
 
   @IBAction private func togglePlay(_ sender: UIButton) {
     let isPlaying = audioUnitHost.togglePlayback()
@@ -126,13 +124,22 @@ final class MainViewController: UIViewController {
   @IBAction private func reviewApp(_ sender: UIButton) {
     AppStore.visitAppStore()
   }
+
+  @IBAction func dismissInstructions(_ sender: Any) {
+    instructions.isHidden = true
+    UserDefaults.standard.set(true, forKey: showedInitialAlert)
+  }
 }
 
+// MARK: - AudioUnitHostDelegate
+
 extension MainViewController: AudioUnitHostDelegate {
+
   func connected(audioUnit: AUAudioUnit, viewController: ViewController) {
     userPresetsManager = .init(for: audioUnit)
     connectFilterView(viewController)
     connectParametersToControls(audioUnit)
+    showInstructions()
   }
 
   func failed(error: AudioUnitHostError) {
@@ -140,8 +147,26 @@ extension MainViewController: AudioUnitHostDelegate {
     let controller = UIAlertController(title: "AUv3 Failure", message: message, preferredStyle: .alert)
     present(controller, animated: true)
   }
+}
 
-  private func connectFilterView(_ viewController: ViewController) {
+// MARK: - Private
+
+private extension MainViewController {
+
+  func showInstructions() {
+#if !Dev
+    if UserDefaults.standard.bool(forKey: showedInitialAlert) {
+      instructions.isHidden = true
+      return
+    }
+#endif
+    instructions.isHidden = false
+
+    // Since this is the first time to run, apply the first factory preset.
+    userPresetsManager?.makeCurrentPreset(number: 0)
+  }
+
+  func connectFilterView(_ viewController: ViewController) {
     let filterView = viewController.view!
     containerView.addSubview(filterView)
     filterView.pinToSuperviewEdges()
@@ -151,7 +176,7 @@ extension MainViewController: AudioUnitHostDelegate {
     containerView.setNeedsLayout()
   }
 
-  private func connectParametersToControls(_ audioUnit: AUAudioUnit) {
+  func connectParametersToControls(_ audioUnit: AUAudioUnit) {
     guard let parameterTree = audioUnit.parameterTree else {
       fatalError("FilterAudioUnit does not define any parameters.")
     }
@@ -185,13 +210,10 @@ extension MainViewController: AudioUnitHostDelegate {
       DispatchQueue.performOnMain { self.updateView() }
     })
   }
-}
 
-extension MainViewController {
-
-  private func useUserPreset(name: String) {
+  func usePreset(number: Int) {
     guard let userPresetManager = userPresetsManager else { return }
-    userPresetManager.makeCurrentPreset(name: name)
+    userPresetManager.makeCurrentPreset(number: number)
     updatePresetMenu()
   }
 
@@ -199,22 +221,32 @@ extension MainViewController {
     guard let userPresetsManager = userPresetsManager else { return }
     let active = userPresetsManager.audioUnit.currentPreset?.number ?? Int.max
 
-    os_log(.info, log: log, "updatePresetMenu: active %d", active)
-    let presets = userPresetsManager.presetsOrderedByName.map { (preset: AUAudioUnitPreset) -> UIAction in
-      os_log(.info, log: log, "preset: %{public}s %d", preset.name, preset.number)
-      let action = UIAction(title: preset.name, handler: { _ in self.useUserPreset(name: preset.name) })
+    let factoryPresets = userPresetsManager.audioUnit.factoryPresetsNonNil.map { (preset: AUAudioUnitPreset) -> UIAction in
+      let action = UIAction(title: preset.name, handler: { _ in self.usePreset(number: preset.number) })
       action.state = active == preset.number ? .on : .off
       return action
     }
 
-    let actionsGroup = UIMenu(title: "Actions", options: [],
+    let factoryPresetsMenu = UIMenu(title: "Factory", options: .displayInline, children: factoryPresets)
+
+    let userPresets = userPresetsManager.presetsOrderedByName.map { (preset: AUAudioUnitPreset) -> UIAction in
+      let action = UIAction(title: preset.name, handler: { _ in self.usePreset(number: preset.number) })
+      action.state = active == preset.number ? .on : .off
+      return action
+    }
+
+    let userPresetsMenu = UIMenu(title: "User", options: .displayInline, children: userPresets)
+
+    let actionsGroup = UIMenu(title: "Actions", options: .displayInline,
                               children: active < 0 ? [saveAction, renameAction, deleteAction] : [saveAction])
-    let menu = UIMenu(title: "User Presets", options: [], children: presets + [actionsGroup])
-    userPresetsMenu.menu = menu
-    userPresetsMenu.showsMenuAsPrimaryAction = true
+
+    let menu = UIMenu(title: "Presets", options: [], children: [userPresetsMenu, factoryPresetsMenu, actionsGroup])
+
+    userPresetsMenuButton.menu = menu
+    userPresetsMenuButton.showsMenuAsPrimaryAction = true
   }
 
-  private func updateView() {
+  func updateView() {
     guard let audioUnit = audioUnitHost.audioUnit,
           let parameterTree = audioUnit.parameterTree,
           let cutoffParameter = parameterTree.parameter(withAddress: .cutoff),
@@ -232,7 +264,7 @@ extension MainViewController {
     audioUnitHost.save()
   }
 
-  private func updatePresetSelection(_ audioUnit: AUAudioUnit) {
+  func updatePresetSelection(_ audioUnit: AUAudioUnit) {
     if let presetNumber = audioUnit.currentPreset?.number {
       os_log(.info, log: log, "updatePresetSelection: %d", presetNumber)
       presetSelection.selectedSegmentIndex = presetNumber
@@ -241,12 +273,12 @@ extension MainViewController {
     }
   }
 
-  private func cutoffValueDidChange(_ value: Float) {
+  func cutoffValueDidChange(_ value: Float) {
     cutoffSlider.value = sliderLocationForFrequencyValue(value)
     cutoffValue.text = String(format: "%.2f", value)
   }
 
-  private func resonanceValueDidChange(_ value: Float) {
+  func resonanceValueDidChange(_ value: Float) {
     resonanceSlider.value = value
     resonanceValue.text = String(format: "%.2f", value)
   }
@@ -262,7 +294,10 @@ extension MainViewController {
   }
 }
 
+// MARK: - Alerts and Prompts
+
 extension MainViewController {
+
   func notify(title: String, message: String) {
     let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
     controller.addAction(UIAlertAction(title: "OK", style: .default))

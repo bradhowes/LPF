@@ -208,13 +208,13 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="MainViewController" customModule="SimplyLowPass" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="467" height="414"/>
+                        <rect key="frame" x="0.0" y="0.0" width="443" height="428"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <box borderType="none" titlePosition="noTitle" transparent="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rfi-rJ-PdE" userLabel="Parameters Box">
-                                <rect key="frame" x="17" y="338" width="433" height="78"/>
+                                <rect key="frame" x="17" y="352" width="409" height="78"/>
                                 <view key="contentView" id="b4b-Oa-AOn">
-                                    <rect key="frame" x="0.0" y="0.0" width="433" height="78"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="409" height="78"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="95k-cc-122">
@@ -245,7 +245,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="veU-X7-Bd9">
-                                            <rect key="frame" x="205" y="40" width="210" height="28"/>
+                                            <rect key="frame" x="205" y="40" width="186" height="28"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="9" doubleValue="5" tickMarkPosition="above" sliderType="linear" id="JtD-C5-MRg"/>
                                             <connections>
                                                 <action selector="cutoffSliderValueChanged:" target="XfG-lQ-9wD" id="ru5-Mu-YlM"/>
@@ -276,7 +276,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MX2-fm-3rT">
-                                            <rect key="frame" x="205" y="8" width="210" height="28"/>
+                                            <rect key="frame" x="205" y="8" width="186" height="28"/>
                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="-20" maxValue="20" tickMarkPosition="above" sliderType="linear" id="UiK-7l-PXj"/>
                                             <connections>
                                                 <action selector="resonanceSliderValueChanged:" target="XfG-lQ-9wD" id="LlT-VI-6f7"/>
@@ -311,10 +311,10 @@
                                 </constraints>
                             </box>
                             <customView autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AVM-k6-jTo" userLabel="Content View">
-                                <rect key="frame" x="10" y="10" width="447" height="312"/>
+                                <rect key="frame" x="10" y="10" width="423" height="326"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iO5-GT-K4x">
-                                        <rect key="frame" x="172" y="142" width="103" height="28"/>
+                                        <rect key="frame" x="160" y="149" width="103" height="28"/>
                                         <textFieldCell key="cell" lineBreakMode="clipping" title="Loading…" id="fyr-Jd-O0Q">
                                             <font key="font" metaFont="system" size="24"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -327,11 +327,68 @@
                                     <constraint firstItem="iO5-GT-K4x" firstAttribute="centerY" secondItem="AVM-k6-jTo" secondAttribute="centerY" id="pn7-zq-qTJ"/>
                                 </constraints>
                             </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="A9c-yU-niO" userLabel="Instructions">
+                                <rect key="frame" x="20" y="88" width="403" height="252"/>
+                                <subviews>
+                                    <stackView distribution="fill" orientation="vertical" alignment="centerX" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lNA-kC-lfE" userLabel="Instructions">
+                                        <rect key="frame" x="16" y="16" width="371" height="220"/>
+                                        <subviews>
+                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="aPx-fU-F5b">
+                                                <rect key="frame" x="-2" y="28" width="375" height="192"/>
+                                                <textFieldCell key="cell" selectable="YES" id="Ugd-nA-n5Y">
+                                                    <font key="font" usesAppearanceFont="YES"/>
+                                                    <string key="title">The AUv3 component '__NAME__' is now available on your device and can be used in other AUv3 host apps such as GarageBand and Logic.
+
+You can continue to use this app to experiment, but you do not need to have it running to access the AUv3 component in other apps.
+
+However, if you later delete this app from your device, the AUv3 component will no longer be available in other host apps.
+</string>
+                                                    <color key="textColor" name="systemOrangeColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="J0u-BW-new">
+                                                <rect key="frame" x="159" y="-7" width="53" height="32"/>
+                                                <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Jxv-Ir-btX">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="system"/>
+                                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                                </buttonCell>
+                                                <color key="bezelColor" name="systemOrangeColor" catalog="System" colorSpace="catalog"/>
+                                            </button>
+                                        </subviews>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="252" id="02w-4b-yL7"/>
+                                    <constraint firstItem="lNA-kC-lfE" firstAttribute="leading" secondItem="A9c-yU-niO" secondAttribute="leading" constant="16" id="1n4-up-qXZ"/>
+                                    <constraint firstAttribute="bottom" secondItem="lNA-kC-lfE" secondAttribute="bottom" constant="16" id="Ti6-PL-6IH"/>
+                                    <constraint firstItem="lNA-kC-lfE" firstAttribute="top" secondItem="A9c-yU-niO" secondAttribute="top" constant="16" id="go1-Df-tO7"/>
+                                    <constraint firstAttribute="width" constant="403" id="iMD-XB-03S"/>
+                                    <constraint firstAttribute="trailing" secondItem="lNA-kC-lfE" secondAttribute="trailing" constant="16" id="wem-Ap-fVi"/>
+                                </constraints>
+                            </customView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="AVM-k6-jTo" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="10" id="3f5-lk-ZZb"/>
+                            <constraint firstItem="A9c-yU-niO" firstAttribute="top" relation="greaterThanOrEqual" secondItem="rfi-rJ-PdE" secondAttribute="bottom" constant="16" id="If6-4F-zpy"/>
                             <constraint firstAttribute="bottom" secondItem="AVM-k6-jTo" secondAttribute="bottom" constant="10" id="Lno-1a-N0L"/>
                             <constraint firstAttribute="trailing" secondItem="AVM-k6-jTo" secondAttribute="trailing" constant="10" id="Nud-sn-hDf"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="A9c-yU-niO" secondAttribute="trailing" constant="16" id="SNo-Fc-Mwt"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="A9c-yU-niO" secondAttribute="bottom" constant="16" id="VBC-Ng-dd4"/>
+                            <constraint firstItem="A9c-yU-niO" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="16" id="faD-2k-Sb9"/>
+                            <constraint firstItem="A9c-yU-niO" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="gb5-dJ-faq"/>
+                            <constraint firstItem="A9c-yU-niO" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="iOz-lq-NF6"/>
                             <constraint firstItem="rfi-rJ-PdE" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="mGv-Rv-Zr0"/>
                             <constraint firstItem="AVM-k6-jTo" firstAttribute="top" secondItem="rfi-rJ-PdE" secondAttribute="bottom" constant="20" id="r5b-fw-3E1"/>
                             <constraint firstAttribute="trailing" secondItem="rfi-rJ-PdE" secondAttribute="trailing" constant="20" id="xgr-zl-iDR"/>
@@ -342,6 +399,8 @@
                         <outlet property="containerView" destination="AVM-k6-jTo" id="0Du-8s-SA4"/>
                         <outlet property="cutoffSlider" destination="veU-X7-Bd9" id="5wz-pZ-NhO"/>
                         <outlet property="cutoffTextField" destination="R8U-qk-iuM" id="i9s-KD-4fg"/>
+                        <outlet property="instructions" destination="A9c-yU-niO" id="nyO-gp-ioZ"/>
+                        <outlet property="instructionsButton" destination="J0u-BW-new" id="CHk-fe-Ybu"/>
                         <outlet property="resonanceSlider" destination="MX2-fm-3rT" id="aWP-3P-qKq"/>
                         <outlet property="resonanceTextField" destination="25o-BP-DCr" id="dcx-hL-VLx"/>
                     </connections>

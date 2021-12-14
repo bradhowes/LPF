@@ -9,6 +9,8 @@ final class MainViewController: NSViewController {
   private static let log = Logging.logger("MainViewController")
   private var log: OSLog { Self.log }
 
+  private let showedInitialAlert = "showedInitialAlert"
+
   private let cutoffSliderMinValue: Double = 0.0
   private let cutoffSliderMaxValue: Double = 9.0
   private lazy var cutoffSliderMaxValuePower2Minus1 = Float(pow(2, cutoffSliderMaxValue) - 1)
@@ -36,6 +38,8 @@ final class MainViewController: NSViewController {
   @IBOutlet var resonanceSlider: NSSlider!
   @IBOutlet var resonanceTextField: NSTextField!
   @IBOutlet var containerView: NSView!
+  @IBOutlet weak var instructions: NSView!
+  @IBOutlet weak var instructionsButton: NSButton!
 
   private var filterView: NSView?
   private var allParameterValuesObserverToken: NSKeyValueObservation?
@@ -49,6 +53,17 @@ extension MainViewController {
     super.viewDidLoad()
     cutoffSlider.minValue = cutoffSliderMinValue
     cutoffSlider.maxValue = cutoffSliderMaxValue
+
+    // Start out hidden and only show after everything is up and running and we discover that this is the first time
+    // for the user to run the application on their device.
+    instructions.isHidden = true
+    instructions.wantsLayer = true
+    instructions.layer?.borderWidth = 4
+    instructions.layer?.borderColor = NSColor.systemOrange.lighter.cgColor
+    instructions.layer?.cornerRadius = 16
+    instructions.backgroundColor = NSColor.black
+    instructionsButton.target = self
+    instructionsButton.action = #selector(dismissInstructions(_:))
   }
 
   override func viewWillAppear() {
@@ -120,10 +135,12 @@ extension MainViewController {
 // MARK: - AudioUnitHostDelegate
 
 extension MainViewController: AudioUnitHostDelegate {
+
   func connected(audioUnit: AUAudioUnit, viewController: ViewController) {
     userPresetsManager = .init(for: audioUnit)
     connectFilterView(viewController)
     connectParametersToControls(audioUnit)
+    showInstructions()
   }
 
   func failed(error: AudioUnitHostError) {
@@ -133,6 +150,105 @@ extension MainViewController: AudioUnitHostDelegate {
     alert.informativeText = "Unable to load the AUv3 component. \(error.description)"
     alert.addButton(withTitle: "OK")
     alert.beginSheetModal(for: view.window!) { _ in self.view.window?.close() }
+  }
+}
+
+// MARK: - UI Actions
+
+extension MainViewController {
+
+  @IBAction private func togglePlay(_ sender: NSButton) {
+    audioUnitHost.togglePlayback()
+    let isPlaying = audioUnitHost.isPlaying
+
+    playButton?.image = isPlaying ? NSImage(named: "stop") : NSImage(named: "play")
+
+    audioUnitHost.audioUnit?.shouldBypassEffect = false
+    bypassButton?.image = NSImage(named: "enabled")
+    bypassButton?.isEnabled = isPlaying
+    bypassMenuItem?.isEnabled = isPlaying
+  }
+
+  @IBAction private func toggleBypass(_ sender: NSButton) {
+    let wasBypassed = audioUnitHost.audioUnit?.shouldBypassEffect ?? false
+    let isBypassed = !wasBypassed
+    audioUnitHost.audioUnit?.shouldBypassEffect = isBypassed
+    bypassButton?.image = isBypassed ? NSImage(named: "bypassed") : NSImage(named: "enabled")
+    bypassMenuItem?.title = isBypassed ? "Resume" : "Bypass"
+  }
+
+  @IBAction private func presetsButton(_ sender: NSButton) {
+    let location = NSPoint(x: 0, y: sender.frame.height + 5)
+    presetsMenu.popUp(positioning: nil, at: location, in: sender)
+  }
+
+  @IBAction private func cutoffSliderValueChanged(_ sender: NSSlider) {
+    cutoffParameter?.setValue(frequencyValueForSliderLocation(sender.floatValue), originator: parameterTreeObserverToken)
+    userPresetsManager?.clearCurrentPreset()
+  }
+
+  @IBAction private func resonanceSliderValueChanged(_ sender: NSSlider) {
+    resonanceParameter?.setValue(sender.floatValue, originator: parameterTreeObserverToken)
+    userPresetsManager?.clearCurrentPreset()
+  }
+
+  @objc private func handleSavePresetMenuSelected(_ sender: NSMenuItem) throws {
+    SavePresetAction(self, completion: updatePresetMenu).start(sender)
+    updatePresetMenu()
+  }
+
+  @objc private func handleRenamePresetMenuSelected(_ sender: NSMenuItem) throws {
+    RenamePresetAction(self, completion: updatePresetMenu).start(sender)
+    updatePresetMenu()
+  }
+
+  @objc private func handleDeletePresetMenuSelected(_ sender: NSMenuItem) throws {
+    DeletePresetAction(self, completion: updatePresetMenu).start(sender)
+    updatePresetMenu()
+  }
+
+  @objc private func presetMenuItemSelected(_ sender: NSMenuItem) {
+    guard let userPresetsManager = userPresetsManager else { return }
+    let number = tagToNumber(sender.tag)
+    userPresetsManager.makeCurrentPreset(number: number)
+    updatePresetMenu()
+  }
+
+  @IBAction func dismissInstructions(_ sender: NSButton) {
+    UserDefaults.standard.set(true, forKey: showedInitialAlert)
+    instructions.isHidden = true
+  }
+}
+
+// MARK: - NSWindowDelegate
+
+extension MainViewController: NSWindowDelegate {
+  func windowWillClose(_ notification: Notification) {
+    audioUnitHost.cleanup()
+    guard let parameterTree = audioUnitHost.audioUnit?.parameterTree,
+          let parameterTreeObserverToken = parameterTreeObserverToken
+    else {
+      return
+    }
+    parameterTree.removeParameterObserver(parameterTreeObserverToken)
+  }
+}
+
+// MARK: - Private
+
+private extension MainViewController {
+
+  func showInstructions() {
+#if !Dev
+    if UserDefaults.standard.bool(forKey: showedInitialAlert) {
+      instructions.isHidden = true
+      return
+    }
+#endif
+    instructions.isHidden = false
+
+    // Since this is the first time to run, apply the first factory preset.
+    userPresetsManager?.makeCurrentPreset(number: 0)
   }
 
   private func connectFilterView(_ viewController: NSViewController) {
@@ -183,107 +299,31 @@ extension MainViewController: AudioUnitHostDelegate {
       DispatchQueue.performOnMain { self.updateView() }
     })
   }
-}
 
-// MARK: - UI Actions
-
-extension MainViewController {
-
-  @IBAction private func togglePlay(_ sender: NSButton) {
-    audioUnitHost.togglePlayback()
-    let isPlaying = audioUnitHost.isPlaying
-
-    playButton?.image = isPlaying ? NSImage(named: "stop") : NSImage(named: "play")
-
-    audioUnitHost.audioUnit?.shouldBypassEffect = false
-    bypassButton?.image = NSImage(named: "enabled")
-    bypassButton?.isEnabled = isPlaying
-    bypassMenuItem?.isEnabled = isPlaying
-  }
-
-  @IBAction private func toggleBypass(_ sender: NSButton) {
-    let wasBypassed = audioUnitHost.audioUnit?.shouldBypassEffect ?? false
-    let isBypassed = !wasBypassed
-    audioUnitHost.audioUnit?.shouldBypassEffect = isBypassed
-    bypassButton?.image = isBypassed ? NSImage(named: "bypassed") : NSImage(named: "enabled")
-    bypassMenuItem?.title = isBypassed ? "Resume" : "Bypass"
-  }
-
-  @IBAction private func presetsButton(_ sender: NSButton) {
-    let location = NSPoint(x: 0, y: sender.frame.height + 5)
-    presetsMenu.popUp(positioning: nil, at: location, in: sender)
-  }
-
-  @IBAction private func cutoffSliderValueChanged(_ sender: NSSlider) {
-    cutoffParameter?.setValue(frequencyValueForSliderLocation(sender.floatValue), originator: parameterTreeObserverToken)
-    userPresetsManager?.clearCurrentPreset()
-  }
-
-  @IBAction private func resonanceSliderValueChanged(_ sender: NSSlider) {
-    resonanceParameter?.setValue(sender.floatValue, originator: parameterTreeObserverToken)
-    userPresetsManager?.clearCurrentPreset()
-  }
-
-  @objc private func handleSavePresetMenuSelected(_ sender: NSMenuItem) throws {
-    SavePresetAction(self).start(sender)
-    updatePresetMenu()
-  }
-
-  @objc private func handleRenamePresetMenuSelected(_ sender: NSMenuItem) throws {
-    RenamePresetAction(self).start(sender)
-    updatePresetMenu()
-  }
-
-  @objc private func handleDeletePresetMenuSelected(_ sender: NSMenuItem) throws {
-    DeletePresetAction(self).start(sender)
-    updatePresetMenu()
-  }
-
-  @objc private func presetMenuItemSelected(_ sender: NSMenuItem) {
-    guard let userPresetsManager = userPresetsManager else { return }
-    let number = tagToNumber(sender.tag)
-    userPresetsManager.makeCurrentPreset(number: number)
-    updatePresetMenu()
-  }
-}
-
-extension MainViewController: NSWindowDelegate {
-  func windowWillClose(_ notification: Notification) {
-    audioUnitHost.cleanup()
-    guard let parameterTree = audioUnitHost.audioUnit?.parameterTree,
-          let parameterTreeObserverToken = parameterTreeObserverToken
-    else {
-      return
-    }
-    parameterTree.removeParameterObserver(parameterTreeObserverToken)
-  }
-}
-
-extension MainViewController {
-  public func cutoffValueDidChange(_ value: AUValue) {
+  func cutoffValueDidChange(_ value: AUValue) {
     cutoffSlider.floatValue = sliderLocationForFrequencyValue(value)
     cutoffTextField.stringValue = String(format: "%.f", value)
   }
 
-  public func resonanceValueDidChange(_ value: AUValue) {
+  func resonanceValueDidChange(_ value: AUValue) {
     resonanceSlider.floatValue = value
     resonanceTextField.stringValue = String(format: "%.2f", value)
   }
 
-  private func saveState() {
+  func saveState() {
     updatePresetMenu()
     audioUnitHost.save()
   }
 
-  private func numberToTag(_ number: Int) -> Int {
+  func numberToTag(_ number: Int) -> Int {
     number >= 0 ? (number + 10000) : number
   }
 
-  private func tagToNumber(_ tag: Int) -> Int {
+  func tagToNumber(_ tag: Int) -> Int {
     tag >= 10000 ? (tag - 10000) : tag
   }
 
-  private func populatePresetMenu() {
+  func populatePresetMenu() {
     guard let userPresetsManager = userPresetsManager else { return }
     let audioUnit = userPresetsManager.audioUnit
 
@@ -301,7 +341,7 @@ extension MainViewController {
     updatePresetMenu()
   }
 
-  internal func updatePresetMenu() {
+  func updatePresetMenu() {
     guard let userPresetsManager = userPresetsManager else { return }
     let active = userPresetsManager.audioUnit.currentPreset?.number ?? Int.max
     os_log(.info, log: log, "updatePresetMenu: active %d", active)
@@ -336,7 +376,7 @@ extension MainViewController {
     }
   }
 
-  private func updateView() {
+  func updateView() {
     guard let audioUnit = audioUnitHost.audioUnit,
           let parameterTree = audioUnit.parameterTree,
           let cutoffParameter = parameterTree.parameter(withAddress: .cutoff),
@@ -350,18 +390,21 @@ extension MainViewController {
     saveState()
   }
 
-  private func sliderLocationForFrequencyValue(_ frequency: Float) -> Float {
+  func sliderLocationForFrequencyValue(_ frequency: Float) -> Float {
     Foundation.log(((frequency - FilterView.hertzMin) / (FilterView.hertzMax - FilterView.hertzMin)) *
       cutoffSliderMaxValuePower2Minus1 + 1.0) / Foundation.log(2)
   }
 
-  private func frequencyValueForSliderLocation(_ location: Float) -> Float {
+  func frequencyValueForSliderLocation(_ location: Float) -> Float {
     ((pow(2, location) - 1) / cutoffSliderMaxValuePower2Minus1) * (FilterView.hertzMax - FilterView.hertzMin) +
       FilterView.hertzMin
   }
 }
 
+// MARK: - Alert / Prompt
+
 extension MainViewController {
+
   func notify(title: String, message: String) {
     let alert = NSAlert()
     alert.alertStyle = .informational
