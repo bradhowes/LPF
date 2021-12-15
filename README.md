@@ -28,6 +28,10 @@ Finally, it passes all
 [auval](https://developer.apple.com/library/archive/documentation/MusicAudio/Conceptual/AudioUnitProgrammingGuide/AudioUnitDevelopmentFundamentals/AudioUnitDevelopmentFundamentals.html)
 tests. (`auval -v aufx lpas BRay`)
 
+If you are interested in making your own AUv3 components, feel free to fork this and adapt to your needs. However a better option might be to check out my
+[AUv3Template](https://github.com/bradhowes/AUv3Template) repo which provides the same base functionality in iOS and macOS but allows for easier customization
+via the included `build.py` Python script.
+
 ## Demo Targets
 
 The macOS and iOS apps are simple AUv3 hosts that demonstrate the functionality of the AUv3 component. In the AUv3 world,
