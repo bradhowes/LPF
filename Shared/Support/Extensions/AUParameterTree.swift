@@ -7,7 +7,6 @@ public extension AUParameterTree {
     parameter(withAddress: address.rawValue)
   }
 
-  // swiftlint:disable function_parameter_count
   class func createParameter(withIdentifier identifier: String, name: String, address: FilterParameterAddress,
                              min: AUValue, max: AUValue, unit: AudioUnitParameterUnit, unitName: String? = nil,
                              flags: AudioUnitParameterOptions = [.flag_IsReadable, .flag_IsWritable, .flag_CanRamp],

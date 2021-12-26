@@ -48,10 +48,7 @@ public final class FilterAudioUnit: AUAudioUnit {
   /// Parameter tree containing filter parameter values
   override public var parameterTree: AUParameterTree? {
     get { parameterDefinitions.parameterTree }
-    set {
-      fatalError("attempted to set new parameterTree")
-      _ = newValue // to silence swiftlint warning
-    }
+    set { fatalError("attempted to set new parameterTree"); _ = newValue }
   }
 
   /// Factory presets for the filter
@@ -101,13 +98,11 @@ public final class FilterAudioUnit: AUAudioUnit {
   /// Objective-C bridge into the C++ kernel
   private let kernel = SimplyLowPassKernelAdapter(Bundle.main.auBaseName)
 
-  // swiftlint:disable large_tuple
   private let factoryPresetValues: [(name: String, cutoff: AUValue, resonance: AUValue)] = [
     ("Prominent", 2500.0, 5.0),
     ("Bright", 14000.0, 12.0),
     ("Warm", 384.0, -3.0)
   ]
-  // swiftlint:enable large_tuple
 
   private lazy var _factoryPresets = factoryPresetValues.enumerated().map {
     AUAudioUnitPreset(number: $0, name: $1.name)
@@ -176,7 +171,7 @@ public final class FilterAudioUnit: AUAudioUnit {
     currentPreset = factoryPresets.first
 
     self.currentPresetObserver = observe(\.currentPreset, options: [.new]) { _, change in
-      self.presetChanged(change.newValue!)
+      self.presetChanged(change.newValue)
     }
 
     self.parameterTreeObserver = observe(\.parameterTree, options: [.new]) { _, _ in
@@ -193,9 +188,9 @@ public final class FilterAudioUnit: AUAudioUnit {
     self.parameterTreeObserver?.invalidate()
   }
 
-  private func presetChanged(_ preset: AUAudioUnitPreset?) {
-    os_log(.info, log: log, "presetChanged %{public}s", preset.descriptionOrNil)
-    guard let preset = preset else { return }
+  private func presetChanged(_ newValue: AUAudioUnitPreset??) {
+    guard let newValue = newValue, let preset = newValue else { return }
+    os_log(.info, log: log, "presetChanged %{public}s", preset.description)
     if preset.number >= 0 {
       os_log(.info, log: log, "factoryPreset %d", preset.number)
       let values = factoryPresetValues[preset.number]

@@ -509,7 +509,6 @@ extension FilterView {
     String(format: "%.02f dB", value)
   }
 
-  // swiftlint:disable cyclomatic_complexity
   private func updateIndicator() {
     guard let layers = indicatorLayer.sublayers else { return }
     let height = graphLayer.bounds.height
@@ -554,7 +553,6 @@ extension FilterView {
     }
   }
 }
-// swiftlint:enable cyclomatic_complexity
 
 extension FilterView {
   private func performLayout(of layer: CALayer) {
