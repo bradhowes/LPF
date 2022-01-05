@@ -49,13 +49,9 @@
   auto& kernel{*kernel_};
   AUAudioFrameCount maxFramesToRender = _maxFramesToRender;
 
-  return ^AUAudioUnitStatus(AudioUnitRenderActionFlags *actionFlags,
-                            const AudioTimeStamp       *timestamp,
-                            AUAudioFrameCount           frameCount,
-                            NSInteger                   outputBusNumber,
-                            AudioBufferList            *outputData,
-                            const AURenderEvent        *realtimeEventListHead,
-                            AURenderPullInputBlock      pullInputBlock) {
+  return ^AUAudioUnitStatus(AudioUnitRenderActionFlags* actionFlags, const AudioTimeStamp* timestamp,
+                            AUAudioFrameCount frameCount, NSInteger outputBusNumber, AudioBufferList* outputData,
+                            const AURenderEvent* realtimeEventListHead, AURenderPullInputBlock pullInputBlock) {
 
     if (outputBusNumber != 0) return kAudioUnitErr_InvalidPropertyValue;
     if (frameCount > maxFramesToRender) return kAudioUnitErr_TooManyFramesToProcess;
