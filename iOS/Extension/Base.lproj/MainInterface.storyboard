@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina5_5" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,26 +11,26 @@
         <!--FilterViewController-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" userLabel="FilterViewController" customClass="FilterViewController" customModule="LowPassFilterFramework" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" userLabel="FilterViewController" customClass="ViewController" customModule="LPF" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ToJ-H4-LsK" customClass="FilterView" customModule="LowPassFilterFramework">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                            <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ToJ-H4-LsK" customClass="FilterView" customModule="UI">
+                                <rect key="frame" x="8" y="8" width="398" height="720"/>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="u2v-qu-mbu"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="ToJ-H4-LsK" firstAttribute="leading" secondItem="u2v-qu-mbu" secondAttribute="leading" id="Lpo-zt-I63"/>
-                            <constraint firstItem="ToJ-H4-LsK" firstAttribute="trailing" secondItem="u2v-qu-mbu" secondAttribute="trailing" id="egh-uy-aXm"/>
-                            <constraint firstItem="ToJ-H4-LsK" firstAttribute="top" secondItem="u2v-qu-mbu" secondAttribute="top" id="jYK-XQ-KKI"/>
-                            <constraint firstItem="ToJ-H4-LsK" firstAttribute="bottom" secondItem="u2v-qu-mbu" secondAttribute="bottom" id="sSb-9D-Ers"/>
+                            <constraint firstItem="ToJ-H4-LsK" firstAttribute="leading" secondItem="u2v-qu-mbu" secondAttribute="leading" constant="8" id="Lpo-zt-I63"/>
+                            <constraint firstItem="u2v-qu-mbu" firstAttribute="trailing" secondItem="ToJ-H4-LsK" secondAttribute="trailing" constant="8" id="egh-uy-aXm"/>
+                            <constraint firstItem="ToJ-H4-LsK" firstAttribute="top" secondItem="u2v-qu-mbu" secondAttribute="top" constant="8" id="jYK-XQ-KKI"/>
+                            <constraint firstItem="u2v-qu-mbu" firstAttribute="bottom" secondItem="ToJ-H4-LsK" secondAttribute="bottom" constant="8" id="sSb-9D-Ers"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="filterView" destination="ToJ-H4-LsK" id="3tH-Bf-XNg"/>
+                        <outlet property="filterView" destination="ToJ-H4-LsK" id="Aqn-Sr-HjJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

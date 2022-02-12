@@ -2,7 +2,7 @@
 
 #include <Accelerate/../Frameworks/vecLib.framework/Headers/vForce.h>
 
-#include "BiquadFilter.h"
+#include "C++/BiquadFilter.h"
 
 enum Index { B0 = 0, B1, B2, A1, A2 };
 
@@ -53,7 +53,9 @@ BiquadFilter::calculateParams(float frequency, float resonance, float nyquistPer
  - parameter x: value to check
  - returns: filtered value or 1.0
  */
-static inline float filterBadValues(float x) { return ::fabs(x) > 1e-15 && ::fabs(x) < 1e15 && x != 0.0 ? x : 1.0; }
+static inline float filterBadValues(float x) {
+  return ::fabs(x) > 1e-15 && ::fabs(x) < 1e15 && x != 0.0 ? x : 1.0;
+}
 
 static inline float squared(float x) { return x * x; }
 

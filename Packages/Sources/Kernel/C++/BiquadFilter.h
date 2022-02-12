@@ -39,7 +39,7 @@ public:
    @param outs the storage for the filtered results
    @param frameCount the number of samples to process in the sequences
    */
-  void apply(std::vector<float const*> const& ins, std::vector<float*>& outs, size_t frameCount) const
+  void apply(std::vector<float*> const& ins, std::vector<float*>& outs, size_t frameCount) const
   {
     assert(lastNumChannels_ == ins.size() && lastNumChannels_ == outs.size());
     vDSP_biquadm(setup_,

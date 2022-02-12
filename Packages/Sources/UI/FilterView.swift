@@ -1,5 +1,15 @@
 // Changes: Copyright © 2021 Brad Howes. All rights reserved.
 
+import AUv3Support
+
+#if os(iOS)
+import UIKit
+#endif
+
+#if os(macOS)
+import AppKit
+#endif
+
 /**
  Delegation protocol for the FilterView. Reports out touch/mouse events and changes to the runtime
  parameters.
