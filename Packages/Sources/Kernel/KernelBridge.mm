@@ -2,7 +2,7 @@
 
 #import <CoreAudioKit/CoreAudioKit.h>
 
-#import "C++/BiquadFilter.h"
+#import "C++/AcceleratedBiquadFilter.h"
 #import "C++/Kernel.hpp"
 #import "Kernel.h"
 
@@ -36,7 +36,7 @@
 - (void)setBypass:(BOOL)state { kernel_->setBypass(state); }
 
 - (void)magnitudes:(nonnull const float*)frequencies count:(NSInteger)count output:(nonnull float*)output {
-  BiquadFilter filter;
+  AcceleratedBiquadFilter filter;
   filter.calculateParams(kernel_->cutoff(), kernel_->resonance(), kernel_->nyquistPeriod(), 1);
   filter.magnitudes(frequencies, count, kernel_->nyquistPeriod(), output);
 }

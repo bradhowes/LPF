@@ -2,12 +2,12 @@
 
 #include <Accelerate/../Frameworks/vecLib.framework/Headers/vForce.h>
 
-#include "C++/BiquadFilter.h"
+#include "C++/AcceleratedBiquadFilter.h"
 
 enum Index { B0 = 0, B1, B2, A1, A2 };
 
 void
-BiquadFilter::calculateParams(float frequency, float resonance, float nyquistPeriod, size_t numChannels)
+AcceleratedBiquadFilter::calculateParams(float frequency, float resonance, float nyquistPeriod, size_t numChannels)
 {
   if (lastFrequency_ == frequency && lastResonance_ == resonance && numChannels == lastNumChannels_) return;
   
@@ -60,7 +60,7 @@ static inline float filterBadValues(float x) {
 static inline float squared(float x) { return x * x; }
 
 void
-BiquadFilter::magnitudes(float const* frequencies, size_t count, float inverseNyquist, float* magnitudes) const
+AcceleratedBiquadFilter::magnitudes(float const* frequencies, size_t count, float inverseNyquist, float* magnitudes) const
 {
   float scale = M_PI * inverseNyquist;
   while (count-- > 0) {

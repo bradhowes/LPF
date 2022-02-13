@@ -2,11 +2,13 @@
 
 #pragma once
 
+#import <os/log.h>
+
 #import <algorithm>
 #import <string>
 #import <AVFoundation/AVFoundation.h>
 
-#import "BiquadFilter.h"
+#import "AcceleratedBiquadFilter.h"
 #import "EventProcessor.hpp"
 #import "RampingParameter.hpp"
 
@@ -27,7 +29,7 @@ struct Kernel : public EventProcessor<Kernel> {
   Kernel(const std::string& name)
   : super(os_log_create(name.c_str(), "Kernel"))
   {
-    ;
+    initialize(2, 44100.0);
   }
 
   /**
@@ -66,9 +68,11 @@ struct Kernel : public EventProcessor<Kernel> {
 private:
 
   void initialize(int channelCount, double sampleRate) {
+    os_log_info(log_, "initialize BEGIN channelCount: %d sampleRate: %f", channelCount, sampleRate);
     sampleRate_ = sampleRate;
     nyquistFrequency_ = 0.5 * sampleRate;
     nyquistPeriod_ = 1.0 / nyquistFrequency_;
+    filter_.calculateParams(cutoff_.get(), resonance_.get(), nyquistPeriod_, channelCount);
   }
 
   void setRampedParameterValue(AUParameterAddress address, AUValue value, AUAudioFrameCount duration);
@@ -82,6 +86,7 @@ private:
   }
 
   void doRendering(std::vector<AUValue*>& ins, std::vector<AUValue*>& outs, AUAudioFrameCount frameCount) {
+    os_log_error(log_, "doRendering");
     auto cutoff = cutoff_.frameValue();
     auto resonance = resonance_.frameValue();
     filter_.calculateParams(cutoff, resonance, nyquistPeriod_, ins.size());
@@ -90,7 +95,7 @@ private:
 
   void doMIDIEvent(const AUMIDIEvent& midiEvent) {}
 
-  BiquadFilter filter_;
+  AcceleratedBiquadFilter filter_;
   AUValue sampleRate_;
   AUValue nyquistFrequency_;
   AUValue nyquistPeriod_;

@@ -10,7 +10,7 @@
  Handles the configuration and use of a bi-quad filter. Uses Accelerate framework for fast vectorized processing of the
  filter on a set of samples.
  */
-class BiquadFilter {
+class AcceleratedBiquadFilter {
 public:
   /**
    Calculate the parameters for a low-pass filter with the given frequency and resonance values.
