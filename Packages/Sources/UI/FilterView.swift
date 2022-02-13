@@ -11,10 +11,12 @@ import AppKit
 import CoreMIDI
 #endif
 
+/**
+ Configuration of the frequency range and the dB range to show in the view.
+ */
 public struct FilterViewRanges {
   public let frequencyRange: ClosedRange<Float>
   public lazy var frequencyScale = log2f(frequencyRange.upperBound / frequencyRange.lowerBound)
-
   public let gainRange: ClosedRange<Float>
 
   public init(frequencyRange: ClosedRange<Float>, gainRange: ClosedRange<Float>) {
@@ -62,6 +64,7 @@ public protocol FilterViewDelegate: AnyObject {
  cutoff and resonance values in real-time. Note that there is purely UI -- there is no manipulation of AUParameter
  values here.
  */
+@objc
 public final class FilterView: View {
 
   /// The current location of the control in frequency (X) and dB (Y) axis.
@@ -305,7 +308,8 @@ private extension FilterView {
    - returns: the frequency value
    */
   func locationToFrequency(_ location: CGFloat) -> Float {
-    viewRanges.frequencyRange.lowerBound * pow(2, Float(location / graphLayer.bounds.width) * viewRanges.frequencyScale)
+    viewRanges.frequencyRange.lowerBound * pow(2, Float(location / graphLayer.bounds.width) *
+                                               viewRanges.frequencyScale)
   }
 
   /**
@@ -315,7 +319,8 @@ private extension FilterView {
    - returns: the X position
    */
   func frequencyToLocation(_ frequency: Float) -> CGFloat {
-    CGFloat(log2(frequency / viewRanges.frequencyRange.lowerBound) * Float(graphLayer.bounds.width) / viewRanges.frequencyScale)
+    CGFloat(log2(frequency / viewRanges.frequencyRange.lowerBound) * Float(graphLayer.bounds.width) /
+            viewRanges.frequencyScale)
   }
 
   /**
@@ -325,7 +330,8 @@ private extension FilterView {
    - returns: the dB value
    */
   func locationToDb(_ location: CGFloat) -> Float {
-    Float(graphLayer.bounds.height - location) * viewRanges.gainRange.span / Float(graphLayer.bounds.height) + viewRanges.gainRange.lowerBound
+    Float(graphLayer.bounds.height - location) * viewRanges.gainRange.distance / Float(graphLayer.bounds.height) +
+    viewRanges.gainRange.lowerBound
   }
 
   /**
@@ -335,7 +341,8 @@ private extension FilterView {
    - returns: the Y position
    */
   func dbToLocation(_ value: Float) -> CGFloat {
-    CGFloat(viewRanges.gainRange.upperBound - value.clamp(to: viewRanges.gainRange)) * graphLayer.bounds.height / CGFloat(viewRanges.gainRange.span)
+    CGFloat(viewRanges.gainRange.upperBound - value.clamp(to: viewRanges.gainRange)) * graphLayer.bounds.height /
+    CGFloat(viewRanges.gainRange.distance)
   }
 }
 
@@ -394,8 +401,8 @@ private extension FilterView {
   var numHorizontalTicks: Int {
     let width = gridLayer.bounds.width
     var numTicks = Int(floor(width / 60.0))
-    if numTicks > Int(viewRanges.gainRange.span / 2.0) {
-      numTicks = Int(viewRanges.gainRange.span / 2.0)
+    if numTicks > Int(viewRanges.gainRange.distance / 2.0) {
+      numTicks = Int(viewRanges.gainRange.distance / 2.0)
     }
     if numTicks < 3 {
       numTicks = 3

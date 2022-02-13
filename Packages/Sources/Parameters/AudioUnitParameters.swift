@@ -59,6 +59,12 @@ extension AudioUnitParameters {
     }
   }
 
+  public func storeParameters(into dict: inout [String : Any]) {
+    for parameter in parameters {
+      dict[parameter.identifier] = parameter.value
+    }
+  }
+
   public subscript(address: ParameterAddress) -> AUParameter {
     parameterTree.parameter(withAddress: address.parameterAddress) ?? missingParameter
   }

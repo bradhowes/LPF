@@ -86,7 +86,6 @@ private:
   }
 
   void doRendering(std::vector<AUValue*>& ins, std::vector<AUValue*>& outs, AUAudioFrameCount frameCount) {
-    os_log_error(log_, "doRendering");
     auto cutoff = cutoff_.frameValue();
     auto resonance = resonance_.frameValue();
     filter_.calculateParams(cutoff, resonance, nyquistPeriod_, ins.size());

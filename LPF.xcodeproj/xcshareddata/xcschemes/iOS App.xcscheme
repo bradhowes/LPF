@@ -20,20 +20,6 @@
                ReferencedContainer = "container:LPF.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BD1D24A825D486A700523748"
-               BuildableName = "iOS Tests.xctest"
-               BlueprintName = "iOS Tests"
-               ReferencedContainer = "container:LPF.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -52,16 +38,6 @@
          </BuildableReference>
       </MacroExpansion>
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BD1D24A825D486A700523748"
-               BuildableName = "iOS Tests.xctest"
-               BlueprintName = "iOS Tests"
-               ReferencedContainer = "container:LPF.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BD09CDB827B970A700445721 /* AUv3-Support-iOS in Frameworks */ = {isa = PBXBuildFile; productRef = BD09CDB727B970A700445721 /* AUv3-Support-iOS */; };
 		BD1D257925D5AAB000523748 /* Snapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1D257825D5AAB000523748 /* Snapshots.swift */; };
 		BD1D258825D5AAE300523748 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1D258725D5AAE300523748 /* SnapshotHelper.swift */; };
 		BD63B15424AE25F80015236D /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = BD49661924A3605800A81F0B /* LICENSE.md */; };
@@ -20,12 +21,8 @@
 		BDB7CE94249EC565009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
 		BDB7CE9E249FC152009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE9D249FC152009580D5 /* Accelerate.framework */; };
 		BDB7CE9F249FC157009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE9D249FC152009580D5 /* Accelerate.framework */; };
-		BDE37A4327B82D0C00489EEC /* AUv3-DSP-Headers in Frameworks */ = {isa = PBXBuildFile; productRef = BDE37A4227B82D0C00489EEC /* AUv3-DSP-Headers */; };
-		BDE37A4527B82D0C00489EEC /* AUv3-Support in Frameworks */ = {isa = PBXBuildFile; productRef = BDE37A4427B82D0C00489EEC /* AUv3-Support */; };
-		BDE37A4727B82D0C00489EEC /* AUv3-Support-iOS in Frameworks */ = {isa = PBXBuildFile; productRef = BDE37A4627B82D0C00489EEC /* AUv3-Support-iOS */; };
-		BDE37A4927B82D0C00489EEC /* AUv3-Support-macOS in Frameworks */ = {isa = PBXBuildFile; productRef = BDE37A4827B82D0C00489EEC /* AUv3-Support-macOS */; };
-		BDE37A4C27B82D5300489EEC /* Knob-iOS in Frameworks */ = {isa = PBXBuildFile; productRef = BDE37A4B27B82D5300489EEC /* Knob-iOS */; };
-		BDE37A4E27B82D5300489EEC /* Knob-macOS in Frameworks */ = {isa = PBXBuildFile; productRef = BDE37A4D27B82D5300489EEC /* Knob-macOS */; };
+		BDD9E07427B9A65B0067D49A /* AUv3-DSP-Headers in Frameworks */ = {isa = PBXBuildFile; productRef = BDD9E07327B9A65B0067D49A /* AUv3-DSP-Headers */; };
+		BDD9E07627B9A65B0067D49A /* AUv3-Support in Frameworks */ = {isa = PBXBuildFile; productRef = BDD9E07527B9A65B0067D49A /* AUv3-Support */; };
 		BDE37A5027B8343300489EEC /* Kernel in Frameworks */ = {isa = PBXBuildFile; productRef = BDE37A4F27B8343300489EEC /* Kernel */; };
 		BDE37A5227B8343300489EEC /* KernelBridge in Frameworks */ = {isa = PBXBuildFile; productRef = BDE37A5127B8343300489EEC /* KernelBridge */; };
 		BDE37A5427B8343300489EEC /* ParameterAddress in Frameworks */ = {isa = PBXBuildFile; productRef = BDE37A5327B8343300489EEC /* ParameterAddress */; };
@@ -130,10 +127,9 @@
 /* Begin PBXFileReference section */
 		7E56CF207E56CEE000000001 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; wrapsLines = 1; };
 		BD06772B24CF9FA00039F161 /* Optional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Optional.swift; sourceTree = "<group>"; };
+		BD09CDB627B96F8200445721 /* AUv3Support */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AUv3Support; path = ../AUv3Support; sourceTree = "<group>"; };
 		BD18B39A24CB247400B7CB1E /* AudioComponentDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioComponentDescription.swift; sourceTree = "<group>"; };
 		BD18B39E24CB31B200B7CB1E /* AudioUnitParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioUnitParameters.swift; sourceTree = "<group>"; };
-		BD1D249425D4831B00523748 /* BundlePropertiesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundlePropertiesTests.swift; sourceTree = "<group>"; };
-		BD1D24AD25D486A800523748 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BD1D250525D515B100523748 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = Configuration/README.md; sourceTree = "<group>"; };
 		BD1D250625D5178900523748 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BD1D250E25D517D000523748 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -156,11 +152,6 @@
 		BD75B6B925DAA6680071F55E /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		BD778C5A2760E32E006A9E9A /* UserPresetsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPresetsManager.swift; sourceTree = "<group>"; };
 		BD78FDC124C2F6530091A854 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
-		BD938B4F24A6BC1F00892358 /* BiquadFilterTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BiquadFilterTests.mm; sourceTree = "<group>"; };
-		BD95147724A08BB600D8024C /* NewSwiftTestTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSwiftTestTemplate.swift; sourceTree = "<group>"; };
-		BD95147924A08BB600D8024C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BD95148224A090E400D8024C /* ValueChangeDetectorTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ValueChangeDetectorTests.mm; sourceTree = "<group>"; };
-		BD95148424A092E800D8024C /* RampingValueChangeDetectorTests.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RampingValueChangeDetectorTests.mm; sourceTree = "<group>"; };
 		BD9FA80F24A938F800FA9940 /* Documentation */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Documentation; sourceTree = "<group>"; };
 		BD9FA81224A94BA100FA9940 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 		BD9FA81A24A9505300FA9940 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -168,7 +159,6 @@
 		BDB11A5624A13C8900DD8EF9 /* CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALayer.swift; sourceTree = "<group>"; };
 		BDB11A5A24A13F2A00DD8EF9 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		BDB11A5E24A13FAA00DD8EF9 /* CATransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CATransaction.swift; sourceTree = "<group>"; };
-		BDB11A6224A1530D00DD8EF9 /* LogScaling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogScaling.swift; sourceTree = "<group>"; };
 		BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NonCopyable.hpp; sourceTree = "<group>"; };
 		BDB7CE92249EC556009580D5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		BDB7CE96249F7209009580D5 /* ValueChangeDetector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ValueChangeDetector.hpp; sourceTree = "<group>"; };
@@ -183,7 +173,6 @@
 		BDE37A5A27B86B4B00489EEC /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		BDE37A5B27B86B4B00489EEC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BDE37A5C27B86B4B00489EEC /* Desdemona.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Desdemona.ttf; sourceTree = "<group>"; };
-		BDF9580827620B9D00FF2878 /* UserPresetsManagerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPresetsManagerTests.swift; sourceTree = "<group>"; };
 		BDF9580B276221EA00FF2878 /* SimplyLowPass.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SimplyLowPass.entitlements; sourceTree = "<group>"; };
 		BDFEE9722762B811001B72A4 /* SavePresetAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavePresetAction.swift; sourceTree = "<group>"; };
 		BDFEE9752762C124001B72A4 /* RenamePresetAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenamePresetAction.swift; sourceTree = "<group>"; };
@@ -244,7 +233,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDB7CE9E249FC152009580D5 /* Accelerate.framework in Frameworks */,
-				BDE37A4727B82D0C00489EEC /* AUv3-Support-iOS in Frameworks */,
+				BD09CDB827B970A700445721 /* AUv3-Support-iOS in Frameworks */,
 				C4737B0B2231D930002CAD0B /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -255,12 +244,11 @@
 			files = (
 				BDE37A5427B8343300489EEC /* ParameterAddress in Frameworks */,
 				BDE37A5027B8343300489EEC /* Kernel in Frameworks */,
-				BDE37A4327B82D0C00489EEC /* AUv3-DSP-Headers in Frameworks */,
-				BDE37A4527B82D0C00489EEC /* AUv3-Support in Frameworks */,
 				BDE37A6627B86EE900489EEC /* UI in Frameworks */,
-				BDE37A4C27B82D5300489EEC /* Knob-iOS in Frameworks */,
 				BDE37A5227B8343300489EEC /* KernelBridge in Frameworks */,
 				BDE37A5627B8343300489EEC /* Parameters in Frameworks */,
+				BDD9E07627B9A65B0067D49A /* AUv3-Support in Frameworks */,
+				BDD9E07427B9A65B0067D49A /* AUv3-DSP-Headers in Frameworks */,
 				BDB7CE9F249FC157009580D5 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,7 +258,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDB7CE93249EC556009580D5 /* Accelerate.framework in Frameworks */,
-				BDE37A4927B82D0C00489EEC /* AUv3-Support-macOS in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,7 +265,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BDE37A4E27B82D5300489EEC /* Knob-macOS in Frameworks */,
 				BDB7CE94249EC565009580D5 /* Accelerate.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -286,12 +272,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		BD1D24AA25D486A800523748 /* iOSFrameworkTests */ = {
+		BD09CDB527B96F8200445721 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				BD1D24AD25D486A800523748 /* Info.plist */,
+				BD09CDB627B96F8200445721 /* AUv3Support */,
 			);
-			path = iOSFrameworkTests;
+			name = Packages;
 			sourceTree = "<group>";
 		};
 		BD1D257725D5AAB000523748 /* Snapshots */ = {
@@ -322,21 +308,6 @@
 				C4BEE7D722236E99001E6B6D /* View.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		BD95147624A08BB600D8024C /* macOSFrameworkTests */ = {
-			isa = PBXGroup;
-			children = (
-				BD95147724A08BB600D8024C /* NewSwiftTestTemplate.swift */,
-				BDF9580827620B9D00FF2878 /* UserPresetsManagerTests.swift */,
-				BD1D249425D4831B00523748 /* BundlePropertiesTests.swift */,
-				BD938B4F24A6BC1F00892358 /* BiquadFilterTests.mm */,
-				BDB11A6224A1530D00DD8EF9 /* LogScaling.swift */,
-				BD95148424A092E800D8024C /* RampingValueChangeDetectorTests.mm */,
-				BD95148224A090E400D8024C /* ValueChangeDetectorTests.mm */,
-				BD95147924A08BB600D8024C /* Info.plist */,
-			);
-			path = macOSFrameworkTests;
 			sourceTree = "<group>";
 		};
 		BDB11A5124A114D700DD8EF9 /* Kernel */ = {
@@ -375,6 +346,7 @@
 		C437FE2F2223672C008D6C09 = {
 			isa = PBXGroup;
 			children = (
+				BD09CDB527B96F8200445721 /* Packages */,
 				7E56CF207E56CEE000000001 /* README.md */,
 				D153B980F14C7C7000000001 /* LICENSE */,
 				BD9FA80F24A938F800FA9940 /* Documentation */,
@@ -384,8 +356,6 @@
 				C4BEE79622236A29001E6B6D /* iOS */,
 				C4BEE7B622236A58001E6B6D /* macOS */,
 				C4BEE7D522236E99001E6B6D /* Shared */,
-				BD95147624A08BB600D8024C /* macOSFrameworkTests */,
-				BD1D24AA25D486A800523748 /* iOSFrameworkTests */,
 				BD1D257725D5AAB000523748 /* Snapshots */,
 				C437FE3B222367A6008D6C09 /* Products */,
 				C4BEE81822237394001E6B6D /* Frameworks */,
@@ -615,7 +585,7 @@
 			);
 			name = "iOS App";
 			packageProductDependencies = (
-				BDE37A4627B82D0C00489EEC /* AUv3-Support-iOS */,
+				BD09CDB727B970A700445721 /* AUv3-Support-iOS */,
 			);
 			productName = "AUv3Filter iOS";
 			productReference = C437FE3A222367A6008D6C09 /* SimplyLowPass.app */;
@@ -635,14 +605,13 @@
 			);
 			name = "iOS Extension";
 			packageProductDependencies = (
-				BDE37A4227B82D0C00489EEC /* AUv3-DSP-Headers */,
-				BDE37A4427B82D0C00489EEC /* AUv3-Support */,
-				BDE37A4B27B82D5300489EEC /* Knob-iOS */,
 				BDE37A4F27B8343300489EEC /* Kernel */,
 				BDE37A5127B8343300489EEC /* KernelBridge */,
 				BDE37A5327B8343300489EEC /* ParameterAddress */,
 				BDE37A5527B8343300489EEC /* Parameters */,
 				BDE37A6527B86EE900489EEC /* UI */,
+				BDD9E07327B9A65B0067D49A /* AUv3-DSP-Headers */,
+				BDD9E07527B9A65B0067D49A /* AUv3-Support */,
 			);
 			productName = "AUv3FilterExtension iOS";
 			productReference = C437FE632223686D008D6C09 /* LPF.appex */;
@@ -665,7 +634,6 @@
 			);
 			name = "macOS App";
 			packageProductDependencies = (
-				BDE37A4827B82D0C00489EEC /* AUv3-Support-macOS */,
 			);
 			productName = "AUv3Filter macOS";
 			productReference = C437FE7A2223688D008D6C09 /* SimplyLowPass.app */;
@@ -685,7 +653,6 @@
 			);
 			name = "macOS Extension";
 			packageProductDependencies = (
-				BDE37A4D27B82D5300489EEC /* Knob-macOS */,
 			);
 			productName = "AUv3FilterExtension macOS";
 			productReference = C437FEA0222368B7008D6C09 /* LPF.appex */;
@@ -749,8 +716,6 @@
 			);
 			mainGroup = C437FE2F2223672C008D6C09;
 			packageReferences = (
-				BDE37A4127B82D0C00489EEC /* XCRemoteSwiftPackageReference "AUv3Support" */,
-				BDE37A4A27B82D5300489EEC /* XCRemoteSwiftPackageReference "knob" */,
 			);
 			productRefGroup = C437FE3B222367A6008D6C09 /* Products */;
 			projectDirPath = "";
@@ -1014,10 +979,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BDE2CE1824A3E8DB004AC8FA /* Staging.xcconfig */;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_CXX0X_EXTENSIONS = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
@@ -1032,10 +999,14 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CLANG_WARN__EXIT_TIME_DESTRUCTORS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
@@ -1055,7 +1026,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1084,12 +1055,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20220124181859;
+				CURRENT_PROJECT_VERSION = 20220213182235;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -1098,12 +1069,11 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = iOS/App/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.3.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
@@ -1126,7 +1096,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1155,12 +1125,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20220124181859;
+				CURRENT_PROJECT_VERSION = 20220213182235;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -1174,7 +1144,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.3.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.appex;
@@ -1230,7 +1200,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20220124181859;
+				CURRENT_PROJECT_VERSION = 20220213182235;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1249,7 +1219,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.3.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
@@ -1300,7 +1270,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20220124181859;
+				CURRENT_PROJECT_VERSION = 20220213182235;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1320,7 +1290,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.3.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.appex;
@@ -1338,10 +1308,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BDE2CE1724A3E887004AC8FA /* Dev.xcconfig */;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_CXX0X_EXTENSIONS = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
@@ -1356,11 +1328,15 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CLANG_WARN__EXIT_TIME_DESTRUCTORS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
@@ -1381,7 +1357,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1410,12 +1386,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20220124181859;
+				CURRENT_PROJECT_VERSION = 20220213182235;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1430,12 +1406,11 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = iOS/App/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.3.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1458,7 +1433,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1487,12 +1462,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20220124181859;
+				CURRENT_PROJECT_VERSION = 20220213182235;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_C_LANGUAGE_STANDARD = c11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1512,7 +1487,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.3.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1568,7 +1543,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20220124181859;
+				CURRENT_PROJECT_VERSION = 20220213182235;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1593,7 +1568,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.3.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1645,7 +1620,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 20220124181859;
+				CURRENT_PROJECT_VERSION = 20220213182235;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UP6SS5ES7E;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1671,7 +1646,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.3.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1745,55 +1720,18 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		BDE37A4127B82D0C00489EEC /* XCRemoteSwiftPackageReference "AUv3Support" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/bradhowes/AUv3Support";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-		BDE37A4A27B82D5300489EEC /* XCRemoteSwiftPackageReference "knob" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/bradhowes/knob";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		BDE37A4227B82D0C00489EEC /* AUv3-DSP-Headers */ = {
+		BD09CDB727B970A700445721 /* AUv3-Support-iOS */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BDE37A4127B82D0C00489EEC /* XCRemoteSwiftPackageReference "AUv3Support" */;
-			productName = "AUv3-DSP-Headers";
-		};
-		BDE37A4427B82D0C00489EEC /* AUv3-Support */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BDE37A4127B82D0C00489EEC /* XCRemoteSwiftPackageReference "AUv3Support" */;
-			productName = "AUv3-Support";
-		};
-		BDE37A4627B82D0C00489EEC /* AUv3-Support-iOS */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BDE37A4127B82D0C00489EEC /* XCRemoteSwiftPackageReference "AUv3Support" */;
 			productName = "AUv3-Support-iOS";
 		};
-		BDE37A4827B82D0C00489EEC /* AUv3-Support-macOS */ = {
+		BDD9E07327B9A65B0067D49A /* AUv3-DSP-Headers */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BDE37A4127B82D0C00489EEC /* XCRemoteSwiftPackageReference "AUv3Support" */;
-			productName = "AUv3-Support-macOS";
+			productName = "AUv3-DSP-Headers";
 		};
-		BDE37A4B27B82D5300489EEC /* Knob-iOS */ = {
+		BDD9E07527B9A65B0067D49A /* AUv3-Support */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BDE37A4A27B82D5300489EEC /* XCRemoteSwiftPackageReference "knob" */;
-			productName = "Knob-iOS";
-		};
-		BDE37A4D27B82D5300489EEC /* Knob-macOS */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BDE37A4A27B82D5300489EEC /* XCRemoteSwiftPackageReference "knob" */;
-			productName = "Knob-macOS";
+			productName = "AUv3-Support";
 		};
 		BDE37A4F27B8343300489EEC /* Kernel */ = {
 			isa = XCSwiftPackageProductDependency;
