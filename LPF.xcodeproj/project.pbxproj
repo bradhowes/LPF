@@ -130,45 +130,21 @@
 
 /* Begin PBXFileReference section */
 		7E56CF207E56CEE000000001 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; wrapsLines = 1; };
-		BD06772B24CF9FA00039F161 /* Optional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Optional.swift; sourceTree = "<group>"; };
 		BD09CDB627B96F8200445721 /* AUv3Support */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AUv3Support; path = ../AUv3Support; sourceTree = "<group>"; };
-		BD18B39A24CB247400B7CB1E /* AudioComponentDescription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioComponentDescription.swift; sourceTree = "<group>"; };
-		BD18B39E24CB31B200B7CB1E /* AudioUnitParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioUnitParameters.swift; sourceTree = "<group>"; };
 		BD1D250525D515B100523748 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = Configuration/README.md; sourceTree = "<group>"; };
 		BD1D250625D5178900523748 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BD1D250E25D517D000523748 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		BD1D252E25D51AD600523748 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		BD1D255D25D5A39700523748 /* WhisperingDroneClip.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = WhisperingDroneClip.mp3; sourceTree = "<group>"; };
 		BD1D257625D5AAB000523748 /* Snapshots.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Snapshots.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD1D257825D5AAB000523748 /* Snapshots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshots.swift; sourceTree = "<group>"; };
 		BD1D257A25D5AAB000523748 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BD1D258725D5AAE300523748 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
-		BD25C6FF275F859100DEA8F5 /* DispatchQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchQueue.swift; sourceTree = "<group>"; };
-		BD2FD3EC259B5104004A3196 /* AUParameterTree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUParameterTree.swift; sourceTree = "<group>"; };
-		BD2FD3F4259B512F004A3196 /* AUParameterAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AUParameterAddress.swift; sourceTree = "<group>"; };
-		BD49661424A35D1E00A81F0B /* FourCharCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourCharCode.swift; sourceTree = "<group>"; };
 		BD49661924A3605800A81F0B /* LICENSE.md */ = {isa = PBXFileReference; explicitFileType = text; fileEncoding = 4; path = LICENSE.md; sourceTree = "<group>"; };
-		BD50D29225D6D76E00375455 /* SimplyLowPassKernelAdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplyLowPassKernelAdapter.h; sourceTree = "<group>"; };
-		BD578EEC25D278490040D83D /* AudioUnitHost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioUnitHost.swift; sourceTree = "<group>"; };
-		BD578F0D25D2C4720040D83D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		BD72F2E425D1D4CE0031E422 /* InputBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputBuffer.h; sourceTree = "<group>"; };
 		BD75B6B925DAA6680071F55E /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
-		BD778C5A2760E32E006A9E9A /* UserPresetsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPresetsManager.swift; sourceTree = "<group>"; };
 		BD78FDC124C2F6530091A854 /* MainWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		BD9FA80F24A938F800FA9940 /* Documentation */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Documentation; sourceTree = "<group>"; };
-		BD9FA81224A94BA100FA9940 /* Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resources; sourceTree = "<group>"; };
 		BD9FA81A24A9505300FA9940 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		BDB11A5224A13BFA00DD8EF9 /* Comparble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comparble.swift; sourceTree = "<group>"; };
-		BDB11A5624A13C8900DD8EF9 /* CALayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALayer.swift; sourceTree = "<group>"; };
-		BDB11A5A24A13F2A00DD8EF9 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
-		BDB11A5E24A13FAA00DD8EF9 /* CATransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CATransaction.swift; sourceTree = "<group>"; };
-		BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NonCopyable.hpp; sourceTree = "<group>"; };
 		BDB7CE92249EC556009580D5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
-		BDB7CE96249F7209009580D5 /* ValueChangeDetector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ValueChangeDetector.hpp; sourceTree = "<group>"; };
-		BDB7CE99249FC026009580D5 /* AUAudioUnitPreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AUAudioUnitPreset.swift; sourceTree = "<group>"; };
 		BDB7CE9D249FC152009580D5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.5.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
-		BDE2CDEF24A3DE9F004AC8FA /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
-		BDE2CDF324A3DF13004AC8FA /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
 		BDE2CE1724A3E887004AC8FA /* Dev.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Dev.xcconfig; path = Configuration/Dev.xcconfig; sourceTree = "<group>"; };
 		BDE2CE1824A3E8DB004AC8FA /* Staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Staging.xcconfig; path = Configuration/Staging.xcconfig; sourceTree = "<group>"; };
 		BDE2CE1924A3EBD1004AC8FA /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = Configuration/Common.xcconfig; sourceTree = "<group>"; };
@@ -186,7 +162,6 @@
 		C44F544422260E2500484B67 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		C44F544622260E2C00484B67 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
 		C4737B0A2231D930002CAD0B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
-		C4A3D65A223FF12A002784D4 /* SimplePlayEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimplePlayEngine.swift; sourceTree = "<group>"; };
 		C4BEE79C22236A29001E6B6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4BEE7A122236A29001E6B6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4BEE7A422236A29001E6B6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -200,11 +175,6 @@
 		C4BEE7C822236A58001E6B6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C4BEE7C922236A58001E6B6D /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4BEE7CA22236A58001E6B6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C4BEE7D722236E99001E6B6D /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
-		C4BEE7DB22236E99001E6B6D /* TypeAliases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeAliases.swift; sourceTree = "<group>"; };
-		C4BEE7E322236E99001E6B6D /* SimplyLowPassKernel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimplyLowPassKernel.h; sourceTree = "<group>"; };
-		C4BEE7E522236E99001E6B6D /* RampingValueChangeDetector.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RampingValueChangeDetector.hpp; sourceTree = "<group>"; };
-		C4BEE7E622236E99001E6B6D /* KernelEventProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KernelEventProcessor.h; sourceTree = "<group>"; };
 		C4BEE80822237078001E6B6D /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		C4BEE80D2223713E001E6B6D /* LowPassFilterFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LowPassFilterFramework.h; sourceTree = "<group>"; };
 		C4BEE80F22237302001E6B6D /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -213,9 +183,6 @@
 		C4BEE81B22237772001E6B6D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
 		C4C9EAAB2227D79D003FEE1C /* ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 		C4CE62D8222601070055FE6B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		C4F004A02239B1E10014E248 /* SimplyLowPassKernelAdapter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SimplyLowPassKernelAdapter.mm; sourceTree = "<group>"; };
-		C4F004A52239B2070014E248 /* FilterAudioUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterAudioUnit.swift; sourceTree = "<group>"; };
-		C4F07730223AC4F5008FFF06 /* FilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		F14BFD10F14BCC1000000001 /* APPLE_LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = APPLE_LICENSE.txt; path = Documentation/APPLE_LICENSE.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -297,39 +264,6 @@
 			path = Snapshots;
 			sourceTree = "<group>";
 		};
-		BD49661824A35F3900A81F0B /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				BDB7CE99249FC026009580D5 /* AUAudioUnitPreset.swift */,
-				BD2FD3F4259B512F004A3196 /* AUParameterAddress.swift */,
-				BD2FD3EC259B5104004A3196 /* AUParameterTree.swift */,
-				BD18B39A24CB247400B7CB1E /* AudioComponentDescription.swift */,
-				BDE2CDF324A3DF13004AC8FA /* Bundle.swift */,
-				BDB11A5624A13C8900DD8EF9 /* CALayer.swift */,
-				BDB11A5E24A13FAA00DD8EF9 /* CATransaction.swift */,
-				BDB11A5A24A13F2A00DD8EF9 /* Color.swift */,
-				BDB11A5224A13BFA00DD8EF9 /* Comparble.swift */,
-				BD25C6FF275F859100DEA8F5 /* DispatchQueue.swift */,
-				BD49661424A35D1E00A81F0B /* FourCharCode.swift */,
-				BD06772B24CF9FA00039F161 /* Optional.swift */,
-				C4BEE7D722236E99001E6B6D /* View.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		BDB11A5124A114D700DD8EF9 /* Kernel */ = {
-			isa = PBXGroup;
-			children = (
-				BD578F0D25D2C4720040D83D /* README.md */,
-				C4BEE7E322236E99001E6B6D /* SimplyLowPassKernel.h */,
-				BD50D29225D6D76E00375455 /* SimplyLowPassKernelAdapter.h */,
-				C4F004A02239B1E10014E248 /* SimplyLowPassKernelAdapter.mm */,
-				BD72F2E425D1D4CE0031E422 /* InputBuffer.h */,
-				C4BEE7E622236E99001E6B6D /* KernelEventProcessor.h */,
-			);
-			path = Kernel;
-			sourceTree = "<group>";
-		};
 		BDE37A5927B86B4B00489EEC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -352,7 +286,6 @@
 				F1464A50F1463F7000000001 /* Configuration */,
 				C4BEE79622236A29001E6B6D /* iOS */,
 				C4BEE7B622236A58001E6B6D /* macOS */,
-				C4BEE7D522236E99001E6B6D /* Shared */,
 				BD1D257725D5AAB000523748 /* Snapshots */,
 				C437FE3B222367A6008D6C09 /* Products */,
 				C4BEE81822237394001E6B6D /* Frameworks */,
@@ -460,35 +393,6 @@
 			path = App;
 			sourceTree = "<group>";
 		};
-		C4BEE7D522236E99001E6B6D /* Shared */ = {
-			isa = PBXGroup;
-			children = (
-				BD1D252E25D51AD600523748 /* README.md */,
-				BD18B39E24CB31B200B7CB1E /* AudioUnitParameters.swift */,
-				C4F004A52239B2070014E248 /* FilterAudioUnit.swift */,
-				BDB11A5124A114D700DD8EF9 /* Kernel */,
-				C4DCBAD6223ADE85000D9CB3 /* User Interface */,
-				C4BEE7E422236E99001E6B6D /* Support */,
-				BD9FA81224A94BA100FA9940 /* Resources */,
-			);
-			path = Shared;
-			sourceTree = "<group>";
-		};
-		C4BEE7E422236E99001E6B6D /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				BD578EEC25D278490040D83D /* AudioUnitHost.swift */,
-				BDE2CDEF24A3DE9F004AC8FA /* Logging.swift */,
-				BD778C5A2760E32E006A9E9A /* UserPresetsManager.swift */,
-				BDB7CE8F249D3C00009580D5 /* NonCopyable.hpp */,
-				C4BEE7E522236E99001E6B6D /* RampingValueChangeDetector.hpp */,
-				BDB7CE96249F7209009580D5 /* ValueChangeDetector.hpp */,
-				BD49661824A35F3900A81F0B /* Extensions */,
-				C4DCBAD5223ADE79000D9CB3 /* Audio */,
-			);
-			path = Support;
-			sourceTree = "<group>";
-		};
 		C4BEE81822237394001E6B6D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -501,24 +405,6 @@
 				C4BEE81B22237772001E6B6D /* MobileCoreServices.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		C4DCBAD5223ADE79000D9CB3 /* Audio */ = {
-			isa = PBXGroup;
-			children = (
-				BD1D255D25D5A39700523748 /* WhisperingDroneClip.mp3 */,
-				C4A3D65A223FF12A002784D4 /* SimplePlayEngine.swift */,
-			);
-			path = Audio;
-			sourceTree = "<group>";
-		};
-		C4DCBAD6223ADE85000D9CB3 /* User Interface */ = {
-			isa = PBXGroup;
-			children = (
-				C4F07730223AC4F5008FFF06 /* FilterViewController.swift */,
-				C4BEE7DB22236E99001E6B6D /* TypeAliases.swift */,
-			);
-			path = "User Interface";
 			sourceTree = "<group>";
 		};
 		D153B980F14C7C7000000001 /* LICENSE */ = {
