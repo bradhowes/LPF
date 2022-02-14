@@ -1,16 +1,20 @@
-// Changes: Copyright © 2020 Brad Howes. All rights reserved.
-// Original: See LICENSE folder for this sample’s licensing information.
+// Copyright © 2022 Brad Howes. All rights reserved.
 
 import Cocoa
+import AUv3Support
 
-@NSApplicationMain
+/**
+ The app delegate for the host application.
+ */
+@main
 class AppDelegate: NSObject, NSApplicationDelegate {
-  @IBOutlet var playMenuItem: NSMenuItem!
-  @IBOutlet var bypassMenuItem: NSMenuItem!
-  @IBOutlet var presetsMenu: NSMenu!
-  @IBOutlet var savePresetMenuItem: NSMenuItem!
-  @IBOutlet var renamePresetMenuItem: NSMenuItem!
-  @IBOutlet var deletePresetMenuItem: NSMenuItem!
+
+  // NOTE: this special form sets the subsystem name and must run before any other logger calls.
+  private let log = Shared.logger(Bundle.main.auBaseName + "Host", "AppDelegate")
+
+  @IBOutlet weak var playMenuItem: NSMenuItem!
+  @IBOutlet weak var bypassMenuItem: NSMenuItem!
+  @IBOutlet weak var presetsMenu: NSMenu!
 
   func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { true }
 
@@ -23,3 +27,4 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     NSWorkspace.shared.open(appStoreUrl)
   }
 }
+
