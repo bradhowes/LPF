@@ -77,6 +77,7 @@ extension ViewController: FilterViewDelegate {
     parameters.cutoff.setValue(cutoff, originator: cutoffObserverToken, atHostTime: 0, eventType: .touch)
     parameters.resonance.setValue(resonance, originator: resonanceObserverToken, atHostTime: 0, eventType: .touch)
     updateFilterViewFrequencyAndMagnitudes()
+    audioUnit?.clearCurrentPresetIfFactoryPreset()
   }
 
   public func filterViewInteracted(_ view: FilterView, cutoff: Float, resonance: Float) {
@@ -84,7 +85,7 @@ extension ViewController: FilterViewDelegate {
     parameters.cutoff.setValue(cutoff, originator: cutoffObserverToken, atHostTime: 0, eventType: .value)
     parameters.resonance.setValue(resonance, originator: resonanceObserverToken, atHostTime: 0, eventType: .value)
     updateFilterViewFrequencyAndMagnitudes()
-    audioUnit?.currentPreset = nil
+    audioUnit?.clearCurrentPresetIfFactoryPreset()
   }
 
   public func filterViewInteractionEnded(_ view: FilterView, cutoff: Float, resonance: Float) {
@@ -92,6 +93,7 @@ extension ViewController: FilterViewDelegate {
     parameters.cutoff.setValue(cutoff, originator: cutoffObserverToken, atHostTime: 0, eventType: .release)
     parameters.resonance.setValue(resonance, originator: resonanceObserverToken, atHostTime: 0, eventType: .release)
     updateFilterViewFrequencyAndMagnitudes()
+    audioUnit?.clearCurrentPresetIfFactoryPreset()
   }
 
   public func filterViewLayoutChanged(_ view: FilterView) {
@@ -110,9 +112,16 @@ extension ViewController: AUAudioUnitFactory {
   @objc public func createAudioUnit(with componentDescription: AudioComponentDescription) throws -> AUAudioUnit {
     let audioUnit = try FilterAudioUnitFactory.create(componentDescription: componentDescription,
                                                       parameters: parameters, kernel: kernel,
+                                                      currentPresetMonitor: self,
                                                       viewConfigurationManager: self)
     self.audioUnit = audioUnit
     return audioUnit
+  }
+}
+
+extension ViewController: CurrentPresetMonitor {
+  public func currentPresetChanged(_ value: AUAudioUnitPreset?) {
+    DispatchQueue.main.async { self.updateDisplay() }
   }
 }
 
