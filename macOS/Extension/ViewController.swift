@@ -24,7 +24,6 @@ import os.log
 
   @IBOutlet weak var filterView: FilterView!
 
-  private var parameterTreeObserverToken: AUParameterObserverToken?
   private var cutoffObserverToken: AUParameterObserverToken?
   private var resonanceObserverToken: AUParameterObserverToken?
 

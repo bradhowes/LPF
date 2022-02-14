@@ -24,7 +24,6 @@ import os.log
 
   @IBOutlet weak var filterView: FilterView!
 
-  private var parameterTreeObserverToken: AUParameterObserverToken?
   private var cutoffObserverToken: AUParameterObserverToken?
   private var resonanceObserverToken: AUParameterObserverToken?
 
@@ -47,16 +46,6 @@ public extension ViewController {
 
     filterView.delegate = self
 
-    cutoffObserverToken = parameters.cutoff.token(byAddingParameterObserver: { [weak self] address, value in
-      guard let self = self else { return }
-      DispatchQueue.main.async { self.updateDisplay() }
-    })
-
-    resonanceObserverToken = parameters.resonance.token(byAddingParameterObserver: { [weak self] address, value in
-      guard let self = self else { return }
-      DispatchQueue.main.async { self.updateDisplay() }
-    })
-
     view.backgroundColor = .black
     if audioUnit != nil {
       connectViewToAU()
@@ -77,6 +66,7 @@ extension ViewController: FilterViewDelegate {
     parameters.cutoff.setValue(cutoff, originator: cutoffObserverToken, atHostTime: 0, eventType: .touch)
     parameters.resonance.setValue(resonance, originator: resonanceObserverToken, atHostTime: 0, eventType: .touch)
     updateFilterViewFrequencyAndMagnitudes()
+    audioUnit?.clearCurrentPresetIfFactoryPreset()
   }
 
   public func filterViewInteracted(_ view: FilterView, cutoff: Float, resonance: Float) {
@@ -84,7 +74,7 @@ extension ViewController: FilterViewDelegate {
     parameters.cutoff.setValue(cutoff, originator: cutoffObserverToken, atHostTime: 0, eventType: .value)
     parameters.resonance.setValue(resonance, originator: resonanceObserverToken, atHostTime: 0, eventType: .value)
     updateFilterViewFrequencyAndMagnitudes()
-    audioUnit?.currentPreset = nil
+    audioUnit?.clearCurrentPresetIfFactoryPreset()
   }
 
   public func filterViewInteractionEnded(_ view: FilterView, cutoff: Float, resonance: Float) {
@@ -92,6 +82,7 @@ extension ViewController: FilterViewDelegate {
     parameters.cutoff.setValue(cutoff, originator: cutoffObserverToken, atHostTime: 0, eventType: .release)
     parameters.resonance.setValue(resonance, originator: resonanceObserverToken, atHostTime: 0, eventType: .release)
     updateFilterViewFrequencyAndMagnitudes()
+    audioUnit?.clearCurrentPresetIfFactoryPreset()
   }
 
   public func filterViewLayoutChanged(_ view: FilterView) {
@@ -110,9 +101,16 @@ extension ViewController: AUAudioUnitFactory {
   @objc public func createAudioUnit(with componentDescription: AudioComponentDescription) throws -> AUAudioUnit {
     let audioUnit = try FilterAudioUnitFactory.create(componentDescription: componentDescription,
                                                       parameters: parameters, kernel: kernel,
+                                                      currentPresetMonitor: self,
                                                       viewConfigurationManager: self)
     self.audioUnit = audioUnit
     return audioUnit
+  }
+}
+
+extension ViewController: CurrentPresetMonitor {
+  public func currentPresetChanged(_ value: AUAudioUnitPreset?) {
+    DispatchQueue.main.async { self.updateDisplay() }
   }
 }
 
@@ -123,9 +121,13 @@ extension ViewController {
   private func connectViewToAU() {
     os_log(.info, log: log, "connectViewToAU")
 
-    parameterTreeObserverToken = parameters.parameterTree.token(byAddingParameterObserver: { [weak self] address, value in
+    cutoffObserverToken = parameters.cutoff.token(byAddingParameterObserver: { [weak self] address, value in
       guard let self = self else { return }
-      os_log(.info, log: self.log, "FilterViewController - parameter tree changed: %d %f", address, value)
+      DispatchQueue.main.async { self.updateDisplay() }
+    })
+
+    resonanceObserverToken = parameters.resonance.token(byAddingParameterObserver: { [weak self] address, value in
+      guard let self = self else { return }
       DispatchQueue.main.async { self.updateDisplay() }
     })
 
