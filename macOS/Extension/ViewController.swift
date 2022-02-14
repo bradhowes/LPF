@@ -47,16 +47,6 @@ public extension ViewController {
 
     filterView.delegate = self
 
-    cutoffObserverToken = parameters.cutoff.token(byAddingParameterObserver: { [weak self] address, value in
-      guard let self = self else { return }
-      DispatchQueue.main.async { self.updateDisplay() }
-    })
-
-    resonanceObserverToken = parameters.resonance.token(byAddingParameterObserver: { [weak self] address, value in
-      guard let self = self else { return }
-      DispatchQueue.main.async { self.updateDisplay() }
-    })
-
     view.backgroundColor = .black
     if audioUnit != nil {
       connectViewToAU()
@@ -132,9 +122,13 @@ extension ViewController {
   private func connectViewToAU() {
     os_log(.info, log: log, "connectViewToAU")
 
-    parameterTreeObserverToken = parameters.parameterTree.token(byAddingParameterObserver: { [weak self] address, value in
+    cutoffObserverToken = parameters.cutoff.token(byAddingParameterObserver: { [weak self] address, value in
       guard let self = self else { return }
-      os_log(.info, log: self.log, "FilterViewController - parameter tree changed: %d %f", address, value)
+      DispatchQueue.main.async { self.updateDisplay() }
+    })
+
+    resonanceObserverToken = parameters.resonance.token(byAddingParameterObserver: { [weak self] address, value in
+      guard let self = self else { return }
       DispatchQueue.main.async { self.updateDisplay() }
     })
 
@@ -155,7 +149,8 @@ extension ViewController {
   }
 
   private func magnitudes(forFrequencies frequencies: [Float]) -> [Float] {
-    os_log(.info, log: log, "magnitudes BEGIN - cutoff: %f resonance: %f", parameters.cutoff.value, parameters.resonance.value)
+    os_log(.info, log: log, "magnitudes BEGIN - cutoff: %f resonance: %f", parameters.cutoff.value,
+           parameters.resonance.value)
     var output: [Float] = Array(repeating: 0.0, count: frequencies.count)
     kernel.magnitudes(frequencies, count: frequencies.count, output: &output)
     return output
