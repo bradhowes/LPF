@@ -341,7 +341,7 @@ private extension FilterView {
    - returns: the Y position
    */
   func dbToLocation(_ value: Float) -> CGFloat {
-    CGFloat(viewRanges.gainRange.upperBound - value.clamp(to: viewRanges.gainRange)) * graphLayer.bounds.height /
+    CGFloat(viewRanges.gainRange.upperBound - value.clamped(to: viewRanges.gainRange)) * graphLayer.bounds.height /
     CGFloat(viewRanges.gainRange.distance)
   }
 }

@@ -4,57 +4,29 @@ import XCTest
 final class ParameterAddressTests: XCTestCase {
 
   func testParameterAddress() throws {
-    XCTAssertEqual(ParameterAddress.depth.rawValue, 0)
-    XCTAssertEqual(ParameterAddress.odd90.rawValue, 7)
-    XCTAssertEqual(ParameterAddress.allCases.count, 8)
+    XCTAssertEqual(ParameterAddress.cutoff.rawValue, 0)
+    XCTAssertEqual(ParameterAddress.resonance.rawValue, 1)
+    XCTAssertEqual(ParameterAddress.allCases.count, 2)
   }
 
   func testParameterDefinitions() throws {
-    let depth = ParameterAddress.depth.parameterDefinition
-    XCTAssertEqual(depth.range.lowerBound, 0.0)
-    XCTAssertEqual(depth.range.upperBound, 50.0)
-    XCTAssertEqual(depth.unit, .milliseconds)
-    XCTAssertTrue(depth.ramping)
-    XCTAssertTrue(depth.logScale)
+    let cutoff = ParameterAddress.cutoff.parameterDefinition
+    XCTAssertEqual(cutoff.range.lowerBound, 12.0)
+    XCTAssertEqual(cutoff.range.upperBound, 20_000.0)
+    XCTAssertEqual(cutoff.unit, .hertz)
+    XCTAssertTrue(cutoff.ramping)
+    XCTAssertTrue(cutoff.logScale)
 
-    let delay = ParameterAddress.delay.parameterDefinition
-    XCTAssertEqual(delay.range.lowerBound, 0.0)
-    XCTAssertEqual(delay.range.upperBound, 50.0)
-    XCTAssertEqual(delay.unit, .milliseconds)
-    XCTAssertTrue(delay.ramping)
-    XCTAssertTrue(delay.logScale)
-
-    let rate = ParameterAddress.rate.parameterDefinition
-    XCTAssertEqual(rate.range.lowerBound, 0.01)
-    XCTAssertEqual(rate.range.upperBound, 20.0)
-    XCTAssertEqual(rate.unit, .hertz)
-    XCTAssertTrue(rate.ramping)
-    XCTAssertTrue(rate.logScale)
-
-    let feedback = ParameterAddress.feedback.parameterDefinition
-    XCTAssertEqual(feedback.range.lowerBound, 0.0)
-    XCTAssertEqual(feedback.range.upperBound, 100.0)
-    XCTAssertEqual(feedback.unit, .percent)
-    XCTAssertTrue(feedback.ramping)
-    XCTAssertFalse(feedback.logScale)
-
-    let negativeFeedback = ParameterAddress.negativeFeedback.parameterDefinition
-    XCTAssertEqual(negativeFeedback.range.lowerBound, 0.0)
-    XCTAssertEqual(negativeFeedback.range.upperBound, 1.0)
-    XCTAssertEqual(negativeFeedback.unit, .boolean)
-    XCTAssertFalse(negativeFeedback.ramping)
-    XCTAssertFalse(negativeFeedback.logScale)
-
-    let odd90 = ParameterAddress.odd90.parameterDefinition
-    XCTAssertEqual(odd90.range.lowerBound, 0.0)
-    XCTAssertEqual(odd90.range.upperBound, 1.0)
-    XCTAssertEqual(odd90.unit, .boolean)
-    XCTAssertFalse(odd90.ramping)
-    XCTAssertFalse(odd90.logScale)
+    let resonance = ParameterAddress.resonance.parameterDefinition
+    XCTAssertEqual(resonance.range.lowerBound, -20.0)
+    XCTAssertEqual(resonance.range.upperBound, 40.0)
+    XCTAssertEqual(resonance.unit, .decibels)
+    XCTAssertTrue(resonance.ramping)
+    XCTAssertFalse(resonance.logScale)
   }
 
   func testAUParameterGeneration() throws {
-    var address: ParameterAddress = .depth
+    var address: ParameterAddress = .cutoff
     var definition = address.parameterDefinition
     var parameter = definition.parameter
     XCTAssertEqual(parameter.address, address.rawValue)
@@ -63,10 +35,10 @@ final class ParameterAddressTests: XCTestCase {
     XCTAssertTrue(parameter.flags.contains(.flag_CanRamp))
     XCTAssertTrue(parameter.flags.contains(.flag_DisplayLogarithmic))
 
-    address = .odd90
+    address = .resonance
     definition = address.parameterDefinition
     parameter = definition.parameter
-    XCTAssertFalse(parameter.flags.contains(.flag_CanRamp))
+    XCTAssertTrue(parameter.flags.contains(.flag_CanRamp))
     XCTAssertFalse(parameter.flags.contains(.flag_DisplayLogarithmic))
   }
 }

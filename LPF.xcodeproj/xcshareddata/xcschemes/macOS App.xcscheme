@@ -20,6 +20,34 @@
                ReferencedContainer = "container:LPF.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AUv3SupportTests"
+               BuildableName = "AUv3SupportTests"
+               BlueprintName = "AUv3SupportTests"
+               ReferencedContainer = "container:../AUv3Support">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "DSPHeadersTests"
+               BuildableName = "DSPHeadersTests"
+               BlueprintName = "DSPHeadersTests"
+               ReferencedContainer = "container:../AUv3Support">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -42,10 +70,50 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BD95147424A08BB600D8024C"
-               BuildableName = "macOS Tests.xctest"
-               BlueprintName = "macOS Tests"
-               ReferencedContainer = "container:LPF.xcodeproj">
+               BlueprintIdentifier = "AUv3SupportTests"
+               BuildableName = "AUv3SupportTests"
+               BlueprintName = "AUv3SupportTests"
+               ReferencedContainer = "container:../AUv3Support">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "DSPHeadersTests"
+               BuildableName = "DSPHeadersTests"
+               BlueprintName = "DSPHeadersTests"
+               ReferencedContainer = "container:../AUv3Support">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "KernelTests"
+               BuildableName = "KernelTests"
+               BlueprintName = "KernelTests"
+               ReferencedContainer = "container:Packages">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ParameterAddressTests"
+               BuildableName = "ParameterAddressTests"
+               BlueprintName = "ParameterAddressTests"
+               ReferencedContainer = "container:Packages">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ParametersTests"
+               BuildableName = "ParametersTests"
+               BlueprintName = "ParametersTests"
+               ReferencedContainer = "container:Packages">
             </BuildableReference>
          </TestableReference>
       </Testables>

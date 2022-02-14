@@ -55,20 +55,50 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BD1D24A825D486A700523748"
-               BuildableName = "iOS Tests.xctest"
-               BlueprintName = "iOS Tests"
-               ReferencedContainer = "container:LPF.xcodeproj">
+               BlueprintIdentifier = "AUv3SupportTests"
+               BuildableName = "AUv3SupportTests"
+               BlueprintName = "AUv3SupportTests"
+               ReferencedContainer = "container:../AUv3Support">
             </BuildableReference>
          </TestableReference>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "BD1D257525D5AAB000523748"
-               BuildableName = "Snapshots.xctest"
-               BlueprintName = "Snapshots"
-               ReferencedContainer = "container:LPF.xcodeproj">
+               BlueprintIdentifier = "DSPHeadersTests"
+               BuildableName = "DSPHeadersTests"
+               BlueprintName = "DSPHeadersTests"
+               ReferencedContainer = "container:../AUv3Support">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "KernelTests"
+               BuildableName = "KernelTests"
+               BlueprintName = "KernelTests"
+               ReferencedContainer = "container:Packages">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ParameterAddressTests"
+               BuildableName = "ParameterAddressTests"
+               BlueprintName = "ParameterAddressTests"
+               ReferencedContainer = "container:Packages">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ParametersTests"
+               BuildableName = "ParametersTests"
+               BlueprintName = "ParametersTests"
+               ReferencedContainer = "container:Packages">
             </BuildableReference>
          </TestableReference>
       </Testables>
