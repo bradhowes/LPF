@@ -33,6 +33,7 @@ public struct FilterViewRanges {
  */
 public protocol FilterViewDelegate: AnyObject {
 
+  /// Defines the coordinate spaces for the view in AUParameter units.
   var filterViewRanges: FilterViewRanges { get }
 
   /**
@@ -58,29 +59,30 @@ public protocol FilterViewDelegate: AnyObject {
    */
   func filterViewInteracted(_ filterView: FilterView, cutoff: Float, resonance: Float)
 
+  /**
+   Notification that the layout of the view changed. This should usually require a regeneration of the
+   response curve from the filter.
+
+   - parameter filterView: the source of the notification
+   */
   func filterViewLayoutChanged(_ filterView: FilterView)
 }
 
 /**
- Custom view that displays a response curve for the low-pass filter. Provides a control for changing the filter
- cutoff and resonance values in real-time. Note that there is purely UI -- there is no manipulation of AUParameter
- values here.
+ Custom view that displays a response curve for the low-pass filter and provides a control point for changing the
+ filter cutoff and resonance values in real-time. Note that there is purely UI -- there is no direct manipulation of
+ AUParameter values here.
  */
 @objc
 public final class FilterView: View {
   private lazy var log = Shared.logger("FilterView")
 
-  /// The current location of the control in frequency (X) and dB (Y) axis.
-  private var controlPoint: CGPoint = .zero { didSet { updateIndicator() } }
-  private var viewRanges: FilterViewRanges = .init(frequencyRange: 12.0...20000.0, gainRange: -20...40)
-  private lazy var cutoff: Float = viewRanges.frequencyRange.mid
-  private lazy var resonance: Float = viewRanges.gainRange.mid
-
   /// Delegate to receive change notification
   public weak var delegate: FilterViewDelegate? {
     didSet {
       if let delegate = delegate {
-        viewRanges = delegate.filterViewRanges
+        self.viewRanges = delegate.filterViewRanges
+        self.createAxisElements()
       }
     }
   }
@@ -94,6 +96,14 @@ public final class FilterView: View {
     frequencies = (0..<count).map { locationToFrequency(CGFloat($0) * scale) }
     return frequencies!
   }
+
+  /// The current location of the control in frequency (X) and dB (Y) axis.
+  private var controlPoint: CGPoint = .zero { didSet { updateIndicator() } }
+  /// The coordinate spaces to work in. This is updated when there is a delegate set.
+  private var viewRanges: FilterViewRanges = .init(frequencyRange: 100...200.0, gainRange: 0...1)
+
+  private lazy var cutoff: Float = viewRanges.frequencyRange.mid
+  private lazy var resonance: Float = viewRanges.gainRange.mid
 
 #if os(macOS)
   override public var isFlipped: Bool { return true }
@@ -588,7 +598,7 @@ private extension FilterView {
 
   func performLayout(of layer: CALayer) {
     guard layer === rootLayer else { return }
-
+    os_log(.info, log: log, "performLayout BEGIN")
     CATransaction.noAnimation {
       plotLayer.bounds = rootLayer.bounds
       graphLayer.bounds = CGRect(x: 0, y: 0, width: layer.bounds.width - yAxisWidth,
@@ -605,6 +615,8 @@ private extension FilterView {
     DispatchQueue.main.async {
       self.delegate?.filterViewLayoutChanged(self)
     }
+
+    os_log(.info, log: log, "performLayout END")
   }
 }
 

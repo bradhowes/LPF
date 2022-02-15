@@ -18,7 +18,12 @@ let package = Package(
   targets: [
     .target(
       name: "UI",
-      dependencies: [.productItem(name: "AUv3-Support", package: "AUv3SupportPackage", condition: .none)],
+      dependencies: [.productItem(name: "AUv3-Support", package: "AUv3SupportPackage", condition: .none),
+                     "Kernel",
+                     "KernelBridge",
+                     "ParameterAddress",
+                     "Parameters"
+                    ],
       resources: [.process("Resources")]
     ),
     .target(
