@@ -26,6 +26,7 @@ import os.log
 
   private var cutoffObserverToken: AUParameterObserverToken?
   private var resonanceObserverToken: AUParameterObserverToken?
+  private var allParameterValuesToken: NSKeyValueObservation?
 
   public var audioUnit: FilterAudioUnit? {
     didSet {
@@ -87,7 +88,9 @@ extension ViewController: FilterViewDelegate {
 
   public func filterViewLayoutChanged(_ view: FilterView) {
     os_log(.debug, log: log, "filterViewLayoutChanged")
-    updateFilterViewFrequencyAndMagnitudes()
+    if audioUnit != nil {
+      updateDisplay()
+    }
   }
 }
 
@@ -101,16 +104,17 @@ extension ViewController: AUAudioUnitFactory {
   @objc public func createAudioUnit(with componentDescription: AudioComponentDescription) throws -> AUAudioUnit {
     let audioUnit = try FilterAudioUnitFactory.create(componentDescription: componentDescription,
                                                       parameters: parameters, kernel: kernel,
-                                                      currentPresetMonitor: self,
                                                       viewConfigurationManager: self)
     self.audioUnit = audioUnit
-    return audioUnit
-  }
-}
 
-extension ViewController: CurrentPresetMonitor {
-  public func currentPresetChanged(_ value: AUAudioUnitPreset?) {
-    DispatchQueue.main.async { self.updateDisplay() }
+    allParameterValuesToken = audioUnit.observe(\.currentPreset, options: []) { object, change in
+      os_log(.error, log: self.log, "currentPreset changed")
+      DispatchQueue.main.async {
+        self.updateDisplay()
+      }
+    }
+
+    return audioUnit
   }
 }
 
