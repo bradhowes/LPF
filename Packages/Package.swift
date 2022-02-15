@@ -24,6 +24,7 @@ let package = Package(
                      "ParameterAddress",
                      "Parameters"
                     ],
+      exclude: ["README.md"],
       resources: [.process("Resources")]
     ),
     .target(

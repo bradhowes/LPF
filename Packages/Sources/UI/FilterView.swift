@@ -14,7 +14,8 @@ import CoreMIDI
 import os.log
 
 /**
- Configuration of the frequency range and the dB range to show in the view.
+ Configuration of the frequency range and the dB range to show in the view. These are based on the parameter ranges
+ of the cutoff and resonance settings.
  */
 public struct FilterViewRanges {
   public let frequencyRange: ClosedRange<Float>

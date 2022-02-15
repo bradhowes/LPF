@@ -14,12 +14,10 @@ import os.log
  storyboard (iOS) or XIB (macOS) file.
  */
 @objc open class FilterViewController: AUViewController {
-
-  private var filterView: FilterView!
-
   // NOTE: this special form sets the subsystem name and must run before any other logger calls.
   private let log = Shared.logger(Bundle.main.auBaseName + "AU", "ViewController")
 
+  private var filterView: FilterView!
   private let parameters = AudioUnitParameters()
   private let kernel = KernelBridge(Bundle.main.auBaseName)
 
