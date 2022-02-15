@@ -22,6 +22,7 @@ final class MainViewController: UIViewController {
 
     let tintColor = UIColor(named: "label")!
     let config = HostViewConfig(name: bundle.auBaseName, version: bundle.releaseVersionNumber,
+                                appDelegate: delegate,
                                 appStoreId: bundle.appStoreId,
                                 componentDescription: component, sampleLoop: .sample1,
                                 tintColor: tintColor) { url in
@@ -29,7 +30,6 @@ final class MainViewController: UIViewController {
     }
 
     let hostViewController = Shared.embedHostView(into: self, config: config)
-    delegate.setStopPlayingBlock { hostViewController.stopPlaying() }
     self.hostViewController = hostViewController
   }
 }

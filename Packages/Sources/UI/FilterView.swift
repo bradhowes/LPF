@@ -11,6 +11,8 @@ import AppKit
 import CoreMIDI
 #endif
 
+import os.log
+
 /**
  Configuration of the frequency range and the dB range to show in the view.
  */
@@ -66,11 +68,13 @@ public protocol FilterViewDelegate: AnyObject {
  */
 @objc
 public final class FilterView: View {
+  private lazy var log = Shared.logger("FilterView")
 
   /// The current location of the control in frequency (X) and dB (Y) axis.
   private var controlPoint: CGPoint = .zero { didSet { updateIndicator() } }
-
   private var viewRanges: FilterViewRanges = .init(frequencyRange: 12.0...20000.0, gainRange: -20...40)
+  private lazy var cutoff: Float = viewRanges.frequencyRange.mid
+  private lazy var resonance: Float = viewRanges.gainRange.mid
 
   /// Delegate to receive change notification
   public weak var delegate: FilterViewDelegate? {
@@ -187,6 +191,7 @@ public final class FilterView: View {
 #if os(iOS)
 
   override public func layoutSublayers(of layer: CALayer) {
+    super.layoutSublayers(of: layer)
     performLayout(of: layer)
   }
 
@@ -208,8 +213,20 @@ public final class FilterView: View {
 
 public extension FilterView {
 
+  func setControlPoint(_ value: CGPoint) {
+    os_log(.info, log: log, "setControlPoint BEGIN - x: %f y: %f", value.x, value.y)
+    cutoff = locationToFrequency(value.x)
+    resonance = locationToDb(value.y)
+    controlPoint = value
+    os_log(.info, log: log, "setControlPoint END")
+  }
+
   func setControlPoint(cutoff: Float, resonance: Float) {
-    controlPoint = .init(x: frequencyToLocation(cutoff), y: dbToLocation(resonance))
+    os_log(.info, log: log, "setControlPoint BEGIN - cutoff: %f resonance: %f", cutoff, resonance)
+    self.cutoff = cutoff
+    self.resonance = resonance
+    updateControlPoint()
+    os_log(.info, log: log, "setControlPoint END")
   }
 
   /**
@@ -250,7 +267,7 @@ public extension FilterView {
     guard let pointOfTouch = touches.first?.location(in: self) else { return }
     let convertedPoint = rootLayer.convert(pointOfTouch, to: graphLayer)
     if graphLayer.contains(convertedPoint) {
-      controlPoint = convertedPoint
+      setControlPoint(convertedPoint)
       delegate?.filterViewInteractionStarted(self, cutoff: cutoff, resonance: resonance)
     }
   }
@@ -259,7 +276,7 @@ public extension FilterView {
     guard let pointOfTouch = touches.first?.location(in: self) else { return }
     let convertedPoint = rootLayer.convert(pointOfTouch, to: graphLayer)
     if graphLayer.contains(convertedPoint) {
-      controlPoint = convertedPoint
+      setControlPoint(convertedPoint)
       delegate?.filterViewInteracted(self, cutoff: cutoff, resonance: resonance)
     }
   }
@@ -276,7 +293,7 @@ public extension FilterView {
     let pointOfTouch = NSPointToCGPoint(convert(event.locationInWindow, from: nil))
     let convertedPoint = graphLayer.convert(pointOfTouch, from: rootLayer)
     if graphLayer.contains(convertedPoint) {
-      controlPoint = convertedPoint
+      setControlPoint(convertedPoint)
       delegate?.filterViewInteractionStarted(self, cutoff: cutoff, resonance: resonance)
     }
   }
@@ -285,7 +302,7 @@ public extension FilterView {
     let pointOfClick = NSPointToCGPoint(convert(event.locationInWindow, from: nil))
     let convertedPoint = rootLayer.convert(pointOfClick, to: graphLayer)
     if graphLayer.contains(convertedPoint) {
-      controlPoint = convertedPoint
+      setControlPoint(convertedPoint)
       delegate?.filterViewInteracted(self, cutoff: cutoff, resonance: resonance)
     }
   }
@@ -300,6 +317,13 @@ public extension FilterView {
 // MARK: - Unit Conversions
 
 private extension FilterView {
+
+  func updateControlPoint() {
+    os_log(.info, log: log, "updateControlPoint BEGIN - cutoff: %f resonance: %f", cutoff, resonance)
+    controlPoint = .init(x: frequencyToLocation(cutoff), y: dbToLocation(resonance))
+    os_log(.info, log: log, "updateControlPoint - x: %f y: %f", controlPoint.x, controlPoint.y)
+    os_log(.info, log: log, "updateControlPoint END")
+  }
 
   /**
    Obtain the frequency for an X position on the graph
@@ -514,9 +538,6 @@ private extension FilterView {
     String(format: "%.02f dB", value)
   }
 
-  var cutoff: Float { locationToFrequency(controlPoint.x) }
-  var resonance: Float { locationToDb(controlPoint.y) }
-
   func updateIndicator() {
     guard let layers = indicatorLayer.sublayers else { return }
     let height = graphLayer.bounds.height
@@ -566,7 +587,6 @@ private extension FilterView {
 private extension FilterView {
 
   func performLayout(of layer: CALayer) {
-    // Resize layers and remake the response curve
     guard layer === rootLayer else { return }
 
     CATransaction.noAnimation {
@@ -581,7 +601,10 @@ private extension FilterView {
 
     updateIndicator()
     frequencies = nil
-    delegate?.filterViewLayoutChanged(self)
+
+    DispatchQueue.main.async {
+      self.delegate?.filterViewLayoutChanged(self)
+    }
   }
 }
 
