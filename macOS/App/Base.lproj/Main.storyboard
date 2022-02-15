@@ -12,7 +12,7 @@
                 <application id="hnw-xV-0zn" sceneMemberID="viewController">
                     <menu key="mainMenu" title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
                         <items>
-                            <menuItem title="SimplyLowPass" id="1Xt-HY-uBw" userLabel="SimplyFlange Host">
+                            <menuItem title="SimplyLowPass" id="1Xt-HY-uBw" userLabel="SimplyLowPass Host">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="SimplyLowPass" systemMenu="apple" id="uQy-DD-JDr">
                                     <items>
@@ -126,7 +126,7 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" customClass="MainWindowController" customModule="SimplyLowPass" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="SimplyFlange" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="SimplyFlange" animationBehavior="default" titlebarAppearsTransparent="YES" id="IQv-IB-iLA" userLabel="SimplyFlange">
+                    <window key="window" title="SimplyLowPass" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="SimplyLowPass" animationBehavior="default" titlebarAppearsTransparent="YES" id="IQv-IB-iLA" userLabel="SimplyLowPass">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
                         <rect key="contentRect" x="81" y="580" width="600" height="300"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1175"/>
