@@ -81,8 +81,10 @@ public final class FilterView: View {
   public weak var delegate: FilterViewDelegate? {
     didSet {
       if let delegate = delegate {
-        self.viewRanges = delegate.filterViewRanges
-        self.createAxisElements()
+        viewRanges = delegate.filterViewRanges
+        if !axisElements.isEmpty {
+          createAxisElements()
+        }
       }
     }
   }
@@ -159,6 +161,7 @@ public final class FilterView: View {
 
   override public func awakeFromNib() {
     super.awakeFromNib()
+    os_log(.debug, log: log, "awakeFromNib BEGIN")
 
     rootLayer.masksToBounds = false
     rootLayer.contentsScale = screenScale
@@ -196,24 +199,32 @@ public final class FilterView: View {
 #if os(macOS)
     layoutSublayers(of: rootLayer)
 #endif
+
+    os_log(.debug, log: log, "awakeFromNib END")
   }
 
 #if os(iOS)
 
   override public func layoutSublayers(of layer: CALayer) {
+    os_log(.debug, log: log, "layoutSublayers BEGIN")
     super.layoutSublayers(of: layer)
     performLayout(of: layer)
+    os_log(.debug, log: log, "layoutSublayers END")
   }
 
 #elseif os(macOS)
 
   override public func setFrameSize(_ newSize: NSSize) {
+    os_log(.debug, log: log, "setFrameSize BEGIN - w: %f h: %f", newSize.width, newSize.height)
     super.setFrameSize(newSize)
     layoutSublayers(of: rootLayer)
+    os_log(.debug, log: log, "setFrameSize END")
   }
 
   func layoutSublayers(of layer: CALayer) {
+    os_log(.debug, log: log, "layoutSublayers BEGIN")
     performLayout(of: layer)
+    os_log(.debug, log: log, "layoutSublayers END")
   }
 
 #endif
