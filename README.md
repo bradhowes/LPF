@@ -56,7 +56,7 @@ offers the same functionality in a pop-up menu to the right of the factory prese
 
 Each OS ([macOS](macOS) and [iOS](iOS)) have the same code layout:
 
-* `App` -- code and configury for the application that hosts the AUv3 app extension. Again, the app serves as a demo host for the AUv3 app
+* `App` -- code and configuration for the application that hosts the AUv3 app extension. Again, the app serves as a demo host for the AUv3 app
 extension.
 * `Extension` -- code and configuration for the extension itself
 * `Framework` -- code for the framework that contains the shared code by the app and the extension. Note that the framework is
