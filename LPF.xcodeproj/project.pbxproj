@@ -166,23 +166,19 @@
 		C44F544622260E2C00484B67 /* CoreAudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioKit.framework; path = System/Library/Frameworks/CoreAudioKit.framework; sourceTree = SDKROOT; };
 		C4737B0A2231D930002CAD0B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		C4BEE79C22236A29001E6B6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C4BEE7A122236A29001E6B6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4BEE7A422236A29001E6B6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C4BEE7A822236A29001E6B6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C4BEE7A922236A29001E6B6D /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4BEE7AA22236A29001E6B6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4BEE7BD22236A58001E6B6D /* LPF.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = LPF.entitlements; sourceTree = "<group>"; };
 		C4BEE7BE22236A58001E6B6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C4BEE7C222236A58001E6B6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4BEE7C622236A58001E6B6D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C4BEE7C822236A58001E6B6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C4BEE7C922236A58001E6B6D /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4BEE7CA22236A58001E6B6D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4BEE80822237078001E6B6D /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		C4BEE80D2223713E001E6B6D /* LowPassFilterFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LowPassFilterFramework.h; sourceTree = "<group>"; };
 		C4BEE80F22237302001E6B6D /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		C4BEE8122223734E001E6B6D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		C4BEE8162223736F001E6B6D /* LowPassFilterFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LowPassFilterFramework.h; sourceTree = "<group>"; };
 		C4BEE81B22237772001E6B6D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.1.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
 		C4C9EAAB2227D79D003FEE1C /* ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 		C4CE62D8222601070055FE6B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -308,7 +304,6 @@
 				BD1D250625D5178900523748 /* README.md */,
 				C4BEE7A222236A29001E6B6D /* App */,
 				C4BEE79722236A29001E6B6D /* Extension */,
-				C4BEE79F22236A29001E6B6D /* Framework */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -321,15 +316,6 @@
 				C4BEE79C22236A29001E6B6D /* Info.plist */,
 			);
 			path = Extension;
-			sourceTree = "<group>";
-		};
-		C4BEE79F22236A29001E6B6D /* Framework */ = {
-			isa = PBXGroup;
-			children = (
-				C4BEE8162223736F001E6B6D /* LowPassFilterFramework.h */,
-				C4BEE7A122236A29001E6B6D /* Info.plist */,
-			);
-			path = Framework;
 			sourceTree = "<group>";
 		};
 		C4BEE7A222236A29001E6B6D /* App */ = {
@@ -351,7 +337,6 @@
 				BD1D250E25D517D000523748 /* README.md */,
 				C4BEE7C322236A58001E6B6D /* App */,
 				C4BEE7B722236A58001E6B6D /* Extension */,
-				C4BEE7C022236A58001E6B6D /* Framework */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -365,15 +350,6 @@
 				C4BEE7BD22236A58001E6B6D /* LPF.entitlements */,
 			);
 			path = Extension;
-			sourceTree = "<group>";
-		};
-		C4BEE7C022236A58001E6B6D /* Framework */ = {
-			isa = PBXGroup;
-			children = (
-				C4BEE80D2223713E001E6B6D /* LowPassFilterFramework.h */,
-				C4BEE7C222236A58001E6B6D /* Info.plist */,
-			);
-			path = Framework;
 			sourceTree = "<group>";
 		};
 		C4BEE7C322236A58001E6B6D /* App */ = {
