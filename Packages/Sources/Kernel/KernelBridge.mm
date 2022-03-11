@@ -25,9 +25,8 @@
 
 - (AUInternalRenderBlock)internalRenderBlock {
   auto& kernel = *kernel_;
-  NSInteger bus = 0;
   return ^AUAudioUnitStatus(AudioUnitRenderActionFlags* flags, const AudioTimeStamp* timestamp,
-                            AUAudioFrameCount frameCount, NSInteger, AudioBufferList* output,
+                            AUAudioFrameCount frameCount, NSInteger bus, AudioBufferList* output,
                             const AURenderEvent* realtimeEventListHead, AURenderPullInputBlock pullInputBlock) {
     return kernel.processAndRender(timestamp, frameCount, bus, output, realtimeEventListHead, pullInputBlock);
   };
