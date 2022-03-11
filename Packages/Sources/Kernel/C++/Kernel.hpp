@@ -9,16 +9,16 @@
 #import <AVFoundation/AVFoundation.h>
 
 #import "AcceleratedBiquadFilter.h"
-#import "EventProcessor.hpp"
-#import "RampingParameter.hpp"
+#import "DSPHeaders/EventProcessor.hpp"
+#import "DSPHeaders/RampingParameter.hpp"
 
 /**
  The audio processing kernel that generates a "flange" effect by combining an audio signal with a slightly delayed copy
  of itself. The delay value oscillates at a defined frequency which causes the delayed audio to vary in pitch due to it
  being sped up or slowed down.
  */
-struct Kernel : public EventProcessor<Kernel> {
-  using super = EventProcessor<Kernel>;
+struct Kernel : public DSPHeaders::EventProcessor<Kernel> {
+  using super = DSPHeaders::EventProcessor<Kernel>;
   friend super;
 
   /**
@@ -27,7 +27,7 @@ struct Kernel : public EventProcessor<Kernel> {
    @param name the name to use for logging purposes.
    */
   Kernel(const std::string& name)
-  : super(os_log_create(name.c_str(), "Kernel"))
+  : super(os_log_create(name.c_str(), "Kernel"), false)
   {
     initialize(2, 44100.0);
   }
@@ -85,7 +85,8 @@ private:
     }
   }
 
-  void doRendering(std::vector<AUValue*>& ins, std::vector<AUValue*>& outs, AUAudioFrameCount frameCount) {
+  void doRendering(NSInteger outputBusNumber, std::vector<AUValue*>& ins, std::vector<AUValue*>& outs,
+                   AUAudioFrameCount frameCount) {
     auto cutoff = cutoff_.frameValue();
     auto resonance = resonance_.frameValue();
     filter_.calculateParams(cutoff, resonance, nyquistPeriod_, ins.size());
@@ -94,10 +95,15 @@ private:
 
   void doMIDIEvent(const AUMIDIEvent& midiEvent) {}
 
+  AUAudioUnitStatus doPullInput(const AudioTimeStamp* timestamp, UInt32 frameCount, NSInteger outputBusNumber,
+                                AURenderPullInputBlock pullInputBlock) {
+    return pullInput(timestamp, frameCount, 0, pullInputBlock);
+  }
+
   AcceleratedBiquadFilter filter_;
   AUValue sampleRate_;
   AUValue nyquistFrequency_;
   AUValue nyquistPeriod_;
-  RampingParameter<AUValue> cutoff_;
-  RampingParameter<AUValue> resonance_;
+  DSPHeaders::Parameters::RampingParameter<AUValue> cutoff_;
+  DSPHeaders::Parameters::RampingParameter<AUValue> resonance_;
 };
