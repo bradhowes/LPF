@@ -8,14 +8,13 @@
 #import <string>
 #import <AVFoundation/AVFoundation.h>
 
-#import "AcceleratedBiquadFilter.h"
+#import "AcceleratedBiquadFilter.hpp"
+#import "DSPHeaders/BusBuffers.hpp"
 #import "DSPHeaders/EventProcessor.hpp"
 #import "DSPHeaders/RampingParameter.hpp"
 
 /**
- The audio processing kernel that generates a "flange" effect by combining an audio signal with a slightly delayed copy
- of itself. The delay value oscillates at a defined frequency which causes the delayed audio to vary in pitch due to it
- being sped up or slowed down.
+ The audio processing kernel that performs low-pass filtering of an audio signal.
  */
 struct Kernel : public DSPHeaders::EventProcessor<Kernel> {
   using super = DSPHeaders::EventProcessor<Kernel>;
@@ -26,8 +25,7 @@ struct Kernel : public DSPHeaders::EventProcessor<Kernel> {
 
    @param name the name to use for logging purposes.
    */
-  Kernel(const std::string& name)
-  : super(os_log_create(name.c_str(), "Kernel"), false)
+  Kernel(std::string name) : super(name)
   {
     initialize(2, 44100.0);
   }
@@ -35,11 +33,12 @@ struct Kernel : public DSPHeaders::EventProcessor<Kernel> {
   /**
    Update kernel and buffers to support the given format and channel count
 
+   @param busCount number of busses to support
    @param format the audio format to render
    @param maxFramesToRender the maximum number of samples we will be asked to render in one go
    */
-  void setRenderingFormat(AVAudioFormat* format, AUAudioFrameCount maxFramesToRender) {
-    super::setRenderingFormat(format, maxFramesToRender);
+  void setRenderingFormat(NSInteger busCount, AVAudioFormat* format, AUAudioFrameCount maxFramesToRender) {
+    super::setRenderingFormat(busCount, format, maxFramesToRender);
     initialize(format.channelCount, format.sampleRate);
   }
 
@@ -85,7 +84,7 @@ private:
     }
   }
 
-  void doRendering(NSInteger outputBusNumber, std::vector<AUValue*>& ins, std::vector<AUValue*>& outs,
+  void doRendering(NSInteger outputBusNumber, DSPHeaders::BusBuffers ins, DSPHeaders::BusBuffers outs,
                    AUAudioFrameCount frameCount) {
     auto cutoff = cutoff_.frameValue();
     auto resonance = resonance_.frameValue();
@@ -94,11 +93,6 @@ private:
   }
 
   void doMIDIEvent(const AUMIDIEvent& midiEvent) {}
-
-  AUAudioUnitStatus doPullInput(const AudioTimeStamp* timestamp, UInt32 frameCount, NSInteger outputBusNumber,
-                                AURenderPullInputBlock pullInputBlock) {
-    return pullInput(timestamp, frameCount, 0, pullInputBlock);
-  }
 
   AcceleratedBiquadFilter filter_;
   AUValue sampleRate_;

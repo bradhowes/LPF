@@ -2,7 +2,7 @@
 
 #include <Accelerate/../Frameworks/vecLib.framework/Headers/vForce.h>
 
-#include "C++/AcceleratedBiquadFilter.h"
+#include "C++/AcceleratedBiquadFilter.hpp"
 
 enum Index { B0 = 0, B1, B2, A1, A2 };
 

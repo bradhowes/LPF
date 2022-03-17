@@ -22,7 +22,7 @@
 - (void)testKernelParams {
   Kernel* kernel = new Kernel("blah");
   AVAudioFormat* format = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:44100.0 channels:2];
-  kernel->setRenderingFormat(format, 100);
+  kernel->setRenderingFormat(1, format, 100);
 
   kernel->setParameterValue(ParameterAddressCutoff, 10.0);
   XCTAssertEqualWithAccuracy(kernel->getParameterValue(ParameterAddressCutoff), 10.0, 0.001);

@@ -2,7 +2,7 @@
 
 #import <CoreAudioKit/CoreAudioKit.h>
 
-#import "C++/AcceleratedBiquadFilter.h"
+#import "C++/AcceleratedBiquadFilter.hpp"
 #import "C++/Kernel.hpp"
 #import "Kernel.h"
 
@@ -17,8 +17,9 @@
   return self;
 }
 
-- (void)setRenderingFormat:(AVAudioFormat*)inputFormat maxFramesToRender:(AUAudioFrameCount)maxFrames {
-  kernel_->setRenderingFormat(inputFormat, maxFrames);
+- (void)setRenderingFormat:(NSInteger)busCount format:(AVAudioFormat*)inputFormat
+         maxFramesToRender:(AUAudioFrameCount)maxFrames {
+  kernel_->setRenderingFormat(busCount, inputFormat, maxFrames);
 }
 
 - (void)renderingStopped { kernel_->renderingStopped(); }
