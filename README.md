@@ -1,4 +1,6 @@
 ![CI](https://github.com/bradhowes/LPF/workflows/CI/badge.svg?branch=main)
+[![Swift 5.5](https://img.shields.io/badge/Swift-5.5-orange.svg?style=flat)](https://swift.org)
+[![AUv3](https://img.shields.io/badge/AUv3-green.svg)](https://developer.apple.com/documentation/audiotoolbox/audio_unit_v3_plug-ins)
 [![License: MIT](https://img.shields.io/badge/License-MIT-A31F34.svg)](https://opensource.org/licenses/MIT)
 
 ![](Shared/Resources/LPF/256px.png)
