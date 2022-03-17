@@ -141,18 +141,20 @@ for EACH in ${PLATFORMS}; do
     esac
 done
 
-log "committing version changes"
-echo git add -u
-echo git commit -m "v${VERSION}"
-if [[ "${CMD}" != "build" ]]; then
-    log "tagging repo with ${VERSION}"
-    echo git tag "${VERSION}"
-fi
+git status
 
-log "pushing changes to remote"
-git push
+# log "committing version changes"
+# git add -u
+# git commit -m "v${VERSION}"
+# if [[ "${CMD}" != "build" ]]; then
+#     log "tagging repo with ${VERSION}"
+#     git tag "${VERSION}"
+# fi
 
-if [[ "${CMD}" != "build" ]]; then
-    log "pushing updated tags to remote"
-    echo git push --tags
-fi
+# log "pushing changes to remote"
+# echo git push
+
+# if [[ "${CMD}" != "build" ]]; then
+#     log "pushing updated tags to remote"
+#     git push --tags
+# fi
