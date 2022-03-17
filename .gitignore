@@ -31,3 +31,5 @@ fastlane
 Packages/.swiftpm/
 Packages/.build/
 Packages/Package.resolved
+.version
+exportOptions.plist

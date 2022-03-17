@@ -155,5 +155,7 @@ def main():
     updateUIFiles(locateUIFiles(), marketingVersion)
     updateInfoFiles(locateInfoFiles(), marketingVersion)
 
+    open(".version", "w").write(getVersionString(marketingVersion) + '\n')
+
 if __name__ == '__main__':
     main()
