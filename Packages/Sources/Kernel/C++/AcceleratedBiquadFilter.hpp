@@ -61,4 +61,3 @@ private:
   float threshold_ = 0.05;
   float updateRate_ = 0.4;
 };
-
