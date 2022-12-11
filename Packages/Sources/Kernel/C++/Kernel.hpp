@@ -25,7 +25,7 @@ struct Kernel : public DSPHeaders::EventProcessor<Kernel> {
 
    @param name the name to use for logging purposes.
    */
-  Kernel(std::string name) : super(name)
+  Kernel(std::string name) noexcept : super(), log_{os_log_create(name_.c_str(), "Kernel")}
   {
     initialize(2, 44100.0);
   }
@@ -37,7 +37,7 @@ struct Kernel : public DSPHeaders::EventProcessor<Kernel> {
    @param format the audio format to render
    @param maxFramesToRender the maximum number of samples we will be asked to render in one go
    */
-  void setRenderingFormat(NSInteger busCount, AVAudioFormat* format, AUAudioFrameCount maxFramesToRender) {
+  void setRenderingFormat(NSInteger busCount, AVAudioFormat* format, AUAudioFrameCount maxFramesToRender) noexcept {
     super::setRenderingFormat(busCount, format, maxFramesToRender);
     initialize(format.channelCount, format.sampleRate);
   }
@@ -48,7 +48,18 @@ struct Kernel : public DSPHeaders::EventProcessor<Kernel> {
    @param address the address of the parameter that changed
    @param value the new value for the parameter
    */
-  void setParameterValue(AUParameterAddress address, AUValue value);
+  void setParameterValue(AUParameterAddress address, AUValue value) noexcept {
+    setRampedParameterValue(address, value, AUAudioFrameCount(50));
+  }
+
+  /**
+   Process an AU parameter value change by updating the kernel.
+
+   @param address the address of the parameter that changed
+   @param value the new value for the parameter
+   @param duration the number of samples to adjust over
+   */
+  void setRampedParameterValue(AUParameterAddress address, AUValue value, AUAudioFrameCount duration) noexcept;
 
   /**
    Obtain from the kernel the current value of an AU parameter.
@@ -56,17 +67,17 @@ struct Kernel : public DSPHeaders::EventProcessor<Kernel> {
    @param address the address of the parameter to return
    @returns current parameter value
    */
-  AUValue getParameterValue(AUParameterAddress address) const;
+  AUValue getParameterValue(AUParameterAddress address) const noexcept;
 
-  AUValue cutoff() const { return cutoff_.get(); }
+  AUValue cutoff() const noexcept { return cutoff_.get(); }
 
-  AUValue resonance() const { return resonance_.get(); }
+  AUValue resonance() const noexcept { return resonance_.get(); }
 
-  float nyquistPeriod() const { return nyquistPeriod_; }
+  float nyquistPeriod() const noexcept { return nyquistPeriod_; }
 
 private:
 
-  void initialize(int channelCount, double sampleRate) {
+  void initialize(int channelCount, double sampleRate) noexcept {
     os_log_info(log_, "initialize BEGIN channelCount: %d sampleRate: %f", channelCount, sampleRate);
     sampleRate_ = sampleRate;
     nyquistFrequency_ = 0.5 * sampleRate;
@@ -74,9 +85,14 @@ private:
     filter_.calculateParams(cutoff_.get(), resonance_.get(), nyquistPeriod_, channelCount);
   }
 
-  void setRampedParameterValue(AUParameterAddress address, AUValue value, AUAudioFrameCount duration);
+  void doRenderingStateChanged(bool rendering) {
+    if (!rendering) {
+      cutoff_.stopRamping();
+      resonance_.stopRamping();
+    }
+  }
 
-  void setParameterFromEvent(const AUParameterEvent& event) {
+  void setParameterFromEvent(const AUParameterEvent& event) noexcept {
     if (event.rampDurationSampleFrames == 0) {
       setParameterValue(event.parameterAddress, event.value);
     } else {
@@ -85,14 +101,14 @@ private:
   }
 
   void doRendering(NSInteger outputBusNumber, DSPHeaders::BusBuffers ins, DSPHeaders::BusBuffers outs,
-                   AUAudioFrameCount frameCount) {
+                   AUAudioFrameCount frameCount) noexcept {
     auto cutoff = cutoff_.frameValue();
     auto resonance = resonance_.frameValue();
     filter_.calculateParams(cutoff, resonance, nyquistPeriod_, ins.size());
     filter_.apply(ins, outs, frameCount);
   }
 
-  void doMIDIEvent(const AUMIDIEvent& midiEvent) {}
+  void doMIDIEvent(const AUMIDIEvent& midiEvent) noexcept {}
 
   AcceleratedBiquadFilter filter_;
   AUValue sampleRate_;
@@ -100,4 +116,6 @@ private:
   AUValue nyquistPeriod_;
   DSPHeaders::Parameters::RampingParameter<AUValue> cutoff_;
   DSPHeaders::Parameters::RampingParameter<AUValue> resonance_;
+  std::string name_;
+  os_log_t log_;
 };

@@ -4,15 +4,7 @@
 
 @import ParameterAddress;
 
-void Kernel::setParameterValue(AUParameterAddress address, AUValue value) {
-  os_log_with_type(log_, OS_LOG_TYPE_DEBUG, "setParameterValue - %llul %f", address, value);
-  switch (address) {
-    case ParameterAddressCutoff: cutoff_.set(value, 0); break;
-    case ParameterAddressResonance: resonance_.set(value, 0); break;
-  }
-}
-
-void Kernel::setRampedParameterValue(AUParameterAddress address, AUValue value, AUAudioFrameCount duration) {
+void Kernel::setRampedParameterValue(AUParameterAddress address, AUValue value, AUAudioFrameCount duration) noexcept {
   os_log_with_type(log_, OS_LOG_TYPE_DEBUG, "setRampedParameterValue - %llul %f %d", address, value, duration);
   switch (address) {
     case ParameterAddressCutoff: cutoff_.set(value, duration); break;
@@ -20,7 +12,7 @@ void Kernel::setRampedParameterValue(AUParameterAddress address, AUValue value, 
   }
 }
 
-AUValue Kernel::getParameterValue(AUParameterAddress address) const {
+AUValue Kernel::getParameterValue(AUParameterAddress address) const noexcept {
   switch (address) {
     case ParameterAddressCutoff: return cutoff_.get();
     case ParameterAddressResonance: return resonance_.get();
