@@ -13,15 +13,15 @@ private extension Array where Element == AUParameter {
 /**
  Definitions for the runtime parameters of the filter.
  */
-public final class AudioUnitParameters: NSObject, ParameterSource {
+public final class Parameters: NSObject, ParameterSource {
 
-  private let log = Shared.logger("AudioUnitParameters")
+  private let log = Shared.logger("Parameters")
 
   /// Array of AUParameter entities created from ParameterAddress value definitions.
   public let parameters: [AUParameter] = ParameterAddress.allCases.map { $0.parameterDefinition.parameter }
 
   /// Array of 2-tuple values that pair a factory preset name and its definition
-  public let factoryPresetValues: [(name: String, preset: FilterPreset)] = [
+  public let factoryPresetValues: [(name: String, preset: Configuration)] = [
     ("Prominent", .init(cutoff: 2500.0, resonance: 5.0)),
     ("Bright", .init(cutoff: 14000.0, resonance: 12.0)),
     ("Warm", .init(cutoff: 384.0, resonance: -3.0))
@@ -47,7 +47,7 @@ public final class AudioUnitParameters: NSObject, ParameterSource {
   }
 }
 
-extension AudioUnitParameters {
+extension Parameters {
 
   private var missingParameter: AUParameter { fatalError() }
 
@@ -69,10 +69,6 @@ extension AudioUnitParameters {
     parameterTree.parameter(withAddress: address.parameterAddress) ?? missingParameter
   }
 
-  public func valueFormatter(_ address: ParameterAddress) -> (AUValue) -> String {
-    self[address].valueFormatter
-  }
-
   private func installParameterValueFormatter() {
     parameterTree.implementorStringFromValueCallback = { param, valuePtr in
       let value: AUValue
@@ -81,7 +77,7 @@ extension AudioUnitParameters {
       } else {
         value = param.value
       }
-      return String(format: param.stringFormatForValue, value) + param.suffix
+      return param.displayValueFormatter(value)
     }
   }
 
@@ -89,23 +85,18 @@ extension AudioUnitParameters {
    Accept new values for the filter settings. Uses the AUParameterTree framework for communicating the changes to the
    AudioUnit.
    */
-  public func setValues(_ preset: FilterPreset) {
+  public func setValues(_ preset: Configuration) {
     cutoff.value = preset.cutoff
     resonance.value = preset.resonance
   }
 }
 
-extension AUParameter {
+extension AUParameter: AUParameterFormatting {
 
-  /// Obtain string to use to separate a formatted value from its units name
-  var unitSeparator: String { " " }
-  /// Obtain the suffix to apply to a formatted value
-  var suffix: String { unitSeparator + (unitName ?? "") }
-  /// Obtain the format to use in String(format:value) when formatting a values
-  var stringFormatForValue: String { "%.2f" }
-  /// Obtain a closure that will format parameter values into a string
-  var valueFormatter: (AUValue) -> String {
-    { value in String(format: self.stringFormatForValue, value) + self.suffix }
-  }
+  public var unitSeparator: String { " " }
+
+  public var suffix: String { makeFormattingSuffix(from: unitName) }
+
+  public var stringFormatForDisplayValue: String { "%.2f" }
 }
 

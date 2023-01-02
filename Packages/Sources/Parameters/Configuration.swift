@@ -2,7 +2,7 @@
 
 import AudioUnit
 
-public struct FilterPreset {
+public struct Configuration {
   public let cutoff: AUValue
   public let resonance: AUValue
 

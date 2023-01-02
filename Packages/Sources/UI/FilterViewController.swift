@@ -18,7 +18,7 @@ import os.log
   private let log = Shared.logger(Bundle.main.auBaseName + "AU", "ViewController")
 
   private var filterView: FilterView!
-  private let parameters = AudioUnitParameters()
+  private let parameters = Parameters()
   private let kernel = KernelBridge(Bundle.main.auBaseName)
 
   private var viewConfig: AUAudioUnitViewConfiguration!
