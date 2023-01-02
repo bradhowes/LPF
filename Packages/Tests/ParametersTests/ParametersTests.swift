@@ -4,7 +4,7 @@ import Kernel
 @testable import ParameterAddress
 import Parameters
 
-final class FilterPresetTests: XCTestCase {
+final class ParametersTests: XCTestCase {
 
   func testParameterAddress() throws {
     XCTAssertEqual(ParameterAddress.cutoff.rawValue, 0)
@@ -16,7 +16,7 @@ final class FilterPresetTests: XCTestCase {
   }
 
   func testParameterDefinitions() throws {
-    let aup = AudioUnitParameters()
+    let aup = Parameters()
     for (index, address) in ParameterAddress.allCases.enumerated() {
       XCTAssertTrue(aup.parameters[index] == aup[address])
     }
