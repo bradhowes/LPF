@@ -28,12 +28,18 @@ extension MainViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-
-    // When the window appears, we should be able to access all of the items from the storyboard.
-    windowObserver = view.observe(\.window) { _, _ in self.makeHostViewManager() }
+    self.makeHostViewManager()
   }
 
-  func makeHostViewManager() {
+  private func makeHostViewManager() {
+
+    // We can only connect up a HostViewManager when all the pieces are available, and when `view.window` is set appears
+    // to be as good as anything else to use as a signal to continue.
+    guard view.window != nil else {
+      windowObserver = view.observe(\.window) { _, _ in self.makeHostViewManager() }
+      return
+    }
+
     guard let appDelegate = appDelegate,
           appDelegate.presetsMenu != nil,
           let windowController = windowController
