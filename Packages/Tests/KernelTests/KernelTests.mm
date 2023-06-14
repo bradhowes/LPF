@@ -24,10 +24,10 @@
   AVAudioFormat* format = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:44100.0 channels:2];
   kernel->setRenderingFormat(1, format, 100);
 
-  kernel->setParameterValue(ParameterAddressCutoff, 10.0);
+  kernel->setParameterValue(ParameterAddressCutoff, 10.0, 0.0);
   XCTAssertEqualWithAccuracy(kernel->getParameterValue(ParameterAddressCutoff), 10.0, 0.001);
 
-  kernel->setParameterValue(ParameterAddressResonance, 20.0);
+  kernel->setParameterValue(ParameterAddressResonance, 20.0, 0.0);
   XCTAssertEqualWithAccuracy(kernel->getParameterValue(ParameterAddressResonance), 20.0, 0.001);
 }
 

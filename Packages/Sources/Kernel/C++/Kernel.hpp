@@ -47,19 +47,9 @@ struct Kernel : public DSPHeaders::EventProcessor<Kernel> {
 
    @param address the address of the parameter that changed
    @param value the new value for the parameter
+   @param duration the number of frames to ramp to the new value
    */
-  void setParameterValue(AUParameterAddress address, AUValue value) noexcept {
-    setRampedParameterValue(address, value, AUAudioFrameCount(50));
-  }
-
-  /**
-   Process an AU parameter value change by updating the kernel.
-
-   @param address the address of the parameter that changed
-   @param value the new value for the parameter
-   @param duration the number of samples to adjust over
-   */
-  void setRampedParameterValue(AUParameterAddress address, AUValue value, AUAudioFrameCount duration) noexcept;
+  void setParameterValue(AUParameterAddress address, AUValue value, AUAudioFrameCount duration) noexcept;
 
   /**
    Obtain from the kernel the current value of an AU parameter.
@@ -92,12 +82,8 @@ private:
     }
   }
 
-  void setParameterFromEvent(const AUParameterEvent& event) noexcept {
-    if (event.rampDurationSampleFrames == 0) {
-      setParameterValue(event.parameterAddress, event.value);
-    } else {
-      setRampedParameterValue(event.parameterAddress, event.value, event.rampDurationSampleFrames);
-    }
+  void doParameterEvent(const AUParameterEvent& event) noexcept {
+    setParameterValue(event.parameterAddress, event.value, event.rampDurationSampleFrames);
   }
 
   void doRendering(NSInteger outputBusNumber, DSPHeaders::BusBuffers ins, DSPHeaders::BusBuffers outs,

@@ -49,7 +49,7 @@
 }
 
 - (void)set:(AUParameter *)parameter value:(AUValue)value {
-  kernel_->setParameterValue(parameter.address, value);
+  kernel_->setParameterValue(parameter.address, value, 0);
 }
 
 - (AUValue)get:(AUParameter *)parameter { return kernel_->getParameterValue(parameter.address); }
