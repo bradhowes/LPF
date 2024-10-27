@@ -4,12 +4,13 @@
 
 @import ParameterAddress;
 
-void Kernel::setParameterValue(AUParameterAddress address, AUValue value, AUAudioFrameCount duration) noexcept {
+bool Kernel::setParameterValue(AUParameterAddress address, AUValue value, AUAudioFrameCount duration) noexcept {
   os_log_with_type(log_, OS_LOG_TYPE_DEBUG, "setRampedParameterValue - %llul %f %d", address, value, duration);
   switch (address) {
-    case ParameterAddressCutoff: cutoff_.set(value, duration); break;
-    case ParameterAddressResonance: resonance_.set(value, duration); break;
+    case ParameterAddressCutoff: cutoff_.set(value, duration); return true;
+    case ParameterAddressResonance: resonance_.set(value, duration); return true;
   }
+  return false;
 }
 
 AUValue Kernel::getParameterValue(AUParameterAddress address) const noexcept {

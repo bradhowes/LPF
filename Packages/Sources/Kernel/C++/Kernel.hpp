@@ -11,7 +11,6 @@
 #import "AcceleratedBiquadFilter.hpp"
 #import "DSPHeaders/BusBuffers.hpp"
 #import "DSPHeaders/EventProcessor.hpp"
-#import "DSPHeaders/RampingParameter.hpp"
 
 /**
  The audio processing kernel that performs low-pass filtering of an audio signal.
@@ -49,7 +48,7 @@ struct Kernel : public DSPHeaders::EventProcessor<Kernel> {
    @param value the new value for the parameter
    @param duration the number of frames to ramp to the new value
    */
-  void setParameterValue(AUParameterAddress address, AUValue value, AUAudioFrameCount duration) noexcept;
+  bool setParameterValue(AUParameterAddress address, AUValue value, AUAudioFrameCount duration) noexcept;
 
   /**
    Obtain from the kernel the current value of an AU parameter.
@@ -82,8 +81,8 @@ private:
     }
   }
 
-  void doParameterEvent(const AUParameterEvent& event) noexcept {
-    setParameterValue(event.parameterAddress, event.value, event.rampDurationSampleFrames);
+  bool doParameterEvent(const AUParameterEvent& event, AUAudioFrameCount rampDuration) noexcept {
+    return setParameterValue(event.parameterAddress, event.value, rampDuration);
   }
 
   void doRendering(NSInteger outputBusNumber, DSPHeaders::BusBuffers ins, DSPHeaders::BusBuffers outs,
@@ -100,8 +99,8 @@ private:
   AUValue sampleRate_;
   AUValue nyquistFrequency_;
   AUValue nyquistPeriod_;
-  DSPHeaders::Parameters::RampingParameter<AUValue> cutoff_;
-  DSPHeaders::Parameters::RampingParameter<AUValue> resonance_;
+  DSPHeaders::Parameters::Float cutoff_;
+  DSPHeaders::Parameters::Float resonance_;
   std::string name_;
   os_log_t log_;
 };

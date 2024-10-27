@@ -75,5 +75,5 @@ let package = Package(
       dependencies: ["Parameters"]
     ),
   ],
-  cxxLanguageStandard: .cxx17
+  cxxLanguageStandard: .cxx20
 )
