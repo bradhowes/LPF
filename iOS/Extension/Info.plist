@@ -17,7 +17,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>$(AU_BASE_NAME)</string>
+	<string>SimplyLowPass</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>CFBundleExecutable</key>
 	<string>$(AU_BASE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -42,7 +44,7 @@
 			<array>
 				<dict>
 					<key>description</key>
-					<string>$(AU_BASE_NAME)</string>
+					<string>SimplyLowPass</string>
 					<key>factoryFunction</key>
 					<string>$(AU_FACTORY_FUNCTION)</string>
 					<key>manufacturer</key>
