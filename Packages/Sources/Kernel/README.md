@@ -7,6 +7,9 @@ the actual work is performed in classes defined in C++ header files. There is an
 
 - [KernelBridge](include/KernelBridge.h) -- provides simple interface in Obj-C for the kernel.
 - [C++](C++/Kernel.hpp) -- the C++ header file that performs the actual sample rendering.
+- [BiquadFilter](C++/AcceleratedBiquadFilter.hpp) -- the C++ class that manages the low-pass
+filter using [Apple's accelerated
+framework](https://developer.apple.com/documentation/accelerate/vdsp/single-channel_biquadratic_filters)
 
 Note that many of the include files it uses are found in the `AUv3-DSP-Headers` library that comes from the
 [AUv3Support](https://github.com/bradhowes/AUv3Support) package.

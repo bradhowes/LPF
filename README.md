@@ -1,127 +1,99 @@
-[![CI](https://github.com/bradhowes/AUv3Template/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/bradhowes/AUv3Template/actions/workflows/CI.yml)
+![CI](https://github.com/bradhowes/LPF/workflows/CI/badge.svg?branch=main)
 [![Swift 5.5](https://img.shields.io/badge/Swift-5.5-orange.svg?style=flat)](https://swift.org)
-[![AUv3](https://img.shields.io/badge/AudioUnit-AUv3-orange.svg)](https://developer.apple.com/documentation/audiounit)
+[![AUv3](https://img.shields.io/badge/AUv3-green.svg)](https://developer.apple.com/documentation/audiotoolbox/audio_unit_v3_plug-ins)
 [![License: MIT](https://img.shields.io/badge/License-MIT-A31F34.svg)](https://opensource.org/licenses/MIT)
 
-![](macOS/App/Assets.xcassets/AppIcon.appiconset/256px.png)
+![](macOS/App/Assets.xcassets/AppIcon.appiconset/512px.png)
 
-# About AUv3Template
+# About SimplyLowPass
 
-This is full-featured AUv3 effect template for both iOS and macOS platforms. When configured, it will build an
-app for each platform and embed in the app bundle an app extension containing the AUv3 component. The apps are designed
-to load the AUv3 component the same way as a host such as GarageBand would. It uses the extension to demonstrate how it
-works by playing a sample audio file and routing it through the effect and out to the device's speaker. The host
-app also supports user and factory presets. User presets can be created, updated, renamed and deleted. Factory
-presets can only be activated.
+This project is an adaptation of Apple's [Creating Custom Audio
+Effects](https://developer.apple.com/documentation/audiotoolbox/audio_unit_v3_plug-ins/creating_custom_audio_effects)
+project. Much has been retooled for a better experience and code understanding, as well as various bug fixes. You can
+find Apple's original README [here](Documentation/APPLE_README.md)
 
-Additional features and info:
+The gist is still the same as in the original:
 
-* Uses a C++ kernel to generate audio samples in the render thread
-* Provides a *very* tiny Objective-C (Objective-C++ really) wrapper for access to the kernel from Swift code
-* Uses Swift for all UI and all audio unit work not associated with sample rendering
+* use an Objective-C/C++ kernel for audio sample manipulation in the render thread
+* provide a tiny Objective-C interface to the kernel for Swift access
+* perform all UI and most audio unit work in Swift on the main thread
+* communicate between kernel and UI using AUParameterTree
 
-The code was developed in Xcode 12.4 on macOS 11.2.1. I have tested on both macOS and iOS devices primarily in
-GarageBand, but also using test hosts on both devices as well as the excellent
+Unlike Apple's example, this one uses the [Accelerate](https://developer.apple.com/documentation/accelerate)
+framework to perform the filtering (Apple's code clearly shows you what the Biquadratic IIR filter does, just in
+a slightly less performant way).
+
+The code was developed in Xcode 11.5 on macOS 10.15.5. I have tested on both macOS and iOS devices primarily in
+GarageBand and Logic, but also using test hosts on both devices as well as the excellent
 [AUM](https://apps.apple.com/us/app/aum-audio-mixer/id1055636344) app on iOS.
 
 Finally, it passes all
 [auval](https://developer.apple.com/library/archive/documentation/MusicAudio/Conceptual/AudioUnitProgrammingGuide/AudioUnitDevelopmentFundamentals/AudioUnitDevelopmentFundamentals.html)
-tests:
+tests. (`auval -v aufx lpas BRay`)
 
-```bash
-% auval -v aufx flng BRay
-```
+If you are interested in making your own AUv3 components, feel free to fork this and adapt to your needs. However a
+better option might be to check out my [AUv3Template](https://github.com/bradhowes/AUv3Template) repo which provides the
+same base functionality in iOS and macOS but allows for easier customization via the included `build.py` Python script.
 
-Here `flng` is the unique component subtype for my [SimplyFlange](https://github.com/bradhowes/SimplyFlange)
-effect and `BRay` is my own manufacturer ID. You should use your own values that you put in
-[Configuration/Common.xcconfig](Configuration/Common.xcconfig).
+## Demo Targets
 
-# Generating a new AUv3 Project
+The macOS and iOS apps are simple AUv3 hosts that demonstrate the functionality of the AUv3 component. In the AUv3
+world, an app serves as a delivery mechanism for an app extension like AUv3. When the app is installed, the operating
+system will also install and register any app extensions found in the app.
 
-Note that this **is** a template, and as such it may not successfully run when compiled. The best bet is to use the
-Python3 [build.py](scripts/build.py) script to create a new project from the template. To do so, fire up a terminal
-shell and go into the _AUV3Template_ directory. The script takes two arguments:
+The `SimplyLowPass` apps attempt to instantiate the AUv3 component and wire it up to an audio file player and the output
+speaker. When it runs, you can play the sample file and manipulate the filter settings -- cutoff frequency in the
+horizontal direction and resonance in the vertical. There are also a collection of factory presets that you can choose
+which will apply canned settings. On macOS these are available via the `Presets` menu; on iOS there is a segment control
+that you can touch to change to a given factory preset.
 
-- the name of the new project
-- the _subtype_ of the effect
+Finally, the AUv3 component supports user-defined presets, and the simple host apps offer a way to create, update, 
+rename, and delete them. On macOS, these functions are at the top of the `Presets` menu, followed by the factory
+presets, and then any user-defined presets (there is also a button on the window that shows the same menu). The iOS app
+offers the same functionality in a pop-up menu to the right of the factory presets segmented control.
 
-You would run it like this:
+## Code Layout
 
-```bash
-% python3 scripts/build.py MyEffect subtype
-```
+Both [macOS](macOS) and [iOS](iOS) have the same code layout:
 
-The name value should be self-evident in purpose: it will be the name of your iOS and macOS app, and the basis for the
-name of your app extensions. The _subtype_ is a unique 4-character identifier for your new effect. It should be unique
-at least for your manufacturer space (see [Configuration/Common.xcconfig](Configuration/Common.xcconfig)) so that it
-will not conflict with another app extension.
+* `App` -- code and configury for the application that hosts the AUv3 app extension. Again, the app serves as a demo
+host for the AUv3 app extension.
+* `Extension` -- code and configuration for the extension itself
 
-With a project name called "MyEffect", the Python3 script will creates new folder called _MyEffect_ that is a sibling to
-your _AUv3Template_ folder. The script will populate the new folder with the files from this template.
-Afterwards you should have a working AUv3 effect embedded in demo apps for iOS and macOS. All files with
-`Testing101` in them will be replaced with the first argument given to `build.py` (e.g. "MyEffect"), and all text
-files will be changed so that the strings `Testing101` and `T101` are replaced with their respective substitutions
-that you provided.
+The common code is found in various Swift packages under [Packages](Packages) -- including the Objective-C++ kernel
+code. There are six packages:
 
-Note that to successfully compile you will need to edit
-[Configuration/Common.xcconfig](Configuration/Common.xcconfig) and change `DEVELOPMENT_TEAM` to hold your own
-Apple developer account ID so you can sign the binaries. You should also adjust other settings as well to
-properly identify you and/or your company.
+* [Kernel](Packages/Sources/Kernel/README.md) -- holds the signal processing kernel that does the rendering
+* [KernelBridge](Packages/Sources/KernelBridge/README.md) -- a tiny Objective-C class for Swift bridging
+* [ParameterAddress](Packages/Sources/ParameterAddress/README.md) -- holds the parameter IDs and definitions for
+the kernel controls
+* [Parameters](Packages/Sources/Parameters/README.md) -- holds the parameter collection which includes the list of factory presets
+* [Theme](Packages/Sources/Theme -- some attributes that affect the display of the app and app extensions.
+* [UI](Packages/Sources/UI/README.md) -- the graphical display for the kernel used by both the macOS and iOS extensions
 
-There are additional values in this file that you really should change, especially to remove any risk of
-collision with other AUv3 effects you may have on your system.
+The apps and AUv3 app extensions depend on my Swift package [AUv3Support](https://github.com/bradhowes/AUv3Support)
+which provides a common AUv3 hosting environment for both iOS and macOS as well as a common infrastructure for any AUv3
+filter component.
 
-> :warning: You are free to use the code according to [LICENSE.md](LICENSE.md), but you must not replicate
-> someone's UI, icons, samples, or any other assets if you are going to distribute your effect on the App Store.
+# Examples
 
-## fastlane
+Here is LPF shown running in GarageBand on macOS:
 
-The project will also be setup to generate screenshots using [fastlane](https://github.com/fastlane/fastlane).
-However, you will still need to *install* fastlane if you don't already have it. I used:
+![](Documentation/GarageBand1.png)
 
-```bash
-% brew install fastlane
-```
+For the LPF AUv3 Audio Unit to be available for use in GarageBand or any other Audio Unit "host" application,
+the LPF app must be built and (probably) run. The macOS will detect the app extension declared in the app, and
+register it for use by any other application that wants to work with AUv3 Audio Unit components.
 
-but there are other (better?) ways described in the [fastlane docs](https://docs.fastlane.tools).
+The same applies to iOS Audio Units. First, build and then run the app on a device (simulators can run the app,
+but you won't be able to run GarageBand or AUM there.) Next, fire up your host app, and you should be able to
+add LPF as a signal processing effect.
 
-# App Targets
+![](Documentation/GarageBand2.jpg)
 
-The macOS and iOS apps are simple AUv3 hosts that demonstrate the functionality of the AUv3 component. In the
-AUv3 world, an app serves as a delivery mechanism for an app extension like AUv3. When the app is installed, the
-operating system will also install and register any app extensions found in the app.
+On GarageBand for iOS, there are three buttons in blue at the bottom of the AudioUnit view. The one on the left
+("Warm") shows the current preset, and clicking on it will let you change it or let you save the current
+settings to a new one. The two buttons on the right let you show an alternate control view (one provided by
+GarageBand itself), and expand the existing view to use the entire height of the display.
 
-The apps attempt to instantiate the AUv3 component and wire it up to an audio file player and the output
-speaker. When it runs, you can play the sample file and manipulate the effects settings in the components UI.
-
-# Code Layout
-
-Each OS ([macOS](macOS) and [iOS](iOS)) has the same code layout:
-
-* `App` -- code and configury for the application that hosts the AUv3 app extension
-* `Extension` -- code and configury for the extension itself. It contains the OS-specific UI layout
-  definitions.
-
-All of the common code shared between the iOS and macOS apps and app extensions resides in the [Packages](Packages)
-folder as Swift packages. Originally, this common code was built as a shared framework, but now Swift packages are
-powerful enough to do the same. There are at present 5 separate libraries that are built in package form:
-
-* [Kernel](Packages/Sources/Kernel) -- the C++ and Obj-C++ code that renders audio samples
-* [KernelBridge](Packages/Sources/KernelBridge) -- a bridge to the Obj-C++ kernel for Swift code
-* [ParameterAddress](Packages/Sources/ParameterAddress) -- definitions of the runtime parameters that control the
-operation of the kernel
-* [Parameters](Packages/Sources/Parameters) -- collection of AUParameter entities based on the definitions from
-the `ParameterAddress` library. Also provides factory presets for the audio unit.
-* [Theme](Packages/Sources/Theme) -- lame attempt at sharing resources in a package. Unfortunately, right now it does not work well with
-Xcode. For instance, Xcode will not see/use fonts nor color sets that are recorded in this package. I do not know of a way to work around
-this issue other than to copy the resources to a folter outside of the package hierarchy and flag them as belonging to both executables.
-
-There are additional details in the individual `README` files in the above folders as well.
-
-# Dependencies
-
-This code now depends on two Swift packages:
-
-- [AUv3Support](https://github.com/bradhowes/AUv3Support) -- common AUv3 component and host code. Much of the code that
-was originally in a shared framework in this repo is now in this separate package.
-- [Knob](https://github.com/bradhowes/knob) -- a simple library for macOS and iOS that generates rotary "knob" controls
+![](Documentation/GarageBand3.jpg)
