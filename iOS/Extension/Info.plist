@@ -19,7 +19,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>$(AU_BASE_NAME)</string>
 	<key>CFBundleExecutable</key>
-	<string>$(AU_BASE_NAME)AU</string>
+	<string>$(AU_BASE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
