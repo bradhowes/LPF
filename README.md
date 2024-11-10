@@ -63,13 +63,13 @@ host for the AUv3 app extension.
 The common code is found in various Swift packages under [Packages](Packages) -- including the Objective-C++ kernel
 code. There are six packages:
 
-* [Kernel](Packages/Sources/Kernel/README.md) -- holds the signal processing kernel that does the rendering
-* [KernelBridge](Packages/Sources/KernelBridge/README.md) -- a tiny Objective-C class for Swift bridging
-* [ParameterAddress](Packages/Sources/ParameterAddress/README.md) -- holds the parameter IDs and definitions for
+* [Kernel](Packages/Sources/Kernel) -- holds the signal processing kernel that does the rendering
+* [KernelBridge](Packages/Sources/KernelBridge) -- a tiny Objective-C class for Swift bridging
+* [ParameterAddress](Packages/Sources/ParameterAddress) -- holds the parameter IDs and definitions for
 the kernel controls
-* [Parameters](Packages/Sources/Parameters/README.md) -- holds the parameter collection which includes the list of factory presets
-* [Theme](Packages/Sources/Theme -- some attributes that affect the display of the app and app extensions.
-* [UI](Packages/Sources/UI/README.md) -- the graphical display for the kernel used by both the macOS and iOS extensions
+* [Parameters](Packages/Sources/Parameters) -- holds the parameter collection which includes the list of factory presets
+* [Theme](Packages/Sources/Theme) -- some attributes that affect the display of the app and app extensions.
+* [UI](Packages/Sources/UI) -- the graphical display for the kernel used by both the macOS and iOS extensions
 
 The apps and AUv3 app extensions depend on my Swift package [AUv3Support](https://github.com/bradhowes/AUv3Support)
 which provides a common AUv3 hosting environment for both iOS and macOS as well as a common infrastructure for any AUv3
