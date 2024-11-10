@@ -24,3 +24,9 @@ AU_COMPONENT_MANUFACTURER = BRay
 // The bundle / class that will be used to instantiate the AUv3. It must implement the `AUAudioUnitFactory`
 // protocol.
 AU_FACTORY_FUNCTION = LPF.ViewController
+
+// The "build" version -- the `bumpVersions.py -b` option sets this to a date/time stamp
+CURRENT_PROJECT_VERSION = 202411032203893
+
+// The visible version (eg. 1.2.3)
+MARKETING_VERSION = 5.0.0

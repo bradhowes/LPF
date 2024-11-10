@@ -2,9 +2,10 @@
 
 #pragma once
 
-#include <Accelerate/Accelerate.h>
-#include <cmath>
-#include <vector>
+#import <Accelerate/Accelerate.h>
+#import <cassert>
+#import <cmath>
+#import <vector>
 
 #import "DSPHeaders/BusBuffers.hpp"
 
@@ -57,7 +58,4 @@ private:
   float lastFrequency_ = -1.0;
   float lastResonance_ = 1E10;
   size_t lastNumChannels_ = 0;
-
-  float threshold_ = 0.05;
-  float updateRate_ = 0.4;
 };

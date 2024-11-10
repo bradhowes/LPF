@@ -15,16 +15,19 @@ private extension Array where Element == AUParameter {
  */
 public final class Parameters: NSObject, ParameterSource {
 
-  private let log = Shared.logger("Parameters")
+  private lazy var log = Shared.logger("Parameters")
 
   /// Array of AUParameter entities created from ParameterAddress value definitions.
   public let parameters: [AUParameter] = ParameterAddress.allCases.map { $0.parameterDefinition.parameter }
 
   /// Array of 2-tuple values that pair a factory preset name and its definition
   public let factoryPresetValues: [(name: String, preset: Configuration)] = [
-    ("Prominent", .init(cutoff: 2500.0, resonance: 5.0)),
-    ("Bright", .init(cutoff: 14000.0, resonance: 12.0)),
-    ("Warm", .init(cutoff: 384.0, resonance: -3.0))
+    ("Prominent", .init(cutoff: 2_500.0, resonance: 5.0)),
+    ("Bright", .init(cutoff: 14_000.0, resonance: 12.0)),
+    ("Warm", .init(cutoff: 384.0, resonance: -3.0)),
+    ("Ghosting", .init(cutoff: 491.87, resonance: 27.8)),
+    ("Smothered", .init(cutoff: 195.66, resonance: 36.86)),
+    ("Ringing", .init(cutoff: 1_100, resonance: 38.65))
   ]
 
   /// Array of `AUAudioUnitPreset` for the factory presets.
@@ -91,7 +94,7 @@ extension Parameters {
   }
 }
 
-extension AUParameter: AUParameterFormatting {
+extension AUParameter: @retroactive AUParameterFormatting {
 
   public var unitSeparator: String { " " }
 

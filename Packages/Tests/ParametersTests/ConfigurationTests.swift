@@ -4,9 +4,9 @@ import XCTest
 final class ConfigurationTests: XCTestCase {
 
   func testInit() throws {
-    
-    let a = Configuration(cutoff: 1.0, resonance: 2.0)
-    XCTAssertEqual(a.cutoff, 1.0)
-    XCTAssertEqual(a.resonance, 2.0)
+
+    let a = Configuration(cutoff: 1579.0, resonance: 12.3)
+    XCTAssertEqual(a.cutoff, 1579.0)
+    XCTAssertEqual(a.resonance, 12.3)
   }
 }

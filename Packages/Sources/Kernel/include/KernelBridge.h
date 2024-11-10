@@ -7,11 +7,16 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Small Obj-C bridge between Swift and the C++ kernel classes. The `Bridge` package contains the actual adoption of the
- `AUParameterHandler` and `AudioRenderer` protocols.
+ Small Obj-C bridge between Swift and the C++ kernel classes. The `KernelBridge` Swift package
+ contains the actual adoption of the `AUParameterHandler` and `AudioRenderer` protocols.
  */
 @interface KernelBridge : NSObject
 
+/**
+ Create a new instance.
+
+ @param appExtensionName the name of the app extension where this audio unit resides. Only used for logging.
+ */
 - (nonnull id)init:(NSString*)appExtensionName;
 
 @end
@@ -22,12 +27,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Configure the kernel for new format and max frame in preparation to begin rendering
 
- @param busCount number of busses the kernel must support
+ @param busCount number of busses that the kernel must support
  @param inputFormat the current format of the input bus
  @param maxFramesToRender the max frames to expect in a render request
  */
 - (void)setRenderingFormat:(NSInteger)busCount format:(AVAudioFormat*)inputFormat
-         maxFramesToRender:(AUAudioFrameCount)maxFrames;
+         maxFramesToRender:(AUAudioFrameCount)maxFramesToRender;
 
 /**
  Stop processing, releasing any resources used to support rendering.
@@ -39,6 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 
  @returns AUInternalRenderBlock instance
  */
+// - (AUInternalRenderBlock)internalRenderBlock;
+
 - (AUInternalRenderBlock)internalRenderBlock;
 
 /**

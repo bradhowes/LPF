@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.9
 
 import PackageDescription
 
@@ -10,36 +10,41 @@ let package = Package(
     .library(name: "Kernel", targets: ["Kernel"]),
     .library(name: "Parameters", targets: ["Parameters"]),
     .library(name: "ParameterAddress", targets: ["ParameterAddress"]),
+    .library(name: "Theme", targets: ["Theme"]),
     .library(name: "UI", targets: ["UI"])
   ],
   dependencies: [
-    .package(name: "AUv3SupportPackage", url: "https://github.com/bradhowes/AUv3Support", branch: "main"),
+    .package(url: "https://github.com/bradhowes/AUv3Support", from: "13.0.0"),
+    // .package(path: "/Users/howes/src/Mine/AUv3Support")
   ],
   targets: [
     .target(
       name: "UI",
-      dependencies: [.productItem(name: "AUv3-Support", package: "AUv3SupportPackage", condition: .none),
+      dependencies: [.product(name: "AUv3-Support", package: "AUv3Support", condition: .none),
                      "Kernel",
                      "KernelBridge",
                      "ParameterAddress",
                      "Parameters"
                     ],
-      exclude: ["README.md"],
+      exclude: ["README.md"]
+    ),
+    .target(
+      name: "Theme",
       resources: [.process("Resources")]
     ),
     .target(
       name: "KernelBridge",
       dependencies: [
         "Kernel",
-        .productItem(name: "AUv3-Support", package: "AUv3SupportPackage", condition: .none),
+        .product(name: "AUv3-Support", package: "AUv3Support", condition: .none),
       ],
       exclude: ["README.md"]
     ),
     .target(
       name: "Kernel",
       dependencies: [
-        .productItem(name: "AUv3-Support", package: "AUv3SupportPackage", condition: .none),
-        .productItem(name: "AUv3-DSP-Headers", package: "AUv3SupportPackage", condition: .none),
+        .product(name: "AUv3-Support", package: "AUv3Support", condition: .none),
+        .product(name: "AUv3-DSP-Headers", package: "AUv3Support", condition: .none),
         "ParameterAddress"
       ],
       exclude: ["README.md"],
@@ -48,14 +53,14 @@ let package = Package(
     .target(
       name: "ParameterAddress",
       dependencies: [
-        .productItem(name: "AUv3-Support", package: "AUv3SupportPackage", condition: .none),
+        .product(name: "AUv3-Support", package: "AUv3Support", condition: .none),
       ],
       exclude: ["README.md"]
     ),
     .target(
       name: "Parameters",
       dependencies: [
-        .productItem(name: "AUv3-Support", package: "AUv3SupportPackage", condition: .none),
+        .product(name: "AUv3-Support", package: "AUv3Support", condition: .none),
         "Kernel"
       ],
       exclude: ["README.md"]

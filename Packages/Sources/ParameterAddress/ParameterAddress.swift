@@ -31,6 +31,7 @@ extension ParameterAddress: ParameterAddressProvider {
   public var parameterAddress: AUParameterAddress { UInt64(self.rawValue) }
 }
 
+/// Allow UI elements with a `tag` to hold ParameterAddress values
 public extension ParameterAddressHolder {
 
   func setParameterAddress(_ address: ParameterAddress) { parameterAddress = address.rawValue }

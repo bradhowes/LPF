@@ -1,10 +1,10 @@
 import XCTest
 import AUv3Support
 import Kernel
-@testable import ParameterAddress
 import Parameters
+import ParameterAddress
 
-final class ParametersTests: XCTestCase {
+final class ParameterTests: XCTestCase {
 
   func testParameterAddress() throws {
     XCTAssertEqual(ParameterAddress.cutoff.rawValue, 0)

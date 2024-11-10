@@ -12,7 +12,7 @@ import os.log
  new HostViewManager with it. It is this class that does all of the work.
  */
 final class MainViewController: NSViewController {
-  private let log = Shared.logger("MainViewController")
+  private lazy var log = Shared.logger("MainViewController")
 
   @IBOutlet weak var containerView: NSView!
   @IBOutlet weak var loadingText: NSTextField!
@@ -28,18 +28,12 @@ extension MainViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.makeHostViewManager()
+
+    // When the window appears, we should be able to access all of the items from the storyboard.
+    windowObserver = view.observe(\.window) { _, _ in self.makeHostViewManager() }
   }
 
-  private func makeHostViewManager() {
-
-    // We can only connect up a HostViewManager when all the pieces are available, and when `view.window` is set appears
-    // to be as good as anything else to use as a signal to continue.
-    guard view.window != nil else {
-      windowObserver = view.observe(\.window) { _, _ in self.makeHostViewManager() }
-      return
-    }
-
+  func makeHostViewManager() {
     guard let appDelegate = appDelegate,
           appDelegate.presetsMenu != nil,
           let windowController = windowController

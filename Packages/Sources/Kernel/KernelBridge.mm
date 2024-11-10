@@ -4,22 +4,27 @@
 
 #import "C++/AcceleratedBiquadFilter.hpp"
 #import "C++/Kernel.hpp"
-#import "Kernel.h"
+#import "KernelBridge.h"
 
 @implementation KernelBridge {
   Kernel* kernel_;
+  AcceleratedBiquadFilter* filter_;
 }
 
 - (instancetype)init:(NSString*)appExtensionName {
   if (self = [super init]) {
     self->kernel_ = new Kernel(std::string(appExtensionName.UTF8String));
+
+    // We have our own copy of the low-pass filter that we use for generating magnitude plots since the one held by
+    // the kernel could be changing while we access it.
+    self->filter_ = new AcceleratedBiquadFilter();
   }
   return self;
 }
 
 - (void)setRenderingFormat:(NSInteger)busCount format:(AVAudioFormat*)inputFormat
-         maxFramesToRender:(AUAudioFrameCount)maxFrames {
-  kernel_->setRenderingFormat(busCount, inputFormat, maxFrames);
+         maxFramesToRender:(AUAudioFrameCount)maxFramesToRender {
+  kernel_->setRenderingFormat(busCount, inputFormat, maxFramesToRender);
 }
 
 - (void)deallocateRenderResources { kernel_->deallocateRenderResources(); }
@@ -36,20 +41,21 @@
 - (void)setBypass:(BOOL)state { kernel_->setBypass(state); }
 
 - (void)magnitudes:(nonnull const float*)frequencies count:(NSInteger)count output:(nonnull float*)output {
-  AcceleratedBiquadFilter filter;
-  filter.calculateParams(kernel_->cutoff(), kernel_->resonance(), kernel_->nyquistPeriod(), 1);
-  filter.magnitudes(frequencies, count, kernel_->nyquistPeriod(), output);
+  filter_->calculateParams(kernel_->cutoff(), kernel_->resonance(), kernel_->nyquistPeriod(), 1);
+  filter_->magnitudes(frequencies, count, kernel_->nyquistPeriod(), output);
 }
 
 - (AUImplementorValueObserver)parameterValueObserverBlock {
+  __block auto kernel = kernel_;
   return ^(AUParameter* parameter, AUValue value) {
-    kernel_->setParameterValue(parameter.address, value, 0);
+    kernel->setParameterValue(parameter.address, value);
   };
 }
 
 - (AUImplementorValueProvider)parameterValueProviderBlock {
-  return ^AUValue(AUParameter* parameter) {
-    return kernel_->getParameterValue(parameter.address);
+  __block auto kernel = kernel_;
+  return ^AUValue(AUParameter* address) {
+    return kernel->getParameterValue(address.address);
   };
 }
 

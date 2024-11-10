@@ -11,6 +11,7 @@
 #import "AcceleratedBiquadFilter.hpp"
 #import "DSPHeaders/BusBuffers.hpp"
 #import "DSPHeaders/EventProcessor.hpp"
+#import "DSPHeaders/Parameters/Float.hpp"
 
 /**
  The audio processing kernel that performs low-pass filtering of an audio signal.
@@ -24,8 +25,10 @@ struct Kernel : public DSPHeaders::EventProcessor<Kernel> {
 
    @param name the name to use for logging purposes.
    */
-  Kernel(std::string name) noexcept : super(), log_{os_log_create(name_.c_str(), "Kernel")}
+  Kernel(std::string name) noexcept : super(), log_{os_log_create(name.c_str(), "Kernel")}
   {
+    registerParameter(cutoff_);
+    registerParameter(resonance_);
     initialize(2, 44100.0);
   }
 
@@ -41,66 +44,94 @@ struct Kernel : public DSPHeaders::EventProcessor<Kernel> {
     initialize(format.channelCount, format.sampleRate);
   }
 
-  /**
-   Process an AU parameter value change by updating the kernel.
+  AUValue nyquistPeriod() const noexcept { return nyquistPeriod_; }
 
-   @param address the address of the parameter that changed
-   @param value the new value for the parameter
-   @param duration the number of frames to ramp to the new value
-   */
-  bool setParameterValue(AUParameterAddress address, AUValue value, AUAudioFrameCount duration) noexcept;
+  AUValue cutoff() const noexcept { return cutoff_.getPending(); }
 
-  /**
-   Obtain from the kernel the current value of an AU parameter.
+  AUValue resonance() const noexcept { return resonance_.getPending(); }
 
-   @param address the address of the parameter to return
-   @returns current parameter value
-   */
-  AUValue getParameterValue(AUParameterAddress address) const noexcept;
-
-  AUValue cutoff() const noexcept { return cutoff_.get(); }
-
-  AUValue resonance() const noexcept { return resonance_.get(); }
-
-  float nyquistPeriod() const noexcept { return nyquistPeriod_; }
+  os_log_t log() const noexcept { return log_; }
 
 private:
 
   void initialize(int channelCount, double sampleRate) noexcept {
     os_log_info(log_, "initialize BEGIN channelCount: %d sampleRate: %f", channelCount, sampleRate);
-    sampleRate_ = sampleRate;
-    nyquistFrequency_ = 0.5 * sampleRate;
-    nyquistPeriod_ = 1.0 / nyquistFrequency_;
-    filter_.calculateParams(cutoff_.get(), resonance_.get(), nyquistPeriod_, channelCount);
+    auto nyquistFrequency = 0.5 * sampleRate;
+    nyquistPeriod_ = 1.0 / nyquistFrequency;
+    filter_.calculateParams(cutoff_.getImmediate(), resonance_.getImmediate(), nyquistPeriod_, channelCount);
   }
 
-  void doRenderingStateChanged(bool rendering) {
-    if (!rendering) {
-      cutoff_.stopRamping();
-      resonance_.stopRamping();
-    }
-  }
+  /**
+   Set a paramete value from within the render loop.
 
-  bool doParameterEvent(const AUParameterEvent& event, AUAudioFrameCount rampDuration) noexcept {
-    return setParameterValue(event.parameterAddress, event.value, rampDuration);
-  }
+   @param address the parameter to change
+   @param value the new value to use
+   @param duration the ramping duration to transition to the new value
+   */
+  bool doSetImmediateParameterValue(AUParameterAddress address, AUValue value, AUAudioFrameCount duration) noexcept;
 
+  /**
+   Set a paramete value from the UI via the parameter tree. Will be recognized and handled in the next render pass.
+
+   @param address the parameter to change
+   @param value the new value to use
+   */
+  bool doSetPendingParameterValue(AUParameterAddress address, AUValue value) noexcept;
+
+  /**
+   Get the paramete value last set in the render thread. NOTE: this does not account for any ramping that might be in
+   effect.
+
+   @param address the parameter to access
+   @returns parameter value
+   */
+  AUValue doGetImmediateParameterValue(AUParameterAddress address) const noexcept;
+
+  /**
+   Get the paramete value last set by the UI / parameter tree. NOTE: this does not account for any ramping that might
+   be in effect.
+
+   @param address the parameter to access
+   @returns parameter value
+   */
+  AUValue doGetPendingParameterValue(AUParameterAddress address) const noexcept;
+
+  /**
+   Notification that the rendering state has changed (stopped/started).
+
+   @param rendering `true` if rendering has started
+   */
+  void doRenderingStateChanged(bool rendering) {}
+
+  /**
+   Perform rendering activity on input samples.
+
+   @param outputBusNumber the bus being written to (ignored)
+   @param ins the collection of buffers containing input samples
+   @param outs the collection of buffers for writing output samples
+   @param frameCount the number of samples to process
+   */
   void doRendering(NSInteger outputBusNumber, DSPHeaders::BusBuffers ins, DSPHeaders::BusBuffers outs,
                    AUAudioFrameCount frameCount) noexcept {
-    auto cutoff = cutoff_.frameValue();
-    auto resonance = resonance_.frameValue();
+    // Normally we would use `frameValue()` instead of `getImmediate` but we are relying on the biquad filter's ability
+    // to ramp so we always want to see the final value here.
+    auto cutoff = cutoff_.getImmediate();
+    auto resonance = resonance_.getImmediate();
     filter_.calculateParams(cutoff, resonance, nyquistPeriod_, ins.size());
     filter_.apply(ins, outs, frameCount);
   }
 
+  /**
+   Process a MIDI (v1) event.
+
+   @param midiEvent the event that was received
+   */
   void doMIDIEvent(const AUMIDIEvent& midiEvent) noexcept {}
 
   AcceleratedBiquadFilter filter_;
-  AUValue sampleRate_;
-  AUValue nyquistFrequency_;
   AUValue nyquistPeriod_;
-  DSPHeaders::Parameters::Float cutoff_;
-  DSPHeaders::Parameters::Float resonance_;
+  DSPHeaders::Parameters::Float cutoff_{0.0, false};
+  DSPHeaders::Parameters::Float resonance_{0.0, false};
   std::string name_;
   os_log_t log_;
 };
