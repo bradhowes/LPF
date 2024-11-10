@@ -25,11 +25,11 @@
   AVAudioFormat* format = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:44100.0 channels:2];
   kernel.setRenderingFormat(1, format, 100);
 
-  kernel.setParameterValuePending(ParameterAddressCutoff, 123.0);
-  XCTAssertEqualWithAccuracy(kernel.getParameterValuePending(ParameterAddressCutoff), 123.0, 0.001);
+  kernel.setParameterValue(ParameterAddressCutoff, 123.0);
+  XCTAssertEqualWithAccuracy(kernel.getParameterValue(ParameterAddressCutoff), 123.0, 0.001);
 
-  kernel.setParameterValuePending(ParameterAddressResonance, 31.5);
-  XCTAssertEqualWithAccuracy(kernel.getParameterValuePending(ParameterAddressResonance), 31.5, 0.001);
+  kernel.setParameterValue(ParameterAddressResonance, 31.5);
+  XCTAssertEqualWithAccuracy(kernel.getParameterValue(ParameterAddressResonance), 31.5, 0.001);
 }
 
 - (void)testBiquadFilterMagnatudes {
