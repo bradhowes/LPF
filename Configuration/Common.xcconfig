@@ -5,7 +5,7 @@ DEVELOPMENT_TEAM = UP6SS5ES7E
 APP_STORE_ID = 1553314889
 
 // The name of the AUv3 audio unit
-AU_BASE_NAME = LPF
+AU_BASE_NAME = SimplyLowPass
 
 // The component name. This is made up of a presentable manufacturer name followed by a ':' *and* a space, and
 // then the presentable component name.

@@ -49,7 +49,7 @@
 		BDE37A6427B86B9D00489EEC /* Desdemona.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BDE37A5C27B86B4B00489EEC /* Desdemona.ttf */; };
 		BDE37A6627B86EE900489EEC /* UI in Frameworks */ = {isa = PBXBuildFile; productRef = BDE37A6527B86EE900489EEC /* UI */; };
 		C433F56122404C7C00F1B750 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433F56022404C7C00F1B750 /* ViewController.swift */; };
-		C437FE712223686D008D6C09 /* LPF.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C437FE632223686D008D6C09 /* LPF.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C437FE712223686D008D6C09 /* SimplyLowPassAU.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C437FE632223686D008D6C09 /* SimplyLowPassAU.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C4660A602225F9A0007BE3B1 /* LPF.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C437FEA0222368B7008D6C09 /* LPF.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C4737B0B2231D930002CAD0B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4737B0A2231D930002CAD0B /* AudioToolbox.framework */; };
 		C4BEE7B122236A29001E6B6D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4BEE7A422236A29001E6B6D /* Assets.xcassets */; };
@@ -104,7 +104,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				C437FE712223686D008D6C09 /* LPF.appex in Embed Foundation Extensions */,
+				C437FE712223686D008D6C09 /* SimplyLowPassAU.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -159,7 +159,7 @@
 		BDF9580B276221EA00FF2878 /* SimplyLowPass.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SimplyLowPass.entitlements; sourceTree = "<group>"; };
 		C433F56022404C7C00F1B750 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C437FE3A222367A6008D6C09 /* SimplyLowPass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimplyLowPass.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C437FE632223686D008D6C09 /* LPF.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LPF.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		C437FE632223686D008D6C09 /* SimplyLowPassAU.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SimplyLowPassAU.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C437FE7A2223688D008D6C09 /* SimplyLowPass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimplyLowPass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C437FEA0222368B7008D6C09 /* LPF.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LPF.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		C44F544422260E2500484B67 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -290,7 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				C437FE3A222367A6008D6C09 /* SimplyLowPass.app */,
-				C437FE632223686D008D6C09 /* LPF.appex */,
+				C437FE632223686D008D6C09 /* SimplyLowPassAU.appex */,
 				C437FE7A2223688D008D6C09 /* SimplyLowPass.app */,
 				C437FEA0222368B7008D6C09 /* LPF.appex */,
 				BD1D257625D5AAB000523748 /* Snapshots.xctest */,
@@ -471,7 +471,7 @@
 				BD3AB2D027BBED2900E9012B /* AUv3-Support */,
 			);
 			productName = "AUv3FilterExtension iOS";
-			productReference = C437FE632223686D008D6C09 /* LPF.appex */;
+			productReference = C437FE632223686D008D6C09 /* SimplyLowPassAU.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		C437FE792223688D008D6C09 /* macOS App */ = {
@@ -942,7 +942,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.SimplyLowPass;
 				PRODUCT_NAME = SimplyLowPass;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
@@ -1012,8 +1012,8 @@
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.appex;
-				PRODUCT_NAME = LPF;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.SimplyLowPass.appex;
+				PRODUCT_NAME = SimplyLowPassAU;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1278,7 +1278,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.SimplyLowPass;
 				PRODUCT_NAME = SimplyLowPass;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
@@ -1354,8 +1354,8 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.LPF.appex;
-				PRODUCT_NAME = LPF;
+				PRODUCT_BUNDLE_IDENTIFIER = com.braysoftware.SimplyLowPass.appex;
+				PRODUCT_NAME = SimplyLowPassAU;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
