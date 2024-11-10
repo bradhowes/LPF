@@ -40,7 +40,7 @@ AcceleratedBiquadFilter::calculateParams(float frequency, float resonance, float
     if (setup_ != nullptr) vDSP_biquadm_DestroySetup(setup_);
     setup_ = vDSP_biquadm_CreateSetup(F_.data(), 1, numChannels);
   }
-
+  
   lastFrequency_ = frequency;
   lastResonance_ = resonance;
   lastNumChannels_ = numChannels;

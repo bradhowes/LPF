@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1600"
+   LastUpgradeVersion = "1610"
    version = "2.0">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "C437FE9F222368B7008D6C09"
-               BuildableName = "LPF.appex"
+               BuildableName = "SimplyLowPassAU.appex"
                BlueprintName = "macOS Extension"
-               ReferencedContainer = "container:LPF.xcodeproj">
+               ReferencedContainer = "container:SimplyLowPass.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,7 +31,7 @@
                BlueprintIdentifier = "C437FE792223688D008D6C09"
                BuildableName = "SimplyLowPass.app"
                BlueprintName = "macOS App"
-               ReferencedContainer = "container:LPF.xcodeproj">
+               ReferencedContainer = "container:SimplyLowPass.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,62 +45,12 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE9F222368B7008D6C09"
-            BuildableName = "LPF.appex"
+            BuildableName = "SimplyLowPassAU.appex"
             BlueprintName = "macOS Extension"
-            ReferencedContainer = "container:LPF.xcodeproj">
+            ReferencedContainer = "container:SimplyLowPass.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AUv3SupportTests"
-               BuildableName = "AUv3SupportTests"
-               BlueprintName = "AUv3SupportTests"
-               ReferencedContainer = "container:../AUv3Support">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DSPHeadersTests"
-               BuildableName = "DSPHeadersTests"
-               BlueprintName = "DSPHeadersTests"
-               ReferencedContainer = "container:../AUv3Support">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "KernelTests"
-               BuildableName = "KernelTests"
-               BlueprintName = "KernelTests"
-               ReferencedContainer = "container:Packages">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ParameterAddressTests"
-               BuildableName = "ParameterAddressTests"
-               BlueprintName = "ParameterAddressTests"
-               ReferencedContainer = "container:Packages">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ParametersTests"
-               BuildableName = "ParametersTests"
-               BlueprintName = "ParametersTests"
-               ReferencedContainer = "container:Packages">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -128,9 +78,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C437FE9F222368B7008D6C09"
-            BuildableName = "LPF.appex"
+            BuildableName = "SimplyLowPassAU.appex"
             BlueprintName = "macOS Extension"
-            ReferencedContainer = "container:LPF.xcodeproj">
+            ReferencedContainer = "container:SimplyLowPass.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </LaunchAction>
@@ -147,7 +97,7 @@
             BlueprintIdentifier = "C437FE792223688D008D6C09"
             BuildableName = "SimplyLowPass.app"
             BlueprintName = "macOS App"
-            ReferencedContainer = "container:LPF.xcodeproj">
+            ReferencedContainer = "container:SimplyLowPass.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

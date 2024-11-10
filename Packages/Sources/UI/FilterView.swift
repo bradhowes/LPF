@@ -589,13 +589,13 @@ private extension FilterView {
         case .cutoffLabel:
           guard let label = layer as? CATextLayer else { fatalError() }
           label.string = self.frequencyValue(cutoff)
-          if pos.x < halfWidth {
-            label.alignmentMode = .left
-            layer.frame = CGRect(x: pos.x + 10, y: height - 20.0, width: 100.0, height: 30.0)
-          } else {
-            label.alignmentMode = .right
-            layer.frame = CGRect(x: pos.x - 110, y: height - 20.0, width: 100.0, height: 30.0)
-          }
+            if pos.x < halfWidth {
+              label.alignmentMode = .left
+              layer.frame = CGRect(x: pos.x + 10, y: height - 20.0, width: 100.0, height: 30.0)
+            } else {
+              label.alignmentMode = .right
+              layer.frame = CGRect(x: pos.x - 110, y: height - 20.0, width: 100.0, height: 30.0)
+            }
 
         case .resonanceLabel:
           guard let label = layer as? CATextLayer else { fatalError() }

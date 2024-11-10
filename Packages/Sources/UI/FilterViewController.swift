@@ -43,7 +43,7 @@ extension FilterViewController {
   public func setFilterView(_ view: FilterView) {
     filterView = view
   }
-
+  
   open override func viewDidLoad() {
     os_log(.info, log: log, "viewDidLoad BEGIN")
     precondition(filterView != nil, "setFilterView must be called before viewDidLoad")

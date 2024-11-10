@@ -93,11 +93,10 @@ function buildTestDeploy # SCHEME DESTINATION
 {
     local SCHEME="${1}"
     local DESTINATION="${2}"
-    set -- $(date +'%Y-%m-%d %H,%M')
-    local DATE="$1"
-    local HHMM="$2"
+    local DATE=$(date +'%Y-%m-%d')
+    local HHMM=$(date '%H.%M')
     local ARCHIVE_DIR="${HOME}/Library/Developer/Xcode/Archives/${DATE}"
-    local ARCHIVE="${ARCHIVE_DIR}/${SCHEME} ${DATE}, ${HHMM}.xcarchive"
+    local ARCHIVE="${ARCHIVE_DIR}/${SCHEME} ${DATE},${HHMM}.xcarchive"
 
     mkdir -p "${ARCHIVE_DIR}"
 

@@ -19,7 +19,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>$(AU_BASE_NAME)</string>
 	<key>CFBundleExecutable</key>
-	<string>$(AU_BASE_NAME)</string>
+	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -43,8 +43,6 @@
 				<dict>
 					<key>description</key>
 					<string>$(AU_BASE_NAME)</string>
-					<key>factoryFunction</key>
-					<string>$(AU_FACTORY_FUNCTION)</string>
 					<key>manufacturer</key>
 					<string>$(AU_COMPONENT_MANUFACTURER)</string>
 					<key>name</key>
@@ -60,7 +58,7 @@
 					<key>type</key>
 					<string>$(AU_COMPONENT_TYPE)</string>
 					<key>version</key>
-					<real>196864</real>
+					<integer>65536</integer>
 				</dict>
 			</array>
 		</dict>
@@ -69,5 +67,9 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.AudioUnit-UI</string>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Desdemona.ttf</string>
+	</array>
 </dict>
 </plist>

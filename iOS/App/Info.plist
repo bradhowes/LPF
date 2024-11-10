@@ -4,8 +4,6 @@
 <dict>
 	<key>APP_STORE_ID</key>
 	<string>$(APP_STORE_ID)</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
 	<key>AU_BASE_NAME</key>
 	<string>$(AU_BASE_NAME)</string>
 	<key>AU_COMPONENT_MANUFACTURER</key>
@@ -20,6 +18,8 @@
 	<string>$(AU_FACTORY_FUNCTION)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>$(AU_BASE_NAME)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -34,6 +34,8 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIMainStoryboardFile</key>

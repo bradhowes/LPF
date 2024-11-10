@@ -5,7 +5,7 @@ DEVELOPMENT_TEAM = UP6SS5ES7E
 APP_STORE_ID = 1553314889
 
 // The name of the AUv3 audio unit
-AU_BASE_NAME = LPF
+AU_BASE_NAME = SimplyLowPass
 
 // The component name. This is made up of a presentable manufacturer name followed by a ':' *and* a space, and
 // then the presentable component name.
@@ -14,7 +14,8 @@ AU_COMPONENT_NAME = B-Ray: SimplyLowPass
 // The component type - auxf = effect
 AU_COMPONENT_TYPE = aufx
 
-// The component subtype. This should be unique for effects from the same manufacturer.
+// The component subtype. This should be unique for effects from the same manufacturer. For a quick demonstration,
+// set this to some 4-character tag like "abcd" (but without the quotation marks).
 AU_COMPONENT_SUBTYPE = lpas
 
 // The unique manufacturer ID. Pick your own, but values with all lowercase letters are reserved
@@ -23,10 +24,10 @@ AU_COMPONENT_MANUFACTURER = BRay
 
 // The bundle / class that will be used to instantiate the AUv3. It must implement the `AUAudioUnitFactory`
 // protocol.
-AU_FACTORY_FUNCTION = LPF.ViewController
+AU_FACTORY_FUNCTION = SimplyLowPassAU.ViewController
 
 // The "build" version -- the `bumpVersions.py -b` option sets this to a date/time stamp
-CURRENT_PROJECT_VERSION = 202411032203894
+CURRENT_PROJECT_VERSION = 202411032203898
 
 // The visible version (eg. 1.2.3)
 MARKETING_VERSION = 5.0.0
