@@ -21,7 +21,7 @@ final class MainViewController: UIViewController {
                                               componentFlags: 0, componentFlagsMask: 0)
 
     let tintColor = UIColor(named: "label")!
-    let config = HostViewConfig(name: "SimplyLowPass", version: bundle.releaseVersionNumber,
+    let config = HostViewConfig(name: bundle.auBaseName, version: bundle.releaseVersionNumber,
                                 appDelegate: delegate,
                                 appStoreId: bundle.appStoreId,
                                 componentDescription: component, sampleLoop: .sample1,
