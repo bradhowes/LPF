@@ -8,10 +8,10 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-15
     steps:
-    - uses: actions/checkout@v2
-    - name: Run iOS build
-      run: xcodebuild clean build -scheme 'iOS App' -destination 'name=iPhone 12' -showBuildTimingSummary -allowProvisioningUpdates
-    - name: Test iOS build
-      run: xcodebuild test -scheme 'iOS App' -destination 'name=iPhone 12'
+    - uses: actions/checkout@v4
+    - name: Select Xcode 16.1
+      run: sudo xcode-select -s /Applications/Xcode_16.1.app
+    - name: Build, test, and code coverage
+      run: make
