@@ -21,6 +21,8 @@ xcuserdata/
 !**/*.playground/playground.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
 
 DerivedData/
+.DerivedData-iOS/
+.DerivedData-macOS/
 
 **/*.old
 
