@@ -14,7 +14,7 @@ let package = Package(
     .library(name: "UI", targets: ["UI"])
   ],
   dependencies: [
-    .package(url: "https://github.com/bradhowes/AUv3Support", from: "13.0.0"),
+    .package(url: "https://github.com/bradhowes/AUv3Support", exact: "13.0.4"),
     // .package(path: "/Users/howes/src/Mine/AUv3Support")
   ],
   targets: [
