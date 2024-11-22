@@ -57,8 +57,8 @@ offers the same functionality in a pop-up menu to the right of the factory prese
 
 Both [macOS](macOS) and [iOS](iOS) have the same code layout:
 
-* `App` -- code and configury for the application that hosts the AUv3 app extension. Again, the app serves as a demo
-host for the AUv3 app extension.
+* `App` -- code and configuration for the application that hosts the AUv3 app extension. Again, the app serves as a 
+demo host for the AUv3 app extension.
 * `Extension` -- code and configuration for the extension itself
 
 The common code is found in various Swift packages under [Packages](Packages) -- including the Objective-C++ kernel
