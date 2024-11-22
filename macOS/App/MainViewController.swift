@@ -1,5 +1,7 @@
 // Copyright © 2021 Brad Howes. All rights reserved.
 
+#if os(macOS)
+
 import AUv3Support
 import AUv3Support_macOS
 import CoreAudioKit
@@ -47,7 +49,8 @@ extension MainViewController {
                                                          componentSubType: bundle.auComponentSubtype,
                                                          componentManufacturer: bundle.auComponentManufacturer,
                                                          componentFlags: 0, componentFlagsMask: 0)
-    let config = HostViewConfig(componentName: audioUnitName, componentDescription: componentDescription,
+    let config = HostViewConfig(componentName: audioUnitName,
+                                componentDescription: componentDescription,
                                 sampleLoop: .sample1,
                                 playButton: windowController.playButton,
                                 bypassButton: windowController.bypassButton,
@@ -64,3 +67,5 @@ extension MainViewController {
     hostViewManager?.showInitialPrompt()
   }
 }
+
+#endif

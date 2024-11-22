@@ -4,26 +4,34 @@
 
 @import ParameterAddress;
 
-void Kernel::setParameterValue(AUParameterAddress address, AUValue value) {
-  os_log_with_type(log_, OS_LOG_TYPE_DEBUG, "setParameterValue - %llul %f", address, value);
+bool Kernel::doSetImmediateParameterValue(AUParameterAddress address, AUValue value, AUAudioFrameCount duration) noexcept {
   switch (address) {
-    case ParameterAddressCutoff: cutoff_.set(value, 0); break;
-    case ParameterAddressResonance: resonance_.set(value, 0); break;
+    case ParameterAddressCutoff: cutoff_.setImmediate(value, duration); return true;
+    case ParameterAddressResonance: resonance_.setImmediate(value, duration); return true;
   }
+  return false;
 }
 
-void Kernel::setRampedParameterValue(AUParameterAddress address, AUValue value, AUAudioFrameCount duration) {
-  os_log_with_type(log_, OS_LOG_TYPE_DEBUG, "setRampedParameterValue - %llul %f %d", address, value, duration);
+bool Kernel::doSetPendingParameterValue(AUParameterAddress address, AUValue value) noexcept {
   switch (address) {
-    case ParameterAddressCutoff: cutoff_.set(value, duration); break;
-    case ParameterAddressResonance: resonance_.set(value, duration); break;
+    case ParameterAddressCutoff: cutoff_.setPending(value); return true;
+    case ParameterAddressResonance: resonance_.setPending(value); return true;
   }
+  return false;
 }
 
-AUValue Kernel::getParameterValue(AUParameterAddress address) const {
+AUValue Kernel::doGetImmediateParameterValue(AUParameterAddress address) const noexcept {
   switch (address) {
-    case ParameterAddressCutoff: return cutoff_.get();
-    case ParameterAddressResonance: return resonance_.get();
+    case ParameterAddressCutoff: return cutoff_.getImmediate();
+    case ParameterAddressResonance: return resonance_.getImmediate();
+  }
+  return 0.0;
+}
+
+AUValue Kernel::doGetPendingParameterValue(AUParameterAddress address) const noexcept {
+  switch (address) {
+    case ParameterAddressCutoff: return cutoff_.getPending();
+    case ParameterAddressResonance: return resonance_.getPending();
   }
   return 0.0;
 }

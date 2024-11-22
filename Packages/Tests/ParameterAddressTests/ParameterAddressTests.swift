@@ -10,19 +10,19 @@ final class ParameterAddressTests: XCTestCase {
   }
 
   func testParameterDefinitions() throws {
-    let cutoff = ParameterAddress.cutoff.parameterDefinition
-    XCTAssertEqual(cutoff.range.lowerBound, 12.0)
-    XCTAssertEqual(cutoff.range.upperBound, 20_000.0)
-    XCTAssertEqual(cutoff.unit, .hertz)
-    XCTAssertTrue(cutoff.ramping)
-    XCTAssertTrue(cutoff.logScale)
+    let depth = ParameterAddress.cutoff.parameterDefinition
+    XCTAssertEqual(depth.range.lowerBound, 12.0)
+    XCTAssertEqual(depth.range.upperBound, 20_000.0)
+    XCTAssertEqual(depth.unit, .hertz)
+    XCTAssertTrue(depth.ramping)
+    XCTAssertTrue(depth.logScale)
 
-    let resonance = ParameterAddress.resonance.parameterDefinition
-    XCTAssertEqual(resonance.range.lowerBound, -20.0)
-    XCTAssertEqual(resonance.range.upperBound, 40.0)
-    XCTAssertEqual(resonance.unit, .decibels)
-    XCTAssertTrue(resonance.ramping)
-    XCTAssertFalse(resonance.logScale)
+    let delay = ParameterAddress.resonance.parameterDefinition
+    XCTAssertEqual(delay.range.lowerBound, -20.0)
+    XCTAssertEqual(delay.range.upperBound, 40.0)
+    XCTAssertEqual(delay.unit, .decibels)
+    XCTAssertTrue(delay.ramping)
+    XCTAssertFalse(delay.logScale)
   }
 
   func testAUParameterGeneration() throws {

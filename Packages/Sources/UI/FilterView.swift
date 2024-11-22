@@ -161,8 +161,13 @@ public final class FilterView: View {
   }
 
   override public func awakeFromNib() {
-    super.awakeFromNib()
     os_log(.debug, log: log, "awakeFromNib BEGIN")
+
+#if os(macOS)
+    self.wantsLayer = true
+#endif
+
+    super.awakeFromNib()
 
     rootLayer.masksToBounds = false
     rootLayer.contentsScale = screenScale

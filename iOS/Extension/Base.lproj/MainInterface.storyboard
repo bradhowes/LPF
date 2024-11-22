@@ -1,41 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina5_5" orientation="portrait" appearance="dark"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--FilterViewController-->
+        <!--ViewController-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" userLabel="FilterViewController" customClass="ViewController" customModule="LPF" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" userLabel="ViewController" customClass="ViewController" customModule="Testing101AU" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ToJ-H4-LsK" customClass="FilterView" customModule="UI">
-                                <rect key="frame" x="8" y="8" width="398" height="720"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aPa-gB-7wz" customClass="FilterView" customModule="UI">
+                                <rect key="frame" x="8" y="28" width="359" height="631"/>
+                                <viewLayoutGuide key="safeArea" id="g7q-LA-GcJ"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="u2v-qu-mbu"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="ToJ-H4-LsK" firstAttribute="leading" secondItem="u2v-qu-mbu" secondAttribute="leading" constant="8" id="Lpo-zt-I63"/>
-                            <constraint firstItem="u2v-qu-mbu" firstAttribute="trailing" secondItem="ToJ-H4-LsK" secondAttribute="trailing" constant="8" id="egh-uy-aXm"/>
-                            <constraint firstItem="ToJ-H4-LsK" firstAttribute="top" secondItem="u2v-qu-mbu" secondAttribute="top" constant="8" id="jYK-XQ-KKI"/>
-                            <constraint firstItem="u2v-qu-mbu" firstAttribute="bottom" secondItem="ToJ-H4-LsK" secondAttribute="bottom" constant="8" id="sSb-9D-Ers"/>
+                            <constraint firstItem="aPa-gB-7wz" firstAttribute="top" secondItem="u2v-qu-mbu" secondAttribute="top" constant="8" id="3VO-dU-e5h"/>
+                            <constraint firstItem="aPa-gB-7wz" firstAttribute="leading" secondItem="u2v-qu-mbu" secondAttribute="leading" constant="8" id="ZKx-nX-pSB"/>
+                            <constraint firstItem="u2v-qu-mbu" firstAttribute="bottom" secondItem="aPa-gB-7wz" secondAttribute="bottom" constant="8" id="hYc-5M-Nn7"/>
+                            <constraint firstItem="u2v-qu-mbu" firstAttribute="trailing" secondItem="aPa-gB-7wz" secondAttribute="trailing" constant="8" id="jpv-o3-geJ"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="filterView" destination="ToJ-H4-LsK" id="Aqn-Sr-HjJ"/>
+                        <outlet property="filterView" destination="aPa-gB-7wz" id="nKE-Gl-ofn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.23188405797103" y="133.69565217391306"/>
+            <point key="canvasLocation" x="383.19999999999999" y="-40.029985007496258"/>
         </scene>
     </scenes>
 </document>

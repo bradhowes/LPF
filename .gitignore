@@ -21,6 +21,8 @@ xcuserdata/
 !**/*.playground/playground.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
 
 DerivedData/
+.DerivedData-iOS/
+.DerivedData-macOS/
 
 **/*.old
 
@@ -28,3 +30,8 @@ Gemfile
 Gemfile.lock
 
 fastlane
+Packages/.swiftpm/
+Packages/.build/
+Packages/Package.resolved
+.version
+exportOptions.plist

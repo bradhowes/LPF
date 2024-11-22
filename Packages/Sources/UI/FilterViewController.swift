@@ -18,8 +18,7 @@ import os.log
   private let log = Shared.logger(Bundle.main.auBaseName + "AU", "ViewController")
 
   private var filterView: FilterView!
-  private let parameters = AudioUnitParameters()
-  private let kernel = KernelBridge(Bundle.main.auBaseName)
+  private let parameters = Parameters()
 
   private var viewConfig: AUAudioUnitViewConfiguration!
 
@@ -27,6 +26,7 @@ import os.log
   private var resonanceObserverToken: AUParameterObserverToken?
   private var currentPresetObserverToken: NSKeyValueObservation?
 
+  public var kernelBridge: KernelBridge?
   public var audioUnit: FilterAudioUnit? {
     didSet {
       DispatchQueue.main.async {
@@ -106,8 +106,10 @@ extension FilterViewController: AudioUnitViewConfigurationManager {}
 
 extension FilterViewController: AUAudioUnitFactory {
   @objc public func createAudioUnit(with componentDescription: AudioComponentDescription) throws -> AUAudioUnit {
+    let kernelBridge = KernelBridge(Bundle.main.auBaseName + "AU")
+    self.kernelBridge = kernelBridge
     let audioUnit = try FilterAudioUnitFactory.create(componentDescription: componentDescription,
-                                                      parameters: parameters, kernel: kernel,
+                                                      parameters: parameters, kernel: kernelBridge,
                                                       viewConfigurationManager: self)
     self.audioUnit = audioUnit
 
@@ -159,7 +161,7 @@ extension FilterViewController {
     os_log(.info, log: log, "magnitudes BEGIN - cutoff: %f resonance: %f", parameters.cutoff.value,
            parameters.resonance.value)
     var output: [Float] = Array(repeating: 0.0, count: frequencies.count)
-    kernel.magnitudes(frequencies, count: frequencies.count, output: &output)
+    kernelBridge?.magnitudes(frequencies, count: frequencies.count, output: &output)
     return output
   }
 }
