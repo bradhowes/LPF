@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
   name: "Packages",
-  platforms: [.iOS(.v13), .macOS(.v10_15)],
+  platforms: [.iOS(.v16), .macOS(.v14)],
   products: [
     .library(name: "KernelBridge", targets: ["KernelBridge"]),
     .library(name: "Kernel", targets: ["Kernel"]),
@@ -14,7 +14,7 @@ let package = Package(
     .library(name: "UI", targets: ["UI"])
   ],
   dependencies: [
-    .package(url: "https://github.com/bradhowes/AUv3Support", exact: "13.0.5"),
+    .package(url: "https://github.com/bradhowes/AUv3Support", exact: "14.0.1"),
     // .package(path: "/Users/howes/src/Mine/AUv3Support")
   ],
   targets: [
