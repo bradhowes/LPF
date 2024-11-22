@@ -12,11 +12,12 @@
                 <application id="hnw-xV-0zn" sceneMemberID="viewController">
                     <menu key="mainMenu" title="Main Menu" systemMenu="main" id="AYu-sK-qS6">
                         <items>
-                            <menuItem title="SimplyLowPass" id="1Xt-HY-uBw" userLabel="SimplyLowPass">
+                            <menuItem title="SimplyLowPass" id="1Xt-HY-uBw" userLabel="SimplyLowPass Host">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="SimplyLowPass" systemMenu="apple" id="uQy-DD-JDr">
                                     <items>
-                                        <menuItem title="About SimplyLowPass" keyEquivalent="s" id="5kV-Vb-QxS" userLabel="About SimplyLowPass">
+                                        <menuItem title="About SimplyLowPass" id="5kV-Vb-QxS">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
                                             </connections>
@@ -201,7 +202,6 @@
                     <connections>
                         <outlet property="bypassButton" destination="WpS-Vu-loZ" id="vss-i2-oQd"/>
                         <outlet property="playButton" destination="ogO-fI-sF4" id="mnc-aK-30h"/>
-                        <outlet property="playButtonItem" destination="gZY-Pi-OZc" id="kJA-Tz-Be3"/>
                         <outlet property="presetsButton" destination="tha-ev-mRZ" id="NKr-05-WUT"/>
                         <segue destination="XfG-lQ-9wD" kind="relationship" relationship="window.shadowedContentViewController" id="4gy-rt-TT0"/>
                     </connections>
