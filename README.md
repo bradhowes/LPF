@@ -1,5 +1,6 @@
 [![CI](https://github.com/bradhowes/LPF/actions/workflows/CI.yml/badge.svg)](https://github.com/bradhowes/LPF/actions/workflows/CI.yml)
-[![Swift 5.5](https://img.shields.io/badge/Swift-5.5-orange.svg?style=flat)](https://swift.org)
+[![Swift 6](https://img.shields.io/badge/Swift-6-orange.svg?style=flat)](https://swift.org)
+[![Swift 5.9](https://img.shields.io/badge/Swift-5.9-orange.svg?style=flat)](https://swift.org)
 [![AUv3](https://img.shields.io/badge/AUv3-green.svg)](https://developer.apple.com/documentation/audiotoolbox/audio_unit_v3_plug-ins)
 [![License: MIT](https://img.shields.io/badge/License-MIT-A31F34.svg)](https://opensource.org/licenses/MIT)
 
