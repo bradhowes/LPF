@@ -13,6 +13,8 @@
 #import "DSPHeaders/EventProcessor.hpp"
 #import "DSPHeaders/Parameters/Float.hpp"
 
+@import ParameterAddress;
+
 /**
  The audio processing kernel that performs low-pass filtering of an audio signal.
  */
@@ -44,10 +46,13 @@ struct Kernel : public DSPHeaders::EventProcessor<Kernel> {
     initialize(format.channelCount, format.sampleRate);
   }
 
+  /// @return the Nyquist period value defined as 1 / (sampleRate / 2)
   AUValue nyquistPeriod() const noexcept { return nyquistPeriod_; }
 
+  /// @return the current filter cutoff setting
   AUValue cutoff() const noexcept { return cutoff_.getPending(); }
 
+  /// @return the current filter resonance setting
   AUValue resonance() const noexcept { return resonance_.getPending(); }
 
   os_log_t log() const noexcept { return log_; }
@@ -60,48 +65,6 @@ private:
     nyquistPeriod_ = 1.0 / nyquistFrequency;
     filter_.calculateParams(cutoff_.getImmediate(), resonance_.getImmediate(), nyquistPeriod_, channelCount);
   }
-
-  /**
-   Set a paramete value from within the render loop.
-
-   @param address the parameter to change
-   @param value the new value to use
-   @param duration the ramping duration to transition to the new value
-   */
-  bool doSetImmediateParameterValue(AUParameterAddress address, AUValue value, AUAudioFrameCount duration) noexcept;
-
-  /**
-   Set a paramete value from the UI via the parameter tree. Will be recognized and handled in the next render pass.
-
-   @param address the parameter to change
-   @param value the new value to use
-   */
-  bool doSetPendingParameterValue(AUParameterAddress address, AUValue value) noexcept;
-
-  /**
-   Get the paramete value last set in the render thread. NOTE: this does not account for any ramping that might be in
-   effect.
-
-   @param address the parameter to access
-   @returns parameter value
-   */
-  AUValue doGetImmediateParameterValue(AUParameterAddress address) const noexcept;
-
-  /**
-   Get the paramete value last set by the UI / parameter tree. NOTE: this does not account for any ramping that might
-   be in effect.
-
-   @param address the parameter to access
-   @returns parameter value
-   */
-  AUValue doGetPendingParameterValue(AUParameterAddress address) const noexcept;
-
-  /**
-   Notification that the rendering state has changed (stopped/started).
-
-   @param rendering `true` if rendering has started
-   */
-  void doRenderingStateChanged(bool rendering) {}
 
   /**
    Perform rendering activity on input samples.
@@ -121,17 +84,12 @@ private:
     filter_.apply(ins, outs, frameCount);
   }
 
-  /**
-   Process a MIDI (v1) event.
-
-   @param midiEvent the event that was received
-   */
-  void doMIDIEvent(const AUMIDIEvent& midiEvent) noexcept {}
-
   AcceleratedBiquadFilter filter_;
   AUValue nyquistPeriod_;
-  DSPHeaders::Parameters::Float cutoff_{0.0, false};
-  DSPHeaders::Parameters::Float resonance_{0.0, false};
+
+  // NOTE: we do not use ramping in our parameters here because it is done in the biquad filter.
+  DSPHeaders::Parameters::Float cutoff_{ParameterAddressCutoff, 0.0, false};
+  DSPHeaders::Parameters::Float resonance_{ParameterAddressResonance, 0.0, false};
   std::string name_;
   os_log_t log_;
 };
