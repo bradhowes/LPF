@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -29,11 +29,10 @@
 		BD95149624A0C57E00D8024C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4201A2822403120006E4333 /* ViewController.swift */; };
 		BD9A490D2CDEE9F5003FE7D3 /* UI in Frameworks */ = {isa = PBXBuildFile; productRef = BD9A490C2CDEE9F5003FE7D3 /* UI */; };
 		BD9FA81B24A9505300FA9940 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BD9FA81A24A9505300FA9940 /* Default-568h@2x.png */; };
-		BDAB6DBC2CF7D48700E81798 /* AUv3-Support-iOS in Frameworks */ = {isa = PBXBuildFile; productRef = BDAB6DBB2CF7D48700E81798 /* AUv3-Support-iOS */; };
-		BDAB6DBE2CF7D49000E81798 /* AUv3-Support in Frameworks */ = {isa = PBXBuildFile; productRef = BDAB6DBD2CF7D49000E81798 /* AUv3-Support */; };
-		BDAB6DC02CF7D49000E81798 /* AUv3-Support-iOS in Frameworks */ = {isa = PBXBuildFile; productRef = BDAB6DBF2CF7D49000E81798 /* AUv3-Support-iOS */; };
-		BDAB6DC22CF7D49700E81798 /* AUv3-Support-macOS in Frameworks */ = {isa = PBXBuildFile; productRef = BDAB6DC12CF7D49700E81798 /* AUv3-Support-macOS */; };
-		BDAB6DC42CF7D49E00E81798 /* AUv3-Support in Frameworks */ = {isa = PBXBuildFile; productRef = BDAB6DC32CF7D49E00E81798 /* AUv3-Support */; };
+		BDAB6DE82CF9D58D00E81798 /* AUv3-Support-macOS in Frameworks */ = {isa = PBXBuildFile; productRef = BDAB6DE72CF9D58D00E81798 /* AUv3-Support-macOS */; };
+		BDAB6DEA2CF9D59B00E81798 /* AUv3-Support-iOS in Frameworks */ = {isa = PBXBuildFile; productRef = BDAB6DE92CF9D59B00E81798 /* AUv3-Support-iOS */; };
+		BDAB6DEC2CF9D5A800E81798 /* AUv3-Support in Frameworks */ = {isa = PBXBuildFile; productRef = BDAB6DEB2CF9D5A800E81798 /* AUv3-Support */; };
+		BDAB6DEE2CF9D5B200E81798 /* AUv3-Support in Frameworks */ = {isa = PBXBuildFile; productRef = BDAB6DED2CF9D5B200E81798 /* AUv3-Support */; };
 		BDB7CE93249EC556009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
 		BDB7CE94249EC565009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE92249EC556009580D5 /* Accelerate.framework */; };
 		BDB7CE9E249FC152009580D5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDB7CE9D249FC152009580D5 /* Accelerate.framework */; };
@@ -183,7 +182,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDB7CE9E249FC152009580D5 /* Accelerate.framework in Frameworks */,
-				BDAB6DBC2CF7D48700E81798 /* AUv3-Support-iOS in Frameworks */,
+				BDAB6DEA2CF9D59B00E81798 /* AUv3-Support-iOS in Frameworks */,
 				C4737B0B2231D930002CAD0B /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -196,9 +195,8 @@
 				BDD3581E2CD6C973006FFB1B /* Theme in Frameworks */,
 				BD8D4E1D27B589FF007011A5 /* ParameterAddress in Frameworks */,
 				BD8D4E1927B589FF007011A5 /* Kernel in Frameworks */,
-				BDAB6DC02CF7D49000E81798 /* AUv3-Support-iOS in Frameworks */,
 				BDB7CE9F249FC157009580D5 /* Accelerate.framework in Frameworks */,
-				BDAB6DBE2CF7D49000E81798 /* AUv3-Support in Frameworks */,
+				BDAB6DEC2CF9D5A800E81798 /* AUv3-Support in Frameworks */,
 				BD8D4E1B27B589FF007011A5 /* KernelBridge in Frameworks */,
 				BD8D4E1F27B589FF007011A5 /* Parameters in Frameworks */,
 			);
@@ -209,7 +207,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDB7CE93249EC556009580D5 /* Accelerate.framework in Frameworks */,
-				BDAB6DC22CF7D49700E81798 /* AUv3-Support-macOS in Frameworks */,
+				BDAB6DE82CF9D58D00E81798 /* AUv3-Support-macOS in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,7 +218,7 @@
 				BDC48CFB27B5BB03005974D7 /* Kernel in Frameworks */,
 				BDC48D0127B5BB03005974D7 /* Parameters in Frameworks */,
 				BD4664A22CD80BC400808F59 /* UI in Frameworks */,
-				BDAB6DC42CF7D49E00E81798 /* AUv3-Support in Frameworks */,
+				BDAB6DEE2CF9D5B200E81798 /* AUv3-Support in Frameworks */,
 				BDC48CFD27B5BB03005974D7 /* KernelBridge in Frameworks */,
 				BDB7CE94249EC565009580D5 /* Accelerate.framework in Frameworks */,
 				BDC48CFF27B5BB03005974D7 /* ParameterAddress in Frameworks */,
@@ -410,7 +408,7 @@
 			);
 			name = "iOS App";
 			packageProductDependencies = (
-				BDAB6DBB2CF7D48700E81798 /* AUv3-Support-iOS */,
+				BDAB6DE92CF9D59B00E81798 /* AUv3-Support-iOS */,
 			);
 			productName = "AUv3Filter iOS";
 			productReference = C437FE3A222367A6008D6C09 /* SimplyLowPassHost.app */;
@@ -436,8 +434,7 @@
 				BD8D4E1E27B589FF007011A5 /* Parameters */,
 				BDD3581D2CD6C973006FFB1B /* Theme */,
 				BD9A490C2CDEE9F5003FE7D3 /* UI */,
-				BDAB6DBD2CF7D49000E81798 /* AUv3-Support */,
-				BDAB6DBF2CF7D49000E81798 /* AUv3-Support-iOS */,
+				BDAB6DEB2CF9D5A800E81798 /* AUv3-Support */,
 			);
 			productName = "AUv3FilterExtension iOS";
 			productReference = C437FE632223686D008D6C09 /* SimplyLowPassAU.appex */;
@@ -460,7 +457,7 @@
 			);
 			name = "macOS App";
 			packageProductDependencies = (
-				BDAB6DC12CF7D49700E81798 /* AUv3-Support-macOS */,
+				BDAB6DE72CF9D58D00E81798 /* AUv3-Support-macOS */,
 			);
 			productName = "AUv3Filter macOS";
 			productReference = C437FE7A2223688D008D6C09 /* SimplyLowPass.app */;
@@ -485,7 +482,7 @@
 				BDC48CFE27B5BB03005974D7 /* ParameterAddress */,
 				BDC48D0027B5BB03005974D7 /* Parameters */,
 				BD4664A12CD80BC400808F59 /* UI */,
-				BDAB6DC32CF7D49E00E81798 /* AUv3-Support */,
+				BDAB6DED2CF9D5B200E81798 /* AUv3-Support */,
 			);
 			productName = "AUv3FilterExtension macOS";
 			productReference = C437FEA0222368B7008D6C09 /* SimplyLowPassAU.appex */;
@@ -550,7 +547,7 @@
 			);
 			mainGroup = C437FE2F2223672C008D6C09;
 			packageReferences = (
-				BDAB6DBA2CF7D43B00E81798 /* XCLocalSwiftPackageReference "../AUv3Support" */,
+				BDAB6DE22CF9D58D00E81798 /* XCRemoteSwiftPackageReference "AUv3Support" */,
 			);
 			productRefGroup = C437FE3B222367A6008D6C09 /* Products */;
 			projectDirPath = "";
@@ -1557,12 +1554,16 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		BDAB6DBA2CF7D43B00E81798 /* XCLocalSwiftPackageReference "../AUv3Support" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../AUv3Support;
+/* Begin XCRemoteSwiftPackageReference section */
+		BDAB6DE22CF9D58D00E81798 /* XCRemoteSwiftPackageReference "AUv3Support" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bradhowes/AUv3Support";
+			requirement = {
+				kind = exactVersion;
+				version = 16.0.2;
+			};
 		};
-/* End XCLocalSwiftPackageReference section */
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		BD4664A12CD80BC400808F59 /* UI */ = {
@@ -1589,29 +1590,24 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = UI;
 		};
-		BDAB6DBB2CF7D48700E81798 /* AUv3-Support-iOS */ = {
+		BDAB6DE72CF9D58D00E81798 /* AUv3-Support-macOS */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BDAB6DBA2CF7D43B00E81798 /* XCLocalSwiftPackageReference "../AUv3Support" */;
-			productName = "AUv3-Support-iOS";
-		};
-		BDAB6DBD2CF7D49000E81798 /* AUv3-Support */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BDAB6DBA2CF7D43B00E81798 /* XCLocalSwiftPackageReference "../AUv3Support" */;
-			productName = "AUv3-Support";
-		};
-		BDAB6DBF2CF7D49000E81798 /* AUv3-Support-iOS */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BDAB6DBA2CF7D43B00E81798 /* XCLocalSwiftPackageReference "../AUv3Support" */;
-			productName = "AUv3-Support-iOS";
-		};
-		BDAB6DC12CF7D49700E81798 /* AUv3-Support-macOS */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BDAB6DBA2CF7D43B00E81798 /* XCLocalSwiftPackageReference "../AUv3Support" */;
+			package = BDAB6DE22CF9D58D00E81798 /* XCRemoteSwiftPackageReference "AUv3Support" */;
 			productName = "AUv3-Support-macOS";
 		};
-		BDAB6DC32CF7D49E00E81798 /* AUv3-Support */ = {
+		BDAB6DE92CF9D59B00E81798 /* AUv3-Support-iOS */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BDAB6DBA2CF7D43B00E81798 /* XCLocalSwiftPackageReference "../AUv3Support" */;
+			package = BDAB6DE22CF9D58D00E81798 /* XCRemoteSwiftPackageReference "AUv3Support" */;
+			productName = "AUv3-Support-iOS";
+		};
+		BDAB6DEB2CF9D5A800E81798 /* AUv3-Support */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BDAB6DE22CF9D58D00E81798 /* XCRemoteSwiftPackageReference "AUv3Support" */;
+			productName = "AUv3-Support";
+		};
+		BDAB6DED2CF9D5B200E81798 /* AUv3-Support */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BDAB6DE22CF9D58D00E81798 /* XCRemoteSwiftPackageReference "AUv3Support" */;
 			productName = "AUv3-Support";
 		};
 		BDC48CFA27B5BB03005974D7 /* Kernel */ = {
