@@ -17,8 +17,10 @@ import os.log
   // NOTE: this special form sets the subsystem name and must run before any other logger calls.
   private let log = Shared.logger(Bundle.main.auBaseName + "AU", "ViewController")
 
-  private var filterView: FilterView!
+  public let kernelBridge = KernelBridge(Bundle.main.auBaseName + "AU")
   private let parameters = Parameters()
+
+  private var filterView: FilterView!
 
   private var viewConfig: AUAudioUnitViewConfiguration!
 
@@ -26,7 +28,6 @@ import os.log
   private var resonanceObserverToken: AUParameterObserverToken?
   private var currentPresetObserverToken: NSKeyValueObservation?
 
-  public var kernelBridge: KernelBridge?
   public var audioUnit: FilterAudioUnit? {
     didSet {
       DispatchQueue.main.async {
@@ -105,24 +106,21 @@ extension FilterViewController: AudioUnitViewConfigurationManager {}
 // MARK: - AUAudioUnitFactory
 
 extension FilterViewController: AUAudioUnitFactory {
-  @objc public func createAudioUnit(with componentDescription: AudioComponentDescription) throws -> AUAudioUnit {
-    let kernelBridge = KernelBridge(Bundle.main.auBaseName + "AU")
-    self.kernelBridge = kernelBridge
-    let audioUnit = try FilterAudioUnitFactory.create(componentDescription: componentDescription,
-                                                      parameters: parameters, kernel: kernelBridge,
-                                                      viewConfigurationManager: self)
-    self.audioUnit = audioUnit
 
-    currentPresetObserverToken = audioUnit.observe(\.currentPreset, options: []) { object, change in
-      os_log(.error, log: self.log, "currentPreset changed")
-      DispatchQueue.main.async {
-        self.updateDisplay()
-      }
+  // Uff. What a mess to get right. AUv3 infrastructure will invoke on a thread that is probably *not* the main
+  // thread. Be sure to create the audio unit on the main thread and then pass it out. No idea what is actually
+  // done with it.
+  nonisolated public func createAudioUnit(with componentDescription: AudioComponentDescription) throws -> AUAudioUnit {
+    let audioUnit = try DispatchQueue.main.sync {
+      let audioUnit = try FilterAudioUnitFactory.create(componentDescription: componentDescription,
+                                                        viewConfigurationManager: self)
+      self.audioUnit = audioUnit
+      return audioUnit
     }
-
     return audioUnit
   }
 }
+
 
 // MARK: - Private
 
@@ -131,17 +129,30 @@ extension FilterViewController {
   private func connectViewToAU() {
     os_log(.info, log: log, "connectViewToAU")
 
-    cutoffObserverToken = parameters.cutoff.token(byAddingParameterObserver: { [weak self] address, value in
-      guard let self = self else { return }
-      DispatchQueue.main.async { self.updateDisplay() }
-    })
+    audioUnit?.configure(parameters: parameters, kernel: kernelBridge)
 
-    resonanceObserverToken = parameters.resonance.token(byAddingParameterObserver: { [weak self] address, value in
-      guard let self = self else { return }
-      DispatchQueue.main.async { self.updateDisplay() }
-    })
+    cutoffObserverToken = parameters.cutoff.token(byAddingParameterObserver: parameterChanged(address:value:))
+    resonanceObserverToken = parameters.resonance.token(byAddingParameterObserver: parameterChanged(address:value:))
+    currentPresetObserverToken = audioUnit?.observe(
+      \.currentPreset,
+       options: [],
+       changeHandler: currentPresetChanged(object:change:)
+    )
 
     updateDisplay()
+  }
+
+  nonisolated private func parameterChanged(address: AUParameterAddress, value: AUValue) {
+    DispatchQueue.main.async { [weak self] in
+      self?.updateDisplay()
+    }
+  }
+
+  nonisolated private func currentPresetChanged(object: FilterAudioUnit,
+                                                change: NSKeyValueObservedChange<Optional<AUAudioUnitPreset>>) {
+    DispatchQueue.main.async { [weak self] in
+      self?.updateDisplay()
+    }
   }
 
   private func updateDisplay() {
@@ -161,7 +172,7 @@ extension FilterViewController {
     os_log(.info, log: log, "magnitudes BEGIN - cutoff: %f resonance: %f", parameters.cutoff.value,
            parameters.resonance.value)
     var output: [Float] = Array(repeating: 0.0, count: frequencies.count)
-    kernelBridge?.magnitudes(frequencies, count: frequencies.count, output: &output)
+    kernelBridge.magnitudes(frequencies, count: frequencies.count, output: &output)
     return output
   }
 }

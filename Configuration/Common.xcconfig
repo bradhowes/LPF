@@ -27,10 +27,10 @@ AU_COMPONENT_MANUFACTURER = BRay
 AU_FACTORY_FUNCTION = SimplyLowPassAU.ViewController
 
 // The "build" version -- the `bumpVersions.py -b` option sets this to a date/time stamp
-CURRENT_PROJECT_VERSION = 202411032203898
+CURRENT_PROJECT_VERSION = 202411292203899
 
 // The visible version (eg. 1.2.3)
-MARKETING_VERSION = 5.0.0
+MARKETING_VERSION = 5.0.1
 
 // Copyright notice to put in the Info.plist files
 COPYRIGHT_NOTICE = Copyright © 2024 B-Ray Software

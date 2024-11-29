@@ -32,6 +32,7 @@ public struct FilterViewRanges {
  Delegation protocol for the FilterView. Reports out touch/mouse events and changes to the runtime
  parameters.
  */
+@MainActor
 public protocol FilterViewDelegate: AnyObject {
 
   /// Defines the coordinate spaces for the view in AUParameter units.
@@ -161,52 +162,54 @@ public final class FilterView: View {
   }
 
   override public func awakeFromNib() {
-    os_log(.debug, log: log, "awakeFromNib BEGIN")
-
+    MainActor.assumeIsolated {
+      os_log(.debug, log: log, "awakeFromNib BEGIN")
+      
 #if os(macOS)
-    self.wantsLayer = true
+      self.wantsLayer = true
 #endif
-
-    super.awakeFromNib()
-
-    rootLayer.masksToBounds = false
-    rootLayer.contentsScale = screenScale
-
-    plotLayer.name = "plot"
-    plotLayer.anchorPoint = .zero
-    plotLayer.bounds = CGRect(origin: .zero, size: rootLayer.bounds.size)
-    plotLayer.contentsScale = screenScale
-    rootLayer.addSublayer(plotLayer)
-
-    graphLayer.name = "graph"
-    graphLayer.backgroundColor = Color.black.cgColor
-    graphLayer.position = CGPoint(x: yAxisWidth, y: 0.0)
-    graphLayer.anchorPoint = .zero
-    graphLayer.contentsScale = screenScale
-    plotLayer.addSublayer(graphLayer)
-
-    gridLayer.name = "grid"
-    gridLayer.position = .zero
-    gridLayer.anchorPoint = .zero
-    graphLayer.addSublayer(gridLayer)
-
-    curveLayer.name = "curve"
-    curveLayer.anchorPoint = .zero
-    curveLayer.position = .zero
-    graphLayer.addSublayer(curveLayer)
-
-    indicatorLayer.name = "indicator"
-    indicatorLayer.position = .zero
-    indicatorLayer.anchorPoint = .zero
-    graphLayer.addSublayer(indicatorLayer)
-
-    createIndicatorPoint()
-
+      
+      super.awakeFromNib()
+      
+      rootLayer.masksToBounds = false
+      rootLayer.contentsScale = screenScale
+      
+      plotLayer.name = "plot"
+      plotLayer.anchorPoint = .zero
+      plotLayer.bounds = CGRect(origin: .zero, size: rootLayer.bounds.size)
+      plotLayer.contentsScale = screenScale
+      rootLayer.addSublayer(plotLayer)
+      
+      graphLayer.name = "graph"
+      graphLayer.backgroundColor = Color.black.cgColor
+      graphLayer.position = CGPoint(x: yAxisWidth, y: 0.0)
+      graphLayer.anchorPoint = .zero
+      graphLayer.contentsScale = screenScale
+      plotLayer.addSublayer(graphLayer)
+      
+      gridLayer.name = "grid"
+      gridLayer.position = .zero
+      gridLayer.anchorPoint = .zero
+      graphLayer.addSublayer(gridLayer)
+      
+      curveLayer.name = "curve"
+      curveLayer.anchorPoint = .zero
+      curveLayer.position = .zero
+      graphLayer.addSublayer(curveLayer)
+      
+      indicatorLayer.name = "indicator"
+      indicatorLayer.position = .zero
+      indicatorLayer.anchorPoint = .zero
+      graphLayer.addSublayer(indicatorLayer)
+      
+      createIndicatorPoint()
+      
 #if os(macOS)
-    layoutSublayers(of: rootLayer)
+      layoutSublayers(of: rootLayer)
 #endif
-
-    os_log(.debug, log: log, "awakeFromNib END")
+      
+      os_log(.debug, log: log, "awakeFromNib END")
+    }
   }
 
 #if os(iOS)

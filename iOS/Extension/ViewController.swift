@@ -3,7 +3,7 @@
 import Foundation
 import UI
 
-@objc final class ViewController: FilterViewController {
+final class ViewController: FilterViewController {
 
   @IBOutlet weak var filterView: FilterView!
 
