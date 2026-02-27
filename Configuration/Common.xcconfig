@@ -30,7 +30,7 @@ AU_FACTORY_FUNCTION = SimplyLowPassAU.ViewController
 CURRENT_PROJECT_VERSION = 202411292203899
 
 // The visible version (eg. 1.2.3)
-MARKETING_VERSION = 5.0.1
+MARKETING_VERSION = 6.0.2
 
 // Copyright notice to put in the Info.plist files
 COPYRIGHT_NOTICE = Copyright © 2024 B-Ray Software

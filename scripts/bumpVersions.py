@@ -13,13 +13,9 @@ version. Therefore, the value used here will be the date in YYYYMMDDHHmm format.
 
 The script edits three kinds of files:
 
-- project.pbxproj -- the project file for a collection of targets. If more than one is found (in a workspace),
-  then they will all be edited as long as they have the same marketing version
-- storyboard and xib -- locates any UI elements with a userLabel of "APP_VERSION" and either a text or title
+- LaunchScreen.storyboard -- locates any UI elements with a userLabel of "APP_VERSION" and either a text or title
   attribute. Updates the text/title attribute to hold the marketing version prefixed with a 'v' (eg. v1.2.3)
-- Info.plist -- updates any audio unit component version values with the 32-bit version of the marketing value
-  (major * 65536 + minor * 256 + patch). So 1.2.3 = 65051
-
+- Common.xcconfig -- updates the CURRENT_PROJECT_VERSION and MARKETING_VERSION values
 '''
 
 import argparse
@@ -27,8 +23,6 @@ import os
 import re
 import sys
 from datetime import datetime
-import subprocess
-import tempfile
 from typing import Callable, List, NamedTuple, NoReturn, Tuple
 
 
@@ -46,12 +40,13 @@ class MarketingVersion(NamedTuple):
     patch: int
 
     @classmethod
-    def fromTuple(cls, value: Tuple[str]) -> 'MarketingVersion':
+    def fromTuple(cls, value: Tuple[str, str, str]) -> 'MarketingVersion':
         return cls(int(value[0]), int(value[1]), int(value[2]))
 
     @classmethod
     def fromString(cls, value: str) -> 'MarketingVersion':
-        return MarketingVersion.fromTuple(value.split('.'))
+        bits = value.split('.')
+        return MarketingVersion.fromTuple((bits[0], bits[1], bits[2]))
 
     def __str__(self):
         return f"{self.major}.{self.minor}.{self.patch}"
@@ -74,7 +69,7 @@ def errorAndExit(*args) -> NoReturn:
     sys.exit(1)
 
 
-def error(*args) -> NoReturn:
+def error(*args) -> None:
     print('**', *args)
 
 
@@ -103,25 +98,20 @@ def locateFiles(cond: PathPredicate) -> PathList:
  given `cond` returned `True`.
     '''
     found = []
-    for dirname, dirnames, filenames in os.walk('.'):
-        for exclude in ['DerivedData', '.build']:
-            if exclude in dirnames:
-                dirnames.remove(exclude)
-        for path in filenames:
+    for root, dirs, files in os.walk('.'):
+        for exclude in ['DerivedData', '.build', '.workspace']:
+            drops = [d for d in dirs if exclude in d]
+            for drop in drops:
+                dirs.remove(drop)
+        for path in files:
             if cond(path):
-                found.append(os.path.join(dirname, path))
+                found.append(os.path.join(root, path))
     return found
 
 
-def locateProjectFiles() -> PathList:
-    def cond(path):
-        return path == 'project.pbxproj'
-    return locateFiles(cond)
-
-
-def locateCommonConfigs() -> PathList:
-    def cond(path):
-        return path == 'Common.xcconfig'
+def locateConfigFiles() -> PathList:
+    def cond(path: Path) -> bool:
+        return os.path.splitext(path)[-1] == '.xcconfig'
     return locateFiles(cond)
 
 
@@ -131,12 +121,10 @@ def getCurrentMarketingVersion(projectFiles: PathList) -> MarketingVersion:
     pattern = re.compile(r'MARKETING_VERSION = ([0-9]+)\.([0-9]+)\.([0-9]+)')
     version = None
     for file in projectFiles:
-        print(file)
         with open(file, 'r') as fd:
             contents = fd.read()
         versions = pattern.findall(contents)
-        print(versions)
-        if version is None and versions:
+        if version is None:
             version = versions[0]
             versions = versions[1:]
         for v in versions:
@@ -152,12 +140,19 @@ def getNewProjectVersion() -> ProjectVersion:
 
 
 def updateConfigContents(contents: str, marketingVersion: MarketingVersion, projectVersion: ProjectVersion) -> str:
-    contents = re.sub(r'(MARKETING_VERSION =) ([0-9]+\.[0-9]+\.[0-9]+)', f'\\1 {marketingVersion}', contents)
-    return re.sub(r'(CURRENT_PROJECT_VERSION =) (.*)', f'\\1 {projectVersion}', contents)
+    contents = re.sub(
+        r'(MARKETING_VERSION =) ([0-9]+\.[0-9]+\.[0-9]+)',
+        f'\\1 {marketingVersion}',
+        contents
+    )
+    return re.sub(
+        r'^(CURRENT_PROJECT_VERSION =) ([0-9]*)$',
+        f'\\1 {projectVersion}',
+        contents
+    )
 
 
-def updateCommonConfigs(configFiles: PathList, marketingVersion: MarketingVersion,
-                       projectVersion: ProjectVersion) -> None:
+def updateConfigFiles(configFiles: PathList, marketingVersion: MarketingVersion, projectVersion: ProjectVersion) -> None:
     for path in configFiles:
         log(f"processing config file '{path}'")
         contents = getAndBackupFile(path)
@@ -166,7 +161,7 @@ def updateCommonConfigs(configFiles: PathList, marketingVersion: MarketingVersio
 
 
 def locateUIFiles() -> PathList:
-    def cond(path):
+    def cond(path: str) -> bool:
         return os.path.splitext(path)[-1] in ['.storyboard', '.xib']
     return locateFiles(cond)
 
@@ -185,30 +180,6 @@ def updateUIFiles(uiFiles: PathList, marketingVersion: MarketingVersion):
         saveFile(path, contents)
 
 
-def runPlistBuddy(path, setArg) -> None:
-    log(f"processing info file '{path}'")
-    status = subprocess.run(['/usr/libexec/PlistBuddy', path, '-c', setArg], stdout=subprocess.PIPE,
-                            universal_newlines=True)
-    if status.returncode != 0:
-        error('failed to process', path, setArg)
-
-
-def locateInfoFiles() -> PathList:
-    def cond(path):
-        return path == 'Info.plist'
-    return locateFiles(cond)
-
-
-def updateInfoFiles(infoFiles: PathList, marketingVersion: MarketingVersion) -> None:
-    componentVersion = marketingVersion.asInt()
-    setArg = f'Set :NSExtension:NSExtensionAttributes:AudioComponents:0:version {componentVersion}'
-    for path in infoFiles:
-        with open(path) as fd:
-            if fd.read().find('<key>AudioComponents</key>') == -1:
-                continue
-        runPlistBuddy(path, setArg)
-
-
 def main(args):
     parser = argparse.ArgumentParser(prog=args[0])
     parser.add_argument('-d', '--dir', help='change to DIR to process')
@@ -223,8 +194,7 @@ def main(args):
     if parsed.dir:
         os.chdir(parsed.dir)
 
-    configFiles = locateCommonConfigs()
-
+    configFiles = locateConfigFiles()
     marketingVersion = getCurrentMarketingVersion(configFiles)
     log(f"current marketingVersion: {marketingVersion}")
     projectVersion = getNewProjectVersion()
@@ -240,10 +210,9 @@ def main(args):
         marketingVersion = marketingVersion.bumpPatch()
 
     log(f"new marketingVersion: {marketingVersion}")
-    log(f"new projectVersion: {projectVersion}")
-    updateCommonConfigs(configFiles, marketingVersion, projectVersion)
+
+    updateConfigFiles(configFiles, marketingVersion, projectVersion)
     updateUIFiles(locateUIFiles(), marketingVersion)
-    updateInfoFiles(locateInfoFiles(), marketingVersion)
 
 
 if __name__ == '__main__':
@@ -251,7 +220,7 @@ if __name__ == '__main__':
 
 
 # --- Unit Tests ---
-# % python3 -m unittest scripts/bumpVersions.py
+# % python3 -m unittest bumpVersions.py
 
 import unittest
 
@@ -276,14 +245,8 @@ class Tests(unittest.TestCase):
             return path == 'bumpVersions.py'
         self.assertEqual(1, len(locateFiles(cond)))
 
-    def test_locateProjectFiles(self):
-        self.assertEqual(1, len(locateProjectFiles()))
-
     def test_locateUIFiles(self):
         self.assertTrue(len(locateUIFiles()) > 0)
-
-    def test_locateInfoFiles(self):
-        self.assertTrue(len(locateInfoFiles()) > 0)
 
     def test_MarketingVersionFromString(self):
         self.assertEqual(MarketingVersion(1, 2, 4), MarketingVersion.fromString('1.2.4'))
@@ -297,15 +260,8 @@ class Tests(unittest.TestCase):
         self.assertEqual(65537 + 256, MarketingVersion(1, 1, 1).asInt())
         self.assertEqual(795192, MarketingVersion(12, 34, 56).asInt())
 
-    def test_updateConfigContents(self):
-        marketingVersion = str(MarketingVersion(1, 2, 3))
-        projectVersion = getNewProjectVersion()
-        contents = 'one\nMARKETING_VERSION = 9.8.7\ntwo\nCURRENT_PROJECT_VERSION = 123123\nthree\n'
-        self.assertEqual(f'one\nMARKETING_VERSION = 1.2.3\ntwo\nCURRENT_PROJECT_VERSION = {projectVersion}\nthree\n',
-                         updateConfigContents(contents, marketingVersion, projectVersion))
-
     def test_updateUIContents(self):
-        marketingVersion = str(MarketingVersion(1, 2, 3))
+        marketingVersion = MarketingVersion(1, 2, 3)
         contents = 'foo userLabel="APP_VERSION" text="blah" blah'
         self.assertEqual(f'foo userLabel="APP_VERSION" text="v{marketingVersion}" blah',
                          updateUIContents(contents, marketingVersion))
@@ -318,47 +274,3 @@ class Tests(unittest.TestCase):
         contents = '<textFieldCell key="cell" lineBreakMode="clipping" title="v3.0.0" id="p30-Bk-a8R" userLabel="APP_VERSION">'
         self.assertEqual(f'<textFieldCell key="cell" lineBreakMode="clipping" title="v{marketingVersion}" id="p30-Bk-a8R" userLabel="APP_VERSION">',
                          updateUIContents(contents, marketingVersion))
-
-    def test_UpdateInfoFile(self):
-        contents = '''
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
-	<key>NSExtension</key>
-	<dict>
-		<key>NSExtensionAttributes</key>
-		<dict>
-			<key>AudioComponents</key>
-			<array>
-				<dict>
-					<key>tags</key>
-					<array>
-						<string>Effects</string>
-					</array>
-					<key>type</key>
-					<string>$(AU_COMPONENT_TYPE)</string>
-					<key>version</key>
-					<real>65538</real>
-				</dict>
-			</array>
-		</dict>
-		<key>NSExtensionPointIdentifier</key>
-		<string>com.apple.AudioUnit-UI</string>
-	</dict>
-</dict>
-</plist>
-'''
-        fd, path = tempfile.mkstemp(text=True)
-        marketingVersion = MarketingVersion(1, 2, 3)
-        with os.fdopen(fd) as _:
-            with open(path, 'w') as fd:
-                fd.write(contents)
-            updateInfoFiles([path], marketingVersion)
-            with open(path, 'r') as fd:
-                updated = fd.read()
-        self.assertNotEqual(contents, updated)
-        componentVersion = marketingVersion.asInt()
-        self.assertEqual(updated.find(f'<real>{componentVersion}</real>'), 523)
