@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BD1095422F516FA800E4DCB9 /* AUv3-Support-iOS in Frameworks */ = {isa = PBXBuildFile; productRef = BD1095412F516FA800E4DCB9 /* AUv3-Support-iOS */; };
+		BD1095442F516FB200E4DCB9 /* AUv3-DSP-Headers in Frameworks */ = {isa = PBXBuildFile; productRef = BD1095432F516FB200E4DCB9 /* AUv3-DSP-Headers */; };
 		BD1D257925D5AAB000523748 /* Snapshots.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1D257825D5AAB000523748 /* Snapshots.swift */; };
 		BD1D258825D5AAE300523748 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD1D258725D5AAE300523748 /* SnapshotHelper.swift */; };
 		BD4664A22CD80BC400808F59 /* UI in Frameworks */ = {isa = PBXBuildFile; productRef = BD4664A12CD80BC400808F59 /* UI */; };
@@ -119,6 +121,7 @@
 
 /* Begin PBXFileReference section */
 		7E56CF207E56CEE000000001 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; wrapsLines = 1; };
+		BD1095452F51702100E4DCB9 /* iOS Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "iOS Extension.entitlements"; sourceTree = "<group>"; };
 		BD1D250525D515B100523748 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = Configuration/README.md; sourceTree = "<group>"; };
 		BD1D250625D5178900523748 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BD1D250E25D517D000523748 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -191,10 +194,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD1095442F516FB200E4DCB9 /* AUv3-DSP-Headers in Frameworks */,
 				BD9A490D2CDEE9F5003FE7D3 /* UI in Frameworks */,
 				BDD3581E2CD6C973006FFB1B /* Theme in Frameworks */,
 				BD8D4E1D27B589FF007011A5 /* ParameterAddress in Frameworks */,
 				BD8D4E1927B589FF007011A5 /* Kernel in Frameworks */,
+				BD1095422F516FA800E4DCB9 /* AUv3-Support-iOS in Frameworks */,
 				BDB7CE9F249FC157009580D5 /* Accelerate.framework in Frameworks */,
 				BDAB6DEC2CF9D5A800E81798 /* AUv3-Support in Frameworks */,
 				BD8D4E1B27B589FF007011A5 /* KernelBridge in Frameworks */,
@@ -251,6 +256,7 @@
 		C437FE2F2223672C008D6C09 = {
 			isa = PBXGroup;
 			children = (
+				BD1095452F51702100E4DCB9 /* iOS Extension.entitlements */,
 				7E56CF207E56CEE000000001 /* README.md */,
 				BD49661924A3605800A81F0B /* LICENSE.md */,
 				BD8D4E0927B586B2007011A5 /* Packages */,
@@ -435,6 +441,8 @@
 				BDD3581D2CD6C973006FFB1B /* Theme */,
 				BD9A490C2CDEE9F5003FE7D3 /* UI */,
 				BDAB6DEB2CF9D5A800E81798 /* AUv3-Support */,
+				BD1095412F516FA800E4DCB9 /* AUv3-Support-iOS */,
+				BD1095432F516FB200E4DCB9 /* AUv3-DSP-Headers */,
 			);
 			productName = "AUv3FilterExtension iOS";
 			productReference = C437FE632223686D008D6C09 /* SimplyLowPassAU.appex */;
@@ -913,6 +921,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -953,6 +962,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "iOS Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
@@ -983,8 +993,8 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_STRICT_CONCURRENCY = complete;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1057,6 +1067,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
@@ -1128,6 +1139,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
@@ -1251,6 +1263,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1290,6 +1303,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "iOS Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
@@ -1327,8 +1341,8 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_STRICT_CONCURRENCY = complete;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1407,6 +1421,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1485,6 +1500,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1560,6 +1576,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BD1095412F516FA800E4DCB9 /* AUv3-Support-iOS */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BDAB6DE22CF9D58D00E81798 /* XCRemoteSwiftPackageReference "AUv3Support" */;
+			productName = "AUv3-Support-iOS";
+		};
+		BD1095432F516FB200E4DCB9 /* AUv3-DSP-Headers */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BDAB6DE22CF9D58D00E81798 /* XCRemoteSwiftPackageReference "AUv3Support" */;
+			productName = "AUv3-DSP-Headers";
+		};
 		BD4664A12CD80BC400808F59 /* UI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UI;

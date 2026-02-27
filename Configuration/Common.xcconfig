@@ -30,10 +30,10 @@ AU_FACTORY_FUNCTION = SimplyLowPassAU.ViewController
 CURRENT_PROJECT_VERSION = 202411292203899
 
 // The visible version (eg. 1.2.3)
-MARKETING_VERSION = 6.0.2
+MARKETING_VERSION = 6.0.3
 
 // Copyright notice to put in the Info.plist files
-COPYRIGHT_NOTICE = Copyright © 2024 B-Ray Software
+COPYRIGHT_NOTICE = Copyright © 2026 B-Ray Software
 
 // The bundle ID prefix to use for the app host and app extension.
 APP_BUNDLE_IDENTIFIER_PREFIX = com.braysoftware
