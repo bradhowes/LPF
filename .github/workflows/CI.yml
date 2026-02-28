@@ -6,12 +6,19 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  SNAPSHOT_ARTIFACTS: ${{ github.workspace }}/snapshots
+  TEST_RUNNER_SNAPSHOT_ARTIFACTS: ${{ github.workspace }}/snapshots
+
 jobs:
   build:
     runs-on: macos-15
     steps:
-    - uses: actions/checkout@v4
-    - name: Select Xcode 16.1
-      run: sudo xcode-select -s /Applications/Xcode_16.1.app
-    - name: Build, test
-      run: env && make
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Select Xcode Xcode_26.2.0
+      run: ls -l /Applications && sudo xcode-select -s /Applications/Xcode_26.2.0.app
+    - name: Show ENV
+      run: env
+    - name: Build, test, and code coverage
+      run: make

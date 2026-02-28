@@ -141,12 +141,12 @@ def getNewProjectVersion() -> ProjectVersion:
 
 def updateConfigContents(contents: str, marketingVersion: MarketingVersion, projectVersion: ProjectVersion) -> str:
     contents = re.sub(
-        r'(MARKETING_VERSION =) ([0-9]+\.[0-9]+\.[0-9]+)',
+        r'(MARKETING_VERSION =) +([0-9]+\.[0-9]+\.[0-9]+)',
         f'\\1 {marketingVersion}',
         contents
     )
     return re.sub(
-        r'^(CURRENT_PROJECT_VERSION =) ([0-9]*)$',
+        r'(CURRENT_PROJECT_VERSION =) +([0-9]+)',
         f'\\1 {projectVersion}',
         contents
     )
